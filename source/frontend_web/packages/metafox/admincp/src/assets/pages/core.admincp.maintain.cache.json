@@ -1,0 +1,22 @@
+{
+  "core.admincp.maintain.cache": {
+    "info": {
+      "title": "Admin/Maintain/Cache",
+      "bundle": "admincp"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminMaintainCache",
+          "slotName": "main",
+          "pageSize": "large",
+          "title": "Manage Cache",
+          "freeze": false,
+          "blockLayout": "Admin Form"
+        }
+      ]
+    }
+  }
+}

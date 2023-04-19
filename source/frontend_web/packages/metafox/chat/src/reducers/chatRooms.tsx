@@ -1,0 +1,297 @@
+import { createReducer, Draft } from '@reduxjs/toolkit';
+import { findLastIndex } from 'lodash';
+import {
+  AppState,
+  ChatRoomShape,
+  MsgGroupShape,
+  MsgItemShape,
+  MsgSetShape,
+  RoomItemShape
+} from '../types';
+
+// 5 minutes
+const IDLE_TIME = 3e5;
+// 15 minute
+const IDLE_GROUP_TIME = 9e5;
+
+const createMsgSetState = (msg: MsgItemShape): MsgSetShape => ({
+  ts: msg.created_at,
+  type: msg.type,
+  user: msg.user,
+  user_id: msg.user_id,
+  items: [msg.id]
+});
+
+const createMsgGroupState = (msg: MsgItemShape): MsgGroupShape => {
+  return {
+    t0: msg.created_at,
+    t1: msg.created_at,
+    ts: msg.created_at,
+    items: [createMsgSetState(msg)]
+  };
+};
+
+const createEmptyChatRoom = (): ChatRoomShape => {
+  return {
+    groupIds: [],
+    groups: {},
+    msgCount: 0,
+    msgNewest: '',
+    oldest: 0,
+    newest: 0,
+    hasMore: true,
+    searching: false,
+    searchText: '',
+    messageFilter: {}
+  };
+};
+
+type State = AppState['chatRooms'];
+
+type UpdateMessageAction = {
+  type: 'chat/chatroom/messages';
+  payload: {
+    rid: string;
+    messages: MsgItemShape[];
+    unreadNotLoaded: number;
+  };
+};
+
+const sortDate = (a: string, b: string) => {
+  const date_a = new Date(a).getTime() as any;
+  const date_b = new Date(b).getTime() as any;
+
+  return parseInt(date_a, 10) - parseInt(date_b, 10);
+};
+
+export default createReducer<State>({}, builder => {
+  builder.addCase('chat/init', (state: Draft<State>, action: any) => {
+    const rooms: RoomItemShape[] = action.payload?.rooms;
+
+    if (!rooms) return;
+
+    rooms.forEach(x => {
+      const id = x.id;
+
+      if (!state[id]) {
+        state[id] = createEmptyChatRoom();
+      }
+    });
+  });
+
+  builder.addCase('chat/chatroom/add', (state: Draft<State>, action: any) => {
+    const rid: string = action.payload?.rid;
+
+    if (!rid) return;
+
+    if (!state[rid]) {
+      state[rid] = createEmptyChatRoom();
+
+      return;
+    }
+  });
+
+  builder.addCase(
+    'chat/chatroom/messages',
+    (state: Draft<State>, action: UpdateMessageAction) => {
+      const {
+        payload: { rid, messages: messagesData }
+      } = action;
+
+      if (!state[rid]) {
+        state[rid] = createEmptyChatRoom();
+      }
+
+      const messages = messagesData.sort((a, b) => {
+        const time_a = new Date(a.created_at).getTime();
+        const time_b = new Date(b.created_at).getTime();
+
+        return time_a - time_b;
+      });
+
+      const newest = messages[messages.length - 1]?.created_at || 0;
+      const oldest = messages[0]?.created_at || 0;
+      const hasMore = state[rid] ? state[rid]?.hasMore : true;
+      const msgNewest =
+        state[messages.map(ms => ms.id)[messages.length - 1]]?.message;
+
+      let prevUnixGid: number = state[rid].groupIds?.length
+        ? parseInt(state[rid].groupIds[state[rid].groupIds.length - 1], 10)
+        : 0;
+
+      messages.forEach(msg => {
+        // group msg per IDLE_GROUP_TIME
+
+        const timeMsg = new Date(msg.created_at).getTime();
+        let unixGid: number;
+
+        if (prevUnixGid + IDLE_GROUP_TIME > timeMsg) {
+          // keep old group
+          unixGid = prevUnixGid;
+        } else {
+          // make new group
+          unixGid = timeMsg;
+          prevUnixGid = timeMsg;
+        }
+
+        // convert to key string
+        const gid = `${unixGid}`;
+
+        if (!state[rid].groups[gid]) {
+          state[rid].groups[gid] = createMsgGroupState(msg);
+          state[rid].groupIds.push(gid);
+          state[rid].groupIds = state[rid].groupIds.sort(sortDate);
+
+          state[rid].newest = newest;
+          state[rid].oldest = oldest;
+          state[rid].hasMore = hasMore;
+          state[rid].msgNewest = msgNewest;
+
+          return;
+        }
+
+        let setIndex = findLastIndex(
+          state[rid].groups[gid].items,
+          (set: MsgSetShape, index: number) => {
+            const timeSet = new Date(set.ts).getTime();
+            const timeMsg = new Date(msg.created_at).getTime();
+
+            if (index === state[rid].groups[gid].items.length - 1)
+              return (
+                msg.user_id === set.user_id &&
+                timeMsg > timeSet &&
+                timeMsg < timeSet + IDLE_TIME
+              );
+
+            return (
+              msg.user_id === set.user_id && // same people
+              timeMsg > timeSet && // date create > older msg
+              timeMsg <
+                new Date(
+                  state[rid].groups[gid].items[index + 1].ts
+                ).getTime() &&
+              timeMsg < timeSet + IDLE_TIME
+            );
+          }
+        );
+
+        const setLength = state[rid].groups[gid].items.length - 1;
+
+        if (
+          setIndex !== setLength - 1 &&
+          state[rid].groups[gid].items[setLength].user_id !== msg.user_id
+        ) {
+          setIndex = -1;
+        }
+
+        if (setIndex === -1) {
+          // check if msg._id is exists.
+
+          // not found
+          // where to insert ?
+          const newSet = createMsgSetState(msg);
+          state[rid].groups[gid].items.push(newSet);
+
+          state[rid].groups[gid].items.sort(
+            (a, b) => new Date(a.ts).getTime() - new Date(b.ts).getTime()
+          );
+        } else {
+          const set = state[rid].groups[gid].items[setIndex];
+
+          if (!set.items.includes(msg.id)) {
+            if (
+              new Date(set.ts).getTime() < new Date(msg.created_at).getTime()
+            ) {
+              set.items.push(msg.id);
+            } else {
+              set.items.unshift(msg.id);
+            }
+          }
+        }
+
+        state[rid].newest = newest;
+        state[rid].oldest = oldest;
+        state[rid].hasMore = hasMore;
+        state[rid].msgNewest = msgNewest;
+      });
+    }
+  );
+
+  builder.addCase('chat/room/toggleSearching', (state: State, action: any) => {
+    const { identity: rid } = action.payload;
+
+    if (!state[rid]) return;
+
+    state[rid].searching = !state[rid].searching;
+  });
+
+  builder.addCase('chat/room/closeSearching', (state: State, action: any) => {
+    const { identity: rid } = action.payload;
+
+    if (!state[rid]) return;
+
+    state[rid].searching = false;
+    state[rid].messageFilter = {};
+  });
+
+  builder.addCase(
+    'chat/room/deleteMessagesFilter',
+    (state: State, action: any) => {
+      const { identity: rid } = action.payload;
+
+      if (!state[rid]) return;
+
+      state[rid].messageFilter = {};
+    }
+  );
+
+  builder.addCase(
+    'chat/room/saveMessagesFilter',
+    (state: State, action: any) => {
+      const { identity: rid, data } = action.payload;
+
+      if (!state[rid]) return;
+
+      state[rid].messageFilter = data;
+    }
+  );
+
+  builder.addCase('chat/room/delete', (state: Draft<State>, action: any) => {
+    const { identity: rid } = action.payload;
+
+    if (!state[rid]) return;
+
+    delete state[rid];
+  });
+
+  builder.addCase(
+    'chat/room/addRoomFileProgress',
+    (state: State, action: any) => {
+      const { rid, value, key } = action.payload;
+
+      state[rid].roomProgress = { [key]: value };
+    }
+  );
+
+  builder.addCase(
+    'chat/room/updateRoomFileProgress',
+    (state: State, action: any) => {
+      const { rid, progress, key } = action.payload;
+
+      if (!state[rid].roomProgress && !state[rid].roomProgress[key]) return;
+
+      state[rid].roomProgress[key].progress = progress;
+    }
+  );
+
+  builder.addCase(
+    'chat/room/deleteRoomFileProgress',
+    (state: State, action: any) => {
+      const { rid, key } = action.payload;
+
+      if (!state[rid].roomProgress && !state[rid].roomProgress[key]) return;
+
+      delete state[rid].roomProgress[key];
+    }
+  );
+});

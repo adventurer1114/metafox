@@ -1,0 +1,9 @@
+{
+  "Notification - Small Lists": {
+    "gridContainerProps": {
+      "columnSpacing": 0,
+      "rowSpacing": 0
+    },
+    "gridVariant": "listView"
+  }
+}

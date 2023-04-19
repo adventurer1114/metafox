@@ -1,0 +1,105 @@
+{
+  "subscription.my": {
+    "large": {
+      "pageName": "subscription.my",
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "Subscriptions",
+          "icon": "ico-box-o",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true
+          },
+          "freeze": true,
+          "blockId": "aq5j6",
+          "blockLayout": "sidebar app header"
+        },
+        {
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "title": "Subscriptions",
+          "blockProps": {
+            "variant": "plained",
+            "noHeader": false,
+            "noFooter": false
+          },
+          "blockId": "7qxm",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "blockId": "d8647c",
+          "component": "core.block.mainListing",
+          "slotName": "main",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true,
+            "title": "no_subscription_packages_found",
+            "contentStyle": {
+              "bgColor": "0"
+            },
+            "noBlock": 1
+          },
+          "title": "",
+          "itemView": "subscription_invoice.itemView.mainCard",
+          "canLoadMore": 1,
+          "freeze": false,
+          "blockLayout": "Large Main Lists",
+          "gridLayout": "Subscription - List",
+          "canLoadSmooth": 1,
+          "pagingId": "my-subscription-invoice",
+          "itemLayout": "Subscription - List"
+        }
+      ],
+      "containers": {}
+    },
+    "small": {
+      "pageName": "subscription.my",
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockProps": {
+            "variant": "plained",
+            "marginBottom": 2
+          },
+          "blockId": "ckbwe"
+        },
+        {
+          "blockId": "d8647c",
+          "component": "core.block.mainListing",
+          "slotName": "main",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true,
+            "title": "no_subscription_packages_found",
+            "contentStyle": {
+              "bgColor": "0"
+            },
+            "noBlock": 1
+          },
+          "title": "",
+          "itemView": "subscription_invoice.itemView.mainCard",
+          "canLoadMore": 1,
+          "freeze": false,
+          "blockLayout": "Large Main Lists Mobile",
+          "gridLayout": "Subscription - List",
+          "canLoadSmooth": 1,
+          "itemLayout": "Subscription - List"
+        }
+      ],
+      "containers": {}
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

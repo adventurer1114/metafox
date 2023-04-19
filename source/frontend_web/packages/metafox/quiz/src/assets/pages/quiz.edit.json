@@ -1,0 +1,29 @@
+{
+  "quiz.edit": {
+    "large": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "78ij",
+          "blockLayout": "Full Screen Form"
+        }
+      ],
+      "templateName": "profile-tab"
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "blockId": "78ubt",
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "photo.home": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "ia",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "photos",
+          "icon": "ico-photos-alt-o",
+          "blockLayout": "sidebar app header",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true
+          },
+          "freeze": true
+        },
+        {
+          "blockId": "i5",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "placeholder": "Search",
+          "title": "",
+          "freeze": true,
+          "blockLayout": "sidebar search box"
+        },
+        {
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "blockId": "i27",
+          "title": "",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "blockId": "i12",
+          "component": "core.dividerBlock",
+          "slotName": "side",
+          "dividerVariant": "middle",
+          "title": "",
+          "blockProps": {
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true
+          }
+        },
+        {
+          "component": "core.categoryBlock",
+          "slotName": "side",
+          "blockId": "i28",
+          "title": "categories",
+          "blockLayout": "sidebar app category"
+        },
+        {
+          "blockId": "r7ov",
+          "component": "photo.block.photoListingBlock",
+          "slotName": "main",
+          "title": "featured_photos",
+          "itemView": "photo.itemView.mainCard",
+          "contentType": "photo",
+          "dataSource": {
+            "apiUrl": "/photo",
+            "apiParams": "view=feature&limit=6"
+          },
+          "displayLimit": "6",
+          "blockLayout": "App Lists",
+          "gridLayout": "Photo - Main Card",
+          "emptyPage": "hide",
+          "itemLayout": "Photo - Main Card"
+        },
+        {
+          "blockId": "zhhrr",
+          "component": "photo.block.albumListingBlock",
+          "slotName": "main",
+          "pageName": "photo.home",
+          "pageSize": "large",
+          "title": "featured_albums",
+          "itemView": "photo_album.itemView.mainCard",
+          "contentType": "photo_album",
+          "dataSource": {
+            "apiUrl": "/photo-album",
+            "apiParams": "view=feature&limit=6"
+          },
+          "blockLayout": "App Lists",
+          "gridLayout": "Photo_album - Main Card",
+          "emptyPage": "hide",
+          "displayLimit": "6",
+          "itemLayout": "Photo_album - Main Card"
+        },
+        {
+          "blockId": "a0hq",
+          "component": "photo.block.photoListingBlock",
+          "slotName": "main",
+          "title": "popular_photos",
+          "itemView": "photo.itemView.mainCard",
+          "contentType": "photo",
+          "dataSource": {
+            "apiUrl": "/photo",
+            "apiParams": "sort=most_liked"
+          },
+          "blockLayout": "App Lists",
+          "gridLayout": "Photo - Main Card",
+          "emptyPage": "core.block.no_content_with_icon",
+          "displayLimit": "",
+          "emptyPageProps": {
+            "noBlock": 1,
+            "title": "no_photos_found",
+            "image": "ico-photo"
+          },
+          "itemLayout": "Photo - Main Card",
+          "canLoadMore": true,
+          "maxPageNumber": 2,
+          "numberOfItemsPerPage": 10
+        }
+      ],
+      "templateName": "two-column-fixed"
+    },
+    "small": {
+      "blocks": [
+        {
+          "blockId": "5hkgh",
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "pageName": "photo.home",
+          "pageSize": "small",
+          "title": "",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "text",
+            "noFooter": true,
+            "noHeader": true,
+            "padding": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0
+            },
+            "gutter": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0
+            },
+            "contentGutter": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0
+            },
+            "headerGutter": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0
+            },
+            "footerGutter": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0
+            },
+            "blockStyle": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0,
+              "bgColor": "0",
+              "borderStyle": "0",
+              "borderColor": "0"
+            },
+            "contentStyle": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0,
+              "bgColor": "0",
+              "borderStyle": "0",
+              "borderColor": "0"
+            },
+            "headerStyle": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0,
+              "bgColor": "0",
+              "borderStyle": "0",
+              "borderColor": "0"
+            },
+            "footerStyle": {
+              "pl": 0,
+              "pt": 0,
+              "pr": 0,
+              "pb": 0,
+              "ml": 0,
+              "mt": 0,
+              "mr": 0,
+              "mb": 0,
+              "bgColor": "0",
+              "borderStyle": "0",
+              "borderColor": "0"
+            },
+            "testid": "sidebarMenu",
+            "title": "App Menu Mobile"
+          },
+          "contents": [
+            {
+              "name": "core.block.searchBox"
+            },
+            {
+              "name": "core.block.sidebarAppMenu"
+            },
+            {
+              "name": "core.dividerBlock"
+            },
+            {
+              "name": "core.categoryBlock"
+            }
+          ]
+        },
+        {
+          "blockId": "r7ov",
+          "component": "photo.block.photoListingBlock",
+          "slotName": "main",
+          "title": "Featured Photos",
+          "itemView": "photo.itemView.mainCard",
+          "contentType": "photo",
+          "dataSource": {
+            "apiUrl": "/photo",
+            "apiParams": "view=feature"
+          },
+          "displayLimit": "3",
+          "blockLayout": "App Lists",
+          "gridLayout": "Photo - Main Card",
+          "emptyPage": "hide",
+          "itemLayout": "Photo - Main Card"
+        },
+        {
+          "blockId": "1x7u",
+          "component": "photo.block.albumListingBlock",
+          "slotName": "main",
+          "pageName": "photo.home",
+          "pageSize": "small",
+          "title": "Featured Albums",
+          "itemView": "photo_album.itemView.mainCard",
+          "contentType": "photo_album",
+          "dataSource": {
+            "apiUrl": "/photo-album",
+            "apiParams": "view=feature"
+          },
+          "blockLayout": "App Lists",
+          "gridLayout": "Photo_album - Main Card",
+          "displayLimit": "3",
+          "emptyPage": "hide",
+          "itemLayout": "Photo_album - Main Card"
+        },
+        {
+          "blockId": "a0hq",
+          "component": "photo.block.photoListingBlock",
+          "slotName": "main",
+          "title": "popular_photos",
+          "itemView": "photo.itemView.mainCard",
+          "contentType": "photo",
+          "dataSource": {
+            "apiUrl": "/photo",
+            "apiParams": "sort=most_viewed"
+          },
+          "canLoadMore": 0,
+          "blockLayout": "App Lists",
+          "gridLayout": "Photo - Main Card",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "title": "no_photos_found",
+            "image": "ico-photo"
+          },
+          "itemLayout": "Photo - Main Card"
+        }
+      ],
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

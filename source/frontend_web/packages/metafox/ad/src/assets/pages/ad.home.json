@@ -1,0 +1,26 @@
+{
+  "ad.home": {
+    "large": {
+      "blocks": [
+        {
+          "component": "ad.block.sampleAd",
+          "slotName": "main",
+          "blockId": "i6ta"
+        }
+      ]
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "ad.block.sampleAd",
+          "slotName": "main",
+          "blockId": "p0fld"
+        }
+      ],
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

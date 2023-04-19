@@ -1,0 +1,42 @@
+{
+  "photo_album.view": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "4upgh",
+          "component": "photo.block.photoAlbumView",
+          "slotName": "main",
+          "blockProps": {
+            "blockStyle": {
+              "pl": 2,
+              "pt": 2,
+              "pr": 2,
+              "pb": 2
+            }
+          }
+        }
+      ],
+      "templateName": "simple"
+    },
+    "small": {
+      "blocks": [
+        {
+          "blockId": "4upgh",
+          "component": "photo.block.photoAlbumMobileView",
+          "slotName": "main",
+          "blockProps": {
+            "blockStyle": {
+              "pt": 0,
+              "pr": 0,
+              "pb": 0
+            }
+          }
+        }
+      ],
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

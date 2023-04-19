@@ -1,0 +1,2970 @@
+{
+  "Announcement - Slider": {
+    "itemProps": {
+      "media": {
+        "placement": "top"
+      },
+      "content": {
+        "sx": {
+          "height": "132px",
+          "overflow": "visible"
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "component": "h5",
+        "lines": 2,
+        "color": "textPrimary",
+        "sx": {
+          "fontWeight": 400
+        }
+      },
+      "summary": {
+        "variant": "body2",
+        "color": "textSecondary",
+        "lines": 3,
+        "sx": {
+          "mt": 1,
+          "flex": 1
+        }
+      }
+    }
+  },
+  "Blog Lists": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "ml": 0,
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": "200",
+        "aspectRatio": "169",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 1,
+        "variant": "h4"
+      },
+      "summary": {
+        "lines": 1,
+        "component": "div",
+        "variant": "body2",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Friend - Pending Lists": {
+    "itemProps": {
+      "variant": "flatted",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": ""
+        },
+        "selectedVariant": "background",
+        "dividerVariant": "",
+        "hoverVariant": "background"
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Friend - Pending Lists Mobile": {
+    "itemProps": {
+      "variant": "flatted",
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pl": 0,
+          "pb": 0,
+          "pr": 0,
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": ""
+        },
+        "selectedVariant": "background",
+        "dividerVariant": "",
+        "hoverVariant": "background"
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Friend - Cards": {
+    "itemProps": {
+      "variant": "contained",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "border.secondary",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2,
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 0,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body1",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mr": 0,
+          "color": "textSecondary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pl": 2,
+          "pr": 2
+        }
+      }
+    }
+  },
+  "User - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "color": "text.secondary"
+        }
+      },
+      "text": {
+        "sx": {
+          "ml": 2,
+          "mr": 2
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Profile Friends Small Lists": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "background",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": "",
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2,
+          "ml": 0,
+          "borderTop": "1px solid",
+          "borderColor": "border.secondary"
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1,
+        "sx": {
+          "mt": 0.5
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "lines": 0,
+        "sx": {
+          "mt": 0.5,
+          "color": "textHint"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "text": {
+        "sx": {
+          "ml": 1.5
+        }
+      }
+    }
+  },
+  "Feed - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 0,
+          "pr": 2,
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderStyle": "solid",
+          "borderWidth": "thin",
+          "borderColor": "border.outlined"
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": ""
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 0
+        }
+      }
+    }
+  },
+  "Feeds - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 0,
+          "pr": 2,
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 0
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": ""
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 0
+        }
+      }
+    }
+  },
+  "Blog - Main Card": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "flattedCard",
+      "media": {
+        "width": 200,
+        "aspectRatio": "169",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4"
+      },
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "flex-start",
+          "justifyContent": "",
+          "mt": 0,
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": ""
+      },
+      "summary": {
+        "lines": 1
+      }
+    }
+  },
+  "Blog - Main Card Mobile": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 0.5,
+          "mb": 0.5
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "flex-start",
+          "justifyContent": "",
+          "mt": 0,
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": ""
+      }
+    }
+  },
+  "Marketplace - Invoice - List": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 3,
+          "ml": 2,
+          "pb": 3,
+          "mr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 100,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2,
+          "borderRadius": "8px"
+        }
+      },
+      "title": {
+        "lines": 1,
+        "variant": "h4"
+      }
+    }
+  },
+  "Marketplace - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "top"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "mb": 1
+        },
+        "fixHeight": 0
+      },
+      "summary": {
+        "lines": 1,
+        "component": "div",
+        "variant": "body2",
+        "sx": {
+          "mt": 1,
+          "ml": 0,
+          "mr": 0,
+          "pr": 2,
+          "color": "text.hint"
+        }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "transparent",
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2,
+          "pt": 2,
+          "pb": 2
+        }
+      }
+    }
+  },
+  "Marketplace - Profile - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "top"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "mb": 1
+        },
+        "fixHeight": 0
+      },
+      "summary": {
+        "lines": 1,
+        "component": "div",
+        "variant": "body2",
+        "sx": {
+          "mt": 1,
+          "ml": 0,
+          "mr": 0,
+          "pr": 2,
+          "color": "text.hint"
+        }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2,
+          "pt": 2,
+          "pb": 2
+        }
+      }
+    }
+  },
+  "Poll - Main Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "showActionMenu": 1,
+      "media": {
+        "width": 160,
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "margin": {
+            "mt": 2,
+            "mb": 1,
+            "mr": 3
+          },
+          "mb": 1,
+          "mr": 2.875
+        }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid"
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "minHeight": "160"
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2
+        }
+      }
+    }
+  },
+  "Quiz - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "media": {
+        "width": 160,
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "margin": {
+            "mt": 2,
+            "mb": 1,
+            "mr": 3
+          },
+          "mb": 1,
+          "mr": 2.875
+        }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid"
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "minHeight": "160"
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pr": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Page - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Page - Overview Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper"
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2,
+          "pr": 2
+        }
+      }
+    }
+  },
+  "Page - Main Card - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pl": 0,
+          "pb": 2,
+          "pr": 0,
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": "",
+          "borderColor": "transparent",
+          "borderStyle": "solid",
+          "borderLeftWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "auto",
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Group - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "content": {
+        "sx": {
+          "alignItems": "flex-start",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "pt": 0,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
+      },
+      "media": {
+        "width": "100%",
+        "aspectRatio": "169",
+        "placement": "top",
+        "sx": {
+          "borderTopWidth": 0,
+          "borderRightWidth": 0,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 0,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "mb": 2.5
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2,
+          "pr": 2
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body1",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "color": "textSecondary"
+        }
+      }
+    }
+  },
+  "User - List": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "bottom",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": "",
+          "pt": 2,
+          "pb": 2,
+          "ml": 0
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1,
+        "sx": {
+          "mt": 0.5
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "lines": 0,
+        "sx": {
+          "mt": 0.5,
+          "color": "textHint"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "text": {
+        "sx": {
+          "ml": 1.5
+        }
+      }
+    }
+  },
+  "Friend - Small List": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "bottom",
+        "hoverVariant": "background",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": "",
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2,
+          "ml": 0
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1,
+        "sx": {
+          "mt": 0.5
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "lines": 0,
+        "sx": {
+          "mt": 0.5,
+          "color": "textHint"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "text": {
+        "sx": {
+          "ml": 1.5
+        }
+      }
+    }
+  },
+  "Blog - Profile - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid"
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "fixHeight": 1
+      },
+      "summary": {
+        "component": "div",
+        "variant": "span",
+        "lines": 1,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "auto",
+        "sx": {
+          "mb": 2,
+          "ml": -2,
+          "mr": -2,
+          "mt": -2
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "p": 0
+        }
+      }
+    }
+  },
+  "Photo - Profile - Small Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": ""
+        }
+      },
+      "title": {
+        "variant": "h3",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "169",
+        "width": "100%"
+      }
+    }
+  },
+  "Photo - Profile - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": ""
+        }
+      },
+      "title": {
+        "variant": "h3",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "169",
+        "width": "100%"
+      }
+    }
+  },
+  "Friend - Request Lists": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "border.secondary",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2,
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "showActionMenu": 0,
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Photo - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": ""
+        }
+      },
+      "title": {
+        "variant": "h3",
+        "lines": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "169",
+        "width": "100%"
+      }
+    }
+  },
+  "Notification - Small Lists": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "bottom",
+        "hoverVariant": "background",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": "",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      },
+      "title": {
+        "variant": "h3",
+        "lines": 0,
+        "fixHeight": 0
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body1",
+        "lines": 2,
+        "sx": {
+          "mb": 0.5,
+          "color": "textSecondary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Shortcut - Menu Items": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "background",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": 1,
+          "borderTopWidth": 0,
+          "borderRightWidth": 0,
+          "borderBottomWidth": 0,
+          "borderLeftWidth": 0,
+          "mt": 0,
+          "mr": 1,
+          "ml": 1,
+          "pt": 1.5,
+          "pb": 1.5,
+          "pl": 1.5,
+          "pr": 1.5
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1,
+        "fixHeight": 1
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 0.5,
+          "color": "textSecondary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Shortcut - Small Lists": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "hoverVariant": "background",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": "",
+          "pt": 1,
+          "pr": 2,
+          "pb": 1,
+          "pl": 2
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body1",
+        "lines": 0,
+        "sx": {
+          "mt": 0.5,
+          "color": "textSecondary"
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Photo_album - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1.5,
+          "mb": 1.5
+        },
+        "fixHeight": 1
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1.5,
+          "color": "textSecondary"
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%"
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Event - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1.5,
+          "mb": 1.5
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1,
+          "mb": 1.5,
+          "color": "text.hint"
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%"
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Event - Side Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 0,
+          "borderTopWidth": 0,
+          "borderRightWidth": 0,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 0,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 2,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0,
+          "mt": -2
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1.5,
+          "mb": 1.5
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1,
+          "mb": 1.5,
+          "color": "text.hint"
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%"
+      },
+      "text": {
+        "sx": {
+          "pr": 0,
+          "pl": 0
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Event - Overview": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1.5,
+          "mb": 1.5
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1,
+          "mb": 1.5,
+          "color": "text.hint"
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%"
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Event - Profile - Cards": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1.5,
+          "mb": 1.5
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body2",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1,
+          "mb": 1.5,
+          "color": "text.hint"
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%"
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Event - PendingPost - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "summary": {
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Friend List - Small List": {
+    "itemProps": {
+      "media": {
+        "placement": "start",
+        "width": "auto",
+        "aspectRatio": "11",
+        "sx": {
+          "pt": 0.5
+        }
+      },
+      "content": {
+        "hoverVariant": "background",
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "pt": 1,
+          "pr": 1,
+          "pb": 1,
+          "pl": 1
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 0.5
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 2
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Hashtag - Trending": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "dividerVariant": "bottom",
+        "hoverVariant": "background",
+        "sx": {
+          "alignItems": "center",
+          "pt": 3,
+          "pb": 3,
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "title": {
+        "variant": "h5",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 0.5
+        }
+      }
+    }
+  },
+  "Global - Search Item Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "borderRadius": 1,
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2,
+          "bgcolor": "background.paper"
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto",
+        "sx": {
+          "mr": 2
+        }
+      }
+    }
+  },
+  "Blog - Mobile Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "fixHeight": 2,
+        "sx": {
+          "mt": 0.5,
+          "mb": 0.5
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "dividerVariant": "bottom",
+        "sx": {
+          "pb": 2,
+          "bgcolor": "background.paper"
+        }
+      }
+    }
+  },
+  "Poll - Main Card - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "media": {
+        "aspectRatio": "169",
+        "width": "100%",
+        "placement": "top"
+      },
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pb": 2
+        },
+        "dividerVariant": "bottom"
+      },
+      "text": {
+        "sx": {
+          "pt": 2
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 2.875,
+          "mr": 2.875
+        }
+      }
+    }
+  },
+  "Quiz - Main Card - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "media": {
+        "aspectRatio": "169",
+        "width": "100%",
+        "placement": "top"
+      },
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pb": 2
+        },
+        "dividerVariant": "bottom"
+      },
+      "text": {
+        "sx": {
+          "pt": 2
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 2.875,
+          "mr": 2.875
+        }
+      }
+    }
+  },
+  "Marketplace - MainCard - Mobile": {
+    "itemProps": {
+      "variant": "flatted",
+      "content": {
+        "sx": {
+          "borderColor": "transparent",
+          "borderStyle": "solid",
+          "borderLeftWidth": 0,
+          "borderBottomWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopWidth": 0,
+          "borderRadius": "",
+          "mb": 2
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "11",
+        "width": "100%"
+      },
+      "title": {
+        "fixHeight": 0,
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 0,
+          "pr": 0,
+          "pb": 0,
+          "pl": 0,
+          "mt": 2
+        }
+      },
+      "summary": {
+        "sx": {
+          "mt": 1
+        },
+        "component": "span",
+        "variant": "body2",
+        "color": "textSecondary",
+        "lines": 1,
+        "fixHeight": 1
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Group - MemberQuestion - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "title": {
+        "variant": "h5",
+        "sx": {
+          "mb": 0.5,
+          "color": "textSecondary"
+        }
+      },
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 2,
+          "pr": 2,
+          "pb": 0,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Friend - Cards - Mobile": {
+    "itemProps": {
+      "variant": "contained",
+      "content": {
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "borderRadius": 1,
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      },
+      "showActionMenu": 0,
+      "title": {
+        "variant": "h4",
+        "lines": 0,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body1",
+        "color": "textSecondary",
+        "lines": 1,
+        "sx": {
+          "mb": 2
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto"
+      }
+    }
+  },
+  "Group - Rule - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "title": {
+        "variant": "h5",
+        "sx": {
+          "mb": 0.5,
+          "color": "textSecondary"
+        }
+      },
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Group - ReportedPost - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "summary": {
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Group - PendingPost - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "summary": {
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Group - Profile - Main Card": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "pt": 0,
+          "pr": 0,
+          "pb": 2,
+          "pl": 0,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid"
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 1
+        }
+      },
+      "text": {
+        "sx": {
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "summary": {
+        "component": "span",
+        "variant": "body1",
+        "lines": 1,
+        "fixHeight": 1
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "borderTopWidth": 0,
+          "borderRightWidth": 0,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 0,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "mb": 2.5
+        }
+      }
+    }
+  },
+  "Poll - People Who Voted": {
+    "itemProps": {
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": "auto",
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pr": 2,
+          "pl": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "justifyContent": "",
+          "alignItems": "center"
+        },
+        "hoverVariant": "background",
+        "dividerVariant": "bottom"
+      },
+      "title": {
+        "variant": "h6",
+        "lines": 1,
+        "fixHeight": 0
+      }
+    }
+  },
+  "Video - Main Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "height": "100%"
+        },
+        "minHeight": "250"
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "fixHeight": 1
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Video - Flat View": {
+    "itemProps": {
+      "variant": "flatted",
+      "content": {
+        "sx": {
+          "pb": 2,
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "dividerVariant": "bottom"
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 0,
+          "pr": 0,
+          "pb": 0,
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Video - Small Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Saved Lists": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "bottom",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": "",
+          "pt": 2,
+          "pr": 1,
+          "pb": 2,
+          "pl": 1
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "display": "flex",
+          "alignItems": "center"
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "lines": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": 120,
+        "sx": {
+          "mr": 2
+        }
+      }
+    }
+  },
+  "Saved Lists - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "media": {
+        "aspectRatio": "169",
+        "width": "100%",
+        "placement": "top",
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pb": 2
+        },
+        "dividerVariant": "bottom"
+      },
+      "text": {
+        "sx": {
+          "pt": 0
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "display": "flex",
+          "alignItems": "center",
+          "mb": 0,
+          "mr": 2.875
+        }
+      }
+    }
+  },
+  "Saved Lists Collections": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "bottom",
+        "sx": {
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": "",
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      },
+      "showActionMenu": 1,
+      "menuName": "itemActionWithinListMenu",
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "display": "flex",
+          "alignItems": "center"
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "lines": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "media": {
+        "placement": "start",
+        "aspectRatio": "11",
+        "width": 120,
+        "sx": {
+          "mr": 2
+        }
+      }
+    }
+  },
+  "Saved Lists Collections - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "media": {
+        "aspectRatio": "169",
+        "width": "100%",
+        "placement": "top",
+        "sx": {
+          "mb": 2
+        }
+      },
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pb": 2
+        },
+        "dividerVariant": "bottom"
+      },
+      "text": {
+        "sx": {
+          "pt": 0
+        }
+      },
+      "showActionMenu": 1,
+      "menuName": "itemActionWithinListMenu",
+      "title": {
+        "variant": "h4",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "display": "flex",
+          "alignItems": "center",
+          "mb": 0,
+          "mr": 2.875
+        }
+      }
+    }
+  },
+  "Video - Small Card - Profile": {
+    "itemProps": {
+      "showActionMenu": 0,
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "fixHeight": 1
+      },
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pr": 0,
+          "borderRadius": ""
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%"
+      },
+      "variant": "flattedCard",
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      },
+      "summary": {
+        "sx": {
+          "mt": 1
+        }
+      }
+    }
+  },
+  "Forum_thread - Main Card": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "ml": 0,
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 60,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h5",
+        "fontWeight": 500,
+        "sx": {
+          "mb": 0.5
+        }
+      },
+      "summary": {
+        "lines": 3,
+        "component": "div",
+        "variant": "body1",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Forum - Main Card": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "ml": 0,
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "borderRight": 1,
+        "borderColor": "border.secondary",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 60,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4"
+      },
+      "summary": {
+        "lines": 1,
+        "component": "div",
+        "variant": "body1",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Forum_thread - Small Card": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2.5,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "ml": 0,
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 60,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 1,
+        "variant": "h5",
+        "fontWeight": 500
+      },
+      "summary": {
+        "lines": 3,
+        "component": "div",
+        "variant": "body1",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Forum Post Lists": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "flex-start",
+          "justifyContent": "",
+          "ml": 0,
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 32,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 1,
+        "variant": "h4"
+      },
+      "summary": {
+        "lines": 3,
+        "component": "div",
+        "variant": "body1",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Forum Thread Recent Posts": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pb": 2,
+          "pr": 2,
+          "alignItems": "flex-start",
+          "justifyContent": "",
+          "ml": 0,
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h5",
+        "fontWeight": 500,
+        "sx": {
+          "mb": 0.5
+        }
+      },
+      "summary": {
+        "lines": 3,
+        "component": "div",
+        "variant": "body1",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Forum Lists - Slider": {
+    "itemProps": {
+      "title": {
+        "variant": "h3",
+        "component": "h3",
+        "lines": 1,
+        "color": "textHint",
+        "sx": {
+          "fontWeight": 700
+        }
+      }
+    }
+  },
+  "Subscription - Packages": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 0,
+          "pb": 0,
+          "pl": 0,
+          "height": "100%"
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "Subscription - List": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 3,
+          "ml": 2,
+          "pb": 3,
+          "mr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 100,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2,
+          "borderRadius": "8px"
+        }
+      },
+      "title": {
+        "lines": 1,
+        "variant": "h4"
+      }
+    }
+  },
+  "Subscription - Dialog - List": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "p": 2,
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "alignItems": "center",
+          "borderRadius": ""
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 100,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2,
+          "borderRadius": "8px"
+        }
+      },
+      "title": {
+        "lines": 1,
+        "variant": "h4"
+      }
+    }
+  },
+  "ActivityPoint - Packages": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "pt": 0,
+          "pr": 0,
+          "pb": 0,
+          "pl": 0,
+          "height": "100%"
+        }
+      },
+      "showActionMenu": 1
+    }
+  },
+  "ChatRoom - Main Card": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "flattedCard",
+      "title": {
+        "lines": 1,
+        "variant": "h5",
+        "ml": 1.5,
+        "color": "text.primary",
+        "margin": 0
+      },
+      "media": {
+        "width": 40,
+        "aspectRatio": "11",
+        "marginRight": 1
+      },
+      "content": {
+        "sx": {
+          "mt": 0,
+          "mb": 2,
+          "ml": 0,
+          "mr": 1,
+          "pt": 0,
+          "pl": 1.5,
+          "pb": 0,
+          "pr": 1.5,
+          "alignItems": "center",
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        },
+        "selectedVariant": "background",
+        "hoverVariant": "background"
+      }
+    }
+  },
+  "ChatRoom - Main Card - Popper": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "type": "popper",
+      "variant": "flattedCard",
+      "title": {
+        "lines": 1,
+        "variant": "h5",
+        "ml": 1.5,
+        "color": "text.primary",
+        "margin": 0
+      },
+      "media": {
+        "width": 40,
+        "aspectRatio": "11",
+        "marginRight": 1
+      },
+      "content": {
+        "sx": {
+          "mt": 0,
+          "mb": 1,
+          "ml": 1,
+          "mr": 1,
+          "pt": 0,
+          "pl": 1.5,
+          "pb": 0,
+          "pr": 1.5,
+          "alignItems": "center",
+          "bgcolor": "",
+          "borderRadius": 1
+        },
+        "selectedVariant": "background",
+        "hoverVariant": "background"
+      }
+    }
+  },
+  "Quiz - Answer Played List": {
+    "itemProps": {
+      "variant": "containedCard",
+      "content": {
+        "dividerVariant": "",
+        "selectedVariant": "",
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "",
+          "borderRadius": "",
+          "p": 0,
+          "mt": 1.5,
+          "flexDirection": "column"
+        }
+      },
+      "title": {
+        "variant": "body1",
+        "lines": 1,
+        "sx": {
+          "mb": 0.5,
+          "color": "text.secondary"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "poll.home": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "zoch",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "name_type_poll",
+          "blockLayout": "sidebar app header"
+        },
+        {
+          "blockId": "5yznu",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "title": "",
+          "placeholder": "Search",
+          "blockLayout": "sidebar search box"
+        },
+        {
+          "blockId": "6blk",
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "title": "",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "component": "poll.view.pollListingBlock",
+          "slotName": "main",
+          "emptyPage": "hide",
+          "title": "featured_polls",
+          "dataSource": {
+            "apiUrl": "/poll",
+            "apiParams": "view=feature&limit=6"
+          },
+          "itemView": "poll.itemView.mainCard",
+          "displayLimit": 6,
+          "blockId": "9gyaq",
+          "contentType": "poll",
+          "canLoadMore": false,
+          "hasSearchBox": false,
+          "freeze": false,
+          "blockLayout": "App Lists",
+          "gridLayout": "Poll - Main Card",
+          "itemLayout": "Poll - Main Card"
+        },
+        {
+          "blockId": "ze2iq",
+          "component": "poll.view.pollListingBlock",
+          "slotName": "main",
+          "title": "popular_polls",
+          "itemView": "poll.itemView.mainCard",
+          "contentType": "poll",
+          "dataSource": {
+            "apiUrl": "/poll",
+            "apiParams": "sort=most_voted"
+          },
+          "freeze": false,
+          "hasSearchBox": false,
+          "blockLayout": "App Lists",
+          "gridLayout": "Poll - Main Card",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true,
+            "contentStyle": {
+              "bgColor": "0"
+            },
+            "noBlock": 1
+          },
+          "itemLayout": "Poll - Main Card",
+          "canLoadMore": true,
+          "maxPageNumber": 2,
+          "numberOfItemsPerPage": 10
+        }
+      ],
+      "containers": {},
+      "pageName": "poll.home",
+      "templateName": "two-column-fixed"
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockId": "5ufrw"
+        },
+        {
+          "component": "poll.view.pollListingBlock",
+          "slotName": "main",
+          "title": "featured_polls",
+          "dataSource": {
+            "apiUrl": "/poll",
+            "apiParams": "view=feature&limit=6"
+          },
+          "itemView": "poll.itemView.mainCard",
+          "gridItemProps": {
+            "md": 12,
+            "xs": 12,
+            "sm": 12,
+            "lg": 12,
+            "xl": 12
+          },
+          "displayLimit": 6,
+          "blockId": "i3oa",
+          "contentType": "poll",
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Poll - Main Card - Mobile",
+          "emptyPage": "hide",
+          "itemLayout": "Poll - Main Card - Mobile"
+        },
+        {
+          "blockId": "ze2iq",
+          "component": "poll.view.pollListingBlock",
+          "slotName": "main",
+          "title": "popular_polls",
+          "itemView": "poll.itemView.mainCard",
+          "contentType": "poll",
+          "dataSource": {
+            "apiUrl": "/poll",
+            "apiParams": "sort=most_voted&limit=6"
+          },
+          "canLoadMore": true,
+          "freeze": false,
+          "hasSearchBox": false,
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Poll - Main Card - Mobile",
+          "emptyPage": "core.block.no_content_with_icon",
+          "itemLayout": "Poll - Main Card - Mobile"
+        }
+      ],
+      "pageName": "poll.home",
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

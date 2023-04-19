@@ -1,0 +1,60 @@
+{
+  "siteUrl": "/",
+  "admincpUrl": "/admincp",
+  "env": {
+    "PUBLIC_URL": "",
+    "MFOX_BASE_URL": "/",
+    "MFOX_SITE_ID": 1,
+    "MFOX_API_URL": "",
+    "MFOX_LOADING_BG": "#2d2d2d"
+  },
+  "cookie": {
+    "attributes": []
+  },
+  "localStore": {
+    "prefix": "mfox"
+  },
+  "i18n": {
+    "locale": "en",
+    "supports": ["en"]
+  },
+  "packages": {
+    "@metafox/core": "local",
+    "@metafox/app": "local",
+    "@metafox/user": "local",
+    "@metafox/storage": "local",
+    "@metafox/report": "local",
+    "@metafox/notification": "local",
+    "@metafox/static-page": "local",
+    "@metafox/poll": "local",
+    "@metafox/pages": "local",
+    "@metafox/payment": "local",
+    "@metafox/photo": "local",
+    "@metafox/quiz": "local",
+    "@metafox/membership": "local",
+    "@metafox/saved": "local",
+    "@metafox/search": "local",
+    "@metafox/sticker": "local",
+    "@metafox/marketplace": "local",
+    "@metafox/like": "local",
+    "@metafox/reaction": "local",
+    "@metafox/group": "local",
+    "@metafox/friend": "local",
+    "@metafox/forum": "local",
+    "@metafox/facebook": "local",
+    "@metafox/event": "local",
+    "@metafox/comment": "local",
+    "@metafox/chat-ui": "local",
+    "@metafox/chat": "local",
+    "@metafox/chatplus": "local",
+    "@metafox/blog": "local",
+    "@metafox/bgstatus": "local",
+    "@metafox/announcement": "local",
+    "@metafox/feed": "local",
+    "@metafox/share": "local",
+    "@metafox/emoji": "local",
+    "@metafox/activity-point": "local",
+    "@metafox/subscription": "local",
+    "@metafox/video": "local"
+  }
+}

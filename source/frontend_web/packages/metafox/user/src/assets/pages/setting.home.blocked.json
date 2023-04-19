@@ -1,0 +1,60 @@
+{
+  "setting.home.blocked": {
+    "large": {
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "blockId": "8b3mk",
+          "component": "setting.block.blocked",
+          "slotName": "main",
+          "pageName": "setting.home.blocked",
+          "pageSize": "large",
+          "title": "blocked_users",
+          "blockLayout": "Account Setting Listing"
+        },
+        {
+          "blockId": "6dpz4",
+          "component": "core.block.sidebarAppMenuSetting",
+          "slotName": "side",
+          "title": "",
+          "menuName": "settingMenu",
+          "blockLayout": "sidebar app menu"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockProps": {
+            "variant": "plained",
+            "marginBottom": 2
+          },
+          "title": "Account Setting Listing",
+          "contents": [
+            {
+              "name": "core.block.sidebarAppMenu",
+              "props": {
+                "menuName": "settingMenu"
+              }
+            }
+          ],
+          "blockId": "z8yi"
+        },
+        {
+          "blockId": "rgmt",
+          "component": "core.block.mainBlock",
+          "slotName": "main",
+          "title": "profile_menu_settings",
+          "blockLayout": "Contained"
+        }
+      ]
+    },
+    "pageNameAlt": "setting.home",
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

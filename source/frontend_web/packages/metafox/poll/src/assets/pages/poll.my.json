@@ -1,0 +1,100 @@
+{
+  "poll.my": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "zoch",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "Poll",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true
+          },
+          "blockLayout": "sidebar app header"
+        },
+        {
+          "blockId": "5yznu",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "title": "",
+          "placeholder": "Search",
+          "blockLayout": "sidebar search box"
+        },
+        {
+          "blockId": "6blk",
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "title": "",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "blockId": "ze2iq",
+          "component": "poll.view.pollListingBlock",
+          "slotName": "main",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true
+          },
+          "title": "my_polls",
+          "itemView": "poll.itemView.mainCard",
+          "contentType": "poll",
+          "dataSource": {
+            "apiUrl": "/poll",
+            "apiParams": "view=my"
+          },
+          "canLoadMore": true,
+          "freeze": false,
+          "hasSearchBox": false,
+          "blockLayout": "App Lists",
+          "gridLayout": "Poll - Main Card",
+          "itemLayout": "Poll - Main Card"
+        }
+      ],
+      "containers": {},
+      "pageName": "poll.home",
+      "templateName": "two-column-fixed"
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockId": "5ufrw"
+        },
+        {
+          "blockId": "ze2iq",
+          "component": "poll.view.pollListingBlock",
+          "slotName": "main",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true
+          },
+          "title": "my_polls",
+          "itemView": "poll.itemView.mainCard",
+          "contentType": "poll",
+          "dataSource": {
+            "apiUrl": "/poll",
+            "apiParams": "view=my"
+          },
+          "canLoadMore": true,
+          "freeze": false,
+          "hasSearchBox": false,
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Poll - Main Card - Mobile",
+          "itemLayout": "Poll - Main Card - Mobile"
+        }
+      ],
+      "pageName": "poll.home",
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

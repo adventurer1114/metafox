@@ -1,0 +1,27 @@
+{
+  "chat.home": {
+    "large": {
+      "templateName": "messages",
+      "blocks": [
+        {
+          "component": "chat.block.allMessage",
+          "slotName": "main",
+          "blockId": "i7"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "messages",
+      "blocks": [
+        {
+          "component": "chat.block.allMessage",
+          "slotName": "main",
+          "blockId": "i7"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

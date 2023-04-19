@@ -1,0 +1,19 @@
+{
+  "core.admincp.app.store.show": {
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminAppStoreShowDetail",
+          "slotName": "main",
+          "blockLayout": "Main Form",
+          "title": "Upgrade Wizard"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "admincp"
+    }
+  }
+}

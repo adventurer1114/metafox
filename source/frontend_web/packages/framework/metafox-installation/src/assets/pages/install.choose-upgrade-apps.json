@@ -1,0 +1,22 @@
+{
+  "install.choose-upgrade-apps": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "sba8a",
+          "component": "install.SelectApps",
+          "slotName": "main",
+          "title": "Filter Form",
+          "blockLayout": "Admin Form",
+          "dataSource": {
+            "apiUrl": "/install/?step=choose-upgrade-apps"
+          }
+        }
+      ],
+      "templateName": "installer"
+    },
+    "info": {
+      "bundle": "installation"
+    }
+  }
+}

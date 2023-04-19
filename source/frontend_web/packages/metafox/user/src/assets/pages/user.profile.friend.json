@@ -1,0 +1,309 @@
+{
+  "user.profile.friend": {
+    "large": {
+      "templateName": "profile-tab",
+      "blocks": [
+        {
+          "component": "user.block.userProfileHeader",
+          "slotName": "top",
+          "title": "User Profile Header",
+          "blockProps": {
+            "marginBottom": 2,
+            "variant": "containted",
+            "noHeader": true,
+            "noFooter": true
+          },
+          "key": "h1kx",
+          "blockId": "h1kx"
+        },
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "title": "friends",
+          "dataSource": {
+            "apiParams": "user_id=:id&sort=latest&limit=12",
+            "apiUrl": "/friend"
+          },
+          "itemView": "friend.itemView.mainCard",
+          "canLoadMore": true,
+          "key": "pp6aj",
+          "blockId": "pp6aj",
+          "parentBlockId": "gowz",
+          "contentType": "friend",
+          "hasSearchBox": true,
+          "emptyPage": "core.block.no_item_with_icon",
+          "emptyPageProps": {
+            "description": "no_friends_found",
+            "image": "ico-user-circle-o"
+          },
+          "blockLayout": "Profile - Clean Body Only No Default Empty Page",
+          "gridLayout": "Friend - Cards",
+          "itemLayout": "Friend - Cards"
+        },
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "itemView": "friend_request.itemView.smallCard",
+          "contentType": "friend",
+          "dataSource": {
+            "apiUrl": "/friend/request",
+            "apiParams": "view=pending&user_id=:id"
+          },
+          "canLoadMore": true,
+          "key": "no12",
+          "blockId": "no12",
+          "parentBlockId": "n42p",
+          "hasSearchBox": true,
+          "emptyPage": "core.block.no_item_with_icon",
+          "emptyPageProps": {
+            "description": "no_requests_found",
+            "image": "ico-user-circle-o"
+          },
+          "blockLayout": "Profile - Clean Body Only No Default Empty Page",
+          "itemLayout": "Friend - Cards",
+          "gridLayout": "Friend - Cards",
+          "title": "Friend"
+        },
+        {
+          "blockId": "gowz",
+          "parentBlockId": "hr4k",
+          "component": "core.block.listContainer",
+          "slotName": "main",
+          "name": "friends",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h1",
+            "titleVariant": "primary",
+            "titleColor": "text",
+            "noFooter": false,
+            "noHeader": false,
+            "blockStyle": {},
+            "contentStyle": {}
+          },
+          "freeze": false
+        },
+        {
+          "blockId": "n42p",
+          "parentBlockId": "hr4k",
+          "component": "core.block.listContainer",
+          "slotName": "main",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h1",
+            "titleVariant": "primary",
+            "titleColor": "text",
+            "noFooter": false,
+            "noHeader": false,
+            "blockStyle": {},
+            "contentStyle": {},
+            "headerStyle": {
+              "dividerVariant": "0"
+            },
+            "footerStyle": {
+              "dividerVariant": "0"
+            }
+          },
+          "freeze": false,
+          "name": "requests"
+        },
+        {
+          "blockId": "hr4k",
+          "component": "core.block.tabContainer",
+          "slotName": "main",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "title": "friends",
+          "showWhen": [
+            "and",
+            ["truthy", "profile.profile_menu_settings.friend_profile_menu"],
+            ["truthy", "profile.profile_settings.friend_view_friend"]
+          ],
+          "privacyEmptyPage": "core.block.no_content_with_description",
+          "hasSearchBox": 1,
+          "tabProps": {
+            "placeholderSearch": "search_friends",
+            "tabs": [
+              {
+                "id": 1,
+                "label": "tab_friend_friends",
+                "tab": "friends",
+                "showWhen": [
+                  "or",
+                  ["truthy", "isAuthUser"],
+                  ["truthy", "item.profile_settings.friend_view_friend"]
+                ]
+              },
+              {
+                "id": 2,
+                "label": "tab_friend_requests",
+                "tab": "requests",
+                "showWhen": ["truthy", "isAuthUser"]
+              }
+            ],
+            "activeTab": "friends",
+            "tabsNoSearchBox": ["requests"]
+          },
+          "blockLayout": "Profile - Tab Contained"
+        }
+      ]
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "user.block.userProfileHeader",
+          "slotName": "top",
+          "title": "User Profile Header",
+          "blockProps": {
+            "marginBottom": 2,
+            "variant": "containted",
+            "noHeader": true,
+            "noFooter": true
+          },
+          "key": "qddup",
+          "blockId": "qddup"
+        },
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "title": "friends",
+          "dataSource": {
+            "apiParams": "user_id=:id&sort=latest&limit=12",
+            "apiUrl": "/friend"
+          },
+          "itemView": "friend.itemView.mainCard",
+          "canLoadMore": true,
+          "key": "pp6aj",
+          "blockId": "pp6aj",
+          "parentBlockId": "gowz",
+          "contentType": "friend",
+          "hasSearchBox": true,
+          "emptyPage": "core.block.no_item_with_icon",
+          "emptyPageProps": {
+            "description": "no_friends_found",
+            "image": "ico-user-circle-o"
+          },
+          "blockLayout": "Profile - Clean Body Only No Default Empty Page",
+          "gridLayout": "Friend - Cards - Mobile",
+          "itemLayout": "Friend - Cards - Mobile"
+        },
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "itemView": "friend_request.itemView.smallCard",
+          "contentType": "friend",
+          "dataSource": {
+            "apiUrl": "/friend/request",
+            "apiParams": "view=pending"
+          },
+          "canLoadMore": true,
+          "key": "no12",
+          "blockId": "no12",
+          "parentBlockId": "n42p",
+          "hasSearchBox": true,
+          "emptyPage": "core.block.no_item_with_icon",
+          "emptyPageProps": {
+            "description": "no_requests_found",
+            "image": "ico-user-circle-o"
+          },
+          "blockLayout": "Profile - Clean Body Only No Default Empty Page",
+          "gridLayout": "Friend - Cards - Mobile",
+          "itemLayout": "Friend - Cards - Mobile",
+          "title": "Friend"
+        },
+        {
+          "blockId": "gowz",
+          "parentBlockId": "hr4k",
+          "name": "friends",
+          "component": "core.block.listContainer",
+          "slotName": "main",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h1",
+            "titleVariant": "primary",
+            "titleColor": "text",
+            "noFooter": false,
+            "noHeader": false,
+            "blockStyle": {},
+            "contentStyle": {}
+          },
+          "freeze": false
+        },
+        {
+          "blockId": "n42p",
+          "parentBlockId": "hr4k",
+          "name": "requests",
+          "component": "core.block.listContainer",
+          "slotName": "main",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h1",
+            "titleVariant": "primary",
+            "titleColor": "text",
+            "noFooter": false,
+            "noHeader": false,
+            "blockStyle": {},
+            "contentStyle": {},
+            "headerStyle": {
+              "dividerVariant": "0"
+            },
+            "footerStyle": {
+              "dividerVariant": "0"
+            }
+          },
+          "freeze": false
+        },
+        {
+          "blockId": "hr4k",
+          "component": "core.block.tabContainer",
+          "slotName": "main",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "title": "friends",
+          "showWhen": [
+            "and",
+            ["truthy", "profile.profile_menu_settings.friend_profile_menu"],
+            ["truthy", "profile.profile_settings.friend_view_friend"]
+          ],
+          "privacyEmptyPage": "core.block.no_content_with_description",
+          "hasSearchBox": 1,
+          "tabProps": {
+            "placeholderSearch": "search_friends",
+            "tabs": [
+              {
+                "id": 1,
+                "label": "tab_friend_friends",
+                "tab": "friends",
+                "showWhen": [
+                  "or",
+                  ["truthy", "isAuthUser"],
+                  ["truthy", "item.profile_settings.friend_view_friend"]
+                ]
+              },
+              {
+                "id": 2,
+                "label": "tab_friend_requests",
+                "tab": "requests",
+                "showWhen": ["truthy", "isAuthUser"]
+              }
+            ],
+            "activeTab": "friends",
+            "tabsNoSearchBox": ["requests"]
+          },
+          "blockLayout": "Profile - Tab Contained"
+        }
+      ],
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

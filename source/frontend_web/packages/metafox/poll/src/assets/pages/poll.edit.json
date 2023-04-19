@@ -1,0 +1,29 @@
+{
+  "poll.edit": {
+    "large": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "mxus4",
+          "blockLayout": "Full Screen Form"
+        }
+      ],
+      "templateName": "profile-tab"
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "w5xl5",
+          "blockLayout": "Full Screen Form"
+        }
+      ],
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

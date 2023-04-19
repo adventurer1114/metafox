@@ -1,0 +1,31 @@
+{
+  "home.contact": {
+    "large": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "rszs8",
+          "title": "Main Form",
+          "blockLayout": "Full Screen Form"
+        }
+      ],
+      "templateName": "profile-tab"
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "euoer",
+          "title": "Main Form",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

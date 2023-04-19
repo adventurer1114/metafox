@@ -1,0 +1,96 @@
+{
+  "quiz.my": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "g3p9c",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "quizzes",
+          "blockProps": {
+            "variant": "contained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true,
+            "testid": "sidebarAppHeaderBlock"
+          },
+          "blockLayout": "sidebar app header"
+        },
+        {
+          "blockId": "10jeo",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "title": "",
+          "placeholder": "Search",
+          "blockLayout": "sidebar search box"
+        },
+        {
+          "blockId": "lpt3r",
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "title": "Quiz",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "blockId": "5cf0f",
+          "component": "quiz.block.quizListingBlock",
+          "slotName": "main",
+          "emptyPage": "core.block.no_content_with_icon",
+          "title": "my_quizzes",
+          "itemView": "quiz.itemView.mainCard",
+          "contentType": "quiz",
+          "dataSource": {
+            "apiUrl": "/quiz",
+            "apiParams": "view=my"
+          },
+          "canLoadMore": true,
+          "hasSearchBox": false,
+          "freeze": false,
+          "blockLayout": "App Lists",
+          "gridLayout": "Quiz - Main Card",
+          "itemLayout": "Quiz - Main Card"
+        }
+      ],
+      "containers": {},
+      "pageName": "quiz.home",
+      "templateName": "two-column-fixed"
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockId": "4gegl"
+        },
+        {
+          "blockId": "5cf0f",
+          "component": "quiz.block.quizListingBlock",
+          "slotName": "main",
+          "emptyPage": "core.block.no_content_with_description",
+          "title": "my_quizzes",
+          "itemView": "quiz.itemView.mainCard",
+          "contentType": "quiz",
+          "dataSource": {
+            "apiUrl": "/quiz",
+            "apiParams": "view=my"
+          },
+          "canLoadMore": true,
+          "hasSearchBox": false,
+          "freeze": false,
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Poll - Main Card - Mobile",
+          "itemLayout": "Poll - Main Card - Mobile"
+        }
+      ],
+      "containers": {},
+      "pageName": "quiz.home",
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

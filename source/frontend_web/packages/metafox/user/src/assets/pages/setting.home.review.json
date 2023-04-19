@@ -1,0 +1,63 @@
+{
+  "setting.home.review": {
+    "large": {
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "blockId": "fm8t",
+          "component": "setting.block.review-posts",
+          "slotName": "main",
+          "pageName": "setting.home.review",
+          "pageSize": "large",
+          "title": "review_posts",
+          "contentType": "feed",
+          "itemView": "user.itemView.reviewPosts",
+          "blockLayout": "App Lists Pending Posts",
+          "gridLayout": "Group - PendingPost - Main Card"
+        },
+        {
+          "blockId": "6dpz4",
+          "component": "core.block.sidebarAppMenuSetting",
+          "slotName": "side",
+          "title": "",
+          "menuName": "settingMenu",
+          "blockLayout": "sidebar app menu"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockProps": {
+            "variant": "plained",
+            "marginBottom": 2
+          },
+          "title": "Account Setting",
+          "contents": [
+            {
+              "name": "core.block.sidebarAppMenu",
+              "props": {
+                "menuName": "settingMenu"
+              }
+            }
+          ],
+          "blockId": "z8yi"
+        },
+        {
+          "blockId": "rgmt",
+          "component": "core.block.mainBlock",
+          "slotName": "main",
+          "title": "profile_menu_settings",
+          "blockLayout": "Contained"
+        }
+      ]
+    },
+    "pageNameAlt": "setting.home",
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

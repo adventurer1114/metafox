@@ -1,0 +1,173 @@
+{
+  "video.home": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "4c6z9",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "Video",
+          "blockLayout": "sidebar app header"
+        },
+        {
+          "blockId": "d9au",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "title": "",
+          "placeholder": "Search",
+          "blockLayout": "sidebar search box"
+        },
+        {
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "props": {
+            "key": "",
+            "blockId": ""
+          },
+          "title": "videos",
+          "blockId": "i96",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "blockId": "nxy1",
+          "component": "core.dividerBlock",
+          "slotName": "side",
+          "title": "",
+          "dividerVariant": "middle",
+          "titleComponent": "h2",
+          "titleVariant": "subtitle1",
+          "titleColor": "textPrimary",
+          "noFooter": true,
+          "noHeader": true,
+          "blockLayout": "sidebar divider"
+        },
+        {
+          "component": "core.categoryBlock",
+          "slotName": "side",
+          "props": {
+            "key": "",
+            "blockId": ""
+          },
+          "title": "categories",
+          "blockId": "i97",
+          "blockLayout": "sidebar app category"
+        },
+        {
+          "component": "video.block.videoListingBlock",
+          "slotName": "main",
+          "props": {
+            "key": "",
+            "blockId": ""
+          },
+          "title": "featured_videos",
+          "itemView": "video.itemView.mainCard",
+          "blockId": "i98",
+          "contentType": "video",
+          "emptyPage": "hide",
+          "blockLayout": "App Lists",
+          "gridLayout": "Video - Main Card",
+          "itemLayout": "Video - Main Card",
+          "canLoadMore": false,
+          "displayLimit": 6,
+          "dataSource": {
+            "apiUrl": "/video",
+            "apiParams": "view=feature"
+          }
+        },
+        {
+          "blockId": "9l2qs",
+          "component": "video.block.videoListingBlock",
+          "slotName": "main",
+          "pageName": "video.home",
+          "pageSize": "large",
+          "title": "popular_videos",
+          "itemView": "video.itemView.mainCard",
+          "contentType": "video",
+          "dataSource": {
+            "apiUrl": "/video",
+            "apiParams": "sort=most_viewed"
+          },
+          "emptyPage": "core.block.no_content_with_icon",
+          "blockLayout": "App Lists",
+          "gridLayout": "Video - Main Card",
+          "emptyPageProps": {
+            "noHeader": true,
+            "noBlock": true,
+            "title": "no_videos_found",
+            "description": "",
+            "image": "ico-video"
+          },
+          "itemLayout": "Video - Main Card",
+          "canLoadMore": true,
+          "maxPageNumber": 2,
+          "numberOfItemsPerPage": 10
+        }
+      ],
+      "containers": {},
+      "pageName": "video.home",
+      "templateName": "two-column-fixed"
+    },
+    "small": {
+      "blocks": [
+        {
+          "blockId": "7nae",
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "pageName": "video.home",
+          "pageSize": "small"
+        },
+        {
+          "component": "video.block.videoListingBlock",
+          "slotName": "main",
+          "props": {
+            "key": "",
+            "blockId": ""
+          },
+          "title": "Videos Featured",
+          "itemView": "video.itemView.mainCard",
+          "blockId": "i98",
+          "emptyPage": "hide",
+          "contentType": "video",
+          "dataSource": {
+            "apiUrl": "/video",
+            "apiParams": "view=feature"
+          },
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Video - Flat View",
+          "displayLimit": "3",
+          "itemLayout": "Video - Flat View"
+        },
+        {
+          "blockId": "5i937",
+          "component": "video.block.videoListingBlock",
+          "slotName": "main",
+          "pageName": "video.home",
+          "pageSize": "small",
+          "title": "popular_videos",
+          "itemView": "video.itemView.mainCard",
+          "emptyPage": "core.block.no_content_with_icon",
+          "contentType": "video",
+          "dataSource": {
+            "apiUrl": "/video",
+            "apiParams": "sort=most_viewed"
+          },
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Video - Flat View",
+          "displayLimit": "4",
+          "emptyPageProps": {
+            "title": "no_videos_found",
+            "image": "ico-video"
+          },
+          "itemLayout": "Video - Flat View"
+        }
+      ],
+      "containers": {},
+      "pageName": "video.home",
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

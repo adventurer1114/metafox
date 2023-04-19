@@ -1,0 +1,20 @@
+{
+  "core.admincp.overview": {
+    "info": {
+      "bundle": "admincp"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminOverview",
+          "slotName": "main",
+          "pageSize": "large",
+          "freeze": false,
+          "blockLayout": "Admin Table"
+        }
+      ]
+    }
+  }
+}

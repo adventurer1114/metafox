@@ -1,0 +1,661 @@
+{
+  "three-column-fixed": {
+    "title": "03 columns and fixed side",
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "disableGutters": true,
+          "rootStyle": {
+            "sx": {
+              "pr": 2
+            }
+          },
+          "elements": {
+            "side": {
+              "xs": 3,
+              "component": "layout.liveFixedSlot",
+              "rootStyle": {
+                "maxWidth": "xs1",
+                "minWidth": "xs2"
+              },
+              "contentStyle": {
+                "sx": {
+                  "bgcolor": "background.paper"
+                }
+              },
+              "slotName": "side",
+              "stageStyle": {
+                "sx": {
+                  "pr": 2
+                }
+              }
+            },
+            "main": {
+              "flexWeight": 1,
+              "contentStyle": {
+                "maxWidth": "sm",
+                "sx": {
+                  "alignContent": "center"
+                }
+              },
+              "slotName": "main",
+              "stageStyle": {
+                "sx": {
+                  "pr": 2
+                }
+              }
+            },
+            "subside": {
+              "xs": 3,
+              "component": "layout.liveFixedSlot",
+              "rootStyle": {
+                "maxWidth": "xs1",
+                "minWidth": "xs1"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "three-column-fixed-dynamic-main": {
+    "title": "03 columns and fixed side",
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "disableGutters": true,
+          "rootStyle": {
+            "sx": {
+              "pr": 2
+            }
+          },
+          "elements": {
+            "side": {
+              "xs": 3,
+              "component": "layout.liveFixedSlot",
+              "rootStyle": {
+                "maxWidth": "xs1",
+                "minWidth": "xs2"
+              },
+              "contentStyle": {
+                "sx": {
+                  "bgcolor": "background.paper"
+                }
+              },
+              "slotName": "side",
+              "stageStyle": {
+                "sx": {
+                  "pr": 2
+                }
+              }
+            },
+            "main": {
+              "flexWeight": 1,
+              "slotName": "main",
+              "stageStyle": {
+                "sx": {
+                  "pr": 2
+                }
+              }
+            },
+            "subside": {
+              "xs": 3,
+              "component": "layout.liveFixedSlot",
+              "rootStyle": {
+                "maxWidth": "xs1",
+                "minWidth": "xs1"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "two-column-fixed": {
+    "title": "02 columns and fixed side",
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {
+              "slotName": "header",
+              "stageStyle": {
+                "minHeight": "appbar"
+              }
+            }
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "disableGutters": true,
+          "elements": {
+            "side": {
+              "xs": 3,
+              "rootStyle": {
+                "maxWidth": "xs1",
+                "minWidth": "xs2"
+              },
+              "contentStyle": {
+                "sx": {
+                  "bgcolor": "background.paper"
+                }
+              },
+              "component": "layout.liveFixedSlot",
+              "freeze": 2,
+              "disableGutters": false,
+              "slotName": "side",
+              "stageStyle": {
+                "sx": {
+                  "pr": 2,
+                  "margin": "0 auto"
+                }
+              }
+            },
+            "main": {
+              "flexWeight": "1",
+              "stageStyle": {
+                "sx": {
+                  "pr": 2,
+                  "margin": "0 auto"
+                }
+              },
+              "slotName": "main"
+            }
+          }
+        }
+      }
+    }
+  },
+  "master-child": {
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {
+              "slotName": "header",
+              "stageStyle": {
+                "minHeight": "appbar"
+              }
+            }
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "disableGutters": true,
+          "elements": {
+            "side": {
+              "xs": 3,
+              "rootStyle": {
+                "minWidth": "xs1",
+                "maxWidth": "xs2"
+              },
+              "contentStyle": {
+                "sx": {
+                  "bgcolor": "background.paper"
+                }
+              },
+              "stageStyle": {},
+              "component": "layout.liveFixedSlot",
+              "disabledScroll": false,
+              "slotName": "side"
+            },
+            "main": {
+              "embedChildPage": true,
+              "xs": 9,
+              "flexWeight": "1",
+              "rootStyle": {},
+              "contentStyle": {},
+              "stageStyle": {},
+              "slotName": "main"
+            }
+          }
+        }
+      }
+    }
+  },
+  "two-column": {
+    "title": "02 columns",
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "disableGutters": true,
+          "elements": {
+            "side": {
+              "xs": 3,
+              "maxWidth": "xs2",
+              "minWidth": "xs1",
+              "rootStyle": {},
+              "contentStyle": {},
+              "stageStyle": {}
+            },
+            "main": {
+              "xs": 9
+            }
+          }
+        }
+      }
+    }
+  },
+  "messages": {
+    "title": "messages",
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {
+              "slotName": "header",
+              "stageStyle": {
+                "minHeight": "appbar"
+              }
+            }
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "disableGutters": true,
+          "elements": {
+            "main": {
+              "component": "layout.liveFixedSlot",
+              "disabledScroll": true,
+              "xs": 12
+            }
+          },
+          "rootStyle": {
+            "minHeight": "screen"
+          }
+        }
+      }
+    }
+  },
+  "default": {
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "top": {
+          "elements": {
+            "top": {
+              "flexWeight": 1
+            }
+          }
+        },
+        "main": {
+          "gridContainer": true,
+          "maxWidth": "md",
+          "elements": {
+            "side": {
+              "xs": 3,
+              "maxWidth": "xs2",
+              "minWidth": "xs1",
+              "rootStyle": {},
+              "contentStyle": {},
+              "stageStyle": {}
+            },
+            "main": {
+              "xs": 6
+            },
+            "subside": {
+              "xs": 3,
+              "maxWidth": "xs1",
+              "minWidth": "xs1",
+              "rootStyle": {},
+              "contentStyle": {},
+              "stageStyle": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "profile-tab": {
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "top": {
+          "elements": {
+            "top": {
+              "flexWeight": 1
+            }
+          }
+        },
+        "main": {
+          "gridContainer": true,
+          "rootStyle": {
+            "maxWidth": "md"
+          },
+          "elements": {
+            "main": {
+              "xs": 12,
+              "stageStyle": {
+                "minHeight": "screen"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "profile-Subside": {
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          },
+          "rootStyle": {
+            "minHeight": "appbar"
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "top": {
+          "elements": {
+            "top": {
+              "flexWeight": 1
+            }
+          }
+        },
+        "main": {
+          "gridContainer": true,
+          "rootStyle": {
+            "maxWidth": "md"
+          },
+          "elements": {
+            "main": {
+              "flexWeight": "1",
+              "xs": 9,
+              "rootStyle": {},
+              "contentStyle": {},
+              "stageStyle": {
+                "minHeight": "screen",
+                "sx": {
+                  "pr": 2
+                }
+              },
+              "slotName": "main"
+            },
+            "subside": {
+              "xs": 3,
+              "rootStyle": {
+                "maxWidth": "xs2",
+                "minWidth": "xs1"
+              },
+              "contentStyle": {},
+              "stageStyle": {}
+            }
+          },
+          "maxWidth": "lg",
+          "paddingLeft": "0",
+          "paddingRight": "0"
+        }
+      }
+    }
+  },
+  "simple": {
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "gridContainer": false,
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "maxWidth": "sm",
+          "elements": {
+            "main": {
+              "xs": 12,
+              "slotName": "main",
+              "rootStyle": {
+                "maxWidth": "0"
+              },
+              "contentStyle": {
+                "sx": {
+                  "alignContent": "center"
+                }
+              }
+            }
+          },
+          "rootStyle": {
+            "maxWidth": "sm"
+          }
+        }
+      }
+    },
+    "footer": {
+      "elements": {
+        "main": {
+          "rootStyle": {
+            "maxWidth": "lg"
+          },
+          "elements": {
+            "bottom": {
+              "maxWidth": false
+            }
+          }
+        }
+      }
+    },
+    "title": "Simple - Layout has header and content",
+    "description": ""
+  },
+  "simple-md": {
+    "blocks": [],
+    "header": {
+      "elements": {
+        "header": {
+          "gridContainer": false,
+          "disableGutters": true,
+          "elements": {
+            "header": {}
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "main": {
+          "gridContainer": true,
+          "maxWidth": "md",
+          "elements": {
+            "main": {
+              "xs": 12,
+              "slotName": "main",
+              "rootStyle": {
+                "maxWidth": "0"
+              },
+              "contentStyle": {
+                "sx": {
+                  "alignContent": "center"
+                }
+              }
+            }
+          },
+          "rootStyle": {
+            "maxWidth": "md"
+          }
+        }
+      }
+    },
+    "footer": {
+      "elements": {
+        "main": {
+          "rootStyle": {
+            "maxWidth": "lg"
+          },
+          "elements": {
+            "bottom": {
+              "maxWidth": false
+            }
+          }
+        }
+      }
+    },
+    "title": "Simple Medium - Medium content column",
+    "description": ""
+  },
+  "blank": {
+    "content": {
+      "elements": {
+        "main": {
+          "elements": {
+            "main": {
+              "flexWeight": "1"
+            }
+          }
+        }
+      }
+    },
+    "title": "Blank - Layout without header, footer",
+    "description": ""
+  },
+  "mobile": {
+    "header": {
+      "elements": {
+        "header": {
+          "gridContainer": false,
+          "disableGutters": true,
+          "elements": {
+            "header": {
+              "maxWidth": false
+            }
+          }
+        }
+      }
+    },
+    "content": {
+      "elements": {
+        "top": {
+          "disableGutters": true,
+          "elements": {
+            "top": {}
+          }
+        },
+        "main": {
+          "elements": {
+            "main": {
+              "xs": 12
+            }
+          }
+        }
+      }
+    },
+    "footer": {
+      "elements": {
+        "main": {
+          "rootStyle": {
+            "maxWidth": "lg"
+          },
+          "elements": {
+            "bottom": {
+              "maxWidth": false
+            }
+          }
+        }
+      }
+    },
+    "blocks": []
+  }
+}

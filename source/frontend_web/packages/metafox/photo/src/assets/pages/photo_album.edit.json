@@ -1,0 +1,29 @@
+{
+  "photo_album.edit": {
+    "large": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "60bq",
+          "blockLayout": "Full Screen Form"
+        }
+      ],
+      "templateName": "profile-tab"
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "a0wli",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

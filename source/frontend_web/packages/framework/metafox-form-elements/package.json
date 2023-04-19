@@ -1,0 +1,31 @@
+{
+  "name": "@metafox/form-elements",
+  "version": "5.0.1",
+  "main": "src/index.tsx",
+  "author": "developer@phpfox.com",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metafoxapp/metafox-workbox.git",
+    "directory": "packages/framework/metafox-form-elements"
+  },
+  "peerDependencies": {
+    "draftjs-to-html": "^0.9.1"
+  },
+  "dependencies": {
+    "formik": "^2",
+    "@date-io/moment": "v1",
+    "html-to-draftjs": "^1.5.0",
+    "react-draft-wysiwyg": "^1.14.7",
+    "react-google-recaptcha-v3": "^1.9.7",
+    "shallowequal": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/draftjs-to-html": "^0.8.1",
+    "@types/html-to-draftjs": "^1.4.0"
+  },
+  "scripts": {
+    "unittest": "metafox jest-unittest"
+  }
+}

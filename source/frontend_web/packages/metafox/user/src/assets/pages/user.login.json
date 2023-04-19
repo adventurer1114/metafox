@@ -1,0 +1,27 @@
+{
+  "user.login": {
+    "large": {
+      "templateName": "blank",
+      "blocks": [
+        {
+          "component": "user.block.userLoginContent",
+          "slotName": "main",
+          "blockId": "myyg9q"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "blank",
+      "blocks": [
+        {
+          "component": "user.block.userLoginContent",
+          "slotName": "main",
+          "blockId": "9anbs"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "groups.manage.moderation_rights": {
+    "large": {
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "blockId": "kwcv",
+          "component": "group.manage.moderationRights",
+          "slotName": "main",
+          "pageName": "groups.manage.moderation_rights",
+          "pageSize": "large",
+          "title": "moderation_right",
+          "contentType": "group",
+          "showWhen": [
+            "truthy",
+            "profile.extra.can_manage_setting"
+          ],
+          "blockLayout": "App Lists Pending Posts",
+          "gridLayout": "Group - PendingPost - Main Card",
+          "itemLayout": "Group - PendingPost - Main Card"
+        },
+        {
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "icon": "ico-compose-alt",
+          "blockId": "pxfyc",
+          "sidebarHeaderName": "backToProfile"
+        },
+        {
+          "blockId": "n4e",
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "title": "Manage Group",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "text",
+            "noFooter": true
+          },
+          "menuName": "groupManagerMenu"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "title": "Manage Group",
+          "blockProps": {
+            "variant": "plained",
+            "marginBottom": 2
+          },
+          "contents": [
+            {
+              "name": "core.block.sidebarAppMenu",
+              "props": {
+                "menuName": "groupManagerMenu"
+              }
+            }
+          ],
+          "blockId": "ksh9w"
+        },
+        {
+          "blockId": "rgmt",
+          "component": "core.block.mainBlock",
+          "slotName": "main",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle2",
+            "titleColor": "textPrimary",
+            "headerStyle": {
+              "pt": 1,
+              "pb": 1
+            },
+            "contentStyle": {
+              "pt": 1,
+              "pb": 1
+            }
+          }
+        }
+      ]
+    },
+    "pageNameAlt": "groups.manage",
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

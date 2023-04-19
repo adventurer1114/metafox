@@ -1,0 +1,529 @@
+{
+  "admincp.user.login": {
+    "large": {
+      "templateName": "blank",
+      "blocks": [
+        {
+          "component": "user.block.AdminUserLogin",
+          "slotName": "main",
+          "blockId": "bu56b"
+        }
+      ]
+    }
+  },
+  "core.admincp.dashboard": {
+    "large": {
+      "templateName": "dashboard",
+      "blocks": [
+        {
+          "blockId": "32rjd",
+          "component": "core.block.AdminSiteStatus",
+          "title": "site_status",
+          "slotName": "bottom2"
+        },
+        {
+          "blockId": "8r8c",
+          "component": "core.block.AdminDepthStats",
+          "slotName": "top2",
+          "title": "in_dept_statistics",
+          "blockLayout": "Admin - Contained"
+        },
+        {
+          "blockId": "4i9sq",
+          "component": "core.block.AdminChartStats",
+          "slotName": "top"
+        },
+        {
+          "blockId": "v9pu",
+          "component": "core.block.AdminLatestAdminLogin",
+          "title": "latest_acp_logins",
+          "slotName": "bottom1"
+        },
+        {
+          "blockId": "mh7r",
+          "component": "core.block.AdminNewsUpdate",
+          "title": "news_and_updates",
+          "slotName": "bottom"
+        },
+        {
+          "blockId": "50j5",
+          "component": "core.block.AdminActiveAdmin",
+          "title": "active_admins",
+          "slotName": "bottom2"
+        },
+        {
+          "component": "core.block.sidebarPrimaryMenu",
+          "slotName": "side",
+          "blockId": "8r659"
+        },
+        {
+          "component": "core.block.sidebarShortcutMenu",
+          "slotName": "side",
+          "blockId": "2c7hu",
+          "title": "shortcuts"
+        },
+        {
+          "blockId": "yvxfo",
+          "component": "core.block.AdminItemStatistic",
+          "slotName": "main",
+          "freeze": false
+        }
+      ]
+    },
+    "small": {
+      "blocks": [
+        {
+          "blockId": "4i9sq",
+          "component": "core.block.AdminChartStats",
+          "slotName": "main"
+        },
+        {
+          "blockId": "8r8c",
+          "component": "core.block.AdminDepthStats",
+          "slotName": "main",
+          "title": "in_dept_statistics",
+          "blockLayout": "Admin - Contained"
+        },
+        {
+          "blockId": "yvxfo",
+          "component": "core.block.AdminItemStatistic",
+          "slotName": "main",
+          "freeze": false
+        },
+        {
+          "blockId": "v9pu",
+          "component": "core.block.AdminLatestAdminLogin",
+          "title": "latest_acp_logins",
+          "slotName": "main"
+        },
+        {
+          "blockId": "mh7r",
+          "component": "core.block.AdminNewsUpdate",
+          "title": "news_and_updates",
+          "slotName": "main"
+        },
+        {
+          "blockId": "32rjd",
+          "component": "core.block.AdminSiteStatus",
+          "title": "site_status",
+          "slotName": "main"
+        },
+        {
+          "blockId": "50j5",
+          "component": "core.block.AdminActiveAdmin",
+          "title": "active_admins",
+          "slotName": "main",
+          "blockProps": {
+            "marginBottom": 2
+          }
+        },
+        {
+          "component": "core.block.sidebarPrimaryMenu",
+          "slotName": "side",
+          "blockId": "8r659"
+        },
+        {
+          "component": "core.block.sidebarShortcutMenu",
+          "slotName": "side",
+          "blockId": "2c7hu",
+          "title": "shortcuts"
+        }
+      ],
+      "templateName": "dashboard"
+    }
+  },
+  "core.error403": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "core.block.error403",
+          "slotName": "main",
+          "blockId": "pdb"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.error403",
+          "slotName": "main",
+          "blockId": "sqih"
+        }
+      ]
+    }
+  },
+  "core.error404": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "core.block.error404",
+          "slotName": "main",
+          "blockId": "jrta"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.error404",
+          "slotName": "main",
+          "blockId": "1eq8a"
+        }
+      ]
+    }
+  },
+  "core.error500": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "core.block.error404",
+          "slotName": "main",
+          "blockId": "tidp6"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.error404",
+          "slotName": "main",
+          "blockId": "uwnxf"
+        }
+      ]
+    }
+  },
+  "core.admincp.app.manage": {
+    "info": {
+      "title": "Admin/Apps/Installed"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "tn06o",
+          "component": "user.block.AdminDataGrid",
+          "slotName": "main",
+          "title": "Installed",
+          "dataGridProps": {
+            "appName": "core",
+            "resourceName": "module_admin",
+            "gridName": "installed"
+          },
+          "blockLayout": "Admin Table"
+        }
+      ]
+    }
+  },
+  "core.admincp.app.purchased": {
+    "info": {
+      "title": "Admin/Apps/Installed"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "tn06o",
+          "component": "user.block.AdminDataGrid",
+          "slotName": "main",
+          "title": "Installed",
+          "dataGridProps": {
+            "appName": "core",
+            "resourceName": "module_admin",
+            "gridName": "installed"
+          }
+        }
+      ]
+    }
+  },
+  "core.admincp.app.store": {
+    "info": {
+      "title": "Admin/Apps/Uploaded"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "sba8a",
+          "component": "core.block.AdminBrowseSearchForm",
+          "slotName": "main",
+          "title": "Filter Form",
+          "blockLayout": "Admin Form",
+          "isRemote": true,
+          "moduleName": "app",
+          "resourceName": "app_store_product",
+          "actionName": "getSearchForm"
+        },
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminStoreApps",
+          "slotName": "main",
+          "moduleName": "app",
+          "resourceName": "app_store_product",
+          "actionName": "viewAll"
+        }
+      ]
+    }
+  },
+  "core.admincp.app.uploaded": {
+    "info": {
+      "title": "Admin/Apps/Uploaded"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "7nmnp",
+          "component": "user.block.AdminDataGrid",
+          "slotName": "main",
+          "title": "Uploaded",
+          "dataGridProps": {
+            "appName": "core",
+            "resourceName": "module_admin",
+            "gridName": "uploaded"
+          },
+          "blockLayout": "Admin Table"
+        }
+      ]
+    }
+  },
+  "core.admincp.browse.datagrid": {
+    "info": {},
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "sba8a",
+          "component": "core.block.AdminBrowseSearchForm",
+          "slotName": "main",
+          "title": "Filter Form",
+          "blockLayout": "Admin Form",
+          "actionName": "searchForm",
+          "isRemote": true
+        },
+        {
+          "blockId": "sba8b",
+          "component": "core.block.AdminBrowseDataGrid",
+          "slotName": "main",
+          "title": "Data Grid",
+          "blockLayout": "Admin Table"
+        }
+      ]
+    }
+  },
+  "core.admincp.detail.datagrid": {
+    "info": {},
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "sba8a",
+          "component": "core.block.AdminBrowseSearchForm",
+          "slotName": "main",
+          "title": "Filter Form",
+          "blockLayout": "Admin Form",
+          "isRemote": true
+        },
+        {
+          "blockId": "sbaas",
+          "component": "core.block.AdminDetailDataListing",
+          "slotName": "main",
+          "title": "Detail",
+          "blockLayout": "Admin Form"
+        },
+        {
+          "blockId": "sba8b",
+          "component": "core.block.AdminBrowseDataGrid",
+          "slotName": "main",
+          "title": "Data Grid",
+          "blockLayout": "Admin Table"
+        }
+      ]
+    }
+  },
+  "core.admincp.setting": {
+    "info": {
+      "title": "Admin/Setting"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "s5qwi",
+          "component": "user.block.AdminForm",
+          "slotName": "main",
+          "title": "EditSetting",
+          "isRemote": true,
+          "loadFrom": "pageParams",
+          "blockLayout": "Admin Form"
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.cache": {
+    "info": {
+      "title": "Admin/Maintain/Cache"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminMaintainCache",
+          "slotName": "main",
+          "title": "Manage Cache",
+          "freeze": false,
+          "blockLayout": "Admin Form"
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.counter": {
+    "info": {
+      "title": "Admin/Maintain/Counter"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminManageCounter",
+          "slotName": "main",
+          "title": "Manage Counter",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.crontab": {
+    "info": {
+      "title": "Admin/Maintain/ManageCronTab"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminManageCronTab",
+          "slotName": "main",
+          "title": "Manage CronTab",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.duplicated-files": {
+    "info": {
+      "title": "Admin/Maintain/Duplicated Files"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminManageDuplicatedFiles",
+          "slotName": "main",
+          "title": "Manage Duplicated Files",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.missed-settings": {
+    "info": {
+      "title": "Admin/Maintain/Missed Settings"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminMissedSettings",
+          "slotName": "main",
+          "title": "Find Missed Settings",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.rebuild": {
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminRebuildSite",
+          "slotName": "main",
+          "title": "Text Reparser",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.reparser": {
+    "info": {
+      "title": "Admin/Maintain/Reparser"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminManageTextReparser",
+          "slotName": "main",
+          "title": "Text Reparser",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.maintain.site-statistic": {
+    "info": {
+      "title": "Admin/Maintain/Statistic"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminSiteStatistic",
+          "slotName": "main",
+          "freeze": false
+        }
+      ]
+    }
+  },
+  "core.admincp.overview": {
+    "info": {},
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminOverview",
+          "slotName": "main",
+          "freeze": false,
+          "blockLayout": "Admin Table"
+        }
+      ]
+    }
+  },
+  "core.admincp.app.store.show": {
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminAppStoreShowDetail",
+          "slotName": "main",
+          "blockLayout": "Main Form"
+        }
+      ]
+    }
+  }
+}

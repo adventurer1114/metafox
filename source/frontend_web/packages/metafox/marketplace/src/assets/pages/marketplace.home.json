@@ -1,0 +1,166 @@
+{
+  "marketplace.home": {
+    "large": {
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "blockId": "ia",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "marketplace",
+          "icon": "ico-shopbasket",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true
+          },
+          "freeze": true,
+          "blockLayout": "sidebar app header"
+        },
+        {
+          "blockId": "i5",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "placeholder": "Search",
+          "title": "",
+          "freeze": true,
+          "blockLayout": "sidebar search box"
+        },
+        {
+          "component": "core.block.sidebarAppMenu",
+          "slotName": "side",
+          "title": "marketplace",
+          "icon": "ico-home",
+          "searchBox": true,
+          "searchLabel": "search_marketplace",
+          "blockId": "i6",
+          "menuName": "sidebarMenu",
+          "blockLayout": "sidebar app menu"
+        },
+        {
+          "blockId": "i12",
+          "component": "core.dividerBlock",
+          "slotName": "side",
+          "dividerVariant": "middle",
+          "title": "",
+          "blockProps": {
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true,
+            "blockStyle": {
+              "mt": 4,
+              "mb": 1
+            }
+          },
+          "blockLayout": "sidebar divider"
+        },
+        {
+          "component": "core.categoryBlock",
+          "slotName": "side",
+          "blockId": "i7",
+          "title": "categories",
+          "blockLayout": "sidebar app category"
+        },
+        {
+          "component": "marketplace.block.listingBlock",
+          "slotName": "main",
+          "title": "featured_listings",
+          "emptyPage": "hide",
+          "blockId": "i9",
+          "itemView": "marketplace.itemView.mainCard",
+          "displayLimit": 6,
+          "canLoadMore": false,
+          "dataSource": {
+            "apiParams": "view=feature&limit=6",
+            "apiUrl": "/marketplace"
+          },
+          "contentType": "marketplace",
+          "blockLayout": "App Lists",
+          "gridLayout": "Marketplace - Main Card",
+          "itemLayout": "Marketplace - Main Card"
+        },
+        {
+          "component": "marketplace.block.listingBlock",
+          "slotName": "main",
+          "title": "popular_listings",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true,
+            "noBlock": true,
+            "title": "no_marketplace_found"
+          },
+          "blockId": "i8",
+          "itemView": "marketplace.itemView.mainCard",
+          "dataSource": {
+            "apiParams": "sort=most_viewed",
+            "apiUrl": "/marketplace"
+          },
+          "contentType": "marketplace",
+          "blockLayout": "App Lists",
+          "gridLayout": "Marketplace - Main Card",
+          "itemLayout": "Marketplace - Main Card",
+          "canLoadMore": true,
+          "maxPageNumber": 2,
+          "numberOfItemsPerPage": 10
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockId": "p3aol"
+        },
+        {
+          "component": "marketplace.block.listingBlock",
+          "slotName": "main",
+          "title": "featured_listings",
+          "emptyPage": "hide",
+          "blockId": "i9",
+          "itemView": "marketplace.itemView.mainCard",
+          "displayLimit": 18,
+          "canLoadMore": false,
+          "dataSource": {
+            "apiParams": "view=feature&limit=18",
+            "apiUrl": "/marketplace"
+          },
+          "contentType": "marketplace",
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Marketplace - MainCard - Mobile",
+          "itemLayout": "Marketplace - MainCard - Mobile"
+        },
+        {
+          "component": "marketplace.block.listingBlock",
+          "slotName": "main",
+          "title": "popular_listings",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true,
+            "title": "no_marketplace_found"
+          },
+          "blockId": "i8",
+          "itemView": "marketplace.itemView.mainCard",
+          "dataSource": {
+            "apiParams": "sort=most_viewed",
+            "apiUrl": "/marketplace"
+          },
+          "canLoadMore": true,
+          "contentType": "marketplace",
+          "blockLayout": "App List - Mobile - Paper",
+          "gridLayout": "Marketplace - MainCard - Mobile",
+          "itemLayout": "Marketplace - MainCard - Mobile"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

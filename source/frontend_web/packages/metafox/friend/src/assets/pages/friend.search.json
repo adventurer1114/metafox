@@ -1,0 +1,60 @@
+{
+  "friend.search": {
+    "large": {
+      "pageName": "friend.home",
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "blockId": "iqmbe",
+          "component": "core.block.mainListing",
+          "slotName": "main",
+          "pageName": "friend.search",
+          "pageSize": "large",
+          "title": "",
+          "emptyPage": "core.block.no_content_with_icon",
+          "canLoadMore": 1,
+          "emptyPageProps": {
+            "description": "no_friends_to_show_description",
+            "title": "no_friends_to_show",
+            "image": "ico-user-circle-o"
+          },
+          "itemView": "friend.itemView.mainCard",
+          "blockLayout": "App Lists",
+          "gridLayout": "Friend - Cards",
+          "itemLayout": "Friend - Cards"
+        },
+        {
+          "blockId": "ia",
+          "component": "core.block.sideAppHeader",
+          "slotName": "side",
+          "title": "friends",
+          "icon": "ico-user1-two",
+          "freeze": true
+        },
+        {
+          "blockId": "i5",
+          "component": "core.block.searchBox",
+          "slotName": "side",
+          "placeholder": "Search",
+          "title": "",
+          "freeze": true
+        }
+      ]
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "title": "friends",
+          "blockId": "mnrjn"
+        }
+      ],
+      "pageName": "friend.home",
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

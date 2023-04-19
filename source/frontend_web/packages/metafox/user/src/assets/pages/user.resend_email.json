@@ -1,0 +1,17 @@
+{
+  "user.resend_email": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "user.block.resendEmail",
+          "slotName": "main",
+          "blockId": "c7ire"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

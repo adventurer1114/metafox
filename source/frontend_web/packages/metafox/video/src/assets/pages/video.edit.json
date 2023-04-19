@@ -1,0 +1,31 @@
+{
+  "video.edit": {
+    "large": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "ahpah",
+          "blockLayout": "Full Screen Form",
+          "title": "Form"
+        }
+      ],
+      "templateName": "profile-tab"
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "ahpah",
+          "title": "Form",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

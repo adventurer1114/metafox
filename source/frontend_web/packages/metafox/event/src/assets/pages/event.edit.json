@@ -1,0 +1,34 @@
+{
+  "event.edit": {
+    "large": {
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockId": "75lfm",
+          "blockLayout": "Full Screen Form"
+        }
+      ],
+      "templateName": "profile-tab"
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sideAppHeader",
+          "slotName": "main",
+          "blockId": "gvjfa"
+        },
+        {
+          "blockId": "78ubt",
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

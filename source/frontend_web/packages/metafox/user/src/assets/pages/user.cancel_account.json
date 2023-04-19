@@ -1,0 +1,31 @@
+{
+  "user.cancel_account": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "blockId": "gbsduzi",
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "title": "",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "title": "",
+          "blockLayout": "Full Screen Form",
+          "blockId": "a5gzxlr"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

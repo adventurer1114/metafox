@@ -1,0 +1,27 @@
+{
+  "static.page": {
+    "large": {
+      "templateName": "simple-md",
+      "blocks": [
+        {
+          "component": "static.block.mainContent",
+          "slotName": "main",
+          "blockId": "ka24g"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "static.block.mainContent",
+          "slotName": "main",
+          "blockId": "8897h"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

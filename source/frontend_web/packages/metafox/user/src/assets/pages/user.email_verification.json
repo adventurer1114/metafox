@@ -1,0 +1,17 @@
+{
+  "user.email_verification": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "user.block.EmailVerification",
+          "slotName": "main",
+          "blockId": "c7ire"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

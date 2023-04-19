@@ -1,0 +1,18 @@
+{
+  "admincp.app.upgrade": {
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "vuf9b",
+          "component": "app.block.UpgradeWizard",
+          "slotName": "main",
+          "blockLayout": "Admin - Contained"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "admincp"
+    }
+  }
+}

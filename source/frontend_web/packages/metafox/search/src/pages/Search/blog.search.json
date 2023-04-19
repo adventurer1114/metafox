@@ -1,0 +1,82 @@
+{
+  "core.search.blog": {
+    "large": {
+      "templateName": "two-column-fixed",
+      "blocks": [
+        {
+          "component": "search.block.SearchResultListings",
+          "slotName": "main",
+          "key": "d90mi",
+          "blockId": "d90mi",
+          "title": "Search Results",
+          "itemView": "search.itemView.mainCard",
+          "blockLayout": "App Lists",
+          "gridLayout": "Global - Search Item Card",
+          "contentType": "search",
+          "dataSource": {
+            "apiUrl": "/search",
+            "apiParams": "q=:q&view=:view&limit=10"
+          },
+          "emptyPage": "core.block.no_results"
+        },
+        {
+          "component": "core.globalSearchFilterBlock",
+          "slotName": "side",
+          "key": "8dm7i",
+          "blockId": "8dm7i",
+          "title": "",
+          "blockLayout": "Search Menu"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "search.block.SearchResultListings",
+          "slotName": "main",
+          "key": "d90mi",
+          "blockId": "d90mi",
+          "title": "Search Results",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "h5",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true,
+            "blockStyle": {
+              "mt": 2,
+              "mb": 4
+            },
+            "contentStyle": {
+              "pt": 1,
+              "pb": 1
+            },
+            "headerStyle": {
+              "pt": 1,
+              "pb": 1
+            }
+          },
+          "itemView": "search.itemView.mainCard",
+          "gridContainerProps": {
+            "spacing": 2
+          },
+          "gridItemProps": {
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
+          }
+        },
+        {
+          "component": "core.globalSearchFilterBlock",
+          "slotName": "side",
+          "key": "8dm7i",
+          "blockId": "8dm7i"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "core.error404": {
+    "info": {
+      "bundle": "admincp"
+    },
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "core.block.error404",
+          "slotName": "main",
+          "blockId": "jrta"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.error404",
+          "slotName": "main",
+          "blockId": "1eq8a"
+        }
+      ]
+    }
+  }
+}

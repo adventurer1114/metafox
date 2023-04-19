@@ -1,0 +1,31 @@
+{
+  "user.register": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "blockId": "gbuzi",
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "title": "",
+          "blockLayout": "Full Screen Form"
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.mainForm",
+          "slotName": "main",
+          "title": "",
+          "blockLayout": "Full Screen Form",
+          "blockId": "a5glr"
+        }
+      ]
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}

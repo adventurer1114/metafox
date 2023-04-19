@@ -1,0 +1,34 @@
+{
+  "core.admincp.app.store": {
+    "info": {
+      "title": "Admin/Apps/Uploaded",
+      "bundle": "admincp"
+    },
+    "large": {
+      "templateName": "admincp",
+      "blocks": [
+        {
+          "blockId": "sba8a",
+          "component": "core.block.AdminBrowseSearchForm",
+          "slotName": "main",
+          "title": "Filter Form",
+          "blockLayout": "Admin Form",
+          "isRemote": true,
+          "moduleName": "app",
+          "resourceName": "app_store_product",
+          "actionName": "getSearchForm"
+        },
+        {
+          "blockId": "vuf9b",
+          "component": "core.block.AdminStoreApps",
+          "slotName": "main",
+          "pageName": "core.admincp.app.uploaded",
+          "pageSize": "large",
+          "moduleName": "app",
+          "resourceName": "app_store_product",
+          "actionName": "viewAll"
+        }
+      ]
+    }
+  }
+}

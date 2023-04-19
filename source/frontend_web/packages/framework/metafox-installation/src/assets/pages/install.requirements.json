@@ -1,0 +1,19 @@
+{
+  "install.requirements": {
+    "large": {
+      "blocks": [
+        {
+          "blockId": "sba8a",
+          "component": "install.MetaFoxRequirements",
+          "slotName": "main",
+          "title": "Filter Form",
+          "blockLayout": "Admin Form"
+        }
+      ],
+      "templateName": "installer"
+    },
+    "info": {
+      "bundle": "installation"
+    }
+  }
+}

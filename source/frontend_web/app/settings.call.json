@@ -1,0 +1,30 @@
+{
+  "siteUrl": "/",
+  "admincpUrl": "/admincp",
+  "env": {
+    "PUBLIC_URL": "",
+    "MFOX_BASE_URL": "/",
+    "MFOX_SITE_ID": 1,
+    "MFOX_API_URL": "",
+    "MFOX_LOADING_BG": "#2d2d2d"
+  },
+  "build": {
+    "successUrl": "",
+    "failureUrl": ""
+  },
+  "cookie": {
+    "attributes": []
+  },
+  "localStore": {
+    "prefix": "mfox"
+  },
+  "i18n": {
+    "locale": "en",
+    "supports": ["en"]
+  },
+  "packages": {
+    "@metafox/core": "local",
+    "@metafox/chat-ui": "local",
+    "@metafox/chatplus": "local"
+  }
+}

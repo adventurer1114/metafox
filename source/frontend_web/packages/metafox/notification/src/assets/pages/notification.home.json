@@ -1,0 +1,106 @@
+{
+  "notification.home": {
+    "large": {
+      "templateName": "simple",
+      "blocks": [
+        {
+          "component": "notification.block.notificationListingBlock",
+          "slotName": "main",
+          "title": "Notifications",
+          "canLoadMore": true,
+          "gridItemProps": {
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
+          },
+          "blockId": "5733",
+          "itemView": "notification.itemView.mainCard",
+          "contentType": "notification",
+          "dataSource": {
+            "apiUrl": "/notification"
+          },
+          "headerActions": [
+            {
+              "as": "notification.markAllAsRead"
+            },
+            {
+              "as": "notification.editNotificationSetting"
+            }
+          ],
+          "blockLayout": "Large Main Lists",
+          "gridLayout": "Notification - Small Lists",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "noHeader": true,
+            "contentStyle": {
+              "bgColor": "0"
+            },
+            "noBlock": 1,
+            "title": "No Notifications",
+            "image": "ico-bell2-off-o"
+          },
+          "itemLayout": "Notification - Small Lists"
+        }
+      ],
+      "pageName": "notification.home"
+    },
+    "small": {
+      "blocks": [
+        {
+          "component": "core.block.sidebarPrimaryMenu",
+          "slotName": "side",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle1",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": true,
+            "blockStyle": {
+              "pl": 2,
+              "pt": 2,
+              "pr": 2,
+              "pb": 2
+            }
+          },
+          "title": "",
+          "blockId": "j3m7g"
+        },
+        {
+          "component": "core.block.sidebarShortcutMenu",
+          "slotName": "side",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h2",
+            "titleVariant": "subtitle2",
+            "titleColor": "textPrimary",
+            "noFooter": true,
+            "noHeader": false,
+            "blockStyle": {
+              "pl": 2,
+              "pr": 2,
+              "pb": 4
+            },
+            "headerStyle": {
+              "pb": 2
+            }
+          },
+          "title": "shortcuts",
+          "blockId": "rpive"
+        },
+        {
+          "component": "notification.block.notificationListingBlockMobile",
+          "slotName": "main",
+          "blockId": "5733"
+        }
+      ],
+      "pageName": "notification.home",
+      "templateName": "mobile"
+    },
+    "info": {
+      "bundle": "web"
+    }
+  }
+}
