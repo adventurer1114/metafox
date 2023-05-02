@@ -147,10 +147,7 @@ class ViewScope extends BaseScope
         switch ($view) {
             case Browse::VIEW_MY:
                 $builder->where($this->alias($table, 'is_approved'), 1)
-                    ->where(function (Builder $whereQuery) use ($userContext) {
-                        $whereQuery->where('videos.owner_id', '=', $userContext->entityId())
-                            ->orWhere('videos.user_id', '=', $userContext->entityId());
-                    });
+                    ->where('videos.user_id', '=', $userContext->entityId());
                 break;
             case Browse::VIEW_FRIEND:
                 $builder->join('friends AS f', function (JoinClause $join) use ($userContext) {

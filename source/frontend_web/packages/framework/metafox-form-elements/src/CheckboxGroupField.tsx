@@ -63,6 +63,15 @@ const CheckboxGroupField = ({
     setValue(newValues);
   }, [setValue, isSelectAll, optionsFilter]);
 
+  const handleChange = (e, optionValue) => {
+    // field.onChange not working on value type number
+    if (e.target.checked) {
+      setValue([...value, optionValue]);
+    } else {
+      setValue(value.filter(x => x !== optionValue));
+    }
+  };
+
   return (
     <FormControl
       component="fieldset"
@@ -109,8 +118,8 @@ const CheckboxGroupField = ({
                 key={index.toString()}
                 control={
                   <Checkbox
-                    checked={value.includes(String(item.value))}
-                    onChange={field.onChange}
+                    checked={value.includes(item.value)}
+                    onChange={e => handleChange(e, item.value)}
                     name={name}
                     data-testid={camelCase(`input ${name}`)}
                     disabled={

@@ -13,7 +13,7 @@ class SearchUserMobileForm extends AbstractForm
     {
         $this->action('/user')
             ->title(__p('core::phrase.search'))
-            ->acceptPageParams(['q', 'country', 'city', 'gender', 'sort']);
+            ->acceptPageParams(['q', 'country', 'city_code', 'gender', 'sort', 'country_state_id']);
     }
 
     protected function initialize(): void
@@ -31,10 +31,24 @@ class SearchUserMobileForm extends AbstractForm
             Builder::button('filters')
                 ->forBottomSheetForm(),
             Builder::choice('country')
+                ->enableSearch()
                 ->forBottomSheetForm()
                 ->autoSubmit()
                 ->label(__p('localize::country.country'))
                 ->options($activeCountries),
+            Builder::autocomplete('city_code')
+                ->useOptionContext()
+                ->forBottomSheetForm()
+                ->variant('standard-inlined')
+                ->label(__p('localize::country.city'))
+                ->placeholder(__p('localize::country.filter_by_city'))
+                ->showWhen([
+                    'and',
+                    ['truthy', 'country'],
+                ])
+                ->searchEndpoint('/user/city')
+                ->searchParams(['country' => ':country'])
+                ->valueKey('value'),
             Builder::choice('gender')
                 ->forBottomSheetForm()
                 ->autoSubmit()
@@ -52,7 +66,7 @@ class SearchUserMobileForm extends AbstractForm
             Builder::clearSearch()
                 ->label(__p('core::phrase.reset'))
                 ->showWhen(['truthy', 'filters'])
-                ->targets(['country', 'gender', 'sort', 'city']),
+                ->targets(['country', 'gender', 'sort', 'city_code']),
             Builder::choice('country')
                 ->forBottomSheetForm()
                 ->autoSubmit()
@@ -61,6 +75,20 @@ class SearchUserMobileForm extends AbstractForm
                 ->options($activeCountries)
                 ->enableSearch()
                 ->showWhen(['truthy', 'filters']),
+            Builder::autocomplete('city_code')
+                ->useOptionContext()
+                ->forBottomSheetForm()
+                ->variant('standard-inlined')
+                ->label(__p('localize::country.city'))
+                ->placeholder(__p('localize::country.filter_by_city'))
+                ->showWhen([
+                    'and',
+                    ['truthy', 'filters'],
+                    ['truthy', 'country'],
+                ])
+                ->searchEndpoint('/user/city')
+                ->searchParams(['country' => ':country'])
+                ->valueKey('value'),
             Builder::choice('gender')
                 ->forBottomSheetForm()
                 ->autoSubmit()
@@ -74,12 +102,6 @@ class SearchUserMobileForm extends AbstractForm
                 ->label(__p('core::phrase.sort_label'))
                 ->variant('standard-inlined')
                 ->options($this->getSortOptions())
-                ->showWhen(['truthy', 'filters']),
-            Builder::text('city')
-                ->forBottomSheetForm()
-                ->variant('standard-inlined-end')
-                ->label(__p('localize::country.city'))
-                ->placeholder(__p('localize::country.filter_by_city'))
                 ->showWhen(['truthy', 'filters']),
             Builder::submit()
                 ->showWhen(['truthy', 'filters'])

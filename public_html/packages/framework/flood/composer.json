@@ -1,8 +1,8 @@
 {
     "name": "metafox/flood",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Flood Control",
-    "keyword": "phpFox, flood, flood control",
+    "keyword": "",
     "authors": [
         {
             "name": "phpFox",
@@ -12,21 +12,25 @@
     "extra": {
         "metafox": {
             "core": true,
-            "priority": 4,
+            "priority": 100,
             "alias": "flood",
             "asset": "flood",
             "namespace": "MetaFox\\FloodControl",
-            "path": "packages/metafox/flood",
+            "path": "packages/framework/flood",
             "title": "Flood Control",
             "providers": [
                 "MetaFox\\FloodControl\\Providers\\PackageServiceProvider"
             ],
-            "aliases": {
-            },
+            "aliases": null,
             "frontend": {
-                "@metafox/flood": "5.0.1"
+                "@metafox/flood": "*"
             },
-            "internalAdminUrl": "/admincp/flood/permission"
+            "internalAdminUrl": "/admincp/flood/permission",
+            "type": "app",
+            "mobile": [],
+            "store_id": 0,
+            "store_url": null,
+            "internalUrl": ""
         }
     },
     "autoload": {
@@ -34,7 +38,7 @@
             "MetaFox\\FloodControl\\": "src/"
         }
     },
-    "autoload-dev":{
+    "autoload-dev": {
         "psr-4": {
             "MetaFox\\FloodControl\\Tests\\": "tests/"
         }

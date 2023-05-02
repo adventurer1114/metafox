@@ -14,11 +14,11 @@ use MetaFox\Platform\Contracts\User;
 class GetNotificationSettingsByChannelListener
 {
     /**
-     * @param  User              $user
+     * @param  User|null         $user
      * @param  string            $channel
      * @return array<int, mixed>
      */
-    public function handle(User $user, string $channel): array
+    public function handle(?User $user, string $channel): array
     {
         return $this->typeRepository()->getNotificationSettingsByChannel($user, $channel);
     }

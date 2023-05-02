@@ -33,4 +33,5 @@ class ResourcePermission
     public const CAN_ADD_NEW_ADMIN        = 'can_add_new_admin';
     public const CAN_ADD_NEW_MODERATE     = 'can_add_new_moderate';
     public const CAN_JOIN                 = 'can_join';
+    public const CAN_FOLLOW               = 'can_follow';
 }

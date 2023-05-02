@@ -21,7 +21,7 @@ class StoreRequest extends FormRequest
             'name'      => ['required', 'string', 'between:3,255'],
             'parent_id' => ['sometimes', 'numeric', 'exists:group_categories,id'],
             'is_active' => ['sometimes', 'numeric', new AllowInRule([0, 1])],
-            'ordering'  => ['sometimes', 'numeric'],
+            'ordering'  => ['sometimes', 'numeric', 'min:0'],
         ];
     }
 

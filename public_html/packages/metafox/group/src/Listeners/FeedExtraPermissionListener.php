@@ -11,7 +11,7 @@ use MetaFox\Platform\Facades\PolicyGate;
 
 class FeedExtraPermissionListener
 {
-    public function handle(User $context, ?Content $resource): array
+    public function handle(?User $context, ?Content $resource): array
     {
         if (!$resource instanceof Content) {
             return [];

@@ -150,7 +150,7 @@ function* assignFriendList({ payload: { identity } }: ItemLocalAction) {
 
 function* addFriendList(action) {
   const { meta } = action;
-  
+
   try {
     const { dialogBackend } = yield* getGlobalContext();
 
@@ -180,13 +180,23 @@ function* addFriendList(action) {
   }
 }
 
+function* deleteFriendListDone({ payload }) {
+  const { navigate, getPageParams } = yield* getGlobalContext();
+  const { list_id } = getPageParams();
+
+  if (list_id?.toString() === payload?.id.toString()) {
+    navigate('/friend', { replace: true });
+  }
+}
+
 const sagas = [
   takeEvery('friend_list/editList', editList),
   takeEvery('friend_list/editItem', editItem),
   takeEvery('friend_list/addFriend', addFriend),
   takeEvery('friend/addNewList', addFriendList),
   takeEvery('friend/assignFriendList', assignFriendList),
-  takeEvery('friend/friend_list/deleteItem/SUCCESS', reloadFriendList)
+  takeEvery('friend/friend_list/deleteItem/SUCCESS', reloadFriendList),
+  takeEvery('friend/friend_list/deleteItem/DONE', deleteFriendListDone)
 ];
 
 export default sagas;

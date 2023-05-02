@@ -1,21 +1,30 @@
-/* eslint-disable no-prototype-builtins */
 import { Link, useGlobal } from '@metafox/framework';
 import HtmlViewer from '@metafox/html-viewer';
-import {
-  MEMBERSHIP,
-  MEMBERSHIP_CONFIRM_AWAIT,
-  NOT_MEMBERSHIP
-} from '@metafox/group/constant';
+import { APP_GROUP, RESOURCE_GROUP } from '@metafox/group/constant';
 import {
   ButtonList,
   ItemActionMenu,
   LineIcon,
   TruncateText
 } from '@metafox/ui';
-import { getImageSrc } from '@metafox/utils';
-import { Button, Paper, Popper } from '@mui/material';
+import { filterShowWhen, getImageSrc, withDisabledWhen } from '@metafox/utils';
+import { IconButton, Paper, Popper, styled, Typography } from '@mui/material';
 import * as React from 'react';
 import useStyles from './ProfilePopup.styles';
+
+const IconButtonWrapper = styled(IconButton, { slot: 'IconButtonWrapper' })(
+  ({ theme }) => ({
+    width: '100%',
+    '& p': {
+      marginLeft: theme.spacing(1)
+    }
+  })
+);
+
+const TypographyStyled = styled(Typography)(({ theme }) => ({
+  fontSize: theme.mixins.pxToRem(15),
+  fontWeight: '600'
+}));
 
 export default function ProfilePopup({
   item,
@@ -25,11 +34,29 @@ export default function ProfilePopup({
   identity,
   open,
   loaded,
-  anchorEl
+  anchorEl,
+  user
 }) {
-  const { i18n, useSession, popoverBackend, assetUrl } = useGlobal();
-  const { loggedIn } = useSession();
+  const {
+    i18n,
+    useSession,
+    popoverBackend,
+    assetUrl,
+    getSetting,
+    getAcl,
+    useResourceMenu
+  } = useGlobal();
+  const { loggedIn, user: authUser } = useSession();
   const classes = useStyles();
+
+  const acl = getAcl();
+  const setting = getSetting();
+
+  const itemMenu: any = useResourceMenu(
+    APP_GROUP,
+    RESOURCE_GROUP,
+    'profilePopoverMenu'
+  );
 
   if (!loaded || !loggedIn || !item) return null;
 
@@ -40,6 +67,20 @@ export default function ProfilePopup({
     assetUrl('group.cover_no_image')
   );
   const total_member = item.statistic?.total_member || 0;
+
+  const condition = {
+    item,
+    acl,
+    setting,
+    isAuth: authUser?.id === user?.id
+  };
+
+  const actionMenuItems = withDisabledWhen(
+    filterShowWhen(itemMenu.items, condition),
+    condition
+  );
+
+  const reactButton: any = actionMenuItems.splice(0, 1)[0];
 
   return (
     <Popper
@@ -79,49 +120,30 @@ export default function ProfilePopup({
           {loggedIn ? (
             <div className={classes.buttonWrapper}>
               <ButtonList variant="fillFirst">
-                {item.membership === NOT_MEMBERSHIP && (
-                  <Button
-                    variant="contained"
+                {reactButton && (
+                  <IconButtonWrapper
                     size="medium"
-                    startIcon={<LineIcon icon={' ico-user-man-three-o'} />}
                     color="primary"
-                    onClick={actions.joinGroup}
+                    variant="outlined-square"
+                    disabled={reactButton?.disabled}
+                    onClick={() => handleAction(reactButton.value)}
+                    className={reactButton.name}
                   >
-                    {i18n.formatMessage({ id: 'join_group' })}
-                  </Button>
-                )}
-                {item.membership === MEMBERSHIP_CONFIRM_AWAIT && (
-                  <Button
-                    disabled
-                    variant="contained"
-                    size="medium"
-                    startIcon={<LineIcon icon={'ico-clock-o'} />}
-                    color="primary"
-                  >
-                    {i18n.formatMessage({ id: 'request_sent' })}
-                  </Button>
-                )}
-                {item.membership === MEMBERSHIP && (
-                  <Button
-                    disabled
-                    variant="contained"
-                    size="medium"
-                    startIcon={<LineIcon icon={'ico-check'} />}
-                    color="primary"
-                  >
-                    {i18n.formatMessage({ id: 'joined' })}
-                  </Button>
+                    <LineIcon icon={reactButton?.icon} />
+                    <TypographyStyled variant="body1">
+                      {i18n.formatMessage({ id: reactButton.label })}
+                    </TypographyStyled>
+                  </IconButtonWrapper>
                 )}
                 <ItemActionMenu
                   identity={identity}
-                  state={state}
+                  items={actionMenuItems}
                   handleAction={handleAction}
                   size="medium"
                   variant="outlined-square"
                   color="primary"
                   icon="ico-dottedmore-o"
                   tooltipTitle={i18n.formatMessage({ id: 'more_options' })}
-                  menuName="profilePopoverMenu"
                   zIndex={1300}
                 />
               </ButtonList>

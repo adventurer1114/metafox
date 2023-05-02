@@ -39,7 +39,7 @@ class $NAME$Policy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {

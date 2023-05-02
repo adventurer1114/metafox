@@ -47,7 +47,7 @@ class FileAdminController extends ApiController
 
         $todate = function ($filename) {
             $date = preg_replace('/(.*)backup-(.+)\.zip/m', '$2 ', $filename);
-            $arr = explode('-', $date);
+            $arr  = explode('-', $date);
 
             return Carbon::createFromTime($arr[3], $arr[4], $arr[5], $arr[1], $arr[2], $arr[0]);
         };
@@ -78,6 +78,10 @@ class FileAdminController extends ApiController
 
         $filename = base64_decode($id);
 
+        if (!$disk->exists($filename)) {
+            abort(404, 'File not found');
+        }
+
         return $disk->download($filename);
     }
 
@@ -106,7 +110,7 @@ class FileAdminController extends ApiController
     /**
      * Delete item.
      *
-     * @param  string  $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -114,7 +118,11 @@ class FileAdminController extends ApiController
     {
         $disk = app('storage')->disk('backup');
 
-        $disk->delete(base64_decode($id));
+        $filename = base64_decode($id);
+
+        if ($disk->exists($filename)) {
+            $disk->delete($filename);
+        }
 
         return $this->success([
             'id' => $id,
@@ -133,11 +141,11 @@ class FileAdminController extends ApiController
 
         $lines = [];
 
-        $lines[] = 'Backup Database '.DB::getDatabaseName();
+        $lines[] = 'Backup Database ' . DB::getDatabaseName();
 
         $lines[] = 'Backup Files';
         foreach (Arr::get($config, 'backup.source.files.include', []) as $path) {
-            $lines[] = './'.substr($path, strlen(base_path()) + 1);
+            $lines[] = './' . substr($path, strlen(base_path()) + 1);
         }
 
         return $this->success([
@@ -155,7 +163,7 @@ class FileAdminController extends ApiController
                 'title'     => 'Backup Contents',
                 'component' => 'ui.step.info',
                 'props'     => [
-                    'html'        => view('backup::wizard.info', [
+                    'html' => view('backup::wizard.info', [
                         'dbName'     => DB::getDatabaseName(),
                         'dbDriver'   => DB::getDriverName(),
                         'dbVersion'  => DbTableHelper::getDriverVersion(),
@@ -196,8 +204,8 @@ class FileAdminController extends ApiController
             'title'     => 'Backup Wizard',
             'component' => 'ui.step.steppers',
             //            'description'=> __p('backup::phrase.backup_wizard_guide'),
-            'props'     => [
-                'steps' => $steps
+            'props' => [
+                'steps' => $steps,
             ],
         ]);
     }

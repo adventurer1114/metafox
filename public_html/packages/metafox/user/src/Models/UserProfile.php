@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Arr;
 use MetaFox\Core\Support\Facades\Currency;
 use MetaFox\Core\Support\Facades\Language;
@@ -14,51 +15,54 @@ use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasAvatarMorph;
 use MetaFox\Platform\Contracts\HasCoverMorph;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Traits\Eloquent\Model\HasAvatarMorphTrait;
 use MetaFox\Platform\Traits\Eloquent\Model\HasCoverMorphTrait;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
-use MetaFox\User\Support\Facades\User as UserFacade;
 use MetaFox\User\Models\User as UserModel;
+use MetaFox\User\Support\Facades\User as UserFacade;
 
 /**
  * Class UserProfile.
  *
- * @property int         $id,
- * @property string      $phone_number
- * @property string      $full_phone_number
- * @property int         $gender_id
- * @property ?UserGender $gender
- * @property string|null $birthday
- * @property int|null    $birthday_doy
- * @property string|null $birthday_search
- * @property string      $country_iso
- * @property string      $country_state_id
- * @property string      $country_city_code
- * @property string      $city_location
- * @property string      $postal_code
- * @property string      $language_id
- * @property int         $style_id
- * @property int         $timezone_id
- * @property string      $currency_id
- * @property int         $dst_check
- * @property string      $server_id
- * @property int         $hide_tip
- * @property string      $status
- * @property int         $footer_bar
- * @property int         $invite_user_id
- * @property int         $im_beep
- * @property int         $im_hide
- * @property int         $total_spam
- * @property User        $user
- * @property User        $invite_user
- * @property int         $previous_relation_type
- * @property int         $previous_relation_with
- * @property int         $relation
- * @property int         $relation_with
- * @property string      $cover_photo_position
- * @property string      $possessive_gender
- * @property string      $address
+ * @property int          $id,
+ * @property string       $phone_number
+ * @property string       $full_phone_number
+ * @property int          $gender_id
+ * @property ?UserGender  $gender
+ * @property string|null  $birthday
+ * @property int|null     $birthday_doy
+ * @property string|null  $birthday_search
+ * @property string       $country_iso
+ * @property string       $country_state_id
+ * @property string       $country_city_code
+ * @property string       $city_location
+ * @property string       $postal_code
+ * @property string       $language_id
+ * @property int          $style_id
+ * @property int          $timezone_id
+ * @property string       $currency_id
+ * @property int          $dst_check
+ * @property string       $server_id
+ * @property int          $hide_tip
+ * @property string       $status
+ * @property int          $footer_bar
+ * @property int          $invite_user_id
+ * @property int          $im_beep
+ * @property int          $im_hide
+ * @property int          $total_spam
+ * @property User         $user
+ * @property User         $invite_user
+ * @property int          $previous_relation_type
+ * @property int          $previous_relation_with
+ * @property int          $relation
+ * @property int          $relation_with
+ * @property string       $cover_photo_position
+ * @property string       $possessive_gender
+ * @property string|null  $relationship_text
+ * @property string       $address
+ * @property UserRelation $relationship
  * @mixin  Builder
  */
 class UserProfile extends Model implements Entity, HasAvatarMorph, HasCoverMorph
@@ -227,6 +231,11 @@ class UserProfile extends Model implements Entity, HasAvatarMorph, HasCoverMorph
         return $this->belongsTo(UserModel::class, 'relation_with', 'id')->withTrashed();
     }
 
+    public function relationship(): HasOne
+    {
+        return $this->hasOne(UserRelation::class, 'id', 'relation');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'id', 'id')->withTrashed();
@@ -274,5 +283,21 @@ class UserProfile extends Model implements Entity, HasAvatarMorph, HasCoverMorph
     protected function getCurrencyIdAttribute(): string
     {
         return Arr::get($this->attributes, 'currency_id') ?? Currency::getDefaultCurrencyId();
+    }
+
+    protected function getRelationshipTextAttribute(): ?string
+    {
+        $enableRelationship = Settings::get('user.enable_relationship_status', false);
+
+        if (!$enableRelationship) {
+            return null;
+        }
+
+        $phraseVar = $this?->relationship?->phrase_var;
+        if ($phraseVar == null) {
+            return null;
+        }
+
+        return __p($phraseVar);
     }
 }

@@ -7,6 +7,8 @@
 
 namespace MetaFox\Friend\Http\Resources\v1\Friend;
 
+use MetaFox\Friend\Support\Browse\Scopes\Friend\SortScope;
+use MetaFox\Friend\Support\Browse\Scopes\Friend\WhenScope;
 use MetaFox\Platform\Resource\MobileSetting as Setting;
 
 /**
@@ -29,14 +31,30 @@ class MobileSetting extends Setting
         $this->add('searchItem')
             ->apiUrl('friend')
             ->apiParams([
-                'q' => ':q',
+                'q'    => ':q',
+                'sort' => ':sort',
+                'when' => ':when',
+            ])
+            ->apiRules([
+                'q'    => ['truthy', 'q'],
+                'sort' => [
+                    'includes', 'sort', SortScope::getAllowSort(),
+                ],
+                'when' => ['includes', 'when', WhenScope::getAllowWhen()],
             ])
             ->placeholder(__p('friend::phrase.search_friends'));
 
         $this->add('viewAll')
             ->apiUrl('friend')
             ->pageUrl('friend')
-            ->apiRules(['q' => ['truthy', 'q'], 'list_id' => ['truthy', 'list_id']]);
+            ->apiRules([
+                'q'       => ['truthy', 'q'],
+                'list_id' => ['truthy', 'list_id'],
+                'sort'    => [
+                    'includes', 'sort', SortScope::getAllowSort(),
+                ],
+                'when' => ['includes', 'when', WhenScope::getAllowWhen()],
+            ]);
 
         $this->add('suggestItem')
             ->apiUrl('friend/suggestion');
@@ -65,5 +83,7 @@ class MobileSetting extends Setting
         $this->add('viewFriendsByList')
             ->apiUrl('friend')
             ->apiParams(['list_id' => ':list_id']);
+
+        $this->add('shareOnFriendProfile');
     }
 }

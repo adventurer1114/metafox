@@ -153,6 +153,10 @@ class FeedPolicy implements
             if (!PrivacyPolicy::checkPermission($user, $item)) {
                 return false;
             }
+
+            if (!PrivacyPolicy::checkPermission($user, $resource)) {
+                return false;
+            }
         }
 
         // Check setting view on resource.
@@ -160,8 +164,11 @@ class FeedPolicy implements
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -197,12 +204,12 @@ class FeedPolicy implements
             return false;
         }
 
-        if ($user->hasPermissionTo('feed.moderate')) {
-            return true;
-        }
-
         if (!$this->getTypeManager()->hasFeature($resource->type_id, Type::CAN_EDIT_TYPE)) {
             return false;
+        }
+
+        if ($user->hasPermissionTo('feed.moderate')) {
+            return true;
         }
 
         if (!$user->hasPermissionTo('feed.update')) {
@@ -421,6 +428,10 @@ class FeedPolicy implements
             return true;
         }
 
+        if (!$user->can('view', [$item, $item])) {
+            return false;
+        }
+
         return $this->checkCreateOnOwner($user, $resourceOwner);
     }
 
@@ -556,7 +567,7 @@ class FeedPolicy implements
 
     public function purchaseSponsor(User $user, ?Content $resource = null): bool
     {
-//        return $user->hasPermissionTo('feed.can_purchase_sponsor');
+        //        return $user->hasPermissionTo('feed.can_purchase_sponsor');
 
         return false;
     }
@@ -600,7 +611,15 @@ class FeedPolicy implements
 
     public function viewContent(User $user, User $owner, string $status, bool $isYour = false): bool
     {
-        return $user->can('viewFeedContent', [$owner, $owner, $status, $isYour]);
+        $className = get_class($owner);
+
+        $policy = PolicyGate::getPolicyFor($className);
+
+        if (method_exists($policy, 'viewFeedContent')) {
+            return $policy->viewFeedContent($user, $owner, $status, $isYour);
+        }
+
+        return true;
     }
 
     public function archive(User $user, Feed $resource): bool
@@ -628,10 +647,6 @@ class FeedPolicy implements
 
         if ($resource->userId() == $user->entityId()) {
             return false;
-        }
-
-        if ($user->hasPermissionTo('feed.moderate')) {
-            return true;
         }
 
         return $owner->hasRemoveFeed($user, $resource);
@@ -686,5 +701,32 @@ class FeedPolicy implements
         }
 
         return $this->update($context, $resource);
+    }
+
+    public function pinItem(User $context, Content $resource): bool
+    {
+        if (!$context->hasPermissionTo('feed.pin')) {
+            return false;
+        }
+
+        if (null === $resource->owner) {
+            return false;
+        }
+
+        $owner = $resource->owner;
+
+        if (!$owner instanceof HasPrivacyMember) {
+            return $context->entityId() == $owner->entityId();
+        }
+
+        if ($context->hasPermissionTo(sprintf('%s.moderate', $owner->entityType()))) {
+            return true;
+        }
+
+        if ($owner->isAdmin($context)) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -71,6 +71,13 @@ return [
         'title'      => 'Events',
     ],
     [
+        'driver'     => 'MetaFox\\Event\\Models\\InviteCode',
+        'type'       => 'entity',
+        'name'       => 'event_invite_code',
+        'is_active'  => true,
+        'is_preload' => false,
+    ],
+    [
         'driver'     => 'MetaFox\\Event\\Models\\Event',
         'type'       => 'entity-user',
         'name'       => 'event',
@@ -101,6 +108,15 @@ return [
         'name'       => 'event.event_category.update',
         'version'    => 'v1',
         'resolution' => 'admin',
+        'is_active'  => true,
+        'is_preload' => false,
+    ],
+    [
+        'driver'     => 'MetaFox\\Event\\Http\\Resources\\v1\\InviteCode\\GenerateInviteForm',
+        'type'       => 'form',
+        'name'       => 'event.event_code.generated',
+        'version'    => 'v1',
+        'resolution' => 'web',
         'is_active'  => true,
         'is_preload' => false,
     ],
@@ -213,7 +229,7 @@ return [
         'is_preload' => false,
     ],
     [
-        'driver'     => 'MetaFox\\Event\\Http\\Resources\\v1\\Event\\CreateEventForm',
+        'driver'     => 'MetaFox\\Event\\Http\\Resources\\v1\\Event\\StoreEventForm',
         'type'       => 'form',
         'name'       => 'event.store',
         'version'    => 'v1',
@@ -222,7 +238,7 @@ return [
         'is_preload' => false,
     ],
     [
-        'driver'     => 'MetaFox\\Event\\Http\\Resources\\v1\\Event\\EditEventForm',
+        'driver'     => 'MetaFox\\Event\\Http\\Resources\\v1\\Event\\UpdateEventForm',
         'type'       => 'form',
         'name'       => 'event.update',
         'version'    => 'v1',

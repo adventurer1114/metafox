@@ -19,7 +19,7 @@ class StoreRequest extends FormRequest
         $rules = [
             'thread_id' => ['required', 'numeric', 'exists:forum_threads,id'],
             'owner_id'  => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id')],
-            'text'      => ['required', 'string', new ResourceTextRule()],
+            'text'      => ['required', 'string', new ResourceTextRule(true)],
         ];
 
         $rules = $this->applyAttachmentRules($rules);

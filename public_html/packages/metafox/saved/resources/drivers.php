@@ -26,6 +26,14 @@ return [
         'title'      => 'Saved Lists',
     ],
     [
+        'driver'     => 'MetaFox\\Saved\\Models\\SavedListData',
+        'type'       => 'entity',
+        'name'       => 'saved_list_data',
+        'is_active'  => true,
+        'is_preload' => false,
+        'title'      => 'Saved List Data',
+    ],
+    [
         'driver'     => 'MetaFox\\Saved\\Models\\SavedSearchItem',
         'type'       => 'entity',
         'name'       => 'saved_search_item',
@@ -35,7 +43,7 @@ return [
     [
         'driver'     => 'MetaFox\\Saved\\Models\\SavedListMember',
         'type'       => 'entity',
-        'name'       => 'save_list_member',
+        'name'       => 'saved_list_member',
         'is_active'  => true,
         'is_preload' => false,
     ],

@@ -25,4 +25,10 @@ interface CategoryRepositoryInterface
      * @return void
      */
     public function moveToNewCategory(Category $category, int $newCategoryId, bool $isDelete = false): void;
+
+    /**
+     * @param  Category $category
+     * @return void
+     */
+    public function deleteCategory(Category $category): void;
 }

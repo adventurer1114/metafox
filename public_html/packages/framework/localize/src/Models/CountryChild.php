@@ -17,18 +17,19 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
  *
  * @mixin Builder
  *
- * @property int                      $id
- * @property string                   $country_iso
- * @property string                   $state_iso
- * @property int                      $state_code
- * @property int                      $geonames_code
- * @property string                   $fips_code
- * @property string                   $post_codes
- * @property string                   $name
- * @property string                   $timezone
- * @property int                      $ordering
- * @property Country                  $country
- * @property Collection|CountryCity[] $cities
+ * @property        int                      $id
+ * @property        string                   $country_iso
+ * @property        string                   $state_iso
+ * @property        int                      $state_code
+ * @property        int                      $geonames_code
+ * @property        string                   $fips_code
+ * @property        string                   $post_codes
+ * @property        string                   $name
+ * @property        string                   $timezone
+ * @property        int                      $ordering
+ * @property        Country                  $country
+ * @property        Collection|CountryCity[] $cities
+ * @method   static CountryChildFactory      factory($count = null, $state = [])
  */
 class CountryChild extends Model implements Entity
 {

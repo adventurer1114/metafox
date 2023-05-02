@@ -15,7 +15,7 @@ export default createBlock<ListViewBlockProps>({
   defaults: {
     title: 'member_reported_content',
     itemView: 'group.itemView.reportedPost',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - ReportedPost - Main Card',
     itemLayout: 'Group - ReportedPost - Main Card'
   }

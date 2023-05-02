@@ -14,6 +14,7 @@ use MetaFox\Group\Repositories\QuestionRepositoryInterface;
 use MetaFox\Menu\Repositories\MenuItemRepositoryInterface;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Contracts\User as ContractUser;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxPrivacy;
 
@@ -28,11 +29,10 @@ class Support implements SupportContract
     public const SHARED_TYPE = 'group';
 
     public function __construct(
-        GroupRepositoryInterface    $groupRepository,
+        GroupRepositoryInterface $groupRepository,
         QuestionRepositoryInterface $questionRepository
-    )
-    {
-        $this->groupRepository = $groupRepository;
+    ) {
+        $this->groupRepository    = $groupRepository;
         $this->questionRepository = $questionRepository;
     }
 
@@ -58,12 +58,12 @@ class Support implements SupportContract
 
     public function getMaximumMembershipQuestion(): int
     {
-        return (int)Settings::get('group.maximum_membership_question', 3);
+        return (int) Settings::get('group.maximum_membership_question', 3);
     }
 
     public function getMaximumNumberMembershipQuestionOption(): int
     {
-        return (int)Settings::get('group.maximum_membership_question_option', 5);
+        return (int) Settings::get('group.maximum_membership_question_option', 5);
     }
 
     /**
@@ -112,7 +112,7 @@ class Support implements SupportContract
     /**
      * getDefaultListTypes.
      *
-     * @param string $resourceName
+     * @param  string       $resourceName
      * @return array<mixed>
      */
     protected function getDefaultListTypes(string $resourceName): array
@@ -217,6 +217,18 @@ class Support implements SupportContract
      */
     public function getMaximumNumberGroupRule(): int
     {
-        return (int)Settings::get('group.maximum_number_group_rule', 3);
+        return (int) Settings::get('group.maximum_number_group_rule', 3);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isFollowing(ContractUser $context, ContractUser $user): bool
+    {
+        if (!app('events')->dispatch('follow.is_follow', [$context, $user], true)) {
+            return false;
+        }
+
+        return true;
     }
 }

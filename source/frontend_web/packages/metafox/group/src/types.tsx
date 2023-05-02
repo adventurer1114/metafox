@@ -107,3 +107,9 @@ export type AppState = {
     group: AppResource;
   };
 };
+
+export enum TypeQuestion {
+  FreeAnswer,
+  Select,
+  CheckBox
+}

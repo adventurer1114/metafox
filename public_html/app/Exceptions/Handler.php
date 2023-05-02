@@ -4,11 +4,17 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Reflector;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Traits\Fox4JsonResponse;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -59,6 +65,14 @@ class Handler extends ExceptionHandler
         //        });
     }
 
+    protected function exceptionContext(Throwable $e)
+    {
+        $context             = parent::exceptionContext($e);
+        $context['Trace-ID'] = sprintf('%s', spl_object_id($e));
+
+        return $context;
+    }
+
     public function render($request, Throwable $e)
     {
         // Handle abort(code, message) for api response.
@@ -70,12 +84,12 @@ class Handler extends ExceptionHandler
             return $this->error($e->getMessage(), $e->getStatusCode());
         }
 
-        if ($e instanceof AuthorizationException) {
-            return $this->error(__p('core::phrase.content_is_not_available'), 403);
-        }
-
         if ($e instanceof Jsonable) {
             return $this->error($e->toJson(), 403);
+        }
+
+        if ($e instanceof AuthorizationException) {
+            return $this->error(__p('core::phrase.content_is_not_available'), 403);
         }
 
         if ($e instanceof ModelNotFoundException) {
@@ -92,6 +106,33 @@ class Handler extends ExceptionHandler
             }
         }
 
+        if ($e instanceof Responsable) {
+            return $e->toResponse($request);
+        }
+
         return parent::render($request, $e);
+    }
+
+    /**
+     * Convert the given exception to an array.
+     *
+     * @param  \Throwable $e
+     * @return array
+     */
+    protected function convertExceptionToArray(Throwable $e)
+    {
+        $debugTraceId = sprintf('%s', spl_object_id($e));
+
+        return config('app.debug') ? [
+            'message'      => $e->getMessage(),
+            'exception'    => get_class($e),
+            'file'         => $e->getFile(),
+            'line'         => $e->getLine(),
+            'trace'        => collect($e->getTrace())->map(fn ($trace) => Arr::except($trace, ['args']))->all(),
+            'debugTraceId' => $debugTraceId,
+        ] : [
+            'message'      => $this->isHttpException($e) ? $e->getMessage() : 'Oops, Something went wrong',
+            'debugTraceId' => $debugTraceId,
+        ];
     }
 }

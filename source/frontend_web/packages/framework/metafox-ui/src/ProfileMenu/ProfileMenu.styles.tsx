@@ -7,7 +7,9 @@ const useStyles = makeStyles(
       root: {
         minHeight: 40,
         overflow: 'hidden',
-        position: 'relative'
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center'
       },
       mobileRoot: {
         minHeight: 40,

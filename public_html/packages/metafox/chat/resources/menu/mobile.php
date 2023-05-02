@@ -9,7 +9,6 @@ return [
         'label'    => 'core::phrase.delete',
         'ordering' => 1,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
         'style'    => 'danger',
     ],
     [
@@ -19,7 +18,6 @@ return [
         'label'    => 'core::phrase.delete',
         'ordering' => 1,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
         'style'    => 'danger',
     ],
     [

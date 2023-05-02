@@ -59,4 +59,9 @@ interface TypeRepositoryInterface
      * @return bool
      */
     public function hasPermissionToSendMail(IsNotifiable $context, string $notificationType): bool;
+
+    /**
+     * @return array
+     */
+    public function getAllNotificationType(): array;
 }

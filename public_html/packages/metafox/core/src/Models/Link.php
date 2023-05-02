@@ -27,14 +27,14 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 /**
  * Class Link.
  *
- * @property int    $id
- * @property string $title
- * @property string $link
- * @property string $host
- * @property string $image
- * @property string $description
- * @property string $feed_content
- * @property bool   $has_embed
+ * @property        int         $id
+ * @property        string      $title
+ * @property        string      $link
+ * @property        string      $host
+ * @property        string      $image
+ * @property        string      $description
+ * @property        string      $feed_content
+ * @property        bool        $has_embed
  * @method   static LinkFactory factory(...$parameters)
  */
 class Link extends Model implements
@@ -86,13 +86,15 @@ class Link extends Model implements
         'location_longitude',
         'location_name',
         'is_approved',
+        'is_preview_hidden',
     ];
 
     /**
      * @var array<string, string>
      */
     protected $casts = [
-        'has_embed' => 'boolean',
+        'has_embed'         => 'boolean',
+        'is_preview_hidden' => 'boolean',
     ];
 
     /**
@@ -137,6 +139,8 @@ class Link extends Model implements
             'total_photo'    => $this->image ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
@@ -160,7 +164,7 @@ class Link extends Model implements
     {
         $feed = $this->activity_feed;
 
-        if ($feed?->entityType()=== 'feed') {
+        if ($feed?->entityType() === 'feed') {
             return url_utility()->makeApiResourceUrl($feed->entityType(), $feed->entityId());
         }
 
@@ -171,7 +175,7 @@ class Link extends Model implements
     {
         $feed = $this->activity_feed;
 
-        if ($feed?->entityType()=== 'feed') {
+        if ($feed?->entityType() === 'feed') {
             return url_utility()->makeApiResourceUrl($feed->entityType(), $feed->entityId());
         }
 

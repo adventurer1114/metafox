@@ -22,7 +22,8 @@ export default createBlock<Props>({
 
   defaults: {
     variant: 'default',
-    title: 'Status Composer'
+    title: 'Status Composer',
+    blockLayout: 'Status Composer'
   },
   custom: {
     variant: {

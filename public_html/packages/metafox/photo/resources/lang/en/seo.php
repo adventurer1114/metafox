@@ -48,7 +48,7 @@ return [
     'photo_browse_my_pending_description' => '',
     'photo_browse_my_pending_heading'     => '',
     'photo_browse_my_pending_keywords'    => '',
-    'photo_browse_my_pending_title'       => '',
+    'photo_browse_my_pending_title'       => 'My Pending Photos',
     'photo_browse_my_title'               => 'My Photos',
     'photo_browse_pending_description'    => '',
     'photo_browse_pending_heading'        => '',

@@ -15,6 +15,7 @@ export default createBlock<Props>({
     blockProps: {
       blockStyle: {
         sx: {
+          mt: 2,
           mr: 0,
           ml: 0,
           mb: 0

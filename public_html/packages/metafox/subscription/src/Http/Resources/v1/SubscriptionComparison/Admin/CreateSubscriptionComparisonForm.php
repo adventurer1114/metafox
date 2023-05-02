@@ -122,11 +122,11 @@ class CreateSubscriptionComparisonForm extends AbstractForm
                                                 ->maxLength(Helper::MAX_LENGTH_FOR_COMPARISON_TEXT)
                                                 ->setError(
                                                     'typeError',
-                                                    __p('subscription::validation.content_is_required')
+                                                    __p('subscription::validation.content_is_a_required_field')
                                                 )
                                                 ->setError(
                                                     'required',
-                                                    __p('subscription::validation.content_is_required')
+                                                    __p('subscription::validation.content_is_a_required_field')
                                                 )
                                         )
                                 )

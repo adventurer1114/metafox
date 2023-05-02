@@ -80,6 +80,9 @@ const useStyles = makeStyles(
         alignItems: 'flex-start',
         paddingRight: theme.spacing(2)
       },
+      dialogActions: {
+        marginTop: '0 !important'
+      },
       composer: {
         paddingTop: theme.spacing(1),
         flexGrow: 1,
@@ -92,7 +95,10 @@ const useStyles = makeStyles(
         wordWrap: 'break-word',
         '& .public-DraftEditorPlaceholder-root': {
           position: 'absolute',
-          color: theme.palette.text.secondary
+          color: theme.palette.text.secondary,
+          '.withBackgroundStatus &': {
+            color: '#fff'
+          }
         },
         '& .DraftEditor-alignCenter': {
           position: 'absolute',
@@ -150,9 +156,9 @@ const useStyles = makeStyles(
         position: 'fixed',
         zIndex: 1,
         '& .mentionSuggestionsWrapper': {
+          minWidth: '300px',
           position: 'absolute',
           zIndex: 1,
-          minWidth: 180,
           backgroundColor: theme.mixins.backgroundColor('paper'),
           borderRadius: 4,
           padding: theme.spacing(1),

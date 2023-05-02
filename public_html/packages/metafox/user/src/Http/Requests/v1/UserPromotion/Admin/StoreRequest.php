@@ -27,9 +27,6 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'page'  => ['sometimes', 'numeric', 'min:1'],
-            'limit' => ['sometimes', 'numeric', 'min:10'],
-        ];
+        return [];
     }
 }

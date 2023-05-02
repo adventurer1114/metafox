@@ -23,6 +23,7 @@ class Constants
     public const HIDDEN              = 'Hidden';
     public const PRIVACY             = 'Privacy';
     public const LOCATION            = 'Location';
+    public const MULTIPLE_LOCATION   = 'MultipleLocation';
     public const RELATIONSHIP_PICKER = 'RelationshipPicker';
     public const RICH_TEXT_EDITOR    = 'Editor';
     public const FRIEND_PICKER       = 'FriendPicker';
@@ -43,12 +44,16 @@ class Constants
     public const AUTH_QR_CODE        = 'AuthenticatorQrCode';
     public const NUMBER_CODE         = 'NumberCode';
 
-    public const MIN_DATE     = '1900-1-1';
-    public const MAX_DATE     = '2017-12-31';
-    public const CONTAINER    = 'Container';
-    public const SWITCH_FIELD = 'Switch';
-    public const TEXT_AREA    = 'Textarea';
-    public const DESCRIPTION  = 'Description';
+    public const MIN_DATE         = '1900-1-1';
+    public const MAX_DATE         = '2017-12-31';
+    public const CONTAINER        = 'Container';
+    public const SWITCH_FIELD     = 'Switch';
+    public const TEXT_AREA        = 'Textarea';
+    public const COMPOSER_INPUT   = 'ComposerInput';
+    public const MUX_PLAYER       = 'MuxPlayer';
+
+    public const COPY_TEXT       = 'CopyText';
+    public const DESCRIPTION      = 'Description';
 
     public const ACTION_ADMINCP_BATCH_ITEM       = '@admin/batchItem';
     public const ACTION_BATCH_ACTIVE             = 'row/batchActive';
@@ -90,11 +95,12 @@ class Constants
     public const FILTER_CATEGORY                 = 'FilterCategory';
     public const SIMPLE_CATEGORY                 = 'SimpleCategory';
 
-    public const COMPONENT_TEXTAREA      = 'Textarea';
-    public const COMPONENT_TEXT          = 'Text';
-    public const COMPONENT_TYPE_CATEGORY = 'TypeCategory';
-    public const COMPONENT_SELECT        = 'Select';
-    public const COMPONENT_TYPOGRAPHY    = 'Typo';
+    public const COMPONENT_TEXTAREA              = 'Textarea';
+    public const COMPONENT_TEXT                  = 'Text';
+    public const COMPONENT_TYPE_CATEGORY         = 'TypeCategory';
+    public const COMPONENT_SELECT                = 'Select';
+    public const COMPONENT_TYPOGRAPHY            = 'Typo';
+    public const COMPONENT_DYNAMIC_TYPOGRAPHY    = 'DynamicTypo';
 
     public const COMPONENT_CLICKABLE    = 'Clickable';
     public const COMPONENT_PRICE        = 'Price';

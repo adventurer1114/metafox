@@ -51,4 +51,11 @@ interface MenuRepositoryInterface
      * @return array<mixed>
      */
     public function getByPackage(string $packageName): array;
+
+    /**
+     * @param  string $menuName
+     * @param  string $resolution
+     * @return bool
+     */
+    public function isExists(string $menuName, string $resolution): bool;
 }

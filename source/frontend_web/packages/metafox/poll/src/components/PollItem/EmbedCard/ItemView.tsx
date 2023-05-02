@@ -30,14 +30,16 @@ export default function EmbedPollInFeedItemView({ item, identity, answers }) {
         <TruncateText variant={'h4'} lines={2} className={classes.title}>
           <Link to={`/poll/${item?.id}`} children={question} />
         </TruncateText>
-        <TruncateText
-          variant={'body1'}
-          lines={3}
-          color="textSecondary"
-          className={classes.description}
-        >
-          <div dangerouslySetInnerHTML={{ __html: description }} />
-        </TruncateText>
+        {description ? (
+          <TruncateText
+            variant={'body1'}
+            lines={3}
+            color="textSecondary"
+            className={classes.description}
+          >
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </TruncateText>
+        ) : null}
         <PollVoteForm
           isVoted={is_user_voted}
           pollId={id}

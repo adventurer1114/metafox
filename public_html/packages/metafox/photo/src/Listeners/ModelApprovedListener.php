@@ -3,8 +3,8 @@
 namespace MetaFox\Photo\Listeners;
 
 use Illuminate\Database\Eloquent\Model;
-use MetaFox\Platform\Contracts\Media;
 use MetaFox\Photo\Repositories\PhotoGroupRepositoryInterface;
+use MetaFox\Platform\Contracts\Media;
 
 class ModelApprovedListener
 {
@@ -34,6 +34,11 @@ class ModelApprovedListener
             return;
         }
 
-        resolve(PhotoGroupRepositoryInterface::class)->updateApprovedStatus($model->group_id);
+        $this->repository()->updateApprovedStatus($model->group_id);
+    }
+
+    protected function repository(): PhotoGroupRepositoryInterface
+    {
+        return resolve(PhotoGroupRepositoryInterface::class);
     }
 }

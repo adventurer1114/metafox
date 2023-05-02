@@ -9,6 +9,7 @@ use MetaFox\Form\Section;
 use MetaFox\Payment\Contracts\GatewayManagerInterface;
 use MetaFox\Payment\Models\Order as Model;
 use MetaFox\Payment\Repositories\OrderRepositoryInterface;
+use MetaFox\Yup\Yup;
 
 /**
  * --------------------------------------------------------------------------
@@ -49,12 +50,20 @@ class GatewayForm extends AbstractForm
     {
         $basic = $this->addBasic();
 
-        $basic->addField(
-            Builder::radioGroup('payment_gateway')
-                ->label(__p('payment::phrase.select_a_payment_gateway'))
-                ->options($this->getGatewayOptions())
-                ->color('text.secondary')
-        );
+        $field = Builder::radioGroup('payment_gateway')
+            ->label(__p('payment::phrase.select_a_payment_gateway'))
+            ->options($this->getGatewayOptions())
+            ->color('text.secondary');
+
+        if ($this->requiredGateway()) {
+            $field->required()
+                ->yup(
+                    Yup::number()
+                        ->required(__p('core::validation.this_field_is_a_required_field')),
+                );
+        }
+
+        $basic->addField($field);
 
         $this->addMoreBasicFields($basic);
 
@@ -88,5 +97,10 @@ class GatewayForm extends AbstractForm
             'entity_type' => $this->resource?->entityType(),
             'entity_id'   => $this->resource?->entityId(),
         ];
+    }
+
+    protected function requiredGateway(): bool
+    {
+        return false;
     }
 }

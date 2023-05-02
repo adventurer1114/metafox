@@ -51,9 +51,12 @@ class DeviceController extends ApiController
      */
     public function store(StoreRequest $request): JsonResponse
     {
-        $params = $request->validated();
-        $data   = $this->repository->updateOrCreateDevice(user(), $params);
+        $params   = $request->validated();
+        $context  = user();
+        $device   = $this->repository->updateOrCreateDevice($context, $params);
 
-        return $this->success(new Detail($data));
+        app('firebase.fcm')->addUserDeviceGroup($context->entityId(), [$device->device_token]);
+
+        return $this->success(new Detail($device));
     }
 }

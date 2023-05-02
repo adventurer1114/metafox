@@ -49,7 +49,7 @@ return [
         'phrase_description' => 'group::seo.browse_all_group_description',
         'phrase_keywords'    => 'group::seo.browse_all_group_keywords',
         'phrase_heading'     => 'group::seo.browse_all_group_heading',
-        'url'                => 'group',
+        'url'                => 'group/all',
         'item_type'          => 'group',
     ],
     [
@@ -58,7 +58,7 @@ return [
         'phrase_description' => 'group::seo.browse_friend_group_description',
         'phrase_keywords'    => 'group::seo.browse_friend_group_keywords',
         'phrase_heading'     => 'group::seo.browse_friend_group_heading',
-        'url'                => 'group',
+        'url'                => 'group/friend',
         'item_type'          => 'group',
     ],
     [
@@ -67,7 +67,7 @@ return [
         'phrase_description' => 'group::seo.browse_invited_group_description',
         'phrase_keywords'    => 'group::seo.browse_invited_group_keywords',
         'phrase_heading'     => 'group::seo.browse_invited_group_heading',
-        'url'                => 'group',
+        'url'                => 'group/invited',
         'item_type'          => 'group',
     ],
     [
@@ -76,7 +76,7 @@ return [
         'phrase_description' => 'group::seo.browse_joined_group_desription',
         'phrase_keywords'    => 'group::seo.browse_joined_group_keywords',
         'phrase_heading'     => 'group::seo.browse_joined_group_heading',
-        'url'                => 'group',
+        'url'                => 'group/joined',
         'item_type'          => 'group',
     ],
     [
@@ -85,7 +85,7 @@ return [
         'phrase_description' => 'group::seo.browse_my_pending_group_description',
         'phrase_keywords'    => 'group::seo.browse_my_pending_group_keywords',
         'phrase_heading'     => 'group::seo.browse_my_pending_group_heading',
-        'url'                => 'group',
+        'url'                => 'group/my-pending',
         'item_type'          => 'group',
     ],
     [
@@ -94,7 +94,7 @@ return [
         'phrase_description' => 'group::seo.browse_pending_group_description',
         'phrase_keywords'    => 'group::seo.browse_pending_group_keywords',
         'phrase_heading'     => 'group::seo.browse_pending_group_heading',
-        'url'                => 'group',
+        'url'                => 'group/pending',
         'item_type'          => 'group',
     ],
     [

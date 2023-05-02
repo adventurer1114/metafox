@@ -61,7 +61,6 @@ export default function TaggedFriendsPhoto({
   item_id
 }) {
   const { i18n } = useGlobal();
-
   const userData = users.map(x => x.user);
   const data =
     useSelector((state: GlobalState) =>

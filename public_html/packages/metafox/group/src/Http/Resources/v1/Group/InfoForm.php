@@ -39,9 +39,9 @@ class InfoForm extends AbstractForm
 
     protected function initialize(): void
     {
-        $basic = $this->addBasic();
+        $basic              = $this->addBasic();
         $categoryRepository = resolve(CategoryRepositoryInterface::class);
-        $options = $categoryRepository->getCategoriesForForm();
+        $options            = $categoryRepository->getCategoriesForForm();
 
         $minGroupNameLength = Settings::get('group.minimum_name_length', MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH);
         $maxGroupNameLength = Settings::get('group.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
@@ -54,7 +54,7 @@ class InfoForm extends AbstractForm
                 ->placeholder(__p('group::phrase.fill_in_a_name_for_your_group'))
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxGroupNameLength,
                             __p('validation.field_must_be_at_most_max_length_characters', [
@@ -102,7 +102,7 @@ class InfoForm extends AbstractForm
     protected function getProfileMenus(): array
     {
         $menuItemRepository = resolve(MenuItemRepositoryInterface::class);
-        $menus = $menuItemRepository->loadItems('group.group.profileMenu', 'web');
+        $menus              = $menuItemRepository->loadItems('group.group.profileMenu', 'web');
 
         return collect($menus)->map(function ($menu) {
             return [

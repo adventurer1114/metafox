@@ -3,8 +3,8 @@
  * name: ReactionResult
  */
 import { getItemSelector, GlobalState, useGlobal } from '@metafox/framework';
-import { styled, Tooltip } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Box, styled, Tooltip } from '@mui/material';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ReactionIcon from '../containers/ReactionIcon';
 import { getReactionItemSelector } from '../selectors/geReactionItem';
@@ -24,6 +24,8 @@ const ItemReaction = styled('span', {
   borderColor: theme.palette.background.paper,
   borderRadius: '100%',
   lineHeight: 0,
+  width: '100%',
+  height: '100%',
   '& img': {
     width: 'auto',
     height: '100%',
@@ -84,7 +86,7 @@ const ListUser = ({ iconIdentity, itemIdentity, onUpdate }) => {
   const { item_type, item_id, resource_name, like_item_id, like_type_id, id } =
     item || {};
 
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     let mounted = true;
     setLoading(true);
     // TODO: update item_type when move to api v5
@@ -118,7 +120,7 @@ const ListUser = ({ iconIdentity, itemIdentity, onUpdate }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, item_id, item_type, onUpdate, react_id, resource_name]);
 
-  if (loading) return <span>{i18n.formatMessage({ id: 'loading_dots' })}</span>;
+  if (loading) return <Box>{i18n.formatMessage({ id: 'loading_dots' })}</Box>;
 
   return (
     <div>

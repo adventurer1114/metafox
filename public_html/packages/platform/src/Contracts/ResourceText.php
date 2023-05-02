@@ -4,6 +4,7 @@ namespace MetaFox\Platform\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MetaFox\Platform\PackageManager;
 
 /**
  * @property Content $resource

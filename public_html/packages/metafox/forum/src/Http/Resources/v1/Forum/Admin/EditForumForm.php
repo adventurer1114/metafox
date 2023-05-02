@@ -26,9 +26,10 @@ class EditForumForm extends CreateForumForm
             ->asPut()
             ->action('admincp/forum/forum/' . $this->resource->entityId())
             ->setValue([
-                'title'     => $this->resource->title,
-                'parent_id' => $this->resource->parent_id,
-                'is_closed' => (int) $this->resource->is_closed,
+                'title'       => $this->resource->title,
+                'parent_id'   => $this->resource->parent_id,
+                'is_closed'   => (int) $this->resource->is_closed,
+                'description' => $this->resource->description,
             ]);
     }
 

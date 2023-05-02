@@ -38,7 +38,7 @@ return [
     'page_create_description'            => '',
     'page_create_heading'                => '',
     'page_create_keywords'               => '',
-    'page_create_title'                  => 'Add New Page',
+    'page_create_title'                  => 'Create New Page',
     'page_description'                   => '',
     'page_desription'                    => '',
     'page_heading'                       => '',

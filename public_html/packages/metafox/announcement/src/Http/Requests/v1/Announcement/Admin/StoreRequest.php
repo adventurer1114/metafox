@@ -5,6 +5,7 @@ namespace MetaFox\Announcement\Http\Requests\v1\Announcement\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use MetaFox\Announcement\Models\Style;
+use MetaFox\Announcement\Rules\StartDateRule;
 use MetaFox\Announcement\Support\Facade\Announcement;
 use MetaFox\Platform\Rules\AllowInRule;
 use MetaFox\Platform\Rules\ExistIfGreaterThanZero;
@@ -40,7 +41,7 @@ class StoreRequest extends FormRequest
             'is_active'     => ['sometimes', 'integer', new AllowInRule([0, 1])],
             'style'         => ['required', 'integer', sprintf('exists:%s,%s', Style::class, 'id')],
             'can_be_closed' => ['sometimes', 'integer', new AllowInRule([0, 1])],
-            'start_date'    => ['required', 'date', 'nullable'],
+            'start_date'    => ['required', 'date', new StartDateRule()],
             'roles'         => ['sometimes', 'array', 'nullable'],
             'roles.*'       => ['sometimes', 'integer', 'nullable', new AllowInRule(Announcement::getAllowedRole())],
             'country_iso'   => ['sometimes', 'string', 'nullable'],

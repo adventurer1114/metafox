@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use MetaFox\Storage\Models\StorageFile;
 use MetaFox\Video\Contracts\ProviderManagerInterface;
 use MetaFox\Video\Repositories\VideoRepositoryInterface;
@@ -59,17 +60,21 @@ class VideoProcessingJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $provider   = resolve(ProviderManagerInterface::class);
-        $repository = resolve(VideoRepositoryInterface::class);
+        try {
+            $provider   = resolve(ProviderManagerInterface::class);
+            $repository = resolve(VideoRepositoryInterface::class);
 
-        $service = $provider->getDefaultServiceClass();
-        $data    = $service->processVideo($this->file);
+            $service = $provider->getDefaultServiceClass();
+            $data    = $service->processVideo($this->file);
 
-        if (!empty($data)) {
-            $repository->doneProcessVideo($this->videoId, array_merge($data, $this->extra));
+            if (!empty($data)) {
+                $repository->doneProcessVideo($this->videoId, array_merge($data, $this->extra));
 
-            // Delete temp file after done
-            upload()->rollUp($this->file->entityId());
+                // Delete temp file after done
+                upload()->rollUp($this->file->entityId());
+            }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
         }
     }
 }

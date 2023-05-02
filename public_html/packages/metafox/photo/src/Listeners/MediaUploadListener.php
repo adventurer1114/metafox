@@ -47,7 +47,7 @@ class MediaUploadListener
                 return null;
             }
 
-            if (!policy_check(PhotoPolicy::class, 'uploadToAlbum', $user, $album->owner)) {
+            if (!policy_check(PhotoPolicy::class, 'uploadToAlbum', $user, $album->owner, $albumId)) {
                 return null;
             }
         }

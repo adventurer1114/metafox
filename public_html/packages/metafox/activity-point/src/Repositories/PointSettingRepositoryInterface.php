@@ -70,4 +70,16 @@ interface PointSettingRepositoryInterface
      * @return array<int, mixed>
      */
     public function getSettingActionsByPackageId(string $packageId): array;
+
+    /**
+     * @return Collection
+     */
+    public function getAllPointSetting(): Collection;
+
+    /**
+     * @param  int  $destRoleId
+     * @param  int  $sourceRoleId
+     * @return void
+     */
+    public function clonePointSettings(int $destRoleId, int $sourceRoleId): void;
 }

@@ -178,7 +178,6 @@ class ViewFriendsScope extends BaseScope
             });
         }
         if ($this->isMention()) {
-
             // Who can tag me in written contexts?
             $builder->leftJoin('user_privacy_values as can_be_tagged', function (JoinClause $join) use ($table) {
                 $join->on("{$table}.id", '=', 'can_be_tagged.user_id');
@@ -195,8 +194,6 @@ class ViewFriendsScope extends BaseScope
             });
             $builder->whereNull('share_a_post_on_wall.id');
         }
-
-        $builder->orderByDesc('friends.id');
     }
 
     public function applyQueryBuilder(QueryBuilder $builder): void
@@ -233,7 +230,6 @@ class ViewFriendsScope extends BaseScope
         }
 
         if ($isMention) {
-
             // Who can tag me in written contexts?
             $builder->leftJoin('user_privacy_values as can_be_tagged', function (JoinClause $join) use ($table) {
                 $join->on("{$table}.id", '=', 'can_be_tagged.user_id');

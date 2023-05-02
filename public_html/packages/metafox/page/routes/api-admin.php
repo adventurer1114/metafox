@@ -19,5 +19,4 @@ Route::controller(PageClaimAdminController::class)
         Route::resource('claim', PageClaimAdminController::class);
     });
 
-Route::as('admin')
-    ->apiResource('page', PageController::class);
+Route::as('admin')->resource('page', PageController::class);

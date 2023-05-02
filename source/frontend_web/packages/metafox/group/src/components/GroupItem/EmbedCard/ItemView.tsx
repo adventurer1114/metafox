@@ -19,7 +19,7 @@ const useStyles = makeStyles(
         border: theme.mixins.border('secondary'),
         backgroundColor: theme.mixins.backgroundColor('paper'),
         overflow: 'hidden',
-        padding: theme.spacing(3)
+        padding: theme.spacing(2)
       },
       grid: {
         '& $itemOuter': {

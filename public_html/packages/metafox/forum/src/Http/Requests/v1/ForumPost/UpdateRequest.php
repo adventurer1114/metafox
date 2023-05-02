@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'text' => ['sometimes', 'string', new ResourceTextRule()],
+            'text' => ['sometimes', 'string', new ResourceTextRule(true)],
         ];
 
         $rules = $this->applyAttachmentRules($rules);

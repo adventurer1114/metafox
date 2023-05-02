@@ -13,15 +13,17 @@ use MetaFox\Forum\Models\ForumThread;
 use MetaFox\Forum\Repositories\ForumRepositoryInterface;
 use MetaFox\Forum\Repositories\ForumThreadRepositoryInterface;
 use MetaFox\Platform\Contracts\Content;
+use MetaFox\Platform\MetaFox;
 
 class ForumSupport implements ForumSupportContract
 {
     public const IS_CLOSED = 1;
     public const IS_OPEN   = 0;
 
-    public const NAVIGATION_CACHE_ID = 'forums_navigation';
-    public const VIEW_CACHE_ID       = 'forums_view';
-    public const FORM_CACHE_ID       = 'forums_form';
+    public const NAVIGATION_CACHE_ID        = 'forums_navigation';
+    public const VIEW_CACHE_ID              = 'forums_view';
+    public const VIEW_MOBILE_CACHE_ID       = 'forums_view_mobile';
+    public const FORM_CACHE_ID              = 'forums_form';
 
     public const VIEW_SUB_FORUMS       = 'sub_forums';
     public const VIEW_QUICK_NAVIGATION = 'quick_navigation';
@@ -72,6 +74,10 @@ class ForumSupport implements ForumSupportContract
     public function getViewCacheId(): string
     {
         return self::VIEW_CACHE_ID;
+    }
+    public function getViewMobileCacheId(): string
+    {
+        return self::VIEW_MOBILE_CACHE_ID;
     }
 
     public function getFormCacheId(): string
@@ -205,18 +211,31 @@ class ForumSupport implements ForumSupportContract
         if (null === $items) {
             return [];
         }
-
-        $request = resolve(Request::class);
-
-        $collection = new ForumSideBlockItemCollection($items);
-
-        $resources = $collection->toArray($request);
+        $resources = $this->getResourceItem($items);
 
         foreach ($resources as $key => $resource) {
             $resources[$key]['subs'] = $this->buildForumsForView($resource['id']);
         }
 
         return $resources;
+    }
+
+    protected function getResourceItem(Collection $items): array
+    {
+        $request = resolve(Request::class);
+
+        $collection = new ForumSideBlockItemCollection($items);
+
+        return $collection->toArray($request);
+    }
+
+    public function buildForumsForViewMobile(): array
+    {
+        $items = Forum::query()
+            ->orderBy('ordering')
+            ->get();
+
+        return $this->getResourceItem($items);
     }
 
     public function updateAttachments(Content $item, ?array $attachments = []): void

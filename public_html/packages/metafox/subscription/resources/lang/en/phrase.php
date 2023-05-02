@@ -36,6 +36,7 @@ return [
     ],
     'payment_status_label'                       => 'Payment Status',
     'pending_transaction'                        => 'Pending Transaction',
+    'purchase'                                   => 'Purchase',
     'recurring_price_info'                       => 'Recurring <b>:price</b> :period',
     'recurring_price_info_with_free'             => 'Recurring <b>:price</b> :period <b>(Free with first :period)</b>',
     'renew'                                      => 'Renew',
@@ -84,4 +85,5 @@ return [
     'your_subscription_has_number_day_remaining_to_expire'                                                          => 'Your subscription has :number days remaining to expire',
     'your_subscription_is_currently_pending'                                                                        => 'Your subscription is currently pending',
     'your_subscription_will_be_expired_tomorrow'                                                                    => 'Your subscription will be expired tomorrow',
+    'subscriptions'                                                                                                 => 'Subscriptions',
 ];

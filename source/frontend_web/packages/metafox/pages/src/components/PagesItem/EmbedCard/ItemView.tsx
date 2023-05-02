@@ -26,7 +26,7 @@ const useStyles = makeStyles(
         border: theme.mixins.border('secondary'),
         backgroundColor: theme.mixins.backgroundColor('paper'),
         overflow: 'hidden',
-        padding: theme.spacing(3)
+        padding: theme.spacing(2)
       },
       grid: {
         '& $itemOuter': {
@@ -94,10 +94,10 @@ export default function EmbedPageItem({
 
   if (!item) return null;
 
-  const { title, statistic, link, summary, extra, is_liked } = item;
+  const { title, statistic, link, summary, extra, is_liked, is_owner } = item;
 
   const reactButton = mappingRelationship(
-    false,
+    is_owner,
     is_liked,
     extra?.can_unlike,
     extra?.can_like,

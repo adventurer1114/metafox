@@ -8,7 +8,6 @@ return [
         'label'    => 'friend::phrase.add_friends',
         'ordering' => 1,
         'value'    => 'friend_list/addFriend',
-        'icon'     => 'ico-plus',
     ],
     [
         'showWhen' => [
@@ -17,10 +16,9 @@ return [
         ],
         'menu'     => 'friend.friend_list.itemActionMenu',
         'name'     => 'edit_list',
-        'label'    => 'friend::phrase.edit_list',
+        'label'    => 'friend::phrase.edit_friend_list',
         'ordering' => 2,
         'value'    => 'friend_list/editList',
-        'icon'     => 'ico-pencil',
     ],
     [
         'showWhen' => [
@@ -33,7 +31,6 @@ return [
         'label'    => 'friend::phrase.delete',
         'ordering' => 3,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen' => [],
@@ -47,7 +44,6 @@ return [
         'label'    => 'friend::phrase.all_friends',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/friend',
     ],
     [
@@ -62,7 +58,6 @@ return [
         'label'    => 'friend::phrase.friend_requests',
         'ordering' => 2,
         'value'    => 'viewAll',
-        'icon'     => 'ico-user2-down-o',
         'to'       => '/friend/requests',
     ],
     [
@@ -77,7 +72,6 @@ return [
         'label'    => 'friend::phrase.sent_requests',
         'ordering' => 3,
         'value'    => 'viewSentRequests',
-        'icon'     => 'ico-user3-clock-o',
         'to'       => '/friend/send-requests',
     ],
     [
@@ -119,5 +113,20 @@ return [
         'as'        => 'item',
         'icon'      => 'user1-two',
         'iconColor' => '#2681d5',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_share'],
+        ],
+        'params' => [
+            'module_name'   => 'friend',
+            'resource_name' => 'friend',
+        ],
+        'menu'     => 'feed.itemShareActionsMenu',
+        'name'     => 'share_on_friends',
+        'label'    => 'activity::phrase.share_on_friends',
+        'ordering' => 3,
+        'value'    => 'shareOnFriendProfile',
     ],
 ];

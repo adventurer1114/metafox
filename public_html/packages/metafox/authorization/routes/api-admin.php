@@ -18,13 +18,13 @@ Route::prefix('authorization')
             });
 
         Route::resource('role', RoleAdminController::class);
-
         Route::resource('device', DeviceAdminController::class);
     });
 
 Route::prefix('authorization')
     ->controller(PermissionAdminController::class)
     ->group(function () {
+        Route::get('permission', 'index');
         Route::get('permission/form', 'edit');
         Route::put('permission/{id}', 'update');
         Route::get('permission/search-form', 'searchForm');

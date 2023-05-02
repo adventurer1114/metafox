@@ -13,7 +13,7 @@ use MetaFox\Captcha\Support\Facades\Captcha;
 use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
-use MetaFox\Form\Html\Privacy;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
@@ -35,6 +35,8 @@ use MetaFox\Yup\Yup;
  */
 class StoreBlogForm extends AbstractForm
 {
+    use PrivacyFieldTrait;
+
     public bool $preserveKeys = true;
 
     /**
@@ -46,13 +48,13 @@ class StoreBlogForm extends AbstractForm
     {
         $context = user();
         $params  = $request->validated();
-        $owner   = null;
+
         if ($params['owner_id'] != 0) {
             $userEntity = UserEntity::getById($params['owner_id']);
-            $owner      = $userEntity->detail;
+            $this->setOwner($userEntity->detail);
         }
 
-        policy_authorize(BlogPolicy::class, 'create', $context, $owner);
+        policy_authorize(BlogPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -89,7 +91,9 @@ class StoreBlogForm extends AbstractForm
         $basic              = $this->addBasic();
         $minBlogTitleLength = Settings::get('blog.minimum_name_length', MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH);
         $maxBlogTitleLength = Settings::get('blog.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
-        $privacyField       = $this->buildPrivacyField();
+        $privacyField       = $this->buildPrivacyField()
+            ->description(__p('blog::phrase.control_who_can_see_this_blog'));
+
         $basic->addFields(
             Builder::text('title')
                 ->required()
@@ -117,6 +121,8 @@ class StoreBlogForm extends AbstractForm
                         )
                 ),
             Builder::singlePhoto()
+                ->widthPhoto('200px')
+                ->aspectRatio('16:9')
                 ->itemType('blog')
                 ->thumbnailSizes($this->resource->getSizes())
                 ->previewUrl($this->resource->image),
@@ -155,28 +161,6 @@ class StoreBlogForm extends AbstractForm
         $basic->addField(
             Builder::hidden('returnUrl')
         );
-    }
-
-    protected function buildPrivacyField(): Privacy
-    {
-        $context = user();
-
-        return new Privacy([
-            'name'        => 'privacy',
-            'description' => __p('blog::phrase.control_who_can_see_this_blog'),
-            // show when create a blog that does not belong to any owners like pages, groups, events
-            'showWhen' => [
-                'or',
-                [
-                    'falsy',
-                    'owner_id',
-                ], [
-                    'eq',
-                    'owner_id',
-                    $context->entityId(),
-                ],
-            ],
-        ]);
     }
 
     protected function buildPublishButton(): AbstractField

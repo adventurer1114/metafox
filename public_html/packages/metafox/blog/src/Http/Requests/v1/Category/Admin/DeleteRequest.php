@@ -21,7 +21,7 @@ class DeleteRequest extends FormRequest
     public function rules()
     {
         return [
-            'migrate_items' => ['required', 'numeric', new AllowInRule([0, 1])],
+            'migrate_items'   => ['required', 'numeric', new AllowInRule([0, 1])],
             'new_category_id' => ['required_if:migrate_items,1', 'numeric', 'exists:blog_categories,id'],
         ];
     }

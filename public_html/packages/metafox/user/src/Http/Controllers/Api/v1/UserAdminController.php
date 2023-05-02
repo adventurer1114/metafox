@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Platform\Http\Requests\v1\FeatureRequest;
 use MetaFox\User\Http\Requests\v1\User\Admin\AdminLoginRequest;
-use MetaFox\User\Http\Requests\v1\User\Admin\ApproveRequest;
 use MetaFox\User\Http\Requests\v1\User\Admin\BatchMoveRoleRequest;
 use MetaFox\User\Http\Requests\v1\User\Admin\BatchUpdateRequest;
 use MetaFox\User\Http\Requests\v1\User\Admin\DenyUserRequest;
@@ -76,7 +75,7 @@ class UserAdminController extends ApiController
 
         $context = user();
 
-        $data = $this->repository->viewUsersAdminCP($context, $params);
+        $data = $this->adminRepository->viewUsers($context, $params);
 
         return new ItemCollection($data);
     }
@@ -183,11 +182,9 @@ class UserAdminController extends ApiController
     /**
      * @throws AuthenticationException
      */
-    public function approve(ApproveRequest $request, int $id): JsonResponse
+    public function approve(int $id): JsonResponse
     {
-        $params = $request->validated();
-        $user   = $this->repository->find($id);
-
+        $user = $this->repository->find($id);
         if ($user instanceof User && $user->isApproved()) {
             $message = json_encode([
                 'title'   => __p('user::phrase.user_already_approved_title'),
@@ -196,10 +193,11 @@ class UserAdminController extends ApiController
             abort(403, $message);
         }
 
-        $this->repository->approve(user(), $id, $params);
+        $this->repository->approve(user(), $id);
 
         return $this->success([
-            'id' => $id,
+            'id'         => $id,
+            'is_pending' => 0,
         ], [], __p('user::phrase.user_has_been_approved'));
     }
 
@@ -217,7 +215,7 @@ class UserAdminController extends ApiController
             $user = $this->repository->find($id);
 
             if ($user instanceof User && !$user->isApproved()) {
-                $this->repository->approve(user(), $id, $params);
+                $this->repository->approve(user(), $id);
             }
         }
 
@@ -411,6 +409,9 @@ class UserAdminController extends ApiController
     }
 
     /**
+     * @param  DenyUserRequest         $request
+     * @param  int                     $id
+     * @return JsonResponse
      * @throws AuthenticationException
      */
     public function denyUser(DenyUserRequest $request, int $id): JsonResponse

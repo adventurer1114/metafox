@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use MetaFox\Payment\Contracts\IsBillable;
 use MetaFox\Payment\Models\Order;
 use MetaFox\Payment\Support\Payment;
+use MetaFox\Platform\Contracts\User;
 
 /**
  * Trait BillableTrait.
@@ -54,5 +55,10 @@ trait BillableTrait
     public function order(): MorphOne
     {
         return $this->morphOne(Order::class, 'order', 'item_type', 'item_id');
+    }
+
+    public function payee(): ?User
+    {
+        return null;
     }
 }

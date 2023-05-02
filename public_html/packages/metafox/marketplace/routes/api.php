@@ -15,52 +15,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    //routes for marketplace
-    Route::controller(ListingController::class)
-        ->prefix('marketplace')
-        ->group(function () {
-            Route::patch('feature/{id}', 'feature');
-            Route::patch('sponsor/{id}', 'sponsor');
-            Route::put('approve/{id}', 'approve');
-            Route::patch('reopen/{id}', 'reopen');
-            Route::patch('sponsor-in-feed/{id}', 'sponsorInFeed');
-        });
+//routes for marketplace
+Route::controller(ListingController::class)
+    ->prefix('marketplace')
+    ->group(function () {
+        Route::patch('feature/{id}', 'feature');
+        Route::patch('sponsor/{id}', 'sponsor');
+        Route::put('approve/{id}', 'approve');
+        Route::patch('reopen/{id}', 'reopen');
+        Route::patch('sponsor-in-feed/{id}', 'sponsorInFeed');
+    });
 
-    //routes for marketplace category
-    Route::resource('marketplace-category', 'CategoryController');
+//routes for marketplace category
 
-    //routes for marketplace invite
-    Route::controller(InviteController::class)
-        ->prefix('marketplace-invite')
-        ->group(function () {
-            Route::post('marketplace-invite', 'invite');
-        });
-
-    Route::controller(InvoiceController::class)
-        ->prefix('marketplace-invoice')
-        ->group(function () {
-            Route::post('change', 'change');
-            Route::put('repayment/{id}', 'repayment');
-        });
-
-    Route::controller(InviteController::class)
-        ->prefix('marketplace-invite')
-        ->group(function () {
-            Route::get('invited-people', 'getInvitedPeople');
-        });
-
-    Route::resource('marketplace-invite', 'InviteController');
-
-    //routes for marketplace photo
-    Route::get('marketplace-photo/form/{id}', 'ImageController@form');
-
-    Route::put('marketplace-photo/{id}', 'ImageController@update');
-
-    Route::resource('marketplace', 'ListingController');
-
-    Route::resource('marketplace-invoice', 'InvoiceController');
+Route::controller(ImageController::class)->group(function () {
+    Route::get('marketplace-photo/form/{id}', 'form');
+    Route::put('marketplace-photo/{id}', 'update');
 });
+
+//routes for marketplace invite
+Route::controller(InviteController::class)
+    ->prefix('marketplace-invite')
+    ->group(function () {
+        Route::get('invited-people', 'getInvitedPeople');
+    });
+
+Route::controller(InvoiceController::class)
+    ->prefix('marketplace-invoice')
+    ->group(function () {
+        Route::post('change', 'change');
+        Route::put('repayment/{id}', 'repayment');
+    });
+
+Route::resource('marketplace-invite', InviteController::class);
+Route::resource('marketplace', ListingController::class);
+Route::resource('marketplace-category', CategoryController::class)->only(['index']);
+Route::resource('marketplace-invoice', InvoiceController::class);

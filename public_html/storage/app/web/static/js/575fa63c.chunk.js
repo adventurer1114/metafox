@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["pages.notification"],{64939:function(e,a,i){i.r(a);var t=i(85597);a.default=(0,t.oks)({appName:"notification",pageName:"notification.home",loginRequired:!0,resourceName:"notification"})}}]);

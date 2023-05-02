@@ -24,7 +24,7 @@ class SearchStickerSetForm extends AbstractForm
     protected function prepare(): void
     {
         $this->title(__p('sticker::phrase.new_sticker_set'))
-            ->action('/admincp/sticker-set')
+            ->action(apiUrl('admin.sticker.sticker-set.index'))
             ->acceptPageParams(['q']);
     }
 

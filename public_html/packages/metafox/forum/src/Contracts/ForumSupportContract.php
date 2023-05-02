@@ -17,6 +17,10 @@ interface ForumSupportContract
      * @return string
      */
     public function getViewCacheId(): string;
+    /**
+     * @return string
+     */
+    public function getViewMobileCacheId(): string;
 
     /**
      * @return string
@@ -75,6 +79,7 @@ interface ForumSupportContract
      * @return Collection|null
      */
     public function buildForumsForView(int $parentId = 0): array;
+    public function buildForumsForViewMobile(): array;
 
     /**
      * @param  Content    $item

@@ -109,7 +109,7 @@ export default function AnnouncementListing({ title }: Props) {
 
     dispatch({
       type: 'announcement/markAsRead',
-      payload: item.id,
+      payload: { id: item.id, isDetail: false },
       meta: {
         onSuccess: () => {
           setNumberRemoveRef(prev => prev + 1);

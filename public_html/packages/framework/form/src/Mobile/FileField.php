@@ -12,12 +12,17 @@ class FileField extends AbstractField
         $this->setComponent(MetaFoxForm::FILE)
             ->multiple(false)
             ->uploadUrl('/file')
-            ->variant('standard');
+            ->variant('standard-inlined');
     }
 
     public function maxFiles(int $maxFiles): self
     {
         return $this->setAttribute('max_files', $maxFiles);
+    }
+
+    public function maxFilesDescription(string $description): self
+    {
+        return $this->setAttribute('maxFilesDescription', $description);
     }
 
     /**

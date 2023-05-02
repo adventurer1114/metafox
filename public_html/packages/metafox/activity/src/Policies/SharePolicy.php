@@ -38,16 +38,19 @@ class SharePolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
         }
 
-//        if (UserPrivacy::hasAccess($user, $owner, 'blog.view_browse_blogs') == false) {
-//            return false;
-//        }
+        //        if (UserPrivacy::hasAccess($user, $owner, 'blog.view_browse_blogs') == false) {
+        //            return false;
+        //        }
 
         return true;
     }
@@ -105,10 +108,10 @@ class SharePolicy implements ResourcePolicyInterface
             return false;
         }
 
-        $itemType = Arr::get($attributes, 'item_type', '');
+        $itemType         = Arr::get($attributes, 'item_type', '');
         $entityPermission = "$itemType.share";
 
-        if (!$user->checkPermissionIfExists($entityPermission)) {
+        if (!$user->hasPermissionTo($entityPermission)) {
             return false;
         }
 

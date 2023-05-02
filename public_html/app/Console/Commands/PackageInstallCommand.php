@@ -34,10 +34,11 @@ class PackageInstallCommand extends Command
     {
         $this->call('clear-compiled');
 
-        $this->call('composer', [
-            '--install' => true,
-        ]);
-
+        if (!$this->option('fast')) {
+            $this->call('composer', [
+                '--install' => true,
+            ]);
+        }
         $this->call('package:discover', ['--quiet' => true]);
 
         $id   = $this->argument('package');
@@ -117,6 +118,7 @@ class PackageInstallCommand extends Command
     {
         return [
             ['refresh', null, InputOption::VALUE_NONE, 'Reset migration'],
+            ['fast', null, InputOption::VALUE_NONE, 'disable composer install'],
         ];
     }
 }

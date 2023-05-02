@@ -1,7 +1,7 @@
 /**
  * @type: route
  * name: activity_point.home
- * path: /activitypoint, /activitypoint/transactions
+ * path: /activitypoint
  * chunkName: pages.activitypoint
  * bundle: web
  */
@@ -12,6 +12,5 @@ export default createLandingPage({
   appName: 'activitypoint',
   pageName: 'activity_point.home',
   resourceName: 'activitypoint',
-  defaultTab: 'transactions',
   loginRequired: true
 });

@@ -28,7 +28,7 @@ class CurrencyPricingGroupField extends Section
                     ->fullWidth(false)
                     ->preventScrolling()
                     ->asNumber()
-                    ->yup(Yup::number()->positive()->required(__p('core::validation.this_field_is_required')))
+                    ->yup(Yup::number()->positive()->required(__p('core::validation.this_field_is_a_required_field')))
             );
         }
 

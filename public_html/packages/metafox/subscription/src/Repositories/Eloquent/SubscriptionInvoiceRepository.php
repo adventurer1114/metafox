@@ -990,7 +990,7 @@ class SubscriptionInvoiceRepository extends AbstractRepository implements Subscr
         return $query
             ->with(['package', 'user'])
             ->orderBy('subscription_invoices.id')
-            ->simplePaginate($limit, ['subscription_invoices.*']);
+            ->paginate($limit, ['subscription_invoices.*']);
     }
 
     public function updatePaymentForAdminCP(User $context, int $id, string $status): bool

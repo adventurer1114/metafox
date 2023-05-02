@@ -19,7 +19,7 @@ class LicenseKeySettingForm extends Form
 {
     protected function prepare(): void
     {
-        $licenseId  = config('app.mfox_license_id');
+        $licenseId  = Settings::get('core.license.id');
 
         $values = [];
         Arr::set($values, 'core.license.id', $licenseId);
@@ -50,7 +50,7 @@ class LicenseKeySettingForm extends Form
                 ->variant('outlined')
                 ->autoComplete('off')
                 ->label(__p('core::phrase.license_id'))
-                ->yup(Yup::string()->required(__p('validation.this_field_is_required'))),
+                ->yup(Yup::string()->required(__p('validation.this_field_is_a_required_field'))),
             Builder::text('core.license.key')
                 ->label(__p('core::phrase.new_license_key'))
                 ->description($licenseKeyDesc)

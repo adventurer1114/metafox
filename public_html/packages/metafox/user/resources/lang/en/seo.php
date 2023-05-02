@@ -83,7 +83,7 @@ return [
     'user_forgot_password_description'              => '',
     'user_forgot_password_heading'                  => '',
     'user_forgot_password_keywords'                 => '',
-    'user_forgot_password_title'                    => 'Forgot password',
+    'user_forgot_password_title'                    => 'Forgot Password',
     'user_heading'                                  => '',
     'user_keywords'                                 => '',
     'user_landing_description'                      => '',

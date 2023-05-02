@@ -18,7 +18,7 @@ return [
     'can_feature_page_desc'           => '',
     'can_feature_page_label'          => 'Can feature a pages?',
     'can_flood_control_page_desc'     => 'Setting it to "0" (without quotes) is default and users will not have to wait.',
-    'can_flood_control_page_label'    => 'How many minutes this user group should wait before they can add new page.',
+    'can_flood_control_page_label'    => 'How many minutes this user group should wait before they can post a new page',
     'can_moderate_page_desc'          => '',
     'can_moderate_page_label'         => 'Can moderate pages?',
     'can_purchase_sponsor_page_desc'  => '',

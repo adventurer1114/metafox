@@ -19,13 +19,12 @@ export default makeStyles(
       header: {
         display: 'flex',
         flexDirection: 'row',
-        marginBottom: theme.spacing(2),
+        marginBottom: theme.spacing(1.5),
         '& button:hover': {
           backgroundColor: theme.palette.action.selected
         }
       },
       headerInfo: {
-        padding: '4px 0',
         flex: 1
       },
       headerHeadline: {
@@ -112,7 +111,6 @@ export default makeStyles(
       },
       statusBgWrapper: {
         display: 'block',
-        margin: 0,
         position: 'relative',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
@@ -120,7 +118,7 @@ export default makeStyles(
         backgroundOrigin: 'border-box',
         border: '1px solid rgba(0,0,0,0.1)',
         width: 'auto',
-        marginBottom: theme.spacing(2),
+        margin: `0 ${theme.spacing(-2)}`,
         '&:before': {
           content: '""',
           display: 'block',
@@ -151,6 +149,9 @@ export default makeStyles(
         minHeight: '109px',
         fontWeight: 'bold',
         color: '#fff',
+        '& a': {
+          color: '#fff !important'
+        },
         [theme.breakpoints.down('sm')]: {
           fontSize: theme.mixins.pxToRem(20),
           lineHeight: '30px',

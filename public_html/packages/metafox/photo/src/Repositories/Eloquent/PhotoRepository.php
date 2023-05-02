@@ -21,10 +21,12 @@ use MetaFox\Photo\Models\Album;
 use MetaFox\Photo\Models\Photo;
 use MetaFox\Photo\Models\PhotoGroup;
 use MetaFox\Photo\Policies\AlbumPolicy;
+use MetaFox\Photo\Policies\CategoryPolicy;
 use MetaFox\Photo\Policies\PhotoGroupPolicy;
 use MetaFox\Photo\Policies\PhotoPolicy;
 use MetaFox\Photo\Policies\PhotoTagFriendPolicy;
 use MetaFox\Photo\Repositories\AlbumRepositoryInterface;
+use MetaFox\Photo\Repositories\CategoryRepositoryInterface;
 use MetaFox\Photo\Repositories\PhotoGroupRepositoryInterface;
 use MetaFox\Photo\Repositories\PhotoRepositoryInterface;
 use MetaFox\Photo\Support\Browse\Scopes\Photo\SortScope;
@@ -595,8 +597,7 @@ class PhotoRepository extends AbstractRepository implements PhotoRepositoryInter
 
     public function viewPhotos(User $context, User $owner, array $attributes = []): Paginator
     {
-        $limit     = !empty($attributes['limit']) ? $attributes['limit'] : Pagination::DEFAULT_ITEM_PER_PAGE;
-        $profileId = $attributes['user_id'] ?? 0;
+        $limit = !empty($attributes['limit']) ? $attributes['limit'] : Pagination::DEFAULT_ITEM_PER_PAGE;
 
         if (isset($attributes['feed_id'])) {
             return $this->getPhotoByFeedId($context, $attributes['feed_id'], $attributes);
@@ -610,17 +611,19 @@ class PhotoRepository extends AbstractRepository implements PhotoRepositoryInter
             policy_authorize(PhotoPolicy::class, 'viewApproveListing', $context, $owner);
         }
 
-        if (!$context->isGuest()) {
-            if ($profileId == $context->entityId() && $attributes['view'] != Browse::VIEW_PENDING) {
-                $attributes['view'] = Browse::VIEW_MY;
-            }
-        }
-
         switch ($attributes['view']) {
             case 'feature':
                 return $this->findFeature($limit);
             case 'sponsor':
                 return $this->findSponsor($limit);
+        }
+
+        $categoryId = Arr::get($attributes, 'category_id', 0);
+
+        if ($categoryId > 0) {
+            $category = resolve(CategoryRepositoryInterface::class)->find($categoryId);
+
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
         }
 
         $query     = $this->buildQueryPhotos($context, $owner, $attributes);
@@ -629,9 +632,8 @@ class PhotoRepository extends AbstractRepository implements PhotoRepositoryInter
             ->with($relations)
             ->simplePaginate($limit, ['photos.*']);
 
-        $attributes['current_page'] = $photoData->currentPage();
         //Load sponsor on first page only
-        if (!$this->hasSponsorView($attributes)) {
+        if ($this->isNoSponsorView($attributes['view']) || 1 < $photoData->currentPage()) {
             return $photoData;
         }
 
@@ -663,6 +665,12 @@ class PhotoRepository extends AbstractRepository implements PhotoRepositoryInter
         $categoryId = $attributes['category_id'] ?? null;
         $search     = $attributes['q'] ?? null;
         $profileId  = $attributes['user_id'] ?? 0;
+
+        if (!$context->isGuest()) {
+            if ($profileId == $context->entityId() && $view != Browse::VIEW_PENDING) {
+                $view = Browse::VIEW_MY;
+            }
+        }
 
         $album = null;
         if (!empty($attributes['album_id'])) {
@@ -751,6 +759,7 @@ class PhotoRepository extends AbstractRepository implements PhotoRepositoryInter
         $condition           = [];
         $albumProfileCond    = ['photos.album_type', '<>', Album::PROFILE_ALBUM];
         $albumCoverCondition = ['photos.album_type', '<>', Album::COVER_ALBUM];
+        $allowViews          = [Browse::VIEW_MY, Browse::VIEW_PENDING, Browse::VIEW_MY_PENDING];
 
         if ($owner instanceof HasPrivacyMember) {
             if (!Settings::get("{$owner->entityType()}.display_profile_photo_within_gallery", false)) {
@@ -766,7 +775,7 @@ class PhotoRepository extends AbstractRepository implements PhotoRepositoryInter
             }
         }
 
-        if (!$owner instanceof HasPrivacyMember && !in_array($view, [Browse::VIEW_MY, Browse::VIEW_PENDING])) {
+        if (!$owner instanceof HasPrivacyMember && !in_array($view, $allowViews)) {
             if (!Settings::get('photo.display_profile_photo_within_gallery', false)) {
                 $condition[] = $albumProfileCond;
             }

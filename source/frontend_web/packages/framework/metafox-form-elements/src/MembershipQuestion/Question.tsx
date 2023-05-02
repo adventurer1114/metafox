@@ -5,21 +5,36 @@
  */
 import { FormFieldProps } from '@metafox/form';
 import { useGlobal } from '@metafox/framework';
-import { Add } from '@mui/icons-material';
 import {
   Box,
   Button,
   FormControl,
   MenuItem,
   Select,
+  styled,
   TextField
 } from '@mui/material';
-import { camelCase } from 'lodash';
+import { useFormikContext } from 'formik';
+import { camelCase, isEmpty, isString } from 'lodash';
 import React from 'react';
 import ErrorMessage from '../ErrorMessage';
-import ErrorTooltip from '../ErrorTooltip';
 import Answer from './Answer';
 import { NEW, TypeQuestion, UPDATE } from './type';
+
+const BtnMoreAnswer = styled(Button)(({ theme }) => ({
+  fontWeight: theme.typography.fontWeightMedium,
+  fontSize: theme.mixins.pxToRem(13),
+  color: theme.palette.primary.main,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: theme.spacing(0.5),
+  marginLeft: theme.spacing(5),
+  width: 'fit-content',
+  '&:hover': {
+    textDecoration: 'underline'
+  }
+}));
 
 const typeOptions = [
   { value: TypeQuestion.CheckBox, label: 'checkbox' },
@@ -33,26 +48,38 @@ const MembershipQuestionDialog = ({
   disabled: forceDisabled
 }: FormFieldProps) => {
   const { i18n } = useGlobal();
+  const formikProps: any = useFormikContext();
 
   // init fields data
   React.useEffect(() => {
-    formik.setFieldValue(
-      'question',
-      formik.values?.question || formik.initialValues?.question
-    );
-    formik.setFieldValue(
-      'type_id',
-      formik.values?.type_id || formik.initialValues?.type_id
-    );
-    formik.setFieldValue(
-      'options',
-      formik.values?.options || formik.initialValues?.options || []
-    );
-  }, []);
+    let valueOption = [];
+
+    if (isEmpty(formikProps.initialValues?.options)) {
+      valueOption = [
+        { title: '', id: new Date().getMilliseconds(), type: NEW },
+        { title: '', id: new Date().getMilliseconds() + 1, type: NEW }
+      ];
+    }
+
+    if (!isEmpty(formikProps.initialValues?.options)) {
+      valueOption = formikProps.initialValues?.options;
+    }
+
+    if (!isEmpty(formikProps.values?.options)) {
+      valueOption = formikProps.values?.options;
+    }
+
+    if (formikProps.values?.type_id === TypeQuestion.FreeAnswer) {
+      valueOption = undefined;
+    }
+
+    formik.setFieldValue('options', valueOption, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formikProps.values?.type_id]);
 
   const handleAddAnswer = () => {
     const newValue = [
-      ...formik.values?.options,
+      ...formikProps.values?.options,
       { title: '', id: new Date().getMilliseconds(), type: NEW }
     ];
 
@@ -63,11 +90,11 @@ const MembershipQuestionDialog = ({
     const { value } = e.target;
 
     // eslint-disable-next-line no-confusing-arrow
-    const newValue = formik.values.options.map(answer =>
+    const newValue = formikProps.values.options?.map(answer =>
       answer.id === item.id
         ? {
             ...answer,
-            title: value,
+            title: value.trim(),
             type:
               !!formik.initialValues?.options && item.type !== NEW
                 ? UPDATE
@@ -77,10 +104,6 @@ const MembershipQuestionDialog = ({
     );
 
     formik.setFieldValue('options', newValue);
-  };
-
-  const handleBlurAnswer = item => {
-    if (!item.title.trim()) handleRemoveAnswer(item.id);
   };
 
   const handleBlurQuestion = e => {
@@ -100,8 +123,8 @@ const MembershipQuestionDialog = ({
       margin="normal"
       data-testid={camelCase(`field ${name}`)}
     >
-      <Box sx={{ height: '40px', display: 'flex' }}>
-        <ErrorTooltip name={'question'} showErrorTooltip>
+      <Box>
+        <Box sx={{ height: '40px', display: 'flex' }}>
           <TextField
             id="question"
             name="question"
@@ -113,51 +136,54 @@ const MembershipQuestionDialog = ({
               maxLength: 255
             }}
             error={!!(formik.submitCount && formik.errors.question)}
-            value={formik.values?.question}
+            value={formikProps.values?.question}
             onChange={formik.handleChange}
             onBlur={handleBlurQuestion}
           />
-        </ErrorTooltip>
-        <Select
-          id="type_id"
-          name="type_id"
-          sx={{ height: '100%' }}
-          size="small"
-          value={formik.values?.type_id}
-          onChange={formik.handleChange}
-        >
-          {typeOptions.map(({ value, label }, index) => (
-            <MenuItem key={index.toString()} value={value}>
-              {i18n.formatMessage({ id: label })}
-            </MenuItem>
-          ))}
-        </Select>
+          <Select
+            id="type_id"
+            name="type_id"
+            sx={{ height: '100%' }}
+            value={formikProps.values?.type_id}
+            onChange={formik.handleChange}
+          >
+            {typeOptions.map(({ value, label }, index) => (
+              <MenuItem key={index.toString()} value={value}>
+                {i18n.formatMessage({ id: label })}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+        <ErrorMessage error={formik.errors?.question} />
       </Box>
-      {formik.values.type_id !== TypeQuestion.FreeAnswer ? (
+      {formikProps.values.type_id !== TypeQuestion.FreeAnswer ? (
         <>
-          {formik.values?.options?.map(item => {
+          {formikProps.values?.options?.map((item, index) => {
             return (
               <Answer
+                formik={formik}
                 key={item.id.toString()}
                 value={item.title}
-                type={formik.values.type_id}
-                onBlur={() => handleBlurAnswer(item)}
+                type={formikProps.values.type_id}
+                error={
+                  !isEmpty(formik.errors?.options) &&
+                  formik.errors?.options?.at(index)
+                }
                 onRemove={() => handleRemoveAnswer(item.id)}
                 onChange={e => handleChangeAnswer(e, item)}
               />
             );
           })}
-          <Button
-            sx={{ marginTop: 2, width: '130px' }}
-            startIcon={<Add />}
+          <BtnMoreAnswer
+            onClick={handleAddAnswer}
+            variant="text"
+            color="primary"
             size="small"
             disabled={forceDisabled}
-            onClick={handleAddAnswer}
-            variant="contained"
           >
-            {i18n.formatMessage({ id: 'more_options' })}
-          </Button>
-          <ErrorMessage error={formik.errors?.options} />
+            {i18n.formatMessage({ id: 'add_answer' })}
+          </BtnMoreAnswer>
+          {isString(formik.errors) && <ErrorMessage error={formik.errors} />}
         </>
       ) : null}
     </FormControl>

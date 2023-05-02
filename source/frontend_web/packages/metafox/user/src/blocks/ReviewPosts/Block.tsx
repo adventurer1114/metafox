@@ -19,7 +19,7 @@ export default createBlock<Props>({
     title: 'review_posts',
     contentType: 'feed',
     itemView: 'user.itemView.reviewPosts',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - PendingPost - Main Card'
   }
 });

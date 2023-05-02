@@ -10,18 +10,12 @@ use MetaFox\Platform\Contracts\User as ContractUser;
 class ItemTagAwareListener
 {
     /**
-     * @param TagRepository $repository
-     */
-    public function __construct(protected TagRepository $repository)
-    {
-    }
-
-    /**
-     * @param ContractUser $context
-     * @param HasHashTag   $hasHashTag
-     * @param string|null  $content
-     * @param bool         $allowSpace
-     *
+     * @param  ContractUser $context
+     * @param  HasHashTag   $hasHashTag
+     * @param  string|null  $content
+     * @param  bool         $allowSpace
+     * @param  bool         $returnHashTagIdsOnly
+     * @return array
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -31,8 +25,7 @@ class ItemTagAwareListener
         ?string $content,
         bool $allowSpace = false,
         bool $returnHashTagIdsOnly = false
-    ): array
-    {
+    ): array {
         if (!method_exists($hasHashTag, 'tagData')) {
             return [];
         }

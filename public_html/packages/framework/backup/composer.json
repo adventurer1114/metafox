@@ -1,8 +1,8 @@
 {
     "name": "metafox/backup",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Backup",
-    "keyword": "metafox/backup",
+    "keyword": "",
     "authors": [
         {
             "name": "phpFox",
@@ -12,7 +12,7 @@
     "extra": {
         "metafox": {
             "core": true,
-            "priority": 4,
+            "priority": 100,
             "alias": "backup",
             "asset": "backup",
             "namespace": "MetaFox\\Backup",
@@ -21,12 +21,16 @@
             "providers": [
                 "MetaFox\\Backup\\Providers\\PackageServiceProvider"
             ],
-            "aliases": {
-            },
+            "aliases": null,
             "frontend": {
-                "@metafox/backup": "5.0.1"
+                "@metafox/backup": "*"
             },
-            "internalAdminUrl": "/admincp/backup/setting"
+            "internalAdminUrl": "/admincp/backup/setting",
+            "type": "app",
+            "mobile": [],
+            "store_id": 0,
+            "store_url": null,
+            "internalUrl": ""
         }
     },
     "autoload": {
@@ -34,7 +38,7 @@
             "MetaFox\\Backup\\": "src/"
         }
     },
-    "autoload-dev":{
+    "autoload-dev": {
         "psr-4": {
             "MetaFox\\Backup\\Tests\\": "tests/"
         }

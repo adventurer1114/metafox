@@ -24,7 +24,7 @@ return new class () extends Migration {
     {
         if (!Schema::hasTable('like_reactions')) {
             Schema::create('like_reactions', function (Blueprint $table) {
-                $table->integerIncrements('id');
+                $table->bigIncrements('id');
 
                 $table->string('title');
 

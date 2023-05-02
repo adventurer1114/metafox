@@ -14,36 +14,50 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('user')
-    ->as('user.')
-    ->group(function () {
-        Route::patch('/feature/{id}', [UserAdminController::class, 'feature']);
-
-        Route::post('/batch-resend-verification-email', [UserAdminController::class, 'batchResendVerificationEmail']);
-        Route::patch('/resend-verification-email/{id}', [UserAdminController::class, 'resendVerificationEmail']);
-        Route::patch('/verify-user/{id}', [UserAdminController::class, 'verifyUser']);
-        Route::patch('/deny-user/{id}', [UserAdminController::class, 'denyUser']);
-        Route::patch('/batch-verify', [UserAdminController::class, 'batchVerify']);
-        Route::patch('/batch-approve', [UserAdminController::class, 'batchApprove']);
-        Route::patch('/batch-move-role', [UserAdminController::class, 'batchMoveRole']);
-        Route::delete('/batch-delete', [UserAdminController::class, 'batchDelete']);
-
-        Route::prefix('ban')
-            ->as('ban.')
-            ->group(function () {
-                Route::post('/', [UserAdminController::class, 'banUser']);
-                Route::delete('/{id}', [UserAdminController::class, 'unBanUser']);
-            });
-
-        Route::prefix('batch-ban')
-            ->as('batch-ban.')
-            ->group(function () {
-                Route::post('/', [UserAdminController::class, 'batchBanUser']);
-                Route::delete('/', [UserAdminController::class, 'batchUnBanUser']);
-            });
-
-        Route::resource('user', UserAdminController::class);
-        Route::resource('user-gender', GenderAdminController::class);
+Route::prefix('user')->as('user.')->group(function () {
+    Route::controller(UserAdminController::class)->group(function () {
+        Route::patch('feature/{id}', 'feature');
+        Route::post('batch-resend-verification-email', 'batchResendVerificationEmail');
+        Route::patch('resend-verification-email/{id}', 'resendVerificationEmail');
+        Route::patch('verify-user/{id}', 'verifyUser');
+        Route::patch('batch-verify', 'batchVerify');
+        Route::patch('batch-approve', 'batchApprove');
+        Route::patch('batch-move-role', 'batchMoveRole');
+        Route::delete('batch-delete', 'batchDelete');
+        Route::patch('approve/{id}', 'approve');
+        Route::patch('deny-user/{id}', 'denyUser');
     });
+
+    Route::prefix('ban')->as('ban.')
+        ->controller(UserAdminController::class)->group(function () {
+            Route::post('/', 'banUser');
+            Route::delete('/{id}', 'unBanUser');
+        });
+
+    Route::prefix('batch-ban')->as('batch-ban.')
+        ->controller(UserAdminController::class)
+        ->group(function () {
+            Route::post('/', 'batchBanUser');
+            Route::delete('/', 'batchUnBanUser');
+        });
+
+    // manage members
+
+    Route::controller(CancelReasonAdminController::class)
+        ->group(function () {
+            Route::get('user/cancel/reason/form/{id}', 'editForm');
+            Route::get('user/cancel/reason/form', 'createForm');
+        });
+
+    Route::resource('user/cancel/reason', CancelReasonAdminController::class);
+    Route::resource('user/cancel/feedback', CancelFeedbackAdminController::class);
+    Route::resource('user/promotion', UserPromotionAdminController::class);
+
+    Route::resource('/relation', UserRelationAdminController::class);
+    Route::resource('user', UserAdminController::class);
+    Route::resource('user-gender', GenderAdminController::class);
+    Route::resource('cancel-feedback', CancelFeedbackAdminController::class);
+    Route::resource('cancel-reason', CancelReasonAdminController::class);
+});
 
 Route::resource('user', UserAdminController::class);

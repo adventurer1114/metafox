@@ -43,7 +43,7 @@ class BuildAdminController extends ApiController
     /**
      * BuildAdminController Constructor.
      *
-     * @param  BuildRepositoryInterface  $repository
+     * @param BuildRepositoryInterface $repository
      */
     public function __construct(BuildRepositoryInterface $repository)
     {
@@ -66,13 +66,14 @@ class BuildAdminController extends ApiController
     /**
      * Browse item.
      *
-     * @param  IndexRequest  $request
+     * @param  IndexRequest $request
      * @return mixed
      */
     public function index(IndexRequest $request): JsonResponse
     {
         $params = $request->validated();
-        $data = $this->repository->orderBy('id', 'desc')
+
+        $data   = $this->repository->orderBy('id', 'desc')
             ->paginate($params['limit'] ?? 20);
 
         return $this->success(BuildItem::collection($data));
@@ -86,7 +87,7 @@ class BuildAdminController extends ApiController
     /**
      * Store item.
      *
-     * @param  StoreRequest  $request
+     * @param StoreRequest $request
      *
      * @return JsonResponse
      */
@@ -107,7 +108,7 @@ class BuildAdminController extends ApiController
     /**
      * View item.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return Detail
      */
@@ -121,15 +122,15 @@ class BuildAdminController extends ApiController
     /**
      * Update item.
      *
-     * @param  UpdateRequest  $request
-     * @param  int  $id
+     * @param  UpdateRequest      $request
+     * @param  int                $id
      * @return Detail
      * @throws ValidatorException
      */
     public function update(UpdateRequest $request, int $id): Detail
     {
         $params = $request->validated();
-        $data = $this->repository->update($params, $id);
+        $data   = $this->repository->update($params, $id);
 
         return new Detail($data);
     }
@@ -137,14 +138,14 @@ class BuildAdminController extends ApiController
     /**
      * Delete item.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy($id): JsonResponse
     {
         /** @var Build $task */
-        $task = $this->repository->find($id);
+        $task = $this->repository->find((int) $id);
 
         $task->delete();
 
@@ -155,20 +156,20 @@ class BuildAdminController extends ApiController
 
     public function wizard()
     {
-        $steps = [];
-        $env = resolve(PackageRepository::class)->getBuildEnvironments();
+        $steps        = [];
+        $env          = resolve(PackageRepository::class)->getBuildEnvironments();
         $buildService = preg_replace('/https?:\/\/([^\/]+)(\/?)/m', '$1', config('app.mfox_bundle_service_url'));
-        $info = view('layout::wizard.info', compact('env', 'buildService'))->render();
+        $info         = view('layout::wizard.info', compact('env', 'buildService'))->render();
 
         // step 1.
         $steps[] = [
-            'title'        => 'Checking Environment',
-            'component'    => 'ui.step.info',
-            'expanded' => true,
-            'props'        => [
+            'title'     => 'Checking Environment',
+            'component' => 'ui.step.info',
+            'expanded'  => true,
+            'props'     => [
                 'html'        => $info,
                 'submitLabel' => __p('core::phrase.continue'),
-                'hasSubmit'   => true
+                'hasSubmit'   => true,
             ],
         ];
 
@@ -184,8 +185,9 @@ class BuildAdminController extends ApiController
                         'dataSource' => ['apiUrl' => '/admincp/layout/build', 'apiMethod' => 'POST'],
                     ],
                     [
-                        'title'      => 'Waiting Build Service Callback',
-                        'dataSource' => ['apiUrl' => '/admincp/layout/build/waiting', 'apiMethod' => 'GET'],
+                        'title'            => 'Waiting Build Service Callback',
+                        'disableUserAbort' => true,
+                        'dataSource'       => ['apiUrl' => '/admincp/layout/build/waiting', 'apiMethod' => 'GET'],
                     ],
                 ],
             ],
@@ -203,7 +205,7 @@ class BuildAdminController extends ApiController
             'component'   => 'ui.step.steppers',
             'props'       => [
                 'steps' => $steps,
-            ]
+            ],
 
         ];
 
@@ -217,12 +219,12 @@ class BuildAdminController extends ApiController
             return $result;
         }
 
-        Artisan::call('frontend:build', ['--check' => true]);
+        CheckBuild::dispatchSync();
 
         return $this->success(['retry' => true]);
     }
 
-    public function checkStepIsRetry($lockName, $verifier = null)
+    private function checkStepIsRetry($lockName, $verifier = null)
     {
         $status = get_installation_lock($lockName);
 

@@ -12,12 +12,14 @@ class UserCommentByItemListener
         return resolve(CommentRepositoryInterface::class);
     }
 
-    public function handle(User $context, array $attributes)
+    public function handle(?User $context, array $attributes)
     {
         $attributes = array_merge($attributes, [
-            'limit'    => 20,
+            'limit' => 20,
         ]);
+
         [, $collection] = $this->repository()->getUsersCommentByItem($context, $attributes);
+
         return $collection;
     }
 }

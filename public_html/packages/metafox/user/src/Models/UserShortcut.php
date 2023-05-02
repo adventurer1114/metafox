@@ -51,6 +51,11 @@ class UserShortcut extends Model implements Entity
     {
         return UserShortcutFactory::new();
     }
+
+    public function toLink()
+    {
+        return '';
+    }
 }
 
 // end

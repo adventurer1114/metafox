@@ -4,6 +4,7 @@ namespace MetaFox\User\Repositories;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\User\Models\UserGender as Model;
 
@@ -69,4 +70,15 @@ interface UserGenderRepositoryInterface
      * @return LengthAwarePaginator
      */
     public function viewGendersForAdmin(User $context, array $attributes): LengthAwarePaginator;
+
+    /**
+     * @return array'
+     */
+    public function getGenderOptions(): array;
+
+    /**
+     * @param  array      $ids
+     * @return Collection
+     */
+    public function viewAllGenders(array $ids = []): Collection;
 }

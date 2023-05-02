@@ -10,7 +10,7 @@ import {
   UserAvatar
 } from '@metafox/ui';
 import { filterShowWhen, getImageSrc, shortenFullName } from '@metafox/utils';
-import { Box, Button, styled } from '@mui/material';
+import { Box, Button, styled, Tooltip } from '@mui/material';
 import React from 'react';
 import { UserItemActions, UserItemShape } from '../../types';
 import ActivityPointSummary from './ActivityPointSummary';
@@ -87,11 +87,13 @@ const UserProfileHeaderView = ({
     useSession,
     getAcl,
     getSetting,
-    assetUrl
+    assetUrl,
+    i18n
   } = useGlobal();
   const { id: user_id, tab = 'home' } = usePageParams();
   const classes = useStyles();
-  const { user: userAuth } = useSession();
+  const session = useSession();
+  const { user: userAuth } = session || {};
   const acl = getAcl();
   const setting = getSetting();
 
@@ -102,13 +104,13 @@ const UserProfileHeaderView = ({
   const { cover_photo_id, extra, cover_photo_position, profile_settings } =
     item;
 
-  const avatar = getImageSrc(item.avatar, '200', assetUrl('user.no_image'));
+  const avatar = getImageSrc(item.avatar, '200x200', assetUrl('user.no_image'));
   const cover = getImageSrc(
     item?.cover,
     '1024',
     assetUrl('user.cover_no_image')
   );
-  const condition = { item, acl, setting };
+  const condition = { item, acl, setting, session };
   const profileMenuItems = filterShowWhen(profileMenu.items, condition);
   const actionMenuItemsFull = filterShowWhen(
     profileActionMenu.items,
@@ -197,14 +199,20 @@ const UserProfileHeaderView = ({
                             handleAction={handleAction}
                             items={actionMenuItems}
                             control={
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                size="small"
-                                className={classes.profileActionMenu}
+                              <Tooltip
+                                title={i18n.formatMessage({
+                                  id: 'more_options'
+                                })}
                               >
-                                <LineIcon icon={'ico-dottedmore-o'} />
-                              </Button>
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  size="small"
+                                  className={classes.profileActionMenu}
+                                >
+                                  <LineIcon icon={'ico-dottedmore-o'} />
+                                </Button>
+                              </Tooltip>
                             }
                           />
                         ) : null}

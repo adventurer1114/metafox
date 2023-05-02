@@ -8,7 +8,7 @@ use MetaFox\User\Support\Facades\UserBlocked;
 
 class FriendMentionNotifiableListener
 {
-    public function handle(User $context, User $owner): ?array
+    public function handle(?User $context, User $owner): ?array
     {
         if ($owner->entityType() != Page::ENTITY_TYPE) {
             return null;

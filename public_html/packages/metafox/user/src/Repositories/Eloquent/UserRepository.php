@@ -8,7 +8,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator as Paginate;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -40,7 +39,7 @@ use MetaFox\User\Models\UserBlocked;
 use MetaFox\User\Notifications\ProfileUpdatedByAdmin;
 use MetaFox\User\Policies\UserPolicy;
 use MetaFox\User\Presenters\UserPresenter;
-use MetaFox\User\Repositories\CancelFeedbackRepositoryInterface;
+use MetaFox\User\Repositories\CancelFeedbackAdminRepositoryInterface;
 use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
 use MetaFox\User\Support\Browse\Scopes\User\BlockedScope;
 use MetaFox\User\Support\Browse\Scopes\User\CustomFieldScope;
@@ -433,7 +432,6 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
      *
      * @return User
      * @throws ValidatorException
-     * @see UpdateRequest
      */
     public function update(array $attributes, $id): User
     {
@@ -569,22 +567,6 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             ->simplePaginate($limit);
     }
 
-    public function viewUsersAdminCP(ContractUser $context, array $attributes): LengthAwarePaginator
-    {
-        policy_authorize(UserPolicy::class, 'viewAdminCP', $context);
-
-        $limit = $attributes['limit'];
-
-        $relations = ['profile'];
-
-        $query = $this->buildQueryViewUsers($context, $attributes);
-
-        return $query
-            ->select(['users.*'])
-            ->with($relations)
-            ->paginate($limit);
-    }
-
     /**
      * @param ContractUser         $context
      * @param array<string, mixed> $attributes
@@ -603,6 +585,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         $gender         = $attributes['gender'] ?? null;
         $country        = $attributes['country'] ?? null;
         $city           = $attributes['city'] ?? null;
+        $cityCode       = Arr::get($attributes, 'city_code');
         $countryStateId = $attributes['country_state_id'] ?? null;
         $postalCode     = $attributes['postal_code'] ?? null;
         $role           = $attributes['group'] ?? null;
@@ -639,6 +622,12 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         if ($country) {
             $query->whereHas('profile', function (Builder $q) use ($country) {
                 $q->where('country_iso', $country);
+            });
+        }
+
+        if ($cityCode) {
+            $query->whereHas('profile', function (Builder $q) use ($cityCode) {
+                $q->where('country_city_code', $cityCode);
             });
         }
 
@@ -944,14 +933,8 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         }
 
         if ($alreadyExists) {
-            $timestamp = $this->freshTimestamp();
-
-            $feed->fill([
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp,
-            ]);
-
-            $feed->save();
+            $feed->touch('created_at');
+            $feed->touch('updated_at');
         }
 
         $feedId = $feed->entityId();
@@ -1102,6 +1085,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     public function getAdminAndStaffOptions(): array
     {
         $query = $this->getModel()->newModelInstance()->newQuery();
+        $query->where('users.approve_status', MetaFoxConstant::STATUS_APPROVED);
 
         $roles = [
             UserRole::SUPER_ADMIN_USER_ID,
@@ -1203,16 +1187,17 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
      */
     public function cancelAccount(ContractUser $context, int $id, array $params): bool
     {
-        $user     = $this->find($id);
-        $reasonId = Arr::get($params, 'reason_id', 0);
-        $feedback = Arr::get($params, 'feedback', 0);
+        $user        = $this->find($id);
+        $reasonId    = Arr::get($params, 'reason_id', 0);
+        $feedback    = Arr::get($params, 'feedback', 0);
+        $phoneNumber = $user->profile?->phone_number;
 
         $deleted = $this->deleteUser($context, $id);
         if (!$deleted) {
             return false;
         }
 
-        resolve(CancelFeedbackRepositoryInterface::class)->createFeedback($context, [
+        resolve(CancelFeedbackAdminRepositoryInterface::class)->createFeedback($context, [
             'email'         => $user->email ?? '',
             'name'          => $user->full_name ?? 'Unknown',
             'user_id'       => $user->entityId(),
@@ -1220,6 +1205,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             'user_type'     => $user->entityType(),
             'reason_id'     => $reasonId,
             'feedback_text' => $this->cleanContent($feedback),
+            'phone_number'  => $phoneNumber,
         ]);
 
         return true;
@@ -1243,15 +1229,15 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     /**
      * @throws AuthorizationException
      */
-    public function approve(ContractUser $context, int $id, array $attributes): Content
+    public function approve(ContractUser $context, int $id): Content
     {
         $resource = $this->find($id);
 
         policy_authorize(UserPolicy::class, 'approve', $context);
 
-        $success = $resource->update(['approve_status' => $attributes['approve_status']]);
+        $success = $resource->update(['approve_status' => MetaFoxConstant::STATUS_APPROVED]);
 
-        if ($success && $attributes['approve_status'] == MetaFoxConstant::STATUS_APPROVED) {
+        if ($success) {
             app('events')->dispatch('models.notify.approved', [$resource], true);
         }
 
@@ -1273,9 +1259,9 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
 
         policy_authorize(UserPolicy::class, 'approve', $context);
 
-        $success = $resource->update(['approve_status' => $attributes['approve_status']]);
+        $success = $resource->update(['approve_status' => MetaFoxConstant::STATUS_NOT_APPROVED]);
 
-        if ($success && $attributes['approve_status'] == MetaFoxConstant::STATUS_NOT_APPROVED) {
+        if ($success) {
             $subject = Arr::get($attributes, 'subject');
             $message = Arr::get($attributes, 'message');
             Mail::to($email)

@@ -20,7 +20,7 @@ export default createBlock<any>({
   extendBlock: Enhancer,
   overrides: {
     title: 'Pending',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - PendingPost - Main Card',
     contentType: 'group'
   }

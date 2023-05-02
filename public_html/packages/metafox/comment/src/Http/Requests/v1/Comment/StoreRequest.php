@@ -2,9 +2,11 @@
 
 namespace MetaFox\Comment\Http\Requests\v1\Comment;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use MetaFox\Captcha\Support\Facades\Captcha;
+use MetaFox\Comment\Exceptions\ValidateCommentException;
 use MetaFox\Comment\Traits\HandleTagFriendTrait;
 use MetaFox\Platform\Rules\ExistIfGreaterThanZero;
 
@@ -22,11 +24,16 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $existRule = new ExistIfGreaterThanZero(
+            'exists:comments,id',
+            __p('comment::validation.the_post_has_been_removed_desc')
+        );
+
         $rules = [
             'item_id'   => ['required', 'numeric'],
             'item_type' => ['required', 'string'],
             'text'      => ['required_without:photo_id', 'string', 'nullable'],
-            'parent_id' => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:comments,id')],
+            'parent_id' => ['sometimes', 'numeric', $existRule],
             'photo_id'  => ['sometimes', 'nullable', 'numeric', 'exists:storage_files,id'],
         ];
 
@@ -42,6 +49,12 @@ class StoreRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $message = $validator->getMessageBag()->first() ?? '';
+        throw (new ValidateCommentException($message));
     }
 
     public function validated($key = null, $default = null)

@@ -73,7 +73,7 @@ class AuthenticatorServiceForm extends AbstractForm
                         ->required()
                         ->minLength(6, __p('mfa::phrase.authenticator_code_must_be_a_number_with_six_digits'))
                         ->matchesAsNumeric(__p('mfa::phrase.authenticator_code_must_be_a_number_with_six_digits'), false)
-                        ->setError('required', __p('mfa::phrase.authenticator_code_is_required'))
+                        ->setError('required', __p('mfa::phrase.authenticator_code_is_a_required_field'))
                 ),
         );
 

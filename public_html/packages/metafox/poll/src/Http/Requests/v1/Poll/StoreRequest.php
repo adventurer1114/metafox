@@ -65,7 +65,6 @@ class StoreRequest extends FormRequest
             'public_vote'      => ['sometimes', 'numeric', new AllowInRule([0, 1])],
             'randomize'        => ['sometimes', 'numeric', new AllowInRule([0, 1])],
             'privacy'          => ['required', new PrivacyRule()],
-            'captcha'          => Captcha::ruleOf('poll.create_poll'),
         ];
 
         $this->handleRequiredImage($rules);
@@ -84,7 +83,7 @@ class StoreRequest extends FormRequest
             'question.required' => __p('validation.field_is_a_required_field', [
                 'field' => 'Question',
             ]),
-            'answers.*.answer.required' => __p('poll::phrase.answer_is_required'),
+            'answers.*.answer.required' => __p('poll::phrase.answer_is_a_required_field'),
             'answers.*.answer.between'  => __p('validation.between.string', [
                 'attribute' => 'answer',
                 'min'       => self::MIN_ANSWER_LENGTH,

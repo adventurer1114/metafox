@@ -2,7 +2,9 @@
 
 namespace MetaFox\Comment\Policies;
 
+use Illuminate\Support\Arr;
 use MetaFox\Comment\Models\Comment;
+use MetaFox\Comment\Models\CommentAttachment;
 use MetaFox\Core\Traits\CheckModeratorSettingTrait;
 use MetaFox\Platform\Contracts\ActionEntity;
 use MetaFox\Platform\Contracts\ActionOnResourcePolicyInterface;
@@ -52,8 +54,12 @@ class CommentPolicy implements
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -77,12 +83,12 @@ class CommentPolicy implements
         }
 
         $entityPermission = "{$resource->entityType()}.comment";
-        if (!$user->checkPermissionIfExists($entityPermission)) {
+        if (!$user->hasPermissionTo($entityPermission)) {
             return false;
         }
 
-        $owner = $resource->owner;
-        if ($owner->entityId() != $user->entityId()) {
+        if ($resource->ownerId() != $user->entityId()) {
+            $owner = $resource->owner;
             if (!PrivacyPolicy::checkCreateOnOwner($user, $owner)) {
                 return false;
             }
@@ -157,7 +163,8 @@ class CommentPolicy implements
             return true;
         }
 
-        $owner = $resource->item->owner;
+        // todo performance slow.
+        $owner = $resource->item?->owner;
 
         if ($owner instanceof HasPrivacyMember) {
             return $this->checkModeratorSetting($user, $owner, 'remove_post_and_comment_on_post');
@@ -213,23 +220,11 @@ class CommentPolicy implements
             return false;
         }
 
-        $owner = $resource->owner;
-
-        $user = $resource->user;
-
-        if (null === $user) {
+        if ($context->entityId() == $resource->userId()) {
             return false;
         }
 
-        if (null === $owner) {
-            return false;
-        }
-
-        if ($context->entityId() == $user->entityId()) {
-            return false;
-        }
-
-        if ($context->entityId() == $owner->entityId()) {
+        if ($context->entityId() == $resource->ownerId()) {
             return false;
         }
 
@@ -263,5 +258,32 @@ class CommentPolicy implements
         }
 
         return $owner->entityId() == $context->entityId();
+    }
+
+    public function removeLinkPreview(User $user, Entity $resource): bool
+    {
+        if (null === $resource->commentAttachment) {
+            return false;
+        }
+
+        if ($resource->commentAttachment->item_type != CommentAttachment::TYPE_LINK) {
+            return false;
+        }
+
+        $params = json_decode($resource->commentAttachment->params, true);
+
+        if (!is_array($params)) {
+            return false;
+        }
+
+        if (Arr::get($params, 'is_hidden')) {
+            return false;
+        }
+
+        if (!$this->update($user, $resource)) {
+            return false;
+        }
+
+        return true;
     }
 }

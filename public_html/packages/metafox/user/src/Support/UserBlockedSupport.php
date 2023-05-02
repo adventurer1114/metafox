@@ -14,10 +14,16 @@ use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
 class UserBlockedSupport implements UserBlockedSupportContract
 {
     /** @var array<int, array<int>> */
-    private $blockedList = [];
+    private array $blockedList = [];
 
-    public function __construct(protected UserRepositoryInterface $userRepository)
+    /**
+     * @var UserRepositoryInterface
+     */
+    protected UserRepositoryInterface $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
     {
+        $this->userRepository =  $userRepository;
     }
 
     public function getCacheName(int $userId): string
@@ -62,17 +68,11 @@ class UserBlockedSupport implements UserBlockedSupportContract
         }
 
         if (!isset($this->blockedList[$user->entityId()])) {
-            $this->blockedList[$user->entityId()] = Cache::remember(
-                $this->getCacheName($user->entityId()),
-                3000,
-                function () use ($user) {
-                    return Model::query()
-                        ->where('user_id', $user->entityId())
-                        ->get(['owner_id', 'user_id'])
-                        ->pluck('user_id', 'owner_id')
-                        ->toArray();
-                }
-            );
+            $this->blockedList[$user->entityId()] = Model::query()
+                ->where('user_id', $user->entityId())
+                ->get(['owner_id', 'user_id'])
+                ->pluck('user_id', 'owner_id')
+                ->toArray();
         }
 
         return $this->blockedList[$user->entityId()];

@@ -104,7 +104,7 @@ class GroupImporter extends JsonImporter
             [
                 'id'          => $oid,
                 'text'        => $entry['text'] ?? '',
-                'text_parsed' => html_entity_decode($entry['text_parsed'] ?? ''),
+                'text_parsed' => $this->parseText($entry['text_parsed'] ?? '', false),
             ]
         );
 

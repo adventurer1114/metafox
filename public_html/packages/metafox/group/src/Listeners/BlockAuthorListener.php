@@ -8,7 +8,7 @@ use MetaFox\Platform\Contracts\User;
 
 class BlockAuthorListener
 {
-    public function handle(User $context, User $owner, User $user): ?bool
+    public function handle(?User $context, User $owner, User $user): ?bool
     {
         if (!$owner instanceof Group) {
             return null;

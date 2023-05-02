@@ -51,9 +51,13 @@ class ContactForm extends AbstractForm
             Arr::set($values, 'email', $this->context->email);
         }
 
+        $defaultCategory = Settings::get('contact.default_category');
+        Arr::set($values, 'category_id', $defaultCategory);
+
         $this->title(__p('contact::phrase.contact_form_title'))
             ->description(__p('contact::phrase.contact_form_description'))
             ->action(apiUrl('contact.store'))
+            ->resetFormOnSuccess()
             ->asPost()
             ->setValue($values);
     }

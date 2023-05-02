@@ -14,6 +14,7 @@ use MetaFox\Announcement\Models\Style;
 use MetaFox\Announcement\Policies\AnnouncementPolicy;
 use MetaFox\Announcement\Repositories\AnnouncementRepositoryInterface;
 use MetaFox\Announcement\Repositories\HiddenRepositoryInterface;
+use MetaFox\Announcement\Support\CacheManager;
 use MetaFox\Authorization\Models\Role;
 use MetaFox\Authorization\Repositories\Contracts\RoleRepositoryInterface;
 use MetaFox\Localize\Repositories\PhraseRepositoryInterface;
@@ -21,6 +22,7 @@ use MetaFox\Platform\Contracts\HasUserProfile;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
+use MetaFox\User\Support\Facades\UserValue;
 
 /**
  * Class AnnouncementRepository.
@@ -48,14 +50,28 @@ class AnnouncementRepository extends AbstractRepository implements AnnouncementR
     /**
      * @param  User                 $context
      * @param  array<string, mixed> $attributes
-     * @return Paginator
+     * @return Paginator|array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function viewAnnouncements(User $context, array $attributes): Paginator
+    public function viewAnnouncements(User $context, array $attributes): Paginator|array
     {
-        $limit = $attributes['limit'];
+        $limit = $attributes['limit'] ?? 10;
 
         $query = $this->buildQuery($context);
+
+        $query->where(function (Builder $whereQuery) {
+            $whereQuery
+                ->whereNull('announcement_views.id')
+                ->orWhere('announcements.can_be_closed', '=', 0);
+        });
+
+        $timestamp = UserValue::getUserValueSettingByName($context, CacheManager::ANNOUNCEMENT_CLOSE_SETTING);
+
+        $first = $query->first();
+
+        if ($first?->start_date <= Carbon::parse($timestamp)) {
+            return [];
+        }
 
         return $query
             ->with(['announcementText', 'style', 'views'])
@@ -76,6 +92,14 @@ class AnnouncementRepository extends AbstractRepository implements AnnouncementR
         policy_authorize(AnnouncementPolicy::class, 'view', $context, $resource);
 
         return $resource;
+    }
+
+    public function getTotalUnread(User $context): int
+    {
+        $query = $this->buildQuery($context);
+        $query->whereNull('announcement_views.id');
+
+        return $query->count();
     }
 
     /**
@@ -300,16 +324,13 @@ class AnnouncementRepository extends AbstractRepository implements AnnouncementR
                     ->where('announcement_views.user_id', '=', $context->entityId());
             })
             ->where('announcements.is_active', '=', 1)
-            ->where('announcements.start_date', '<=', Carbon::now())
-            ->where(function (Builder $whereQuery) {
-                $whereQuery
-                    ->whereNull('announcement_views.id')
-                    ->orWhere('announcements.can_be_closed', '=', 0);
-            });
+            ->where('announcements.start_date', '<=', Carbon::now());
 
-        $query = $this->applyRoleQuery($query, $context);
-        $query = $this->applyLocationQuery($query, $context);
-        $query = $this->applyGenderQuery($query, $context);
+        if (!$context->hasSuperAdminRole()) {
+            $query = $this->applyRoleQuery($query, $context);
+            $query = $this->applyLocationQuery($query, $context);
+            $query = $this->applyGenderQuery($query, $context);
+        }
 
         return $query
             ->orderBy('announcements.can_be_closed', 'desc')
@@ -353,5 +374,17 @@ class AnnouncementRepository extends AbstractRepository implements AnnouncementR
             $where->where('announcements.gender', '=', 0)
                 ->orWhere('announcements.gender', '=', $context->profile->gender_id);
         });
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function closeAnnouncement(User $context): bool
+    {
+        policy_authorize(AnnouncementPolicy::class, 'close', $context);
+        $timestamp = Carbon::now()->timestamp;
+
+        return UserValue::updateUserValueSetting($context, [CacheManager::ANNOUNCEMENT_CLOSE_SETTING => $timestamp]);
     }
 }

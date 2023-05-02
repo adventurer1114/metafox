@@ -80,7 +80,8 @@
           "disableGutters": true,
           "rootStyle": {
             "pl": 1,
-            "pr": 1
+            "pr": 1,
+            "pb": 2
           },
           "elements": {
             "bottom1": {

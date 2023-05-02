@@ -29,7 +29,7 @@ export default createBlock<ListViewBlockProps>({
     itemView: 'groupRule.itemView.mainCard',
     gridLayout: 'Group - Rule - Main Card',
     itemLayout: 'Group - Rule - Main Card',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     contentType: 'group'
   }
 });

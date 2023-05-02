@@ -14,7 +14,6 @@ use MetaFox\Localize\Http\Requests\v1\Phrase\Admin\ImportRequest;
 use MetaFox\Localize\Http\Requests\v1\Phrase\Admin\IndexRequest;
 use MetaFox\Localize\Http\Requests\v1\Phrase\Admin\StoreRequest;
 use MetaFox\Localize\Http\Requests\v1\Phrase\Admin\UpdateRequest;
-use MetaFox\Localize\Http\Resources\v1\Phrase\Admin\ImportPhraseForm;
 use MetaFox\Localize\Http\Resources\v1\Phrase\Admin\PhraseDetail as Detail;
 use MetaFox\Localize\Http\Resources\v1\Phrase\Admin\PhraseItem;
 use MetaFox\Localize\Http\Resources\v1\Phrase\Admin\StorePhraseForm;
@@ -214,7 +213,7 @@ class PhraseAdminController extends ApiController
 
         $this->repository->getModel()
             ->newQuery()
-            ->whereIn('id', $id)
+            ->whereIn('id', is_array($id) ? $id : [$id])
             ->delete();
 
         return $this->success($id);
@@ -303,10 +302,5 @@ class PhraseAdminController extends ApiController
                 ],
             ],
         ], __p('localize::phrase.phrase_imported_successfully'));
-    }
-
-    public function formImport(): JsonResponse
-    {
-        return $this->success(new ImportPhraseForm());
     }
 }

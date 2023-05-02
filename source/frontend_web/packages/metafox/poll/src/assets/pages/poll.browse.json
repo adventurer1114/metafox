@@ -12,9 +12,11 @@
             "noHeader": true
           },
           "itemView": "poll.itemView.mainCard",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Poll - Main Card",
-          "itemLayout": "Poll - Main Card"
+          "itemLayout": "Poll - Main Card",
+          "canLoadMore": true,
+          "canLoadSmooth": 1
         },
         {
           "blockId": "g3p9c",
@@ -66,11 +68,13 @@
           "slotName": "main",
           "title": "",
           "emptyPage": "core.block.no_content_with_icon",
+          "canLoadMore": true,
+          "canLoadSmooth": 1,
           "emptyPageProps": {
             "noHeader": true
           },
           "itemView": "poll.itemView.mainCard",
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Poll - Main Card - Mobile",
           "itemLayout": "Poll - Main Card - Mobile"
         }

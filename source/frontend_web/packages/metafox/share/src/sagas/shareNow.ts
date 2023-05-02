@@ -111,6 +111,6 @@ export function* shareNow(
   }
 }
 
-const sagas = [takeLatest('shareNow', shareNow)];
+const sagas = [takeLatest('feed/shareNow', shareNow)];
 
 export default sagas;

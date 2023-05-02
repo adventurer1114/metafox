@@ -50,8 +50,12 @@ class GroupPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -62,6 +66,10 @@ class GroupPolicy implements ResourcePolicyInterface
 
     public function view(User $user, Entity $resource, $code = null): bool
     {
+        if (!$resource->isApproved() && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('group.moderate')) {
             return true;
         }
@@ -111,6 +119,10 @@ class GroupPolicy implements ResourcePolicyInterface
 
     public function update(User $user, ?Entity $resource = null): bool
     {
+        if (!$resource instanceof Resource) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('group.moderate')) {
             return true;
         }
@@ -119,12 +131,7 @@ class GroupPolicy implements ResourcePolicyInterface
             return false;
         }
 
-        if ($resource instanceof Content) {
-            return $this->isGroupAdmin($user, $resource)
-                || $this->isGroupOwner($user, $resource);
-        }
-
-        return true;
+        return $this->isGroupAdmin($user, $resource) || $this->isGroupOwner($user, $resource);
     }
 
     /**
@@ -138,11 +145,15 @@ class GroupPolicy implements ResourcePolicyInterface
             return true;
         }
 
-        if ($resource instanceof Group) {
-            return $resource->isMember($user);
+        if (!$resource instanceof Group) {
+            return false;
         }
 
-        return true;
+        if (!$resource->isApproved()) {
+            return false;
+        }
+
+        return $resource->isMember($user);
     }
 
     public function viewInvitedOrBlocked(User $user, ?Content $resource = null): bool
@@ -348,10 +359,9 @@ class GroupPolicy implements ResourcePolicyInterface
             return $isYour;
         }
 
-        if ($isYour && !in_array(
-            $status,
-            [MetaFoxConstant::ITEM_STATUS_APPROVED, MetaFoxConstant::ITEM_STATUS_REMOVED]
-        )) {
+        $itemStatus = [MetaFoxConstant::ITEM_STATUS_APPROVED, MetaFoxConstant::ITEM_STATUS_REMOVED];
+
+        if ($isYour && !in_array($status, $itemStatus)) {
             return false;
         }
 
@@ -446,6 +456,10 @@ class GroupPolicy implements ResourcePolicyInterface
             return false;
         }
 
+        if (!$group->isApproved()) {
+            return false;
+        }
+
         return $user->hasPermissionTo('group.upload_cover') && $this->manageGroup($user, $group);
     }
 
@@ -455,6 +469,47 @@ class GroupPolicy implements ResourcePolicyInterface
             return false;
         }
 
+        if (!$group->isApproved()) {
+            return false;
+        }
+
         return $group->cover_id > 0;
+    }
+
+    public function follow(User $user, Group $group): bool
+    {
+        if (!$group->isMember($user)) {
+            return false;
+        }
+
+        $follow = app('events')->dispatch('follow.can_follow', [$user, $group], true);
+
+        if ($follow == null) {
+            return false;
+        }
+
+        return $follow;
+    }
+
+    public function viewGroupRule(User $user, Group $group): bool
+    {
+        return $group->isMember($user);
+    }
+
+    public function viewOnProfilePage(User $user, User $owner): bool
+    {
+        if (!$owner instanceof Group) {
+            return false;
+        }
+
+        if ($user->hasPermissionTo('group.moderate')) {
+            return true;
+        }
+
+        if (!$owner->isPublicPrivacy()) {
+            return $owner->isMember($user);
+        }
+
+        return true;
     }
 }

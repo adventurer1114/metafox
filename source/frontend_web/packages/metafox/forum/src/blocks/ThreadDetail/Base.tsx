@@ -18,8 +18,8 @@ import {
   ItemUserShape,
   SponsorFlag,
   UserAvatar,
-  RichTextViewMore,
-  LineIcon
+  LineIcon,
+  HtmlViewerWrapper
 } from '@metafox/ui';
 import {
   Box,
@@ -65,11 +65,7 @@ const AvatarWrapper = styled('div', { name, slot: 'AvatarWrapper' })(
 const ThreadContent = styled('div', { name, slot: 'threadContent' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(15),
-    lineHeight: 1.33,
-    marginTop: theme.spacing(3),
-    '& p + p': {
-      marginBottom: theme.spacing(2.5)
-    }
+    lineHeight: 1.33
   })
 );
 const TagItem = styled('div', { name, slot: 'tagItem' })(({ theme }) => ({
@@ -91,7 +87,7 @@ const TagItem = styled('div', { name, slot: 'tagItem' })(({ theme }) => ({
 const AttachmentTitle = styled('div', { name, slot: 'attachmentTitle' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(18),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightBold
   })
@@ -100,7 +96,6 @@ const Attachment = styled('div', { name, slot: 'attachment' })(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: theme.spacing(2),
   justifyContent: 'space-between'
 }));
 const AttachmentItemWrapper = styled('div', {
@@ -182,9 +177,7 @@ export default function DetailView({
         <BlockContent>
           <ContentWrapper>
             {PendingCard && item?.is_pending ? (
-              <Box sx={{ px: 2, pt: 2 }}>
-                <PendingCard sx item={{ ...item }} />
-              </Box>
+              <PendingCard sxWrapper={{ p: 2 }} item={{ ...item }} />
             ) : null}
             <ThreadViewContainer>
               <ItemAction sx={{ position: 'absolute', top: 8, right: 8 }}>
@@ -248,9 +241,9 @@ export default function DetailView({
                 </Box>
               </Box>
               <ThreadContent>
-                <RichTextViewMore maxHeight="300px">
+                <HtmlViewerWrapper>
                   <HtmlViewer html={description || ''} />
-                </RichTextViewMore>
+                </HtmlViewerWrapper>
                 {item?.modification_date ? (
                   <DotSeparator
                     sx={{ color: 'text.secondary', mt: 1, fontStyle: 'italic' }}

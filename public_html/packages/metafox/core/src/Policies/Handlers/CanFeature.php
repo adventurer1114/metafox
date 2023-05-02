@@ -29,10 +29,9 @@ class CanFeature implements PolicyRuleInterface
             }
         }
 
-        if (null !== $newValue) {
-            if ($newValue == $resource->is_featured) {
-                return false;
-            }
+        // todo risky convert object int when check null == $newValue
+        if (is_int($newValue) && $newValue == $resource->is_featured) {
+            return false;
         }
 
         return true;

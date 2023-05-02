@@ -45,10 +45,10 @@ class SearchEventMapForm extends AbstractForm
                 ->marginNormal()
                 ->options([
                     [
-                        'label' => 'New',
+                        'label' => __p('core::phrase.new'),
                         'value' => Browse::SORT_TYPE_DESC,
                     ], [
-                        'label' => 'Latest',
+                        'label' => __p('core::phrase.sort.latest'),
                         'value' => Browse::SORT_TYPE_ASC,
                     ],
                 ]),
@@ -87,26 +87,18 @@ class SearchEventMapForm extends AbstractForm
     {
         return [
             [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_5_NEAREST),
+                'label' => __p('event::phrase.nearest.view_5_nearest_events'),
                 'value' => MetaFoxConstant::VIEW_5_NEAREST,
             ], [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_10_NEAREST),
+                'label' => __p('event::phrase.nearest.view_10_nearest_events'),
                 'value' => MetaFoxConstant::VIEW_10_NEAREST,
             ], [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_15_NEAREST),
+                'label' => __p('event::phrase.nearest.view_15_nearest_events'),
                 'value' => MetaFoxConstant::VIEW_15_NEAREST,
             ], [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_20_NEAREST),
+                'label' => __p('event::phrase.nearest.view_20_nearest_events'),
                 'value' => MetaFoxConstant::VIEW_20_NEAREST,
             ],
         ];
-    }
-
-    protected function getLimitLabel(int $number): string
-    {
-        return __p(
-            'event::phrase.view_nearest_events',
-            ['number' => $number]
-        );
     }
 }

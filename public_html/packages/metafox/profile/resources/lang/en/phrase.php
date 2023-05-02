@@ -47,6 +47,7 @@ return [
     'edit_field'                                 => '',
     'edit_type_label'                            => 'Editing Component',
     'facebook_label'                             => 'Facebook',
+    'fields_successfully_ordered'                => 'Fields successfully ordered.',
     'group'                                      => 'Group',
     'has_description'                            => 'Has Description',
     'has_label'                                  => 'Show Label',

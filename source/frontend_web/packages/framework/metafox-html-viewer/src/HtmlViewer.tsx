@@ -4,7 +4,7 @@ import default_transform from './transform';
 import { HtmlComponentProps } from './types';
 
 function nl2br(text: string): string {
-  return `${text}`.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br/>$2');
+  return `${text}`.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<p></p>$2');
 }
 
 const HtmlComponent = ({

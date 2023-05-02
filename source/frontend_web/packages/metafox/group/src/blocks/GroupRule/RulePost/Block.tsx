@@ -23,7 +23,7 @@ export default createBlock<ListViewBlockProps>({
     title: 'set_up_group_rules',
     canLoadMore: true,
     itemView: 'groupRule.itemView.mainCard',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - Rule - Main Card',
     itemLayout: 'Group - Rule - Main Card',
     emptyPageProps: {

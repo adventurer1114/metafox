@@ -11,6 +11,7 @@ use MetaFox\Platform\Traits\Http\Resources\HasStatistic;
 use MetaFox\Saved\Models\SavedList as Model;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
 use MetaFox\User\Models\UserEntity;
+use MetaFox\Platform\ResourcePermission as ACL;
 
 /**
  * Class SavedListItem.
@@ -84,7 +85,10 @@ class SavedListItem extends JsonResource
         $context = user();
 
         return [
-            'is_owner' => $this->resource->userId() == $context->entityId(),
+            'is_owner'       => $this->resource->userId() == $context->entityId(),
+            ACL::CAN_EDIT    => $context->can('update', [$this->resource, $this->resource]),
+            ACL::CAN_DELETE  => $context->can('delete', [$this->resource, $this->resource]),
+            'can_add_friend' => $context->can('addFriend', [$this->resource, $this->resource]),
         ];
     }
 }

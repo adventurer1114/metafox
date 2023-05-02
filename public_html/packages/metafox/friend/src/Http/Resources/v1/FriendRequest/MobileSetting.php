@@ -58,7 +58,8 @@ class MobileSetting extends Setting
         $this->add('viewSentRequests')
             ->apiUrl('friend/request')
             ->apiParams([
-                'view' => 'send',
+                'view'  => 'send',
+                'limit' => MetaFoxConstant::DEFAULT_LIMIT_FRIEND_REQUEST,
             ]);
     }
 }

@@ -77,6 +77,31 @@
       }
     }
   },
+  "Status Composer": {
+    "blockProps": {
+      "contentStyle": {
+        "sx": {
+          "pl": 2,
+          "pr": 2,
+          "pt": 2,
+          "pb": 2,
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "border.outlined",
+          "borderWidth": 1,
+          "borderStyle": "solid"
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "mb": 0,
+          "mt": 2
+        }
+      }
+    },
+    "noHeader": true,
+    "noFooter": true
+  },
   "Blocker": {
     "blockProps": {
       "contentStyle": {
@@ -354,6 +379,35 @@
     "noHeader": true,
     "noFooter": true
   },
+  "Main Form With Header": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2,
+          "mt": 2,
+          "ml": 2,
+          "mr": 2
+        }
+      },
+      "headerStyle": {
+        "sx": {
+          "height": "56px"
+        }
+      },
+      "titleStyle": {
+        "component": "h1",
+        "sx": {
+          "typography": "h3",
+          "color": "text.primary"
+        }
+      }
+    }
+  },
   "Account Setting": {
     "blockProps": {
       "titleStyle": {
@@ -455,7 +509,7 @@
       "headerStyle": {
         "dividerVariant": "0",
         "sx": {
-          "pt": 2,
+          "pt": 1,
           "pb": 2
         }
       },
@@ -465,7 +519,9 @@
       "blockStyle": {
         "sx": {
           "bgcolor": "0",
-          "borderRadius": 1
+          "borderRadius": 1,
+          "mt": 2,
+          "mb": 2
         }
       }
     },
@@ -493,7 +549,7 @@
       "headerStyle": {
         "dividerVariant": "0",
         "sx": {
-          "pt": 2,
+          "pt": 1,
           "pb": 2
         }
       },
@@ -503,7 +559,8 @@
       "blockStyle": {
         "sx": {
           "bgcolor": "0",
-          "borderRadius": 1
+          "borderRadius": 1,
+          "mt": 2
         }
       }
     },
@@ -530,7 +587,7 @@
       "headerStyle": {
         "dividerVariant": "0",
         "sx": {
-          "pt": 2,
+          "pt": 1,
           "pb": 2
         }
       },
@@ -540,7 +597,9 @@
       "blockStyle": {
         "sx": {
           "bgcolor": "0",
-          "borderRadius": "0"
+          "borderRadius": "0",
+          "mt": 2,
+          "mb": 0
         }
       }
     },
@@ -568,7 +627,9 @@
         "dividerVariant": "0",
         "sx": {
           "pt": 2,
-          "pb": 2
+          "pb": 2,
+          "pl": 2,
+          "pr": 2
         }
       },
       "footerStyle": {
@@ -720,6 +781,33 @@
     "noHeader": true,
     "noFooter": true
   },
+  "Cards Setting": {
+    "emptyPage": "hide",
+    "gridVariant": "gridView",
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1",
+          "color": "text"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "mb": "2"
+        }
+      },
+      "headerStyle": {},
+      "footerStyle": {},
+      "blockStyle": {
+        "sx": {
+          "mt": 0
+        }
+      }
+    },
+    "noHeader": true,
+    "noFooter": true
+  },
   "Small Lists": {
     "emptyPage": "hide",
     "gridVariant": "gridView",
@@ -780,152 +868,6 @@
     },
     "noHeader": true,
     "noFooter": true
-  },
-  "App Lists": {
-    "blockProps": {
-      "titleStyle": {
-        "component": "h2",
-        "sx": {
-          "typography": "subtitle1"
-        }
-      },
-      "headerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "pt": 1,
-          "pb": 2
-        }
-      },
-      "footerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "mt": 2
-        }
-      },
-      "blockStyle": {
-        "sx": {
-          "mt": 2,
-          "bgcolor": "0",
-          "borderRadius": "0",
-          "mb": 2,
-          "pl": 2,
-          "pr": 2
-        }
-      }
-    },
-    "noHeader": 0,
-    "noFooter": 0
-  },
-  "App Lists Pending Posts": {
-    "blockProps": {
-      "titleStyle": {
-        "component": "h1",
-        "sx": {
-          "typography": "h3",
-          "mt": 2
-        }
-      },
-      "headerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "pt": 1,
-          "pb": 2,
-          "maxWidth": "720px",
-          "width": "100%"
-        }
-      },
-      "contentStyle": {
-        "sx": {
-          "maxWidth": "720px",
-          "width": "100%"
-        }
-      },
-      "footerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "mt": 2
-        }
-      },
-      "blockStyle": {
-        "sx": {
-          "mt": 2,
-          "bgcolor": "0",
-          "borderRadius": "0",
-          "mb": 2,
-          "pl": 0,
-          "pr": 0,
-          "display": "flex",
-          "maxWidth": "720px",
-          "margin": "0 auto",
-          "flexDirection": "column"
-        }
-      }
-    },
-    "noHeader": 0,
-    "noFooter": 0
-  },
-  "App Lists Mobile": {
-    "blockProps": {
-      "titleStyle": {
-        "component": "h1",
-        "sx": {
-          "typography": "subtitle1"
-        }
-      },
-      "headerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "pt": 1,
-          "pb": 2
-        }
-      },
-      "footerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "mt": 2
-        }
-      },
-      "blockStyle": {
-        "sx": {
-          "bgcolor": "0",
-          "borderRadius": "0"
-        }
-      }
-    },
-    "noHeader": 0,
-    "noFooter": 0
-  },
-  "App Lists Tab": {
-    "blockProps": {
-      "titleStyle": {
-        "component": "h1",
-        "sx": {
-          "typography": "h3"
-        }
-      },
-      "headerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "pt": 1,
-          "pb": 2
-        }
-      },
-      "footerStyle": {
-        "dividerVariant": "0",
-        "sx": {
-          "mt": 2
-        }
-      },
-      "blockStyle": {
-        "sx": {
-          "bgcolor": "0",
-          "borderRadius": "0",
-          "mb": 2
-        }
-      }
-    },
-    "noHeader": 0,
-    "noFooter": 0
   },
   "sidebar app header": {
     "freeze": true,
@@ -1165,7 +1107,7 @@
   "Profile - Side Contained": {
     "blockProps": {
       "titleStyle": {
-        "component": "h1",
+        "component": "h2",
         "sx": {
           "typography": "h4",
           "color": ""
@@ -1417,7 +1359,7 @@
           "pr": 2,
           "pt": 0,
           "pb": 2,
-          "mt": 0
+          "mt": 1
         }
       },
       "headerStyle": {
@@ -1459,21 +1401,13 @@
       },
       "contentStyle": {
         "sx": {
-          "pl": 2,
-          "pr": 2,
-          "pt": 2,
-          "pb": 2
+          "p": 0
         }
       },
       "headerStyle": {
         "sx": {
-          "pl": 2,
-          "pr": 2,
-          "pt": 0,
-          "pb": 0,
-          "mr": 0,
-          "mt": 0,
-          "mb": 0,
+          "pb": 2,
+          "m": 0,
           "minHeight": "48px",
           "height": "48px"
         }
@@ -1484,9 +1418,8 @@
       "blockStyle": {
         "sx": {
           "bgcolor": "background.paper",
-          "mt": 2,
-          "mb": 0,
-          "borderRadius": 1
+          "borderRadius": 1,
+          "mb": 2
         }
       }
     },
@@ -1510,20 +1443,15 @@
       },
       "headerStyle": {
         "sx": {
-          "pl": 2,
-          "pr": 2,
-          "pt": 0,
-          "pb": 1,
-          "mr": 0,
-          "mt": 0,
-          "mb": 0,
+          "pb": 2,
+          "m": 0,
           "justify-content": "right"
         }
       },
       "footerStyle": {},
       "blockStyle": {
         "sx": {
-          "mt": 2
+          "mb": 2
         }
       }
     },
@@ -1633,14 +1561,15 @@
       },
       "contentStyle": {
         "sx": {
-          "mb": "2"
+          "m": 0,
+          "p": 0
         }
       },
       "headerStyle": {},
       "footerStyle": {},
       "blockStyle": {
         "sx": {
-          "mt": 2
+          "m": 0
         }
       }
     },
@@ -1680,6 +1609,41 @@
     "noHeader": 0,
     "noFooter": 0
   },
+  "Saved Playlists": {
+    "blockProps": {
+      "titleStyle": {
+        "sx": {
+          "typography": "h4"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "pt": 0,
+          "pb": 1,
+          "borderBottom": "solid 1px",
+          "borderColor": "#e0e0e0"
+        }
+      },
+      "headerStyle": {
+        "sx": {
+          "pb": 1,
+          "pt": 2,
+          "borderTop": "solid 1px",
+          "borderColor": "#e0e0e0"
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "pr": 2,
+          "pl": 2,
+          "mt": 3
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
   "sidebar primary menu": {
     "noHeader": true,
     "noFooter": true,
@@ -1687,6 +1651,7 @@
       "blockStyle": {
         "sx": {
           "mt": 0,
+          "mb": 1.5,
           "pr": 1,
           "pl": 1,
           "pt": 2
@@ -1701,9 +1666,36 @@
       "blockStyle": {
         "sx": {
           "mt": 2,
-          "pr": 1,
-          "pl": 1,
-          "pt": 2
+          "mb": 3,
+          "pr": 0,
+          "pl": 0,
+          "pt": 0
+        }
+      }
+    }
+  },
+  "footer - login": {
+    "noHeader": true,
+    "noFooter": true,
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 0,
+          "mb": 4.75,
+          "pr": 0,
+          "pl": 0,
+          "pt": 0
+        }
+      }
+    }
+  },
+  "Block Divider": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "&:last-child": {
+            "display": "none"
+          }
         }
       }
     }
@@ -1713,11 +1705,11 @@
     "blockProps": {
       "titleStyle": {
         "sx": {
-          "typography": "h5",
-          "color": "textSecondary"
+          "typography": "body1",
+          "color": "text.secondary",
+          "textTransform": "uppercase"
         },
-        "component": "h5",
-        "color": "text.secondary"
+        "component": "span"
       },
       "contentStyle": {
         "sx": {
@@ -1732,7 +1724,7 @@
           "pl": 2,
           "pb": 0,
           "mb": 1,
-          "mt": 1
+          "mt": 2
         }
       },
       "blockStyle": {
@@ -1741,6 +1733,299 @@
         }
       }
     }
+  },
+  "App List Pending Posts": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h1",
+        "sx": {
+          "typography": "h3",
+          "mt": 2
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 2,
+          "maxWidth": "720px",
+          "width": "100%"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "maxWidth": "720px",
+          "width": "100%"
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "mt": 2,
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mb": 2,
+          "pl": 0,
+          "pr": 0,
+          "display": "flex",
+          "maxWidth": "720px",
+          "margin": "0 auto",
+          "flexDirection": "column"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "App List Tab": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h1",
+        "sx": {
+          "typography": "h3"
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 2
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mb": 2
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "App List": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 2
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mt": 2,
+          "mb": 2
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "App List - Tab Content": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 2
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mt": 0,
+          "mb": 2
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "App List - Tab Content - No Title": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 2
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mt": 0,
+          "mb": 2
+        }
+      }
+    },
+    "noHeader": 1,
+    "noFooter": 0
+  },
+  "App List - Sub Tab": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "p": 0
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 1
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mt": 2,
+          "mb": 2
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "App List - Record Table": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 1,
+          "pb": 2
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mt": 0,
+          "mb": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "App List - Sub Tab - Mobile": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "pr": 2,
+          "pl": 2,
+          "pt": 0,
+          "pb": 2
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 0,
+          "pb": 0,
+          "pl": 2,
+          "pr": 2
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "mt": 2
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mt": 2,
+          "mb": 2
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
   },
   "App List - Mobile - Paper": {
     "blockProps": {
@@ -1755,6 +2040,7 @@
       "contentStyle": {
         "sx": {
           "bgcolor": "background.paper",
+          "borderRadius": 1,
           "pr": 2,
           "pl": 2,
           "pt": 2,
@@ -1807,6 +2093,130 @@
         }
       }
     }
+  },
+  "App List - Table - Mobile": {
+    "freeze": false,
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1",
+          "color": "text"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 0,
+          "pl": 2,
+          "pr": 2,
+          "pb": 2,
+          "pt": 1
+        },
+        "variant": "Blocker"
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2
+        }
+      },
+
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+
+  "App List - Mobile": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h1",
+        "sx": {
+          "typography": "subtitle1"
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "minHeight": "50px",
+          "pl": 2,
+          "pr": 2
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "pr": 2,
+          "pl": 2,
+          "pt": 0,
+          "pb": 0
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "m": 0,
+          "p": 0
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "pr": 0,
+          "pl": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "Forum Thread Lists - Mobile": {
+    "freeze": false,
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "subtitle1",
+          "color": "text"
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 0,
+          "p": 0
+        },
+        "variant": "Blocker"
+      },
+      "headerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2
+        }
+      },
+
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "0",
+          "borderRadius": "0"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
   },
   "Share Video Block": {
     "blockProps": {
@@ -1989,8 +2399,7 @@
       "blockStyle": {
         "sx": {
           "bgcolor": "0",
-          "borderRadius": "0",
-          "mt": 2
+          "borderRadius": "0"
         }
       }
     },
@@ -2267,39 +2676,39 @@
   "Blocker Contacts ChatPlus": {
     "blockProps": {
       "titleStyle": {
-        "component": "h4",
+        "component": "h2",
         "sx": {
-          "typography": "h4",
-          "color": "text.secondary",
-          "fontSize": "15px"
+          "typography": "h4"
         }
       },
       "contentStyle": {
         "sx": {
-          "pl": 0,
-          "pr": 0,
-          "pt": 0,
-          "pb": 1
+          "pb": 1,
+          "pl": 1,
+          "pr": 1
         }
       },
       "headerStyle": {
         "sx": {
-          "pl": 0,
-          "pr": 0,
-          "pt": 1,
-          "pb": 0
+          "pl": 2,
+          "pr": 2,
+          "pt": 0,
+          "pb": 0,
+          "height": "48px"
         },
-        "dividerVariant": "0"
+        "dividerVariant": "fullWidth"
       },
       "footerStyle": {},
       "blockStyle": {
         "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
           "mt": 2,
-          "bgcolor": "0",
-          "borderRadius": "0"
+          "mb": 2
         }
       }
-    }
+    },
+    "noFooter": true
   },
   "Blocker Discussions": {
     "blockProps": {
@@ -2405,6 +2814,22 @@
       }
     }
   },
+  "Block Map": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 0,
+          "bgcolor": "0",
+          "borderRadius": "0",
+          "mb": 0,
+          "pl": 0,
+          "pr": 0,
+          "ml": -2,
+          "mr": -2
+        }
+      }
+    }
+  },
   "sidebar app message": {
     "blockProps": {
       "titleStyle": {
@@ -2433,6 +2858,152 @@
     },
     "noFooter": false
   },
+  "Advertise Banner": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "mt": 0,
+          "mb": 0,
+          "borderRadius": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise Html": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "p": 2,
+          "mt": 0,
+          "borderRadius": 1
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise List Item": {
+    "blockProps": {
+      "contentStyle": {
+        "sx": {
+          "width": "100%"
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "m": 0,
+          "p": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": 0
+  },
+  "Advertise - All Placement": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 0,
+          "mb": 0,
+          "borderRadius": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise - All Placement (Top spacing)": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 1,
+          "mb": 0,
+          "borderRadius": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise - All Placement (Vertical spacing)": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 1,
+          "mb": 1,
+          "borderRadius": 0
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise - All Placement (Side profile page)": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 1,
+          "mb": 0,
+          "borderRadius": 0,
+          "maxWidth": "xs1"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise - Top - Profile Page": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 0,
+          "mb": 0,
+          "borderRadius": 0,
+          "maxWidth": "md",
+          "marginLeft": "auto",
+          "marginRight": "auto"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise - Top - Profile Page (Top spacing)": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 1,
+          "mb": 0,
+          "borderRadius": 0,
+          "maxWidth": "md",
+          "marginLeft": "auto",
+          "marginRight": "auto"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
+  "Advertise - Top - Profile Page (Vertical spacing)": {
+    "blockProps": {
+      "blockStyle": {
+        "sx": {
+          "mt": 1,
+          "mb": 1,
+          "borderRadius": 0,
+          "maxWidth": "md",
+          "marginLeft": "auto",
+          "marginRight": "auto"
+        }
+      }
+    },
+    "noHeader": 0,
+    "noFooter": true
+  },
   "SaveItem Main Lists": {
     "freeze": false,
     "blockProps": {
@@ -2454,7 +3025,7 @@
       "headerStyle": {
         "dividerVariant": "0",
         "sx": {
-          "pt": 2,
+          "pt": 1,
           "pb": 2
         }
       },
@@ -2464,11 +3035,80 @@
       "blockStyle": {
         "sx": {
           "bgcolor": "0",
-          "borderRadius": "1"
+          "borderRadius": 1,
+          "mt": 2,
+          "mb": 0
         }
       }
     },
     "noHeader": 0,
+    "noFooter": true
+  },
+  "LiveStreaming Comment": {
+    "blockProps": {
+      "titleStyle": {
+        "component": "h2",
+        "sx": {
+          "typography": "h3",
+          "color": ""
+        }
+      },
+      "contentStyle": {
+        "sx": {
+          "p": 0,
+          "flex": 1,
+          "minHeight": 0
+        }
+      },
+      "headerStyle": {
+        "dividerVariant": "middle",
+        "sx": {
+          "pl": 2,
+          "pr": 2,
+          "pt": 0,
+          "pb": 0,
+          "height": "48px"
+        }
+      },
+      "footerStyle": {
+        "dividerVariant": "0",
+        "sx": {
+          "pl": 2,
+          "pr": 2,
+          "pt": 1,
+          "pb": 1
+        }
+      },
+      "blockStyle": {
+        "sx": {
+          "mb": 2,
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "pt": 0,
+          "height": "100%",
+          "display": "flex",
+          "flexDirection": "column"
+        }
+      }
+    },
+    "noFooter": 0
+  },
+  "Detail - Paper - Radius Bottom": {
+    "blockProps": {
+      "blockStyle": {
+        "bgcolor": "background.paper",
+        "pl": 0,
+        "pt": 0,
+        "pr": 0,
+        "pb": 0,
+        "mb": 2,
+        "sx": {
+          "borderBottomLeftRadius": "8px",
+          "borderBottomRightRadius": "8px"
+        }
+      }
+    },
+    "noHeader": true,
     "noFooter": true
   }
 }

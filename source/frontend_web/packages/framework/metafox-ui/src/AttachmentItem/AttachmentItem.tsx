@@ -39,6 +39,7 @@ export default function AttachmentItem(props: AttachmentItemProps) {
 
   const icon = isImage ? 'ico-file-photo-o' : 'ico-file-zip-o';
   const photo = getImageSrc(image, '500');
+  const photoFull = getImageSrc(image, 'origin');
 
   const presentPhoto = src => {
     dispatch({
@@ -57,7 +58,7 @@ export default function AttachmentItem(props: AttachmentItemProps) {
     >
       <div className={classes.attachmentPhoto}>
         {isImage ? (
-          <div onClick={() => presentPhoto(photo)} role="button">
+          <div onClick={() => presentPhoto(photoFull)} role="button">
             <Image aspectRatio="11" src={photo} alt={'photo'} />
           </div>
         ) : (

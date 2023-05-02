@@ -169,5 +169,20 @@ class WebSetting extends Setting
                 'last_feed_id'     => ':last_feed_id',
                 'last_pin_feed_id' => ':last_pin_feed_id',
             ]);
+
+        $this->add('shareNow')
+            ->apiUrl('feed/share')
+            ->apiParams([
+                'item_id'      => ':item_id',
+                'item_type'    => ':item_type',
+                'post_content' => ':post_content',
+                'post_type'    => ':post_type',
+                'privacy'      => ':privacy',
+            ])
+            ->asPost();
+
+        $this->add('shareToNewsFeed');
+
+        $this->add('copyLink');
     }
 }

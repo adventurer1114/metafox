@@ -5,10 +5,13 @@ namespace MetaFox\Comment\Http\Resources\v1\Comment;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
 use MetaFox\Comment\Http\Resources\v1\CommentAttachment\CommentAttachmentDetail;
 use MetaFox\Comment\Models\Comment as Model;
 use MetaFox\Comment\Support\Traits\HasCommentExtraTrait;
 use MetaFox\Comment\Traits\HasTransformContent;
+use MetaFox\Platform\MetaFox;
 use MetaFox\Platform\Traits\Helpers\IsLikedTrait;
 use MetaFox\Platform\Traits\Helpers\UserReactedTrait;
 use MetaFox\Platform\Traits\Http\Resources\HasStatistic;
@@ -48,13 +51,6 @@ class CommentItem extends JsonResource
      */
     public function toArray($request): array
     {
-        // Control children loaded from outside, not here.
-        $children = [];
-
-        if ($this->resource->relationLoaded('children')) {
-            $children = $this->resource->children;
-        }
-
         $context = user();
 
         $extraData = [];
@@ -68,7 +64,7 @@ class CommentItem extends JsonResource
             }
         }
 
-        return [
+        $response = [
             'id'                => $this->resource->entityId(),
             'module_name'       => $this->resource->entityType(),
             'resource_name'     => $this->resource->entityType(),
@@ -80,7 +76,6 @@ class CommentItem extends JsonResource
             'comment_type_id'   => $this->resource->itemType(),
             'comment_item_id'   => $this->resource->itemId(),
             'child_total'       => $this->resource->children()->count(),
-            'children'          => new CommentItemCollection($children),
             'is_liked'          => $this->isLike($context, $this->resource),
             'user'              => new UserEntityDetail($this->resource->userEntity),
             'text'              => $this->getTransformContent(),
@@ -96,5 +91,25 @@ class CommentItem extends JsonResource
             'link'              => $this->resource->toLink(),
             'is_edited'         => $this->resource->is_edited,
         ];
+
+        $childrens = $this->getChildrens();
+
+        if ($childrens instanceof ResourceCollection) {
+            Arr::set($response, 'children', $childrens);
+        }
+
+        return $response;
+    }
+
+    protected function getChildrens(): ?ResourceCollection
+    {
+        // Control children loaded from outside, not here.
+        $children = [];
+
+        if ($this->resource->relationLoaded('children')) {
+            $children = $this->resource->children;
+        }
+
+        return new CommentItemCollection($children);
     }
 }

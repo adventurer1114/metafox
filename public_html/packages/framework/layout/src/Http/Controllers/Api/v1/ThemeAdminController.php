@@ -67,17 +67,17 @@ class ThemeAdminController extends ApiController
      *
      * @param StoreRequest $request
      *
-     * @return JsonResponse
+     * @return Detail
      * @throws ValidatorException
      */
-    public function store(StoreRequest $request): JsonResponse
+    public function store(StoreRequest $request)
     {
         $params = $request->validated();
         $data   = $this->repository->create($params);
 
         $this->navigate('/admincp/layout/theme/browse');
 
-        return $this->success(new Detail($data));
+        return new Detail($data);
     }
 
     /**
@@ -94,9 +94,9 @@ class ThemeAdminController extends ApiController
         return new Detail($data);
     }
 
-    public function create(): JsonResponse
+    public function create()
     {
-        return $this->success(new CreateThemeForm());
+        return new CreateThemeForm();
     }
 
     /**

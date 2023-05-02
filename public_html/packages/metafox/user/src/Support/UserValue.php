@@ -12,7 +12,7 @@ use MetaFox\User\Models\UserValue as UserValueModel;
 /**
  * Class UserPrivacy.
  *
- * @see     \MetaFox\User\Support\Facades\UserValue
+ * @see     Facades\UserValue
  * @todo    should cache.
  */
 class UserValue implements UserValueInterface
@@ -31,7 +31,7 @@ class UserValue implements UserValueInterface
         $settings = [];
         foreach ($response as $moduleData) {
             foreach ($moduleData as $entityName => $data) {
-                $existedData = Arr::get($settings, $entityName, []);
+                $existedData           = Arr::get($settings, $entityName, []);
                 $settings[$entityName] = array_merge($existedData, $data);
             }
         }
@@ -75,7 +75,7 @@ class UserValue implements UserValueInterface
             return true;
         }
 
-        return (bool)$settings[$settingName]['value'];
+        return (bool) $settings[$settingName]['value'];
     }
 
     public function getUserValueSettingByName(User $user, string $settingName): ?int
@@ -86,7 +86,7 @@ class UserValue implements UserValueInterface
             return null;
         }
 
-        return (int)$settings[$settingName]['value'];
+        return (int) $settings[$settingName]['value'];
     }
 
     public function updateUserValueSetting(User $user, array $params): bool

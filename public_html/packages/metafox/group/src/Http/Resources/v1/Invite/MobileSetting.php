@@ -33,7 +33,14 @@ class MobileSetting extends Setting
         $this->add('cancelInvite')
             ->apiUrl('group-invite')
             ->asDelete()
-            ->apiParams(['group_id' => ':group_id', 'user_id' => ':user_id']);
+            ->apiParams(['group_id' => ':group_id', 'user_id' => ':user_id'])
+            ->confirm([
+                'title'        => __p('group::phrase.confirm_cancel_invite_title'),
+                'message'      => 'confirm_cancel_invite_desc',
+                'phraseParams' => [
+                    'userName' => ':user.full_name',
+                ],
+            ]);
 
         $this->add('addItem')
             ->apiUrl('core/mobile/form/group.invite.store/:id');

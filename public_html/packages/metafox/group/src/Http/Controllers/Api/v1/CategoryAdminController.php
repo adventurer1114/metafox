@@ -81,10 +81,14 @@ class CategoryAdminController extends ApiController
         $params = $request->validated();
 
         /** @var Category $data */
-        $data   = $this->repository->createCategory(user(), $params);
+        $data = $this->repository->createCategory(user(), $params);
 
         if ($data->parent_id) {
-            $url = sprintf('/admincp/group/category/%s/category/browse?parent_id=%s', $data->parent_id, $data->parent_id);
+            $url = sprintf(
+                '/admincp/group/category/%s/category/browse?parent_id=%s',
+                $data->parent_id,
+                $data->parent_id
+            );
         } else {
             $url = '/admincp/group/category/browse';
         }
@@ -164,9 +168,7 @@ class CategoryAdminController extends ApiController
      */
     public function toggleActive(int $id): JsonResponse
     {
-        $item = $this->repository->find($id);
-
-        $item->update(['is_active' => $item->is_active ? 0 : 1]);
+        $item = $this->repository->toggleActive($id);
 
         return $this->success([new Detail($item)], [], __p('core::phrase.already_saved_changes'));
     }

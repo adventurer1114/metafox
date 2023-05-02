@@ -30,6 +30,14 @@ return [
         ],
         [
             'id'        => 4,
+            'label'     => 'Music',
+            'icon'      => 'music-album',
+            'iconColor' => '#ff4986',
+            'as'        => 'item',
+            'to'        => '/music-song',
+        ],
+        [
+            'id'        => 4,
             'label'     => 'Activity Points',
             'icon'      => 'star-circle-o',
             'iconColor' => '#2681d5',
@@ -132,14 +140,6 @@ return [
             'as'        => 'item',
             'to'        => "\poll",
         ],
-        //        [
-        //            "id" => 16,
-        //            "label" => "Music",
-        //            "icon" => "music-album",
-        //            "iconColor" => "#ff4986",
-        //            "as" => "item",
-        //            "to" => "/music",
-        //        ],
         [
             'id'        => 17,
             'label'     => 'Membership',

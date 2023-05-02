@@ -64,11 +64,11 @@ class DataGrid extends Grid
 
         $this->addColumn('is_active')
             ->header(__p('app::phrase.is_active'))
-            ->asYesNoIcon();
+            ->asToggleActive();
 
-        $this->addColumn('expired_at')
+        $this->addColumn('is_expired')
             ->header(__p('app::phrase.expired_at'))
-            ->asDateTime();
+            ->asYesNoIcon();
 
         /*
          * Add default actions

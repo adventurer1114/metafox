@@ -19,7 +19,7 @@ export default createBlock<any>({
   extendBlock: Enhancer,
   overrides: {
     title: 'pending_mode',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     contentType: 'group',
     showWhen: ['truthy', 'profile.extra.can_manage_pending_mode']
   }

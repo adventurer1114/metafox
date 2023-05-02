@@ -70,7 +70,7 @@ class FeedImporter extends JsonImporter
                 'item_type'        => $entry['item_type'] ?? null,
                 'type_id'          => $entry['type_id'] ?? null,
                 'status'           => $this->handleStatus($entry['status'] ?? null),
-                'content'          => isset($entry['content']) ? html_entity_decode($entry['content']) : null,
+                'content'          => isset($entry['content']) ? $this->parseText($entry['content'], false, true, $entry) : null,
                 'feed_reference'   => $entry['feed_reference'] ?? 0,
                 'parent_feed_id'   => $entry['parentFeed_id'] ?? 0,
                 'parent_module_id' => $entry['parentModule_id'] ?? null,
@@ -82,6 +82,7 @@ class FeedImporter extends JsonImporter
 
     public function afterImport(): void
     {
+        $this->processImportUserMention();
         $this->importTagData(ActivityTagData::class);
     }
 
@@ -133,8 +134,10 @@ class FeedImporter extends JsonImporter
                 }
 
                 if ($privacy == MetaFoxPrivacy::CUSTOM) {
+                    $streamItem = null;
+
                     foreach ($entry[$privacyListColumn] as $list) {
-                        $dataItem[] = [
+                        $dataItem[] = $streamItem = [
                             '$id'                => 'p.' . $entry['$id'] . '.' . $list . '.' . $privacy,
                             '$privacy'           => $list . '.' . MetaFoxPrivacy::CUSTOM,
                             'feed_id'            => $entry['$oid'],
@@ -147,6 +150,8 @@ class FeedImporter extends JsonImporter
                             'default_privacy_id' => MetaFoxPrivacy::NETWORK_PUBLIC_PRIVACY_ID,
                         ];
                     }
+
+                    $this->handleTagFriendStream($entry, $dataItem, $streamItem);
                 } else {
                     $privacyOutput = $privacy == MetaFoxPrivacy::FRIENDS_OF_FRIENDS ? MetaFoxPrivacy::FRIENDS : $privacy;
                     $output        = [
@@ -175,16 +180,37 @@ class FeedImporter extends JsonImporter
                         $output['privacy']            = MetaFoxPrivacy::FRIENDS_OF_FRIENDS;
                         $output['$privacy']           = null;
                         $output['$id']                = 'p.' . $entry['$id'] . '.' . MetaFoxPrivacy::FRIENDS_OF_FRIENDS;
-                        $dataItem[]                   = $output;
-                        $dataItem[]                   = $extraItem;
+
+                        $dataItem[] = $output;
+                        $this->handleTagFriendStream($entry, $dataItem, $output);
+                        $dataItem[] = $extraItem;
+                        $this->handleTagFriendStream($entry, $dataItem, $extraItem);
                         continue;
                     }
-                    $dataItem[]    = $output;
+
+                    $dataItem[] = $output;
+                    $this->handleTagFriendStream($entry, $dataItem, $output);
                 }
             }
             $this->exportBundledEntries($dataItem, Stream::ENTITY_TYPE, 3);
         } catch (\Exception $e) {
             $this->error(sprintf('%s:%s', __METHOD__, $e->getMessage()));
+        }
+    }
+
+    private function handleTagFriendStream(array $entry, array &$dataItem, array $item): void
+    {
+        $tagFriends = Arr::get($entry, 'tag_friends') ?? [];
+        if (empty($tagFriends)) {
+            return;
+        }
+
+        foreach ($tagFriends as $tagFriend) {
+            $newItem           = $item;
+            $newItem['$id']    = 'tag.' . $newItem['$id'] . '.' . $tagFriend;
+            $newItem['$owner'] = $tagFriend;
+
+            $dataItem[] = $newItem;
         }
     }
 }

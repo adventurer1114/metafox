@@ -26,6 +26,8 @@ class CommentHistoryImporter extends JsonImporter
             '$user', '$comment', '$item',
         ]);
 
+        $this->remapEmoji('content');
+
         $this->processImportEntries();
 
         $this->upsertBatchEntriesInChunked(Model::class, ['id']);
@@ -40,7 +42,7 @@ class CommentHistoryImporter extends JsonImporter
             'comment_id'      => $entry['comment_id'] ?? null,
             'item_id'         => $entry['item_id'] ?? 0,
             'item_type'       => $this->handleItemType($entry['item_type'] ?? 'storage_file'),
-            'content'         => $entry['content'] ?? null,
+            'content'         => isset($entry['content']) ? $this->parseText($entry['content'], false, true) : null,
             'params'          => $entry['params'] ?? null,
             'phrase'          => $entry['phrase'] ?? null,
             'created_at'      => $entry['created_at'] ?? null,

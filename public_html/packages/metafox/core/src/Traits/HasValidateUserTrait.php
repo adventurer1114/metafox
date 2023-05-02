@@ -22,11 +22,17 @@ trait HasValidateUserTrait
     public function validateUser(User $user): void
     {
         if ($this->isBanned($user->entityId())) {
-            throw new ValidateUserException(__p('user::phrase.user_is_banned'));
+            throw new ValidateUserException([
+                'title'   => __p('user::phrase.banned_account'),
+                'message' => __p('user::phrase.user_is_banned'),
+            ]);
         }
 
         if (!$user->isApproved()) {
-            throw new ValidateUserException(__p('user::phrase.your_account_is_now_waiting_for_approval'));
+            throw new ValidateUserException([
+                'title'   => __p('user::phrase.pending_accounts'),
+                'message' => __p('user::phrase.your_account_is_now_waiting_for_approval'),
+            ]);
         }
 
         if ($user instanceof ModelsUser && !$user->hasVerifiedEmail()) {

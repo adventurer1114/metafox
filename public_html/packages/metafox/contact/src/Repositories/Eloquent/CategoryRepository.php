@@ -42,4 +42,13 @@ class CategoryRepository extends AbstractCategoryRepository implements CategoryR
 
         $this->incrementTotalItemCategories($newCategory, $totalItem);
     }
+
+    public function deleteCategory(Category $category): void
+    {
+        $category->subCategories()->each(function (Category $item) {
+            $this->deleteCategory($item);
+        });
+
+        $category->delete();
+    }
 }

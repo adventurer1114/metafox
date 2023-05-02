@@ -36,7 +36,6 @@ use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\ResourcePermission;
 use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
-use MetaFox\Platform\Support\Browse\Scopes\SortScope;
 use MetaFox\Platform\Support\Browse\Scopes\TagScope;
 use MetaFox\Platform\Support\Browse\Scopes\WhenScope;
 use MetaFox\Platform\Support\Repository\HasApprove;
@@ -283,12 +282,14 @@ class ForumThreadRepository extends AbstractRepository implements ForumThreadRep
 
     public function subscribeThread(User $context, int $id, bool $isSubscribed, bool $checkPermission = false): void
     {
+        $thread = $this->find($id);
+
         switch ($checkPermission) {
             case true:
-                policy_authorize(ForumThreadPolicy::class, 'subscribe', $context, $this->find($id));
+                policy_authorize(ForumThreadPolicy::class, 'subscribe', $context, $thread);
                 break;
             default:
-                if (!$context->hasPermissionTo('forum_thread.subscribe')) {
+                if (!policy_check(ForumThreadPolicy::class, 'subscribe', $context, $thread)) {
                     return;
                 }
                 break;
@@ -362,7 +363,9 @@ class ForumThreadRepository extends AbstractRepository implements ForumThreadRep
 
         $thread->refresh();
 
-        $this->handleNotificationWhenAdminUpdateThread($context, $thread);
+        if (!$hasSendWikiNotification) {
+            $this->handleNotificationWhenAdminUpdateThread($context, $thread);
+        }
 
         if (Arr::has($data, 'forum_id') && $data['forum_id'] != $oldForumId) {
             $this->updateForumTotal($data['forum_id'], $oldForumId, $thread);
@@ -684,7 +687,7 @@ class ForumThreadRepository extends AbstractRepository implements ForumThreadRep
     {
         $source = $this->find($attributes['thread_id']);
 
-        $owner     = $source->owner;
+        $owner = $source->owner;
 
         $ownerCopy = $owner instanceof HasPrivacyMember ? $owner : $context;
 
@@ -782,6 +785,7 @@ class ForumThreadRepository extends AbstractRepository implements ForumThreadRep
     protected function clonePosts(User $context, ForumThread $dest, ForumThread $source): void
     {
         $posts = $source->posts()
+            ->where('is_approved', 1)
             ->with(['postText', 'quotePost', 'quoteData'])
             ->get();
 

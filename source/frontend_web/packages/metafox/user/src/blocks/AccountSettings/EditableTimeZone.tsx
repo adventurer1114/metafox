@@ -23,7 +23,7 @@ export default function EditableTimeZone({ title, data, loaded }: Props) {
             <SmartFormBuilder
               successAction={RELOAD_ACCOUNT}
               dataSource={{ apiUrl: '/user/account/timezone-form' }}
-              loadingComponent={<LoadingComponent />}
+              loadingComponent={LoadingComponent}
               onSuccess={() => setEdit(false)}
               onCancel={() => setEdit(false)}
             />

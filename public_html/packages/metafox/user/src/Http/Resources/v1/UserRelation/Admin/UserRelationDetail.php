@@ -16,15 +16,17 @@ class UserRelationDetail extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request       $request
+     * @param  Request              $request
      * @return array<string, mixed>
      */
     public function toArray($request)
     {
         return [
             'id'            => $this->resource->entityId(),
-            'module_name'   => '',
+            'module_name'   => 'user',
             'resource_name' => $this->resource->entityType(),
+            'phrase_var'    => $this->resource->phrase_var,
+            'confirm'       => $this->resource->entityType(),
         ];
     }
 }

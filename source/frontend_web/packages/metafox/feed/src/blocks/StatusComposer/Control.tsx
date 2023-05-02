@@ -10,8 +10,8 @@ const StyledButton = styled(IconButton, {
   height: 32,
   fontSize: theme.mixins.pxToRem(20),
   [theme.breakpoints.up('sm')]: {
-    width: 40,
-    height: 40
+    width: 44,
+    height: 44
   }
 }));
 

@@ -2,16 +2,17 @@
 
 namespace MetaFox\User\Http\Resources\v1\User;
 
+use ArrayObject;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MetaFox\Profile\Repositories\ProfileRepositoryInterface;
 use MetaFox\User\Models\User as Model;
+use MetaFox\User\Models\UserProfile;
 use MetaFox\User\Support\Facades\User;
 use MetaFox\User\Support\Facades\UserPrivacy;
 use MetaFox\User\Support\Facades\UserValue;
 use MetaFox\User\Support\User as Support;
 use MetaFox\User\Traits\UserLocationTrait;
-use MetaFox\User\Models\UserProfile;
 
 /**
  * |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ class UserInfo extends JsonResource
             'resource_name' => $this->resource->entityType(),
         ];
 
-        $sections = new \ArrayObject([]);
+        $sections = new ArrayObject([]);
 
         if ($profileSettings['profile_basic_info']) {
             $sections['basic_info'] = [
@@ -88,7 +89,7 @@ class UserInfo extends JsonResource
             'relationship' => [
                 'icon'  => 'ico-heart-o',
                 'label' => __p('user::phrase.relationship_status'),
-                'value' => User::getRelationship($profile->relation),
+                'value' => $profile->relationship_text,
             ],
             'gender' => [
                 'icon'  => 'ico-sex-unknown',

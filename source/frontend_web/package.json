@@ -37,6 +37,7 @@
     "@mui/styles": "^5",
     "@mui/x-data-grid": "^5",
     "@mui/x-date-pickers": "^5",
+    "@mux/mux-player-react": "^1.8.0",
     "@react-google-maps/api": "^2.17.0",
     "await-to-js": "^3",
     "aws-sdk": "^2.1196.0",

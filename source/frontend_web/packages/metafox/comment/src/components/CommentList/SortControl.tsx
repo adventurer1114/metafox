@@ -106,31 +106,42 @@ function SortControl({ value, item, setValue, disabled }: SortControlProps) {
   return (
     <Box>
       <Tooltip title={item?.tooltip ? item?.tooltip : ''}>
-        <Button
-          size="smaller"
-          variant="text"
-          ref={anchorRef}
-          onClick={handleClick}
-          disabled={disabled}
-          data-testid={'buttonSortComment'}
-          disableRipple
-          sx={{ background: 'transparent !important', padding: 0 }}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end'
+          }}
         >
-          <Typography
-            fontWeight="fontWeightBold"
-            variant="body2"
-            color="text.secondary"
+          <Button
+            size="smaller"
+            variant="text"
+            ref={anchorRef}
+            onClick={handleClick}
+            disabled={disabled}
+            data-testid={'buttonSortComment'}
+            disableRipple
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              '> span': { marginLeft: '4px' }
+              background: 'transparent !important',
+              padding: 0,
+              height: '20px'
             }}
           >
-            {i18n.formatMessage({ id: 'sort_comment' })}:{' '}
-            {i18n.formatMessage({ id: sortType.label })}
-            {!disabled && <LineIcon icon="ico-caret-down" />}
-          </Typography>
-        </Button>
+            <Typography
+              fontWeight="fontWeightBold"
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                '> span': { marginLeft: '4px' }
+              }}
+            >
+              {i18n.formatMessage({ id: 'sort_comment' })}:{' '}
+              {i18n.formatMessage({ id: sortType.label })}
+              {!disabled && <LineIcon icon="ico-caret-down" />}
+            </Typography>
+          </Button>
+        </Box>
       </Tooltip>
       <Popover
         disablePortal
@@ -138,8 +149,8 @@ function SortControl({ value, item, setValue, disabled }: SortControlProps) {
         open={Boolean(open)}
         anchorEl={anchorRef.current}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box py={1} component="div" data-testid="menusortType">
           {options

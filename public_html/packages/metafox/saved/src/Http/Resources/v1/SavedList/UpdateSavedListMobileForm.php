@@ -2,7 +2,6 @@
 
 namespace MetaFox\Saved\Http\Resources\v1\SavedList;
 
-use MetaFox\Form\Mobile\Builder;
 use MetaFox\Saved\Models\SavedList as Model;
 use MetaFox\Saved\Repositories\SavedListRepositoryInterface;
 
@@ -17,11 +16,8 @@ use MetaFox\Saved\Repositories\SavedListRepositoryInterface;
  * Class UpdateSavedListMobileForm.
  * @property Model $resource
  */
-class UpdateSavedListMobileForm extends StoreSavedListForm
+class UpdateSavedListMobileForm extends StoreSavedListMobileForm
 {
-    /** @var bool */
-    protected $isEdit = false;
-
     public function boot(SavedListRepositoryInterface $repository, ?int $id): void
     {
         $this->resource = $repository->find($id);
@@ -41,22 +37,5 @@ class UpdateSavedListMobileForm extends StoreSavedListForm
                 'name'    => $name,
                 'privacy' => $this->resource->privacy,
             ]);
-    }
-
-    protected function initialize(): void
-    {
-        $basic = $this->addBasic();
-        $basic->addFields(
-            Builder::text('name')
-                ->required()
-                ->label(__p('core::phrase.name'))
-                ->placeholder(
-                    __p(
-                        'core::phrase.maximum_length_of_characters',
-                        ['length' => Model::MAXIMUM_NAME_LENGTH]
-                    )
-                ),
-            Builder::privacy()
-        );
     }
 }

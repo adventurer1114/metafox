@@ -15,12 +15,26 @@ const StickerListContent = styled('ul', {
 });
 
 interface Props {
-  identity: string;
+  identity?: string;
   onStickerClick: OnStickerClick;
+  data?: string[];
 }
 
-export default function StickerList({ identity, onStickerClick }: Props) {
+export default function StickerList({ identity, onStickerClick, data }: Props) {
   const item = useGetItem<StickerSetShape>(identity);
+
+  if (data)
+    return (
+      <StickerListContent>
+        {data.map(id => (
+          <StickerItem
+            key={id.toString()}
+            identity={id}
+            onStickerClick={onStickerClick}
+          />
+        ))}
+      </StickerListContent>
+    );
 
   return (
     <StickerListContent>

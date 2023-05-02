@@ -6,13 +6,15 @@
 import { UserAvatar } from '@metafox/ui';
 import React from 'react';
 
-export default function AvatarCell({ row }) {
+export default function AvatarCell({ row, colDef }) {
   return (
     <div className="middleAlign">
       <UserAvatar
-        size={32}
+        size={colDef?.size || 32}
         user={{ ...row, link: row?.user_link || row?.link }}
-        srcSizePrefers={'50x50'}
+        srcSizePrefers={colDef?.sizePrefers || '50x50'}
+        variant={colDef?.variant}
+        hoverCard={false}
       />
     </div>
   );

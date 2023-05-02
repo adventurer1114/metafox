@@ -37,7 +37,7 @@ export default function EventBanner({ item, blockProps }: any) {
             ></div>
           </Container>
         </div>
-        <Container sx={{ pt: 2 }} maxWidth={'md'} disableGutters>
+        <Container maxWidth={'md'} disableGutters>
           <PendingGroupPreview item={item} />
         </Container>
       </BlockContent>

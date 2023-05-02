@@ -2,7 +2,7 @@
 
 /* this is auto generated file */
 return [
-    'browse_invites_event'                => '',
+    'browse_invites_event'                => 'Event Invites',
     'browse_invites_event_desription'     => '',
     'browse_invites_event_heading'        => '',
     'browse_invites_event_keywords'       => '',
@@ -20,7 +20,7 @@ return [
     'event_create_description'            => '',
     'event_create_heading'                => '',
     'event_create_keywords'               => '',
-    'event_create_title'                  => 'New Event',
+    'event_create_title'                  => 'Add New Event',
     'event_desription'                    => '',
     'event_edit_description'              => '',
     'event_edit_heading'                  => '',

@@ -1,12 +1,6 @@
 import { useGlobal } from '@metafox/framework';
 import { LineIcon } from '@metafox/ui';
-import {
-  Box,
-  Card,
-  IconButton,
-  styled,
-  Typography
-} from '@mui/material';
+import { Box, Card, IconButton, styled, Typography } from '@mui/material';
 import React from 'react';
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -42,12 +36,11 @@ const MutedCard = ({ item }) => {
           </Typography>
           <StyledTypography variant="body2">
             {i18n.formatMessage({
-              id: 'your_can_still_access_its_post_and_chat' 
+              id: 'your_can_still_access_its_post_and_chat'
             })}
           </StyledTypography>
         </Box>
       </Box>
-     
     </StyledCard>
   );
 };

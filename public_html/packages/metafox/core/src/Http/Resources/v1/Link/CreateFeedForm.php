@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use MetaFox\Core\Models\Link;
 use MetaFox\Form\AbstractForm;
+use MetaFox\Platform\Rules\AllowInRule;
 
 class CreateFeedForm extends AbstractForm
 {
@@ -36,11 +37,12 @@ class CreateFeedForm extends AbstractForm
     protected function getValidationRules(): array
     {
         return [
-            'link_image'       => ['required_if:post_type,' . Link::FEED_POST_TYPE . '|max:10240|mimes:png,jpg'],
-            'link_url'         => ['sometimes'],
-            'link_description' => ['sometimes'],
-            'link_title'       => ['sometimes'],
-            'link_embed_code'  => ['sometimes'],
+            'link_image'        => ['required_if:post_type,' . Link::FEED_POST_TYPE . '|max:10240|mimes:png,jpg'],
+            'link_url'          => ['sometimes'],
+            'link_description'  => ['sometimes'],
+            'link_title'        => ['sometimes'],
+            'link_embed_code'   => ['sometimes'],
+            'is_preview_hidden' => ['sometimes', new AllowInRule([0, 1])],
         ];
     }
 
@@ -49,6 +51,8 @@ class CreateFeedForm extends AbstractForm
         if (!Arr::has($data, 'content')) {
             Arr::set($data, 'content', Arr::get($data, 'user_status', ''));
         }
+
+        Arr::set($data, 'is_preview_hidden', (bool) Arr::get($data, 'is_preview_hidden', false));
 
         return $data;
     }

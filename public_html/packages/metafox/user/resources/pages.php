@@ -56,6 +56,21 @@ return [
         'url'          => 'admincp/user/setting',
     ],
     [
+        'name'         => 'admin.user.browse_relation',
+        'phrase_title' => 'user::phrase.user_relations',
+        'url'          => 'admincp/user/relation/browse',
+    ],
+    [
+        'name'         => 'admin.user.create_relation',
+        'phrase_title' => 'user::phrase.add_new_relation',
+        'url'          => 'admincp/user/relation/create',
+    ],
+    [
+        'name'         => 'admin.user.edit_relation',
+        'phrase_title' => 'user::phrase.edit_relation',
+        'url'          => 'admincp/user/relation/edit/{id}',
+    ],
+    [
         'name'               => 'user.browse_all_user',
         'phrase_title'       => 'user::seo.browse_all_user_title',
         'phrase_description' => 'user::seo.browse_all_user_description',
@@ -229,10 +244,10 @@ return [
     ],
     [
         'name'               => 'user.user.forgot_password.request',
-        'phrase_title'       => 'user::seo.user',
-        'phrase_description' => 'user::seo.user_desription',
-        'phrase_keywords'    => 'user::seo.user_keywords',
-        'phrase_heading'     => 'user::seo.user_heading',
+        'phrase_title'       => 'user::seo.user_forgot_password_title',
+        'phrase_description' => 'user::seo.user_forgot_password_description',
+        'phrase_keywords'    => 'user::seo.user_forgot_password_keywords',
+        'phrase_heading'     => 'user::seo.user_forgot_password_heading',
         'url'                => 'user/password/request',
     ],
     [
@@ -266,5 +281,10 @@ return [
         'phrase_keywords'    => 'user::seo.user_verify_email_keywords',
         'phrase_heading'     => 'user::seo.user_verify_email_heading',
         'url'                => 'user/verify-email/{hash}',
+    ],
+    [
+        'name'         => 'admin.user.browse_cancelled_members',
+        'phrase_title' => 'user::phrase.cancelled_members',
+        'url'          => 'admincp/user/cancelled/browse/feedback',
     ],
 ];

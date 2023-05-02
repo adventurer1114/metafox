@@ -10,7 +10,7 @@
           "blockId": "d90mi",
           "title": "Search Results",
           "itemView": "search.itemView.mainCard",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Global - Search Item Card",
           "contentType": "search",
           "dataSource": {

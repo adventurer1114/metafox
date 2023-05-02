@@ -72,7 +72,7 @@ export function* checkRemoveOpenRoom(action: LocalAction<{ rid: string }>) {
 
 export function* openChatRoom(action: {
   type: string;
-  payload: { identity: string };
+  payload: { identity: string; isMobile?: boolean };
 }) {
   try {
     const { identity } = action.payload;
@@ -81,7 +81,7 @@ export function* openChatRoom(action: {
     if (user) {
       yield put({
         type: 'chat/newChatRoom',
-        payload: { user, isPage: false }
+        payload: { user, isPage: false, isMobile: action.payload?.isMobile }
       });
     }
   } catch (error) {
@@ -89,7 +89,9 @@ export function* openChatRoom(action: {
   }
 }
 
-function* newChatRoom(action: LocalAction<{ user: any; isPage: boolean }>) {
+function* newChatRoom(
+  action: LocalAction<{ user: any; isPage: boolean; isMobile?: boolean }>
+) {
   const { navigate, apiClient, normalization } = yield* getGlobalContext();
   const { user, isPage } = action.payload;
 
@@ -108,7 +110,7 @@ function* newChatRoom(action: LocalAction<{ user: any; isPage: boolean }>) {
 
     yield* fulfillEntity(result.data);
 
-    if (isPage) {
+    if (isPage || action.payload?.isMobile) {
       navigate(`/messages/${data.id}`);
     } else {
       yield put({

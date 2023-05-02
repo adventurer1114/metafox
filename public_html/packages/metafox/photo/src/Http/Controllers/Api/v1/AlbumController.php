@@ -5,6 +5,7 @@ namespace MetaFox\Photo\Http\Controllers\Api\v1;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 use MetaFox\Photo\Http\Requests\v1\Album\IndexRequest;
@@ -14,6 +15,8 @@ use MetaFox\Photo\Http\Requests\v1\Album\UpdateRequest;
 use MetaFox\Photo\Http\Requests\v1\Album\UploadPhotosRequest;
 use MetaFox\Photo\Http\Resources\v1\Album\AlbumDetail;
 use MetaFox\Photo\Http\Resources\v1\Album\AlbumItemCollection;
+use MetaFox\Photo\Http\Resources\v1\Album\CreateAlbumForm;
+use MetaFox\Photo\Http\Resources\v1\Album\EditAlbumForm;
 use MetaFox\Photo\Http\Resources\v1\AlbumItem\AlbumItemItemCollection;
 use MetaFox\Photo\Models\Album;
 use MetaFox\Photo\Policies\AlbumPolicy;
@@ -57,11 +60,12 @@ class AlbumController extends ApiController
             $owner = UserEntity::getById($params['user_id'])->detail;
 
             if (!policy_check(AlbumPolicy::class, 'viewOnProfilePage', $context, $owner)) {
-                return new AlbumItemCollection([]);
+                throw new AuthorizationException();
             }
         }
 
         $data = $this->repository->viewAlbums($context, $owner, $params);
+
 
         return new AlbumItemCollection($data);
     }
@@ -271,5 +275,21 @@ class AlbumController extends ApiController
         }
 
         return __p('photo::web.uploaded_failed');
+    }
+
+    public function create()
+    {
+        return new CreateAlbumForm();
+    }
+
+    public function edit(int $id)
+    {
+        $album = $this->repository->find($id);
+
+        $form =   new EditAlbumForm($album);
+
+        app()->call([$form, 'boot'], ['id'=>$id]);
+
+        return $form;
     }
 }

@@ -9,7 +9,7 @@ use MetaFox\Platform\Contracts\User;
 
 class GetFriendListListener
 {
-    public function handle(User $context, array $params = []): Paginator
+    public function handle(?User $context, array $params = []): Paginator
     {
         policy_authorize(FriendListPolicy::class, 'viewAny', $context);
 

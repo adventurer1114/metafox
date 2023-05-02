@@ -111,7 +111,10 @@ class ConnectionAdminController extends ApiController
             $data = app()->call([$form, 'validated'], $request->route()->parameters());
         }
 
-        $response = Settings::save($data);
+        $data['selectable'] = true;
+        $response           = Settings::save([
+            "queue.connections.$name" => $data,
+        ]);
 
         Artisan::call('cache:reset');
 
@@ -123,19 +126,5 @@ class ConnectionAdminController extends ApiController
         return $this->success($response, [
             'nextAction' => $nextAction,
         ], __p('core::phrase.save_changed_successfully'));
-    }
-
-    /**
-     * Delete item.
-     *
-     * @param int $id
-     *
-     * @return JsonResponse
-     */
-    public function destroy(int $id): JsonResponse
-    {
-        return $this->success([
-            'id' => $id,
-        ]);
     }
 }

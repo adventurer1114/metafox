@@ -27,10 +27,15 @@ const MuiBlock = styled(Box, {
     prop !== 'fullHeight' &&
     prop !== 'variant' &&
     prop !== 'dividerVariant' &&
-    prop !== 'bgColor'
-})({
-  position: 'relative'
-});
+    prop !== 'bgColor' &&
+    prop !== 'sx'
+})<{ sx?: any }>(({ theme, sx }) => ({
+  position: 'relative',
+  ...(sx?.maxWidth &&
+    ['xs1', 'xs2', 'xs3', 'sm1'].includes(sx?.maxWidth) && {
+      maxWidth: `${theme.layoutSlot.points[sx?.maxWidth]}px !important`
+    })
+}));
 
 export default function BlockContainer({ children, testid }: Props) {
   const { blockProps: { blockStyle } = {} } = useBlock();

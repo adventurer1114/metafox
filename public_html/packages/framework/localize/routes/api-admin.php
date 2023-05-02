@@ -14,8 +14,6 @@ Route::controller(PhraseAdminController::class)
         Route::post('phrase/import', 'import')->name('import');
     });
 
-Route::resource('phrase', PhraseAdminController::class);
-
 Route::controller(CountryChildAdminController::class)
     ->as('localize.')
     ->prefix('localize')
@@ -31,8 +29,6 @@ Route::controller(CountryChildAdminController::class)
             ->as('language.')
             ->controller(LanguageAdminController::class)
             ->group(function () {
-                Route::get('language/import-form', 'getImportForm');
-                Route::get('language/export-form/{id}', 'getExportForm');
                 Route::get('language/{id}/export-phrases', 'exportPhrases')->name('exportPhrases');
                 Route::get('language/{id}/upload-csv', 'uploadCSV')->name('uploadCSV');
                 Route::post('language/{id}/upload-csv', 'uploadCSVFile')->name('uploadCSVFile');
@@ -42,7 +38,6 @@ Route::controller(CountryChildAdminController::class)
             ->controller(PhraseAdminController::class)
             ->as('phrase.')
             ->group(function () {
-                Route::get('form-import', 'formImport')->name('formImport');
                 Route::post('import', 'import')->name('import');
                 Route::get('missing', 'missing')->name('missing');
             });
@@ -52,3 +47,5 @@ Route::controller(CountryChildAdminController::class)
         Route::resource('language', LanguageAdminController::class);
         Route::resource('phrase', PhraseAdminController::class);
     });
+
+Route::resource('phrase', PhraseAdminController::class);

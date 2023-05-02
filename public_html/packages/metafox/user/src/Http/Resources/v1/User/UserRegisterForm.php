@@ -137,7 +137,7 @@ class UserRegisterForm extends AbstractForm
                         ))
                         ->setError('required', __p('validation.user_name_is_a_required_field'))
                         ->setError('typeError', __p('validation.user_name_is_a_required_field'))
-                        ->setError('matches', __p('validation.user_name_is_a_required_field'))
+                        ->setError('matches', __p('validation.please_use_only_letters_numbers_and_periods'))
                         ->setError('minLength', '${path} must be at least ${min} characters'),
                 ),
             Builder::email('email')
@@ -201,7 +201,7 @@ class UserRegisterForm extends AbstractForm
 
             if ($isBasicFieldRequired) {
                 $yupBirthdayField
-                    ->required(__p('user::validation.birthday_is_required'));
+                    ->required(__p('user::validation.birthday_is_a_required_field'));
             }
 
             $basic->addField(
@@ -220,7 +220,7 @@ class UserRegisterForm extends AbstractForm
 
             if ($isBasicFieldRequired) {
                 $genderField
-                    ->required(__p('user::validation.gender_is_required'));
+                    ->required(__p('user::validation.gender_is_a_required_field'));
             }
 
             $basic->addFields(
@@ -238,7 +238,7 @@ class UserRegisterForm extends AbstractForm
                             ->is(0)
                             ->then(
                                 Yup::number()
-                                    ->required(__p('user::validation.custom_gender_is_required'))
+                                    ->required(__p('user::validation.custom_gender_is_a_required_field'))
                             )
                     )
             );
@@ -250,7 +250,7 @@ class UserRegisterForm extends AbstractForm
 
             if ($isBasicFieldRequired) {
                 $yupLocationField->nullable(false)
-                    ->required(__p('user::validation.country_is_required'));
+                    ->required(__p('user::validation.country_is_a_required_field'));
             }
 
             $basic->addFields(
@@ -286,8 +286,8 @@ class UserRegisterForm extends AbstractForm
                     ->yup(
                         Yup::string()
                             ->required()
-                            ->setError('required', __p('validation.agree_field_is_required'))
-                            ->setError('typeError', __p('validation.agree_field_is_required'))
+                            ->setError('required', __p('validation.agree_field_is_a_required_field'))
+                            ->setError('typeError', __p('validation.agree_field_is_a_required_field'))
                     )
             );
         }
@@ -313,27 +313,23 @@ class UserRegisterForm extends AbstractForm
     {
         $isReenterEmail = (bool) Settings::get('user.force_user_to_reenter_email', false);
 
+        if (!$isReenterEmail) {
+            return;
+        }
+
         $field = Builder::email('reenter_email')
             ->autoComplete('off')
             ->marginNormal()
             ->label(__p('core::phrase.reenter_email_address'))
             ->placeholder(__p('core::phrase.reenter_email_address'))
             ->returnKeyType('next')
-            ->requiredWhen(['truthy', $isReenterEmail])
-            ->showWhen(['truthy', $isReenterEmail]);
-
-        $yup = match ($isReenterEmail) {
-            true => Yup::string()
+            ->required()
+            ->yup(Yup::string()
                 ->required()
                 ->format('email')
                 ->setError('required', __p('validation.reenter_email_is_a_required_field'))
                 ->setError('typeError', __p('validation.reenter_email_is_a_required_field'))
-                ->setError('format', __p('validation.invalid_email_address')),
-            false => Yup::string()
-                ->nullable(),
-        };
-
-        $field->yup($yup);
+                ->setError('format', __p('validation.invalid_email_address')));
 
         $basic->addField($field);
     }

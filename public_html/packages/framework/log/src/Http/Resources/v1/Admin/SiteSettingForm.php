@@ -26,8 +26,6 @@ class SiteSettingForm extends AbstractForm
 {
     protected array $variables = [];
 
-    protected bool $disabled = true;
-
     protected function prepare(): void
     {
         $vars = [
@@ -45,11 +43,7 @@ class SiteSettingForm extends AbstractForm
         }
 
         foreach ($this->variables as $key => $value) {
-            if (empty($value)) {
-                $this->disabled = false;
-            } else {
-                Arr::set($values, $key, $value);
-            }
+            Arr::set($values, $key, $value);
         }
 
         $this->title(__p('core::phrase.settings'))

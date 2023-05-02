@@ -2,9 +2,7 @@
 
 namespace MetaFox\Payment\Repositories;
 
-use Illuminate\Contracts\Pagination\Paginator;
-use MetaFox\Payment\Contracts\IsBillable;
-use MetaFox\Payment\Models\Order;
+use Illuminate\Database\Eloquent\Collection;
 use MetaFox\Platform\Contracts\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -20,7 +18,7 @@ interface OrderAdminRepositoryInterface
     /**
      * @param  User                $context
      * @param  array<string,mixed> $attributes
-     * @return Paginator
+     * @return Collection
      */
-    public function getTransactions(User $context, array $attributes): Paginator;
+    public function getTransactions(User $context, array $attributes): Collection;
 }

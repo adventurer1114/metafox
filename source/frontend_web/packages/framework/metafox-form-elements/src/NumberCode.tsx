@@ -133,7 +133,9 @@ const NumberCode = ({ config, name, formik }: FormFieldProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const haveError = Boolean(meta.error && (focused || meta.touched));
+  const haveError = Boolean(
+    meta.error && (focused || meta.touched || formik.submitCount)
+  );
 
   return (
     <FormControl data-testid={camelCase(`field ${name}`)}>

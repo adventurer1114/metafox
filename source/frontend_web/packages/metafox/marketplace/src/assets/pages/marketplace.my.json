@@ -72,9 +72,10 @@
           "contentType": "marketplace",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "itemLayout": "Marketplace - Main Card"
         },
         {
@@ -96,9 +97,10 @@
           "contentType": "marketplace",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "itemLayout": "Marketplace - Main Card"
         },
         {
@@ -121,7 +123,7 @@
           "blockId": "mat1",
           "component": "core.block.tabContainer",
           "slotName": "main",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Sub Tab",
           "title": "my_listings",
           "freeze": false,
           "tabProps": {
@@ -181,9 +183,10 @@
           "contentType": "marketplace",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "itemLayout": "Marketplace - Main Card"
         },
         {
@@ -205,9 +208,10 @@
           "contentType": "marketplace",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "itemLayout": "Marketplace - Main Card"
         },
         {
@@ -230,7 +234,7 @@
           "blockId": "mat1",
           "component": "core.block.tabContainer",
           "slotName": "main",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Sub Tab - Mobile",
           "title": "my_listings",
           "freeze": false,
           "tabProps": {

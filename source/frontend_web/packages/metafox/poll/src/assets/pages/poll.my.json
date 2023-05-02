@@ -48,10 +48,11 @@
             "apiUrl": "/poll",
             "apiParams": "view=my"
           },
+          "canLoadSmooth": 1,
           "canLoadMore": true,
           "freeze": false,
           "hasSearchBox": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Poll - Main Card",
           "itemLayout": "Poll - Main Card"
         }
@@ -83,9 +84,10 @@
             "apiParams": "view=my"
           },
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "freeze": false,
           "hasSearchBox": false,
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Poll - Main Card - Mobile",
           "itemLayout": "Poll - Main Card - Mobile"
         }

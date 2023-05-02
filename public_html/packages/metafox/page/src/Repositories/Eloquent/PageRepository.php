@@ -18,7 +18,9 @@ use MetaFox\Core\Traits\CollectTotalItemStatTrait;
 use MetaFox\Page\Models\Page;
 use MetaFox\Page\Models\PageClaim;
 use MetaFox\Page\Models\PageMember;
+use MetaFox\Page\Policies\CategoryPolicy;
 use MetaFox\Page\Policies\PagePolicy;
+use MetaFox\Page\Repositories\PageCategoryRepositoryInterface;
 use MetaFox\Page\Repositories\PageInviteRepositoryInterface;
 use MetaFox\Page\Repositories\PageMemberRepositoryInterface;
 use MetaFox\Page\Repositories\PageRepositoryInterface;
@@ -162,10 +164,17 @@ class PageRepository extends AbstractRepository implements PageRepositoryInterfa
 
         if (Browse::VIEW_PENDING == $view) {
             if (Arr::get($attributes, 'user_id') == 0) {
-                if (!$context->hasPermissionTo('page.approve')) {
+                if ($context->isGuest() || !$context->hasPermissionTo('page.approve')) {
                     throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
                 }
             }
+        }
+        $categoryId = Arr::get($attributes, 'category_id', 0);
+
+        if ($categoryId > 0) {
+            $category = resolve(PageCategoryRepositoryInterface::class)->find($categoryId);
+
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
         }
 
         $query = $this->buildQueryViewPages($context, $owner, $attributes)

@@ -8,7 +8,7 @@
           "component": "event.block.eventUpcomingBlock",
           "slotName": "main",
           "title": "Going Events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "dataSource": {
             "apiParams": "sort=recent&view=going",
@@ -25,6 +25,7 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -35,7 +36,7 @@
           "component": "event.block.eventListingBlock",
           "slotName": "main",
           "title": "Interested Events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "dataSource": {
             "apiParams": "sort=recent&view=interested",
@@ -52,6 +53,7 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -167,7 +169,7 @@
           "parentBlockId": "taint",
           "component": "event.block.eventListingBlock",
           "slotName": "main",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "dataSource": {
             "apiParams": "view=feature&limit=6",
@@ -193,8 +195,8 @@
           "parentBlockId": "ja0bm",
           "component": "event.block.eventListingBlock",
           "slotName": "main",
-          "title": "Popular Events",
-          "blockLayout": "Main Listings",
+          "title": "",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -213,13 +215,14 @@
           "freeze": false,
           "itemLayout": "Event - Main Card",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "maxPageNumber": 2,
           "numberOfItemsPerPage": 10
         },
         {
           "blockId": "4y50g",
           "component": "core.block.tabContainer",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Sub Tab",
           "slotName": "main",
           "title": "discover_events",
           "freeze": false,
@@ -285,7 +288,7 @@
           "component": "event.block.eventUpcomingBlock",
           "slotName": "main",
           "title": "Going Events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "dataSource": {
             "apiParams": "sort=recent&view=going",
@@ -302,6 +305,7 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -312,7 +316,7 @@
           "component": "event.block.eventListingBlock",
           "slotName": "main",
           "title": "Interested Events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "dataSource": {
             "apiParams": "sort=recent&view=interested",
@@ -329,6 +333,7 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -386,7 +391,7 @@
           "parentBlockId": "taint",
           "component": "event.block.eventListingBlock",
           "slotName": "main",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "dataSource": {
             "apiParams": "view=feature&limit=6",
@@ -413,7 +418,7 @@
           "component": "event.block.eventListingBlock",
           "slotName": "main",
           "title": "Popular Events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "gridLayout": "Event - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -429,6 +434,7 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "displayLimit": "50",
@@ -437,7 +443,7 @@
         {
           "blockId": "4y50g",
           "component": "core.block.tabContainer",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Sub Tab - Mobile",
           "slotName": "main",
           "title": "discover_events",
           "freeze": false,

@@ -50,7 +50,7 @@
         {
           "component": "core.block.sidebarAppMobile",
           "slotName": "main",
-          "title": "Blog",
+          "title": "blogs",
           "blockProps": {
             "variant": "plained",
             "titleComponent": "h2",

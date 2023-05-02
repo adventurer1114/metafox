@@ -22,7 +22,7 @@ const LinearProgressStyled = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const ProgressPercent = styled(Typography)(({ theme }) => ({
-  width: 40,
+  minWidth: 40,
   color: theme.palette.text.secondary,
   fontSize: theme.mixins.pxToRem(13)
 }));
@@ -51,7 +51,7 @@ export default function AnswerPercent({
           <ProgressItem>
             <LinearProgressStyled
               variant="determinate"
-              value={item.percent || 0}
+              value={item.percent_value || 0}
             />
             <ProgressPercent component="span">{item.percent}</ProgressPercent>
           </ProgressItem>

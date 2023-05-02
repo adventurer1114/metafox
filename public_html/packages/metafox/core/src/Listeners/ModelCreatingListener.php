@@ -38,7 +38,7 @@ class ModelCreatingListener
             if ($model instanceof HasPrivacy) {
                 $owner = $model->owner;
                 // Only when the content is created on owner
-                if ($model->userId() != $owner->entityId()) {
+                if ($model->userId() != $owner?->entityId()) {
                     if ($owner instanceof PostBy) {
                         $model->privacy = $owner->getPrivacyPostBy();
                     }

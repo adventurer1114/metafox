@@ -98,12 +98,13 @@ class LikeNotification extends Notification
         // TODO: should use separated email phrase instead of using strip_tags
         $content = $subject;
         $subject = strip_tags($subject);
+        $url     = $this->toUrl() ?? '';
 
         return (new MailMessage())
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($content)
-            ->action($this->localize('like::phrase.view_this_reaction'), $this->toUrl());
+            ->action($this->localize('like::phrase.view_this_reaction'), $url);
     }
 
     /**
@@ -111,7 +112,6 @@ class LikeNotification extends Notification
      */
     public function callbackMessage(): ?string
     {
-        $context        = user();
         $item           = $this->model->item;
         $userEntity     = $this->model->userEntity;
         $friendFullName = $userEntity instanceof UserEntity ? $userEntity->name : null;
@@ -120,7 +120,7 @@ class LikeNotification extends Notification
          */
         $message = app('events')->dispatch(
             'like.notification_to_callback_message',
-            [$context, $userEntity, $item],
+            [$this->notifiable, $userEntity, $item],
             true
         );
 

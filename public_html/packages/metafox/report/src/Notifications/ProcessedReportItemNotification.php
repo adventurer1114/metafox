@@ -11,7 +11,7 @@ use MetaFox\Platform\Contracts\Content;
 /**
  * Class ProcessReportItemNotification.
  * @property Content $model
- * @todo: Implement this
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class ProcessedReportItemNotification extends Notification
 {
@@ -27,15 +27,16 @@ class ProcessedReportItemNotification extends Notification
      */
     public function toMail(IsNotifiable $notifiable): MailMessage
     {
-        $emailSubject = __p('report::mail.report_processed_subject');
-        $emailLine    = __p('report::mail.report_for_item_is_processed', ['item' => $this->model->toTitle()]);
+        $emailSubject = $this->localize('report::mail.report_processed_subject');
+        $emailLine    = $this->localize('report::mail.report_for_item_is_processed', ['item' => $this->model->toTitle()]);
 
         $url = $this->model->toUrl();
 
         return (new MailMessage())
                     ->subject($emailSubject)
+                    ->locale($this->getLocale())
                     ->line($emailLine)
-                    ->action(__p('core::phrase.review_now'), $url ?? '');
+                    ->action(__p('core::phrase.view_now'), $url ?? '');
     }
 
     /**

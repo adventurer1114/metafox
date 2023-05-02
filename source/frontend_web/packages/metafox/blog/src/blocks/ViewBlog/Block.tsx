@@ -36,7 +36,8 @@ import {
   SponsorFlag,
   Statistic,
   UserAvatar,
-  LineIcon
+  LineIcon,
+  HtmlViewerWrapper
 } from '@metafox/ui';
 import { getImageSrc } from '@metafox/utils';
 import { Box, styled, Typography } from '@mui/material';
@@ -46,11 +47,6 @@ import React from 'react';
 
 const name = 'BlogDetailView';
 
-const ContentWrapper = styled('div', { name, slot: 'ContentWrapper' })(
-  ({ theme }) => ({
-    backgroundColor: theme.mixins.backgroundColor('paper')
-  })
-);
 const BgCover = styled('div', {
   name,
   slot: 'bgCover',
@@ -88,11 +84,7 @@ const AvatarWrapper = styled('div', { name, slot: 'AvatarWrapper' })(
 const BlogContent = styled('div', { name, slot: 'blogContent' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(15),
-    lineHeight: 1.33,
-    marginTop: theme.spacing(3),
-    '& p + p': {
-      marginBottom: theme.spacing(2.5)
-    }
+    lineHeight: 1.33
   })
 );
 const TagItem = styled('div', { name, slot: 'tagItem' })(({ theme }) => ({
@@ -114,7 +106,7 @@ const TagItem = styled('div', { name, slot: 'tagItem' })(({ theme }) => ({
 const AttachmentTitle = styled('div', { name, slot: 'attachmentTitle' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(18),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightBold
   })
@@ -123,7 +115,6 @@ const Attachment = styled('div', { name, slot: 'attachment' })(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: theme.spacing(2),
   justifyContent: 'space-between'
 }));
 const AttachmentItemWrapper = styled('div', {
@@ -203,144 +194,140 @@ export function DetailView({
   return (
     <Block testid={`detailview ${item.resource_name}`}>
       <BlockContent>
-        <ContentWrapper>
-          {cover ? (
-            <BgCover
-              isModalView={isModalView}
-              style={{ backgroundImage: `url(${cover})` }}
-            ></BgCover>
-          ) : null}
-          {PendingCard && (
-            <Box sx={{ margin: 2 }}>
-              <PendingCard sx item={item} />
-            </Box>
-          )}
-          <BlogViewContainer>
-            <ItemAction sx={{ position: 'absolute', top: 8, right: 8 }}>
-              <ItemActionMenu
-                identity={identity}
-                icon={'ico-dottedmore-vertical-o'}
-                state={state}
-                menuName="detailActionMenu"
-                handleAction={handleAction}
-                size="smaller"
-              />
-            </ItemAction>
-            <CategoryList
-              to="/blog/category"
-              data={categories}
-              sx={{ mb: 1, mr: 2 }}
-            />
-            <ItemTitle variant="h3" component={'div'} pr={2} showFull>
-              <FeaturedFlag variant="itemView" value={item.is_featured} />
-              <SponsorFlag variant="itemView" value={item.is_sponsor} />
-              <DraftFlag
-                value={item.is_draft}
-                variant="h3"
-                component="span"
-                sx={{
-                  verticalAlign: 'middle',
-                  fontWeight: 'normal'
-                }}
-              />
-              <Typography
-                component="h1"
-                variant="h3"
-                sx={{
-                  pr: 2.5,
-                  display: { sm: 'inline', xs: 'block' },
-                  mt: { sm: 0, xs: 1 },
-                  verticalAlign: 'middle'
-                }}
-              >
-                {item?.title}
-              </Typography>
-            </ItemTitle>
-            <Box mt={2} display="flex">
-              <AvatarWrapper>
-                <UserAvatar user={user as ItemUserShape} size={48} />
-              </AvatarWrapper>
-              <Box>
-                <ProfileLinkStyled
-                  to={user.link}
-                  children={user.full_name}
-                  hoverCard={`/user/${user.id}`}
-                  data-testid="headline"
-                />
-                {owner?.resource_name !== user?.resource_name && (
-                  <HeadlineSpan>
-                    {i18n.formatMessage(
-                      {
-                        id: 'to_parent_user'
-                      },
-                      {
-                        icon: () => <LineIcon icon="ico-caret-right" />,
-                        parent_user: () => <OwnerStyled user={owner} />
-                      }
-                    )}
-                  </HeadlineSpan>
-                )}
-                <DotSeparator sx={{ color: 'text.secondary', mt: 1 }}>
-                  <FormatDate
-                    data-testid="publishedDate"
-                    value={item?.creation_date}
-                    format="MMMM DD, yyyy"
-                  />
-                  <Statistic
-                    values={item.statistic}
-                    display={'total_view'}
-                    component={'span'}
-                    skipZero={false}
-                  />
-                  <PrivacyIcon
-                    value={item?.privacy}
-                    item={item?.privacy_detail}
-                  />
-                </DotSeparator>
-              </Box>
-            </Box>
-            <BlogContent>
-              <HtmlViewer html={item?.text || ''} />
-            </BlogContent>
-            {tags?.length > 0 ? (
-              <Box mt={4} display="flex" flexWrap="wrap">
-                {tags.map(tag => (
-                  <TagItem key={tag}>
-                    <Link to={`/blog/search?q=%23${encodeURIComponent(tag)}`}>
-                      {tag}
-                    </Link>
-                  </TagItem>
-                ))}
-              </Box>
-            ) : null}
-            {attachments?.length > 0 && (
-              <>
-                <AttachmentTitle>
-                  {i18n.formatMessage({ id: 'attachments' })}
-                </AttachmentTitle>
-                <Attachment>
-                  {attachments.map(item => (
-                    <AttachmentItemWrapper key={item.id.toString()}>
-                      <AttachmentItem
-                        fileName={item.file_name}
-                        downloadUrl={item.download_url}
-                        isImage={item.is_image}
-                        fileSizeText={item.file_size_text}
-                        size="large"
-                        image={item?.image}
-                      />
-                    </AttachmentItemWrapper>
-                  ))}
-                </Attachment>
-              </>
-            )}
-            <ItemDetailInteraction
+        {cover ? (
+          <BgCover
+            isModalView={isModalView}
+            style={{ backgroundImage: `url(${cover})` }}
+          ></BgCover>
+        ) : null}
+        {PendingCard && <PendingCard sxWrapper={{ m: 2 }} item={item} />}
+        <BlogViewContainer>
+          <ItemAction sx={{ position: 'absolute', top: 8, right: 8 }}>
+            <ItemActionMenu
               identity={identity}
+              icon={'ico-dottedmore-vertical-o'}
               state={state}
+              menuName="detailActionMenu"
               handleAction={handleAction}
+              size="smaller"
             />
-          </BlogViewContainer>
-        </ContentWrapper>
+          </ItemAction>
+          <CategoryList
+            to="/blog/category"
+            data={categories}
+            sx={{ mb: 1, mr: 2 }}
+          />
+          <ItemTitle variant="h3" component={'div'} pr={2} showFull>
+            <FeaturedFlag variant="itemView" value={item.is_featured} />
+            <SponsorFlag variant="itemView" value={item.is_sponsor} />
+            <DraftFlag
+              value={item.is_draft}
+              variant="h3"
+              component="span"
+              sx={{
+                verticalAlign: 'middle',
+                fontWeight: 'normal'
+              }}
+            />
+            <Typography
+              component="h1"
+              variant="h3"
+              sx={{
+                pr: 2.5,
+                display: { sm: 'inline', xs: 'block' },
+                mt: { sm: 0, xs: 1 },
+                verticalAlign: 'middle'
+              }}
+            >
+              {item?.title}
+            </Typography>
+          </ItemTitle>
+          <Box mt={2} display="flex">
+            <AvatarWrapper>
+              <UserAvatar user={user as ItemUserShape} size={48} />
+            </AvatarWrapper>
+            <Box>
+              <ProfileLinkStyled
+                to={user.link}
+                children={user.full_name}
+                hoverCard={`/user/${user.id}`}
+                data-testid="headline"
+              />
+              {owner?.resource_name !== user?.resource_name && (
+                <HeadlineSpan>
+                  {i18n.formatMessage(
+                    {
+                      id: 'to_parent_user'
+                    },
+                    {
+                      icon: () => <LineIcon icon="ico-caret-right" />,
+                      parent_user: () => <OwnerStyled user={owner} />
+                    }
+                  )}
+                </HeadlineSpan>
+              )}
+              <DotSeparator sx={{ color: 'text.secondary', mt: 1 }}>
+                <FormatDate
+                  data-testid="publishedDate"
+                  value={item?.creation_date}
+                  format="MMMM DD, yyyy"
+                />
+                <Statistic
+                  values={item.statistic}
+                  display={'total_view'}
+                  component={'span'}
+                  skipZero={false}
+                />
+                <PrivacyIcon
+                  value={item?.privacy}
+                  item={item?.privacy_detail}
+                />
+              </DotSeparator>
+            </Box>
+          </Box>
+          <BlogContent>
+            <HtmlViewerWrapper>
+              <HtmlViewer html={item?.text || ''} />
+            </HtmlViewerWrapper>
+          </BlogContent>
+          {tags?.length > 0 ? (
+            <Box mt={4} display="flex" flexWrap="wrap">
+              {tags.map(tag => (
+                <TagItem key={tag}>
+                  <Link to={`/blog/search?q=%23${encodeURIComponent(tag)}`}>
+                    {tag}
+                  </Link>
+                </TagItem>
+              ))}
+            </Box>
+          ) : null}
+          {attachments?.length > 0 && (
+            <>
+              <AttachmentTitle>
+                {i18n.formatMessage({ id: 'attachments' })}
+              </AttachmentTitle>
+              <Attachment>
+                {attachments.map(item => (
+                  <AttachmentItemWrapper key={item.id.toString()}>
+                    <AttachmentItem
+                      fileName={item.file_name}
+                      downloadUrl={item.download_url}
+                      isImage={item.is_image}
+                      fileSizeText={item.file_size_text}
+                      size="large"
+                      image={item?.image}
+                    />
+                  </AttachmentItemWrapper>
+                ))}
+              </Attachment>
+            </>
+          )}
+          <ItemDetailInteraction
+            identity={identity}
+            state={state}
+            handleAction={handleAction}
+          />
+        </BlogViewContainer>
       </BlockContent>
     </Block>
   );
@@ -357,5 +344,8 @@ const Enhance = connectSubject(
 );
 
 export default createBlock<Props>({
-  extendBlock: Enhance
+  extendBlock: Enhance,
+  defaults: {
+    blockLayout: 'Detail - Paper - Radius Bottom'
+  }
 });

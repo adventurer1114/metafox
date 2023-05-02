@@ -28,5 +28,5 @@ interface AttachmentRepositoryInterface
      *
      * @return bool
      */
-    public function updateItemId(array $attachments, HasTotalAttachment $item): bool;
+    public function updateItemId(?array $attachments, HasTotalAttachment $item): bool;
 }

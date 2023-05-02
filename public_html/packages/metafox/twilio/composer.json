@@ -1,6 +1,6 @@
 {
     "name": "metafox/twilio",
-    "version": "5.0.2",
+    "version": "5.0.3",
     "description": "Twilio SMS Gateway",
     "keyword": "metafox/twilio",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/twilio": "5.0.1"
+                "@metafox/twilio": "*"
             },
             "frontendPaths": [
             ],

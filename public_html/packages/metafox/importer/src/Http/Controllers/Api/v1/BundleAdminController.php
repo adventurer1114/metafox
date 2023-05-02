@@ -86,17 +86,18 @@ class BundleAdminController extends ApiController
      */
     public function store(StoreRequest $request): JsonResponse
     {
+        $params = $request->validated();
         // 1. Set whether a client disconnect should abort script execution
         // 2. Increase time
         ignore_user_abort(true);
         set_time_limit(0);
-
         /** @var UploadedFile $uploadedFile */
-        $uploadedFile = $request->file('file');
+        $uploadedFile = $params['file'];
+        $chatType     = $params['chat_type'];
 
         $filename = $uploadedFile->getRealPath();
 
-        $this->repository->importScheduleArchive($filename);
+        $this->repository->importScheduleArchive($filename, $chatType);
 
         $nextAction = ['type' => 'navigate', 'payload' => ['url' => '/admincp/importer/bundle/browse']];
 

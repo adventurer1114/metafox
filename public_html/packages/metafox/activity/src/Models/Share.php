@@ -6,6 +6,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MetaFox\Activity\Database\Factories\ShareFactory;
+use MetaFox\Activity\Notifications\ShareFeedNotification;
 use MetaFox\Platform\Contracts\ActivityFeedSource;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\HasApprove;
@@ -16,9 +17,11 @@ use MetaFox\Platform\Contracts\HasTotalCommentWithReply;
 use MetaFox\Platform\Contracts\HasTotalLike;
 use MetaFox\Platform\Contracts\HasTotalShare;
 use MetaFox\Platform\Contracts\HasTotalView;
+use MetaFox\Platform\Contracts\IsNotifyInterface;
 use MetaFox\Platform\Contracts\ResourcePostOnOwner;
 use MetaFox\Platform\Support\Eloquent\Appends\AppendPrivacyListTrait;
 use MetaFox\Platform\Support\Eloquent\Appends\Contracts\AppendPrivacyList;
+use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Platform\Support\FeedAction;
 use MetaFox\Platform\Support\HasContent;
 use MetaFox\Platform\Traits\Eloquent\Model\HasItemMorph;
@@ -29,21 +32,21 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 /**
  * Class Share.
  *
- * @property int          $id
- * @property int          $user_id
- * @property string       $user_type
- * @property int          $owner_id
- * @property string       $owner_type
- * @property int          $item_id
- * @property string       $item_type
- * @property int          $parent_feed_id
- * @property string       $parent_module_id
- * @property string       $content
- * @property int          $total_view
- * @property int          $privacy
- * @property string       $created_at
- * @property string       $updated_at
- * @method   ShareFactory factory(...$parameters)
+ * @property        int          $id
+ * @property        int          $user_id
+ * @property        string       $user_type
+ * @property        int          $owner_id
+ * @property        string       $owner_type
+ * @property        int          $item_id
+ * @property        string       $item_type
+ * @property        int          $parent_feed_id
+ * @property        string       $parent_module_id
+ * @property        string       $content
+ * @property        int          $total_view
+ * @property        int          $privacy
+ * @property        string       $created_at
+ * @property        string       $updated_at
+ * @method   static ShareFactory factory(...$parameters)
  */
 class Share extends Model implements
     Content,
@@ -57,7 +60,8 @@ class Share extends Model implements
     HasTotalShare,
     HasTotalCommentWithReply,
     HasLocationCheckin,
-    HasApprove
+    HasApprove,
+    IsNotifyInterface
 {
     use HasContent;
     use HasFactory;
@@ -121,6 +125,26 @@ class Share extends Model implements
         ]);
     }
 
+    public function toNotification(): ?array
+    {
+        $user  = $this->item->user;
+        $owner = $this->owner;
+
+        if ($user->entityId() == $owner->entityId()) {
+            return null;
+        }
+
+        if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
+            return null;
+        }
+
+        if (!PrivacyPolicy::checkPermission($user, $this)) {
+            return null;
+        }
+
+        return [$user, new ShareFeedNotification($this)];
+    }
+
     public function getFeedContent(): ?string
     {
         return $this->content;
@@ -153,7 +177,7 @@ class Share extends Model implements
      */
     public function toLink(): ?string
     {
-        return $this->activity_feed->toLink();
+        return $this->activity_feed?->toLink();
     }
 
     /**
@@ -161,6 +185,14 @@ class Share extends Model implements
      */
     public function toUrl(): ?string
     {
-        return $this->activity_feed->toUrl();
+        return $this->activity_feed?->toUrl();
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    public function toRouter(): ?string
+    {
+        return $this->activity_feed?->toRouter();
     }
 }

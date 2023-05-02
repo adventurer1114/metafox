@@ -36,7 +36,7 @@ class VideoText extends Model implements ResourceText
      */
     protected $table = 'video_text';
 
-    protected $fillable = ['text', 'text_parsed'];
+    protected $fillable = ['id', 'text', 'text_parsed'];
 
     public function resource(): BelongsTo
     {

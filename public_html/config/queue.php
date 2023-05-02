@@ -31,7 +31,8 @@ return [
     'connections' => [
 
         'sync' => [
-            'driver' => 'sync',
+            'driver'     => 'sync',
+            'selectable' => true,
         ],
 
         'database' => [
@@ -39,6 +40,7 @@ return [
             'table'       => 'jobs',
             'queue'       => 'default',
             'retry_after' => 90,
+            'selectable'  => true,
         ],
 
         'beanstalkd' => [
@@ -50,21 +52,23 @@ return [
         ],
 
         'sqs' => [
-            'driver' => 'sqs',
-            'key'    => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
-            'queue'  => env('SQS_QUEUE', 'your-queue-name'),
-            'suffix' => env('SQS_SUFFIX'),
-            'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+            'driver'     => 'sqs',
+            'key'        => env('AWS_ACCESS_KEY_ID'),
+            'secret'     => env('AWS_SECRET_ACCESS_KEY'),
+            'prefix'     => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
+            'queue'      => env('SQS_QUEUE', 'your-queue-name'),
+            'suffix'     => env('SQS_SUFFIX'),
+            'region'     => env('AWS_DEFAULT_REGION', 'us-east-1'),
+            'selectable' => env('SQS_PREFIX'),
         ],
 
         'redis' => [
             'driver'      => 'redis',
-            'connection'  => 'default',
+            'connection'  => 'queue',
             'queue'       => env('REDIS_QUEUE', 'default'),
             'retry_after' => 90,
             'block_for'   => null,
+            'selectable'  => env('REDIS_HOST'),
         ],
 
         'rabbitmq' => [
@@ -72,8 +76,8 @@ return [
             'driver'     => 'rabbitmq',
             'queue'      => env('RABBITMQ_QUEUE', 'default'),
             'connection' => PhpAmqpLib\Connection\AMQPLazyConnection::class,
-
-            'hosts' => [
+            'selectable' => env('MFOX_QUEUE_HOST'),
+            'hosts'      => [
                 [
                     'host'     => env('MFOX_QUEUE_HOST', '127.0.0.1'),
                     'port'     => env('MFOX_QUEUE_PORT', 5672),
@@ -91,7 +95,7 @@ return [
                     'verify_peer' => env('RABBITMQ_SSL_VERIFY_PEER', true),
                     'passphrase'  => env('RABBITMQ_SSL_PASSPHRASE', null),
                 ],
-                'queue'       => [
+                'queue' => [
                     'job' => VladimirYuldashev\LaravelQueueRabbitMQ\Queue\Jobs\RabbitMQJob::class,
                 ],
             ],
@@ -99,7 +103,7 @@ return [
             /*
              * Set to "horizon" if you wish to use Laravel Horizon.
              */
-            'worker'  => env('RABBITMQ_WORKER', 'default'),
+            'worker' => env('RABBITMQ_WORKER', 'default'),
 
         ],
 

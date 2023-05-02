@@ -1,8 +1,8 @@
 {
     "name": "metafox/cache",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Cache",
-    "keyword": "phpFox",
+    "keyword": "",
     "authors": [
         {
             "name": "phpFox",
@@ -12,7 +12,7 @@
     "extra": {
         "metafox": {
             "core": true,
-            "priority": 2,
+            "priority": 100,
             "alias": "cache",
             "asset": "cache",
             "namespace": "MetaFox\\Cache",
@@ -26,7 +26,9 @@
             "internalUrl": "/cache",
             "internalAdminUrl": "/admincp/cache/setting",
             "type": "app",
-            "mobile": []
+            "mobile": [],
+            "store_id": 0,
+            "store_url": null
         }
     },
     "autoload": {

@@ -3,9 +3,13 @@
 namespace MetaFox\Platform\Repositories;
 
 use Illuminate\Support\Arr;
+use MetaFox\Blog\Support\Browse\Scopes\Blog\ViewScope;
 use MetaFox\Platform\Contracts\InputCleaner;
-use MetaFox\Platform\Repositories\Contracts\AbstractRepositoryInterface;
 use MetaFox\Platform\Support\Browse\Browse;
+use MetaFox\Platform\Support\Browse\Scopes\CategoryScope;
+use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
+use MetaFox\Platform\Support\Browse\Scopes\TagScope;
+use MetaFox\Platform\Support\Browse\Scopes\WhenScope;
 use MetaFox\Platform\Traits\Helpers\InputCleanerTrait;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -13,11 +17,13 @@ use Prettus\Repository\Exceptions\RepositoryException;
 /**
  * Class AbstractRepository.
  */
-abstract class AbstractRepository extends BaseRepository implements AbstractRepositoryInterface, InputCleaner
+abstract class AbstractRepository extends BaseRepository implements InputCleaner
 {
     use InputCleanerTrait;
 
     protected $skipPresenter = true;
+
+    protected $disableSponsor;
 
     /**
      * @param array $params
@@ -78,5 +84,33 @@ abstract class AbstractRepository extends BaseRepository implements AbstractRepo
     public function likeOperator(): string
     {
         return database_driver() == 'pgsql' ? 'ilike' : 'like';
+    }
+
+    public function buildQueryScopes($query, $model, $criteria)
+    {
+        /** @var \MetaFox\Platform\Support\Browse\Scopes\BaseScope[] $scopes */
+        $scopes = Arr::map([
+            WhenScope::class,
+            ViewScope::class,
+            SearchScope::class,
+            TagScope::class,
+            CategoryScope::class,
+        ], function (string $abstract) use ($query, $model, &$criteria) {
+            /** @var \MetaFox\Platform\Support\Browse\Scopes\BaseScope $scope */
+            $scope = $this->app->make($abstract);
+
+            $result = $scope->buildQueryScope($query, $model, $criteria);
+
+            return $result !== false ? $scope : null;
+        });
+
+        $scopes = Arr::where(
+            $scopes,
+            fn ($scope) => (bool) $scope
+        );
+
+        foreach ($scopes as $scope) {
+            $scope->apply($query, $model);
+        }
     }
 }

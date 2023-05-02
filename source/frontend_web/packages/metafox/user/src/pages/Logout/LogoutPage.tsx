@@ -15,7 +15,6 @@ export default function LogoutPage() {
     cookieBackend.remove('token');
     cookieBackend.remove('refreshToken');
     cookieBackend.remove('dateExpiredToken');
-    cookieBackend.remove('fcm-notification');
     // unregister all service worker when logout
     try {
       navigator.serviceWorker.getRegistrations().then(registrations => {

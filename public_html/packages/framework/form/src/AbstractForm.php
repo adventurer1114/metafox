@@ -15,6 +15,7 @@ use MetaFox\Yup\Shape;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 abstract class AbstractForm extends JsonResource
 {
@@ -531,6 +532,15 @@ abstract class AbstractForm extends JsonResource
     public function submitOnValueChanged(mixed $flag = true): static
     {
         return $this->setAttribute('submitOnValueChanged', $flag);
+    }
+
+    /**
+     * @param  bool  $flag
+     * @return $this
+     */
+    public function resetFormOnSuccess(bool $flag = true): static
+    {
+        return $this->setAttribute('resetFormWhenSuccess', $flag);
     }
 
     /**

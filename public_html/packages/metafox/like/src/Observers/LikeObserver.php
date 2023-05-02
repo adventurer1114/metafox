@@ -112,8 +112,8 @@ class LikeObserver
 
     private function clearCache(Like $model): void
     {
-        Cache::forget(sprintf(CacheManager::IS_LIKED_CACHE, $model->itemId(), $model->itemType()));
-        Cache::forget(sprintf(CacheManager::USER_REACTED_CACHE, $model->itemId(), $model->itemType()));
+        Cache::forget(sprintf(CacheManager::IS_LIKED_CACHE, $model->itemId(), $model->itemType(), $model->userId()));
+        Cache::forget(sprintf(CacheManager::USER_REACTED_CACHE, $model->itemId(), $model->itemType(), $model->userId()));
     }
 
     private function redundantFeed(?Entity $item): void

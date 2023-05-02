@@ -5,6 +5,7 @@ namespace MetaFox\User\Http\Resources\v1\User;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
 use MetaFox\Form\Constants as MetaFoxForm;
+use MetaFox\Form\Section;
 use MetaFox\User\Models\User as Model;
 use MetaFox\Yup\Yup;
 
@@ -34,10 +35,38 @@ class AccountPopupForm extends LoginPopupUserForm
                 ->variant('h3')
                 ->sx([
                     'justifyContent' => 'center',
-                    'display' => 'flex',
+                    'display'        => 'flex',
                 ])
         );
 
         parent::initialize();
+
+        $bottom = $this->addSection(
+            Builder::section('bottom')
+                ->variant('horizontal')
+        );
+
+        $this->handleSocialLoginFields($bottom);
+    }
+
+    /**
+     * @param Section $section
+     *
+     * @return void
+     */
+    protected function handleSocialLoginFields(Section $section): void
+    {
+        $fieldResponses = array_filter(app('events')->dispatch('socialite.login_fields', ['web']) ?? []);
+        if (empty($fieldResponses)) {
+            return;
+        }
+
+        $section->addField(Builder::typography('social_login')
+            ->setAttribute('class', 'typoSigInSocialite')
+            ->plainText(__p('user::phrase.or_sign_in_using')));
+
+        foreach ($fieldResponses as $response) {
+            $section->addFields(...$response);
+        }
     }
 }

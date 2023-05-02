@@ -43,8 +43,12 @@ class QuizPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -59,6 +63,12 @@ class QuizPolicy implements ResourcePolicyInterface
 
     public function view(User $user, Entity $resource): bool
     {
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('quiz.moderate')) {
             return true;
         }
@@ -83,7 +93,7 @@ class QuizPolicy implements ResourcePolicyInterface
             return false;
         }
 
-        if ($resource->isApproved()) {
+        if ($isApproved) {
             return true;
         }
 
@@ -207,6 +217,39 @@ class QuizPolicy implements ResourcePolicyInterface
 
         if (!$user->hasPermissionTo('quiz.play')) {
             return false;
+        }
+
+        return true;
+    }
+
+    public function viewMemberResult(User $user, Entity $resource): bool
+    {
+        if ($user->hasPermissionTo('quiz.moderate')) {
+            return true;
+        }
+
+        // check user role permission
+        if (!$user->hasPermissionTo('quiz.view')) {
+            return false;
+        }
+
+        $owner = $resource->owner;
+
+        if (!$owner instanceof User) {
+            return false;
+        }
+
+        if (!$this->viewOwner($user, $owner)) {
+            return false;
+        }
+
+        // Check can view on resource.
+        if (PrivacyPolicy::checkPermission($user, $resource) == false) {
+            return false;
+        }
+
+        if ($resource->userId() == $user->entityId()) {
+            return true;
         }
 
         return true;

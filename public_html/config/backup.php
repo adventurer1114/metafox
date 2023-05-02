@@ -17,12 +17,11 @@ return [
                 /*
                  * The list of directories and files that will be included in the backup.
                  */
-                'include' => [
+                'include' => array_filter([
                     base_path('app'),
                     base_path('bootstrap'),
                     base_path('config'),
                     base_path('database'),
-                    base_path('lang'),
                     base_path('packages'),
                     base_path('resources'),
                     base_path('routes'),
@@ -32,7 +31,7 @@ return [
                     base_path('composer.json'),
                     base_path('composer.lock'),
                     base_path('storage/app/web'),
-                ],
+                ], fn ($path) => is_dir($path) || file_exists($path)),
 
                 /*
                  * These directories and files will be excluded from the backup.

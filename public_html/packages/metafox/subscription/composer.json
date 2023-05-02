@@ -1,6 +1,6 @@
 {
     "name": "metafox/subscription",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "metafox/subscription",
     "keyword": "metafox/subscription",
     "authors": [
@@ -24,7 +24,7 @@
                 "MetaFox\\Subscription\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/subscription": "5.0.1"
+                "@metafox/subscription": "*"
             },
             "frontendPaths": [
                 "packages/metafox/subscription"

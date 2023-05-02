@@ -404,7 +404,7 @@ class QuizRepository extends AbstractRepository implements QuizRepositoryInterfa
 
         if (Browse::VIEW_PENDING == $view) {
             if ($owner->entityId() != $context->entityId()) {
-                if ($context->hasPermissionTo('quiz.approve') == false) {
+                if ($context->isGuest() || !$context->hasPermissionTo('quiz.approve')) {
                     throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
                 }
             }

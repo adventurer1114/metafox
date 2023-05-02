@@ -36,7 +36,11 @@ class PackageManager
         return config(sprintf('metafox.packages.%s.core', $name));
     }
 
-    public static function getInfo(string $name): bool
+    /**
+     * @param  string                    $name
+     * @return array<string, mixed>|null
+     */
+    public static function getInfo(string $name): ?array
     {
         return config("metafox.packages.$name");
     }

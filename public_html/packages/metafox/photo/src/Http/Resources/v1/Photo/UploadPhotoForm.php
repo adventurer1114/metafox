@@ -96,7 +96,7 @@ class UploadPhotoForm extends AbstractForm
                 'module_id'             => 'photo',
                 'privacy'               => $privacy,
                 'owner_id'              => $this->ownerId,
-                'new_album'             => ['privacy' => $privacyAlbum],
+                'new_album_privacy'     => $privacyAlbum,
                 'files'                 => [],
                 'categories'            => [$defaultCategory],
                 'can_set_album_privacy' => $context->hasPermissionTo('photo_album.set_privacy'),
@@ -108,7 +108,8 @@ class UploadPhotoForm extends AbstractForm
         $context           = user();
         $albumInfo         = Builder::section('albumInfo')->component(MetaFoxForm::CONTAINER);
         $types             = $this->getAcceptableTypes();
-        $accept            = $this->getAcceptableMimeTypes($types);
+        $accept            = 'image/*';
+        $acceptWhen        = $this->getAcceptableMimeTypes($types);
         $isVideoAllowed    = $this->canUploadVideos();
         $maxMediaPerUpload = $context->getPermissionValue('photo.maximum_number_of_media_per_upload');
         $maxPhotoSize      = file_type()->getFilesizePerType('photo');
@@ -117,24 +118,12 @@ class UploadPhotoForm extends AbstractForm
         $basic = $this->addBasic();
 
         $basic->addFields(
-            Builder::album('album')
-                ->multiple(false)
-                ->sizeLarge()
-                ->fullWidth()
-                ->enableWhen(['falsy', 'add_new_album'])
-                ->label(__p('photo::phrase.photo_album'))
-                ->setOwner($this->owner)
-                ->setUser($context)
-                ->description(__p('photo::phrase.you_need_to_select_an_album', [
-                    'allowVideo' => (int) $isVideoAllowed,
-                ]))
-                ->setRepository(AlbumRepositoryInterface::class),
             Builder::uploadMultiMedia('files')
                 ->required()
                 ->accepts($accept)
                 ->isVideoUploadAllowed($isVideoAllowed)
                 ->acceptWhen([
-                    $accept => [
+                    $acceptWhen => [
                         'or',
                         ['eq', 'add_new_album', 1],
                         ['truthy', 'album'],
@@ -157,6 +146,18 @@ class UploadPhotoForm extends AbstractForm
                 ->yup(
                     $this->fileUploadValidator()
                 ),
+            Builder::album('album')
+                ->multiple(false)
+                ->sizeLarge()
+                ->fullWidth()
+                ->enableWhen(['falsy', 'add_new_album'])
+                ->label(__p('photo::phrase.photo_album'))
+                ->setOwner($this->owner)
+                ->setUser($context)
+                ->description(__p('photo::phrase.you_need_to_select_an_album', [
+                    'allowVideo' => (int) $isVideoAllowed,
+                ]))
+                ->setRepository(AlbumRepositoryInterface::class),
             Builder::button('add_new_album')
                 ->component('AddNewAlbum')
                 ->showWhen(['truthy', $this->canCreateAlbum($context)])
@@ -195,12 +196,16 @@ class UploadPhotoForm extends AbstractForm
         );
 
         $albumInfo->addFields(
-            Builder::text('new_album.name')
+            Builder::text('new_album_name')
                 ->label(__p('photo::phrase.album_name'))
                 ->required()
                 ->showWhen(['truthy', 'add_new_album'])
                 ->yup(
                     Yup::string()
+                        ->when(Yup::when('add_new_album')
+                            ->is(1)
+                            ->then(Yup::string()
+                                ->required()))
                         ->minLength(
                             $minAlbumNameLength,
                             __p(
@@ -220,11 +225,11 @@ class UploadPhotoForm extends AbstractForm
                             ])
                         )
                 ),
-            Builder::textArea('new_album.description')
+            Builder::textArea('new_album_description')
                 ->label(__p('photo::phrase.album_description'))
                 ->required(false)
                 ->showWhen(['truthy', 'add_new_album']),
-            Builder::privacy('new_album.privacy')
+            Builder::privacy('new_album_privacy')
                 ->label(__p('photo::phrase.album_privacy'))
                 ->fullWidth(false)
                 ->required()

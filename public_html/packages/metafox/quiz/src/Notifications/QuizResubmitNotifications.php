@@ -2,6 +2,7 @@
 
 namespace MetaFox\Quiz\Notifications;
 
+use MetaFox\Notification\Messages\MailMessage;
 use MetaFox\Platform\Contracts\IsNotifiable;
 use MetaFox\Platform\Notifications\Notification;
 use MetaFox\Quiz\Models\Quiz;
@@ -24,6 +25,32 @@ class QuizResubmitNotifications extends Notification
             'user_id'   => $this->model->userId(),
             'user_type' => $this->model->userType(),
         ];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param $notifiable
+     * @return MailMessage
+     */
+    public function toMail($notifiable): MailMessage
+    {
+        $url = $this->model->toUrl();
+
+        $subject = $this->localize(
+            'quiz::mail.quiz_title_has_changed_please_resubmit_your_answers_subject',
+            ['title' => $this->model->title]
+        );
+        $intro = $this->localize(
+            'quiz::mail.quiz_title_has_changed_please_resubmit_your_answers',
+            ['title' => $this->model->title]
+        );
+
+        return (new MailMessage())
+            ->locale($this->getLocale())
+            ->subject($subject)
+            ->line($intro)
+            ->action($this->localize('quiz::phrase.quiz'), $url);
     }
 
     public function callbackMessage(): ?string

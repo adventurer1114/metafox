@@ -6,8 +6,6 @@ use MetaFox\Blog\Http\Requests\v1\Blog\CreateFormRequest;
 use MetaFox\Blog\Policies\BlogPolicy;
 use MetaFox\Blog\Repositories\BlogRepositoryInterface;
 use MetaFox\Form\AbstractField;
-use MetaFox\Form\Builder;
-use MetaFox\Form\Html\Privacy;
 use MetaFox\Form\Html\Submit;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
@@ -28,6 +26,7 @@ class UpdateBlogForm extends StoreBlogForm
     {
         $context        = user();
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
         policy_authorize(BlogPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -47,8 +46,7 @@ class UpdateBlogForm extends StoreBlogForm
             $privacy = $listIds;
         }
 
-        $this
-            ->title(__p('blog::phrase.edit_blog'))
+        $this->title(__p('blog::phrase.edit_blog'))
             ->action(url_utility()->makeApiUrl("blog/{$this->resource->entityId()}"))
             ->setBackProps(__p('core::web.blog'))
             ->asPut()
@@ -64,14 +62,6 @@ class UpdateBlogForm extends StoreBlogForm
                 'attachments' => $this->resource->attachmentsForForm(),
                 'draft'       => 0,
             ]);
-    }
-
-    protected function buildPrivacyField(): Privacy
-    {
-        // show when edit a blog not belong to any owners like pages, groups, events
-        return Builder::privacy()
-            ->description(__p('blog::phrase.control_who_can_see_this_blog'))
-            ->showWhen(['eq', 'owner_id', $this->resource->userId()]);
     }
 
     protected function buildPublishButton(): AbstractField

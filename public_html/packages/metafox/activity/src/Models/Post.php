@@ -96,6 +96,8 @@ class Post extends Model implements
         'owner_type',
         'status_background_id',
         'is_approved',
+        'updated_at',
+        'created_at',
     ];
 
     public function toActivityFeed(): ?FeedAction
@@ -147,6 +149,8 @@ class Post extends Model implements
             'total_photo'    => 0,
             'user'           => $user,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 

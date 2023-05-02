@@ -14,18 +14,22 @@ use MetaFox\Platform\Contracts\User;
 class UpdateGroupCover
 {
     /**
-     * @param  User                  $context
-     * @param  User                  $owner
-     * @param  array<string, mixed>  $attributes
+     * @param User|null            $context
+     * @param User                 $owner
+     * @param array<string, mixed> $attributes
      *
      * @return array<string,          mixed>
      * @throws AuthorizationException
      */
-    public function handle(User $context, User $owner, array $attributes): array
+    public function handle(?User $context, User $owner, array $attributes): array
     {
+        if (!$context) {
+            return [];
+        }
         if (!$owner instanceof Group) {
             return [];
         }
+
         return resolve(GroupRepositoryInterface::class)->updateCover($context, $owner->entityId(), $attributes);
     }
 }

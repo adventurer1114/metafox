@@ -31,7 +31,7 @@ class DataGrid extends Grid
 
         $this->addColumn('id')
             ->header('ID')
-            ->flex();
+            ->width(80);
 
         $this->addColumn('phrase')
             ->header(__p('core::phrase.phrase'))

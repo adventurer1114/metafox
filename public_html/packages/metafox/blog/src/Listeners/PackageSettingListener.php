@@ -84,22 +84,22 @@ class PackageSettingListener extends BasePackageSettingListener
     {
         return [
             Blog::ENTITY_TYPE => [
-                'view'     => UserRole::LEVEL_GUEST,
-                'create'   => UserRole::LEVEL_REGISTERED,
-                'update'   => UserRole::LEVEL_REGISTERED,
-                'delete'   => UserRole::LEVEL_REGISTERED,
-                'moderate' => UserRole::LEVEL_ADMINISTRATOR,
-                'feature'  => UserRole::LEVEL_REGISTERED,
-                'approve'  => UserRole::LEVEL_STAFF,
-                'save'     => UserRole::LEVEL_REGISTERED,
-                'like'     => UserRole::LEVEL_REGISTERED,
-                'share'    => UserRole::LEVEL_REGISTERED,
-                'comment'  => UserRole::LEVEL_REGISTERED,
-                'report'   => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
-                // 'sponsor_in_feed'  => UserRole::LEVEL_REGISTERED,
-                'auto_approved' => UserRole::LEVEL_REGISTERED,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_REGISTERED,
+                'update'           => UserRole::LEVEL_REGISTERED,
+                'delete'           => UserRole::LEVEL_REGISTERED,
+                'moderate'         => UserRole::LEVEL_ADMINISTRATOR,
+                'feature'          => UserRole::LEVEL_REGISTERED,
+                'approve'          => UserRole::LEVEL_STAFF,
+                'save'             => UserRole::LEVEL_REGISTERED,
+                'like'             => UserRole::LEVEL_REGISTERED,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'comment'          => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'sponsor_in_feed'  => UserRole::LEVEL_REGISTERED,
+                'auto_approved'    => UserRole::LEVEL_REGISTERED,
             ],
         ];
     }
@@ -204,6 +204,15 @@ class PackageSettingListener extends BasePackageSettingListener
                         UserRole::NORMAL_USER => 0,
                     ],
                 ],
+                'purchase_sponsor_price' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
             ],
         ];
     }
@@ -243,6 +252,23 @@ class PackageSettingListener extends BasePackageSettingListener
         return [
             'blog',
             'blog_category',
+        ];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/blog',
+                'name' => 'blog::phrase.ad_mob_home_page',
+            ],
+            [
+                'path' => '/blog/:id',
+                'name' => 'blog::phrase.ad_mob_detail_page',
+            ],
         ];
     }
 }

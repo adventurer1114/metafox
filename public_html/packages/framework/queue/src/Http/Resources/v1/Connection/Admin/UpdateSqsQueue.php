@@ -25,13 +25,13 @@ class UpdateSqsQueue extends AbstractForm
     protected function prepare(): void
     {
         $res    = $this->resource ?? [];
-        $action = sprintf('admincp/queue/connection/edit/%s/%s', $res['driver'] ?? 'sqs', $res['name'] ?? 'sqs');
+        $action = sprintf('admincp/queue/connection/%s/%s', $res['driver'] ?? 'sqs', $res['name'] ?? 'sqs');
         $value  = $res['value'] ?? [];
 
         $this->title(__p('queue::sqs.form_title'))
-            ->description('queue:sqs.form_desc')
+            ->description(__p('queue::sqs.form_desc'))
             ->action($action)
-            ->asPost()
+            ->asPut()
             ->setValue($value);
     }
 
@@ -81,11 +81,12 @@ class UpdateSqsQueue extends AbstractForm
     public function validated(Request $request): array
     {
         $data = $request->validate([
-            'prefix'     => 'required|string',
-            'connection' => 'required|string',
-            'region'     => 'required|string',
-            'queue'      => 'required|string',
-            'suffix'     => 'sometimes|string|nullable',
+            'key'    => 'required|string',
+            'secret' => 'required|string',
+            'prefix' => 'required|string',
+            'region' => 'required|string',
+            'queue'  => 'required|string',
+            'suffix' => 'sometimes|string|nullable',
         ]);
 
         $data['driver'] = 'sqs';

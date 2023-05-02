@@ -2,6 +2,7 @@
 
 namespace MetaFox\App\Http\Resources\v1\Package\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MetaFox\App\Models\Package as Model;
@@ -22,7 +23,8 @@ class PackageItem extends JsonResource
      */
     public function toArray($request): array
     {
-        $obj = $this->resource;
+        $obj       = $this->resource;
+        $expiredAt = $obj->expired_at;
 
         return [
             'id'             => $obj->id,
@@ -40,7 +42,8 @@ class PackageItem extends JsonResource
                 'url'  => $obj->author_url,
             ],
             'internal_url'       => $obj->internal_url,
-            'expired_at'         => $obj->expired_at,
+            'expired_at'         => $expiredAt,
+            'is_expired'         => $expiredAt && Carbon::parse($expiredAt)->lt(Carbon::now()),
             'internal_admin_url' => $obj->is_active ? $obj->internal_admin_url : '',
             'type'               => $obj->type,
         ];

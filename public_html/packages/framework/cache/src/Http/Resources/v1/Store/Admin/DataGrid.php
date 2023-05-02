@@ -40,11 +40,6 @@ class DataGrid extends Grid
          * Add default actions
          */
         $this->withActions(function (Actions $actions) {
-            $actions->addActions(['destroy']);
-
-            $actions->add('delete')
-                ->apiUrl(apiUrl('admin.cache.store.destroy', ['store' => ':id']));
-
             $actions->add('edit')
                 ->asFormDialog(false)
                 ->link('links.editItem');
@@ -56,8 +51,6 @@ class DataGrid extends Grid
         $this->withItemMenu(function (ItemActionMenu $menu) {
             $menu->withEdit()
                 ->showWhen(['truthy', 'item.can_edit']);
-            $menu->withDelete()
-                ->showWhen(['truthy', 'item.can_delete']);
         });
     }
 }

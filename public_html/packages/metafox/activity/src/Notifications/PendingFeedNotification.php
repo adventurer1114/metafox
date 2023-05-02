@@ -41,10 +41,13 @@ class PendingFeedNotification extends Notification
 
         $text = $this->localize('activity::mail.pending_feed_content');
 
+        $url = url_utility()->makeApiFullUrl($this->toLink());
+
         return $service
             ->locale($this->getLocale())
             ->subject($subject)
-            ->line($text);
+            ->line($text)
+            ->action($this->localize('core::phrase.view_now'), $url ?? '');
     }
 
     public function callbackMessage(): ?string
@@ -53,10 +56,13 @@ class PendingFeedNotification extends Notification
         if ($item instanceof Content) {
             $owner = $item->owner;
             if ($owner instanceof User) {
-                return $this->localize('activity::notification.pending_post_in_entity_name_is_waiting_for_your_approval', [
-                    'entity_type'  => $item->ownerType(),
-                    'entity_title' => $owner->toTitle(),
-                ]);
+                return $this->localize(
+                    'activity::notification.pending_post_in_entity_name_is_waiting_for_your_approval',
+                    [
+                        'entity_type'  => $item->ownerType(),
+                        'entity_title' => $owner->toTitle(),
+                    ]
+                );
             }
         }
 

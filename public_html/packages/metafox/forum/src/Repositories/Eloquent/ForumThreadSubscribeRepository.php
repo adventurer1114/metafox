@@ -19,10 +19,6 @@ class ForumThreadSubscribeRepository extends AbstractRepository implements Forum
 
     public function subscribe(User $context, int $threadId): bool
     {
-        $thread = resolve(ForumThreadRepositoryInterface::class)->find($threadId);
-
-        policy_authorize(ForumThreadPolicy::class, 'subscribe', $context, $thread);
-
         $subscribe = $this->getSubscribed($context, $threadId);
 
         if ($subscribe !== null) {
@@ -44,10 +40,6 @@ class ForumThreadSubscribeRepository extends AbstractRepository implements Forum
 
     public function unsubscribe(User $context, int $threadId): bool
     {
-        $thread = resolve(ForumThreadRepositoryInterface::class)->find($threadId);
-
-        policy_authorize(ForumThreadPolicy::class, 'subscribe', $context, $thread);
-
         $subscribe = $this->getSubscribed($context, $threadId);
 
         if ($subscribe === null) {

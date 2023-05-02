@@ -99,5 +99,9 @@ class MobileSetting extends Setting
         $this->add('viewCommentHistories')
             ->apiUrl('comment/history-edit/:id')
             ->asGet();
+
+        $this->add('removePreviewItem')
+            ->apiUrl('comment/:id/remove-preview')
+            ->asPatch();
     }
 }

@@ -5,7 +5,6 @@ const useStyles = makeStyles(
   (theme: Theme) =>
     createStyles({
       root: {
-        backgroundColor: theme.mixins.backgroundColor('paper'),
         [theme.breakpoints.down('sm')]: {
           '& $bgCover': {
             height: 179
@@ -59,7 +58,6 @@ const useStyles = makeStyles(
         width: '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        backgroundColor: theme.mixins.backgroundColor('paper'),
         padding: theme.spacing(2),
         position: 'relative'
       },
@@ -114,8 +112,7 @@ const useStyles = makeStyles(
         fontSize: theme.mixins.pxToRem(15),
         lineHeight: 1.33,
         marginTop: theme.spacing(2),
-        textTransform: 'uppercase',
-        color: theme.palette.text.secondary
+        color: theme.palette.text.hint
       },
       count: {
         fontSize: theme.mixins.pxToRem(13),
@@ -126,7 +123,6 @@ const useStyles = makeStyles(
       itemContent: {
         fontSize: theme.mixins.pxToRem(15),
         lineHeight: 1.33,
-        marginTop: theme.spacing(3),
         '& p + p': {
           marginBottom: theme.spacing(2.5)
         }

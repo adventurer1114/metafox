@@ -21,7 +21,6 @@ use MetaFox\Platform\Contracts\HasPrivacy;
 use MetaFox\Platform\Contracts\HasResourceStream;
 use MetaFox\Platform\Contracts\HasSavedItem;
 use MetaFox\Platform\Contracts\HasSponsor;
-use MetaFox\Platform\Contracts\HasSponsorInFeed;
 use MetaFox\Platform\Contracts\HasThumbnail;
 use MetaFox\Platform\Contracts\HasTotalCommentWithReply;
 use MetaFox\Platform\Contracts\HasTotalLike;
@@ -75,7 +74,6 @@ class Quiz extends Model implements
     HasApprove,
     HasFeature,
     HasSponsor,
-    HasSponsorInFeed,
     HasResourceStream,
     HasTotalView,
     HasTotalLike,
@@ -195,9 +193,16 @@ class Quiz extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
+    /**
+     * toSearchable.
+     *
+     * @return array<mixed>
+     */
     public function toSearchable(): ?array
     {
         if (!$this->isApproved()) {
@@ -217,6 +222,11 @@ class Quiz extends Model implements
         return $this->title;
     }
 
+    /**
+     * toApprovedNotification.
+     *
+     * @return array<mixed>
+     */
     public function toApprovedNotification(): array
     {
         return [$this->user, new QuizApproveNotifications($this)];

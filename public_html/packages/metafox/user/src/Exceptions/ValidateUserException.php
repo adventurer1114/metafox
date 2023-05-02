@@ -3,6 +3,7 @@
 namespace MetaFox\User\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Jsonable;
 use Throwable;
 
@@ -11,7 +12,7 @@ use Throwable;
  *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class ValidateUserException extends Exception implements Jsonable
+class ValidateUserException extends AuthorizationException implements Jsonable
 {
     /**
      * Create a new authorization exception instance.
@@ -21,7 +22,7 @@ class ValidateUserException extends Exception implements Jsonable
      * @param  \Throwable|null $previous
      * @return void
      */
-    public function __construct($message = null, $code = null, Throwable $previous = null)
+    public function __construct($message = null, $code = 401, Throwable $previous = null)
     {
         parent::__construct($this->toMessage($message), $code, $previous);
     }

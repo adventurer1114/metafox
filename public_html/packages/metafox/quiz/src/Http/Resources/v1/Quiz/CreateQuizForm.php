@@ -2,14 +2,20 @@
 
 namespace MetaFox\Quiz\Http\Resources\v1\Quiz;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
+use MetaFox\Quiz\Http\Requests\v1\Quiz\CreateFormRequest;
 use MetaFox\Quiz\Http\Resources\v1\Quiz\Field\QuizQuestion;
 use MetaFox\Quiz\Models\Quiz as Model;
+use MetaFox\Quiz\Policies\QuizPolicy;
+use MetaFox\Quiz\Repositories\QuizRepositoryInterface;
+use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
 use MetaFox\Yup\Yup;
 
@@ -20,7 +26,28 @@ use MetaFox\Yup\Yup;
  */
 class CreateQuizForm extends AbstractForm
 {
+    use PrivacyFieldTrait;
+
     protected bool $isEdit = false;
+
+    /**
+     * @throws AuthorizationException
+     * @throws AuthenticationException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function boot(CreateFormRequest $request, QuizRepositoryInterface $repository, ?int $id = null): void
+    {
+        $context = user();
+        $params  = $request->validated();
+
+        if ($params['owner_id'] != 0) {
+            $userEntity = UserEntity::getById($params['owner_id']);
+            $this->setOwner($userEntity->detail);
+        }
+
+        policy_authorize(QuizPolicy::class, 'create', $context, $this->owner);
+        $this->resource = new Model($params);
+    }
 
     /**
      * @throws AuthenticationException
@@ -56,7 +83,7 @@ class CreateQuizForm extends AbstractForm
             ];
         }
 
-        $this->title(__p('quiz::phrase.new_quiz'))
+        $this->title(__p('quiz::phrase.add_new_quiz'))
             ->action(url_utility()->makeApiUrl('/quiz'))
             ->setBackProps(__p('core::web.quiz'))
             ->asPost()->setValue([
@@ -126,7 +153,7 @@ class CreateQuizForm extends AbstractForm
                                 'minLength' => Settings::get('quiz.min_length_quiz_question', 4),
                                 'maxLength' => Settings::get('quiz.max_length_quiz_question', 100),
                                 'errors'    => [
-                                    'required' => __p('quiz::validation.question_is_required'),
+                                    'required' => __p('quiz::validation.question_is_a_required_field'),
                                 ],
                             ],
                             'answers' => [
@@ -144,7 +171,7 @@ class CreateQuizForm extends AbstractForm
                                             'required'  => true,
                                             'maxLength' => 255,
                                             'errors'    => [
-                                                'required'  => __p('quiz::validation.answer_is_required'),
+                                                'required'  => __p('quiz::validation.answer_is_a_required_field'),
                                                 'maxLength' => __p(
                                                     'validation.field_must_be_at_most_max_length_characters',
                                                     [
@@ -160,7 +187,7 @@ class CreateQuizForm extends AbstractForm
                                     ],
                                 ],
                                 'errors' => [
-                                    'required' => __p('quiz::validation.answer_is_required'),
+                                    'required' => __p('quiz::validation.answer_is_a_required_field'),
                                     'min'      => __p('validation.min.array', [
                                         'attribute' => 'answers',
                                         'min'       => (int) $context->getPermissionValue('quiz.min_answer_question_quiz'),
@@ -182,31 +209,14 @@ class CreateQuizForm extends AbstractForm
                     ],
                 ],
             ]),
-            Builder::privacy()
+            $this->buildPrivacyField()
                 ->description(__p('quiz::phrase.control_who_can_see_this_quiz'))
                 ->minWidth(275)
-                ->fullWidth(false)
-                ->showWhen([
-                    'or',
-                    [
-                        'falsy',
-                        'owner_id',
-                    ], [
-                        'eq',
-                        'owner_id',
-                        $context->entityId(),
-                    ],
-                ]),
+                ->fullWidth(false),
             Builder::hidden('owner_id')
         );
 
-        $this->addFooter()
-            ->addFields(
-                Builder::submit()
-                    ->label(__p($this->isEdit ? 'core::phrase.save_changes' : 'core::phrase.create'))
-                    ->flexWidth(true),
-                Builder::cancelButton()
-            );
+        $this->addDefaultFooter();
     }
 
     protected function buildBannerField()
@@ -214,6 +224,8 @@ class CreateQuizForm extends AbstractForm
         $context = user();
         if ($context->hasPermissionTo('quiz.upload_photo_form')) {
             return Builder::singlePhoto()->label(__p('core::phrase.banner'))
+                ->widthPhoto('160px')
+                ->aspectRatio('1:1')
                 ->itemType('quiz')
                 ->required($context->hasPermissionTo('quiz.require_upload_photo'))
                 ->previewUrl($this->resource->image)
@@ -225,7 +237,7 @@ class CreateQuizForm extends AbstractForm
                             'type'     => 'number',
                             'required' => $context->hasPermissionTo('quiz.require_upload_photo'),
                             'errors'   => [
-                                'required' => __p('quiz::phrase.banner_is_required'),
+                                'required' => __p('quiz::phrase.banner_is_a_required_field'),
                             ],
                         ])
                 );

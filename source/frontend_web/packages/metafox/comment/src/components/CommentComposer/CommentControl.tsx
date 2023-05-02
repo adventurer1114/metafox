@@ -21,7 +21,10 @@ const LineIconStyled = styled(LineIcon, {
   name: 'CommentControl',
   slot: 'LineIconStyled'
 })(({ theme }) => ({
-  fontSize: theme.mixins.pxToRem(14)
+  fontSize: theme.mixins.pxToRem(14),
+  [theme.breakpoints.down('sm')]: {
+    fontSize: theme.mixins.pxToRem(16)
+  }
 }));
 
 export function CommentControl(

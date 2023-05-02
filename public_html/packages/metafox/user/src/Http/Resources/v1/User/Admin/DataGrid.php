@@ -10,7 +10,6 @@ namespace MetaFox\User\Http\Resources\v1\User\Admin;
  */
 
 use MetaFox\Form\Constants as MetaFoxForm;
-use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Resource\Actions;
 use MetaFox\Platform\Resource\BatchActionMenu;
 use MetaFox\Platform\Resource\GridConfig as Grid;
@@ -155,7 +154,6 @@ class DataGrid extends Grid
     {
         $actions->add('approveUser')
             ->apiUrl('admincp/user/approve/:id')
-            ->apiParams(['approve_status' => MetaFoxConstant::STATUS_APPROVED])
             ->asPatch();
     }
 
@@ -223,8 +221,7 @@ class DataGrid extends Grid
         $actions->add('batchApprove')
             ->asPatch()
             ->asFormDialog(false)
-            ->apiUrl('admincp/user/batch-approve?id=[:id]')
-            ->apiParams(['approve_status' => MetaFoxConstant::STATUS_APPROVED]);
+            ->apiUrl('admincp/user/batch-approve?id=[:id]');
     }
 
     protected function actionBan(Actions $actions): void

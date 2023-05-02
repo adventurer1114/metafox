@@ -30,7 +30,7 @@ class PhotoGroupFactory extends Factory
     {
         return [
             'album_id'    => 0,
-            'total_photo' => 0,
+            'total_item' => 0,
         ];
     }
 }

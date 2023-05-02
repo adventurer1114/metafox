@@ -5,6 +5,7 @@ namespace MetaFox\Friend\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use MetaFox\Friend\Models\FriendList;
+use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\Factory\HasSetState;
 
@@ -37,5 +38,15 @@ class FriendListFactory extends Factory
             'user_id'   => 1,
             'user_type' => 'user',
         ];
+    }
+
+    public function setOwner(User $user)
+    {
+        return $this;
+    }
+
+    public function setItem(Content $item): static
+    {
+        return $this;
     }
 }

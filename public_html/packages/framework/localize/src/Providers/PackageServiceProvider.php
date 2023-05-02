@@ -81,7 +81,6 @@ class PackageServiceProvider extends ServiceProvider
     {
         Country::observe([
             CountryObserver::class,
-            EloquentModelObserver::class,
         ]);
 
         ModelsLanguage::observe([

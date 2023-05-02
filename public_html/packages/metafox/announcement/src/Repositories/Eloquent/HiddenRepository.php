@@ -32,7 +32,7 @@ class HiddenRepository extends AbstractRepository implements HiddenRepositoryInt
      */
     public function createHidden(User $context, Announcement $resource): Hidden
     {
-        policy_authorize(AnnouncementPolicy::class, 'hide', $context, $resource);
+        policy_authorize(AnnouncementPolicy::class, 'view', $context, $resource);
 
         $model = $this->getModel();
         $model->fill([

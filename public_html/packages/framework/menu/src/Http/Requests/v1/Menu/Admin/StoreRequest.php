@@ -3,6 +3,8 @@
 namespace MetaFox\Menu\Http\Requests\v1\Menu\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use MetaFox\Menu\Rules\UniqueMenuRule;
+use MetaFox\Platform\Rules\AllowInRule;
 
 /**
  * --------------------------------------------------------------------------
@@ -28,8 +30,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string'],
-            'resolution'    => ['string', 'required', 'in_array:web,mobile,admin'],
+            'name'          => ['required', 'string', new UniqueMenuRule()],
+            'resolution'    => ['string', 'required', new AllowInRule(['web', 'mobile', 'admin'])],
             'module_id'     => ['sometimes', 'string', 'nullable'],
             'resource_name' => ['sometimes', 'string', 'nullable'],
             'is_active'     => ['sometimes', 'boolean', 'nullable'],

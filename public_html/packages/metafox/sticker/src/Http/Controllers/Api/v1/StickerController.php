@@ -6,20 +6,19 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Sticker\Http\Requests\v1\Sticker\CreateRecentRequest;
-use MetaFox\Sticker\Http\Requests\v1\Sticker\IndexRequest;
 use MetaFox\Sticker\Http\Requests\v1\Sticker\ViewRecentRequest;
-use MetaFox\Sticker\Http\Resources\v1\Sticker\StickerItemCollection as ItemCollection;
+use MetaFox\Sticker\Http\Resources\v1\Sticker\StickerItemCollection;
 use MetaFox\Sticker\Repositories\StickerRecentRepositoryInterface;
 use MetaFox\Sticker\Repositories\StickerRepositoryInterface;
 
 /**
- | --------------------------------------------------------------------------
- |  Api Controller
- | --------------------------------------------------------------------------
- |
- | stub: /packages/controllers/api_controller.stub
- | Assign this class in $controllers of
- | @link \MetaFox\Sticker\Http\Controllers\Api\StickerController::$controllers;
+ * | --------------------------------------------------------------------------
+ * |  Api Controller
+ * | --------------------------------------------------------------------------
+ * |
+ * | stub: /packages/controllers/api_controller.stub
+ * | Assign this class in $controllers of
+ * | @link \MetaFox\Sticker\Http\Controllers\Api\StickerController::$controllers;.
  */
 
 /**
@@ -53,22 +52,6 @@ class StickerController extends ApiController
     }
 
     /**
-     * Browse item.
-     *
-     * @param  IndexRequest            $request
-     * @return JsonResponse
-     * @throws AuthenticationException
-     */
-    public function index(IndexRequest $request): JsonResponse
-    {
-        $context = user();
-        $params  = $request->validated();
-        $data    = $this->repository->viewStickers($context, $params);
-
-        return $this->success(new ItemCollection($data));
-    }
-
-    /**
      * Delete item.
      *
      * @param int $id
@@ -93,7 +76,7 @@ class StickerController extends ApiController
         $params = $request->validated();
         $result = $this->repository->viewRecentStickers(user(), $params);
 
-        return $this->success($result);
+        return $this->success(new StickerItemCollection($result));
     }
 
     /**

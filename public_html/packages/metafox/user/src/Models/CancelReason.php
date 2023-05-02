@@ -8,17 +8,18 @@ use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 use MetaFox\User\Database\Factories\CancelReasonFactory;
+
 use function PHPUnit\Framework\isNull;
 
 /**
  * Class CancelReason.
  *
- * @property int                 $id
- * @property string              $phrase_var
- * @property string              $title
- * @property int                 $is_active
- * @property int                 $ordering
- * @method   CancelReasonFactory factory(...$parameters)
+ * @property        int                 $id
+ * @property        string              $phrase_var
+ * @property        string              $title
+ * @property        int                 $is_active
+ * @property        int                 $ordering
+ * @method   static CancelReasonFactory factory(...$parameters)
  */
 class CancelReason extends Model implements Entity
 {
@@ -57,7 +58,7 @@ class CancelReason extends Model implements Entity
 
     public function getTitleAttribute(): string
     {
-        if (null === $this->phrase_var) {
+        if (!$this->phrase_var) {
             return '';
         }
 

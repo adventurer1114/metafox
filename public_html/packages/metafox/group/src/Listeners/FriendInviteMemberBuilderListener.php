@@ -9,7 +9,7 @@ use MetaFox\Platform\Contracts\User;
 
 class FriendInviteMemberBuilderListener
 {
-    public function handle(User $context, User $user, User $group): ?array
+    public function handle(?User $context, User $user, User $group): ?array
     {
         if ($group->entityType() != Group::ENTITY_TYPE) {
             return null;

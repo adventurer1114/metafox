@@ -90,7 +90,7 @@ export default function HomePage(props) {
         loadedDetail: true,
         modalCloseTo: itemAlbum
           ? { pathname: `/photo/album/${itemAlbum.id}` }
-          : { pathname: '/video' }
+          : { pathname: item?.is_creator ? '/video/my' : '/video/all' }
       };
 
       setImmediate(() => navigate(to, { state, replace: true }));
@@ -116,9 +116,11 @@ export default function HomePage(props) {
 
   if (loading) return jsxBackend.render({ component: 'Loading' });
 
+  const underPage = item?.is_creator ? 'video.my' : 'video.browse';
+
   return (
     <Page
-      pageName={itemAlbum ? 'photo_album.view' : 'video.home'}
+      pageName={itemAlbum ? 'photo_album.view' : underPage}
       pageParams={pageParams}
       contentParams={contentParams}
     />

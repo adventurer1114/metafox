@@ -23,6 +23,13 @@ class MobileSetting extends ResourceSetting
         $this->add('unblockFromGroup')
             ->apiUrl('group-unblock')
             ->asDelete()
-            ->apiParams(['group_id' => ':group_id', 'user_id' => ':user_id']);
+            ->apiParams(['group_id' => ':group_id', 'user_id' => ':user_id'])
+            ->confirm([
+                'title'        => __p('group::phrase.confirm_unblock_form_group_title'),
+                'message'      => 'confirm_unblock_form_group_desc',
+                'phraseParams' => [
+                    'userName' => ':user.full_name',
+                ],
+            ]);
     }
 }

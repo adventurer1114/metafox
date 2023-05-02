@@ -64,10 +64,6 @@ class EditFieldForm extends CreateFieldForm
                 Builder::dropdown('edit_type')
                     ->label(__p('profile::phrase.edit_type_label'))
                     ->options($this->getEditTypeOptions()),
-                Builder::text('ordering')
-                    ->label(__p('core::phrase.ordering'))
-                    ->maxLength(3)
-                    ->yup(Yup::number()->unint()),
                 Builder::checkbox('has_label')
                     ->label(__p('profile::phrase.has_label')),
                 Builder::checkbox('has_description')

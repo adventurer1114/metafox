@@ -20,27 +20,29 @@ use Spatie\Permission\Exceptions\GuardDoesNotMatch;
 /**
  * Class Permission.
  * @mixin Builder
- * @property int                 $id
- * @property string              $name
- * @property string              $transformed_name
- * @property string              $guard_name
- * @property string              $description
- * @property string              $module_id
- * @property string              $entity_type
- * @property string              $action
- * @property array               $extra
- * @property string              $data_type
- * @property int                 $is_public
- * @property bool                $require_admin
- * @property bool                $require_staff
- * @property mixed               $default_value
- * @property bool                $require_user
- * @property string              $created_at
- * @property string              $updated_at
- * @property RoleValuePermission $pivot
- * @property Collection|Role[]   $roles
- * @property Collection|Role[]   $rolesHasValuePermissions
- * @method   static              PermissionFactory factory()
+ * @property        int                 $id
+ * @property        string              $name
+ * @property        string              $transformed_name
+ * @property        string              $guard_name
+ * @property        string              $description
+ * @property        string              $module_id
+ * @property        string              $entity_type
+ * @property        string              $action
+ * @property        array               $extra
+ * @property        string              $data_type
+ * @property        int                 $is_public
+ * @property        bool                $require_admin
+ * @property        bool                $require_staff
+ * @property        mixed               $default_value
+ * @property        bool                $require_user
+ * @property        string              $created_at
+ * @property        string              $updated_at
+ * @property        RoleValuePermission $pivot
+ * @property        Collection|Role[]   $roles
+ * @property        Collection|Role[]   $rolesHasValuePermissions
+ * @method   static PermissionFactory   factory()
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class Permission extends \Spatie\Permission\Models\Permission implements Entity, PlatformPermission
 {
@@ -58,7 +60,8 @@ class Permission extends \Spatie\Permission\Models\Permission implements Entity,
      * @var string[]
      */
     protected $fillable = [
-        'id', 'name', 'guard_name', 'module_id', 'default_value', 'package_id', 'entity_type', 'action', 'extra', 'data_type', 'is_public',
+        'id', 'name', 'guard_name', 'module_id', 'default_value', 'package_id', 'entity_type', 'action', 'extra',
+        'data_type', 'is_public',
         'require_admin', 'require_staff', 'require_user',
     ];
 
@@ -148,7 +151,7 @@ class Permission extends \Spatie\Permission\Models\Permission implements Entity,
             return $this;
         }
 
-        $class = \get_class($model);
+        $class = get_class($model);
 
         $class::saved(
             function (self $object) use ($updatedData, $model) {
@@ -178,13 +181,34 @@ class Permission extends \Spatie\Permission\Models\Permission implements Entity,
     }
 
     /**
+     * @param string $name
+     * @param mixed  $guardName
+     *
+     * @return PermissionContract
+     */
+    public static function findByWildcardName(string $name, $guardName = 'api'): PermissionContract
+    {
+        $wcName = preg_replace('/^\w+/', '*', $name, 1);
+        if (empty($wcName)) {
+            abort(400, "Could not convert the permission named {$name} to wildcard permission.");
+        }
+
+        return self::findByName($wcName, $guardName);
+    }
+
+    /**
      * Get form label.
      *
      * @return string
      */
     public function getLabelPhrase(): string
     {
-        return Str::snake(sprintf('%s::permission.can_%s_%s_label', $this->module_id, $this->action, $this->entity_type));
+        return Str::snake(sprintf(
+            '%s::permission.can_%s_%s_label',
+            $this->module_id,
+            $this->action,
+            $this->entity_type
+        ));
     }
 
     /**
@@ -194,7 +218,12 @@ class Permission extends \Spatie\Permission\Models\Permission implements Entity,
      */
     public function getHelpPhrase(): string
     {
-        return Str::snake(sprintf('%s::permission.can_%s_%s_desc', $this->module_id, $this->action, $this->entity_type));
+        return Str::snake(sprintf(
+            '%s::permission.can_%s_%s_desc',
+            $this->module_id,
+            $this->action,
+            $this->entity_type
+        ));
     }
 
     public function getTransformedNameAttribute(): string

@@ -64,7 +64,7 @@
           "href": "/blog/category",
           "blockId": "i9"
         },
-        
+
         {
           "blockId": "ne9v",
           "component": "blog.block.BrowseBlogs",
@@ -85,7 +85,7 @@
             "apiParams": "view=my"
           },
           "canLoadMore": true,
-          "blockLayout": "Forum Slider",
+          "blockLayout": "App List",
           "gridLayout": "Blog - Main Card",
           "itemLayout": "Blog - Main Card"
         }
@@ -135,10 +135,10 @@
             "xl": 12
           },
           "blockId": "0gkn",
-          "blockLayout": "App List - Mobile - Paper",
-          "gridLayout": "Blog - Mobile Main Card",
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "Blog - Main Card - Mobile",
           "contentType": "blog",
-          "itemLayout": "Blog - Mobile Main Card"
+          "itemLayout": "Blog - Main Card - Mobile"
         }
       ],
       "containers": {},

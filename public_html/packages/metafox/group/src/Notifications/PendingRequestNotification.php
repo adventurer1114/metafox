@@ -45,7 +45,7 @@ class PendingRequestNotification extends Notification
                 ->locale($this->getLocale())
                 ->subject($subject)
                 ->line($message)
-                ->action($this->localize('core::phrase.review_now'), $url);
+                ->action($this->localize('core::phrase.view_now'), $url);
         }
 
         return null;

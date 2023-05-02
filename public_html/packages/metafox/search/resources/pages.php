@@ -14,4 +14,15 @@ return [
         'phrase_heading'     => 'search::seo.browse_search_heading',
         'url'                => 'search',
     ],
+    [
+        'name'                 => 'search.search.search_landing_by_type',
+        'phrase_title'         => 'search::seo.browse_search_title',
+        'url'                  => 'search/{filterType}',
+        'custom_sharing_route' => 1,
+    ],
+    [
+        'name'         => 'search.search.search_hashtag_landing',
+        'phrase_title' => 'search::seo.browse_search_hashtag_title',
+        'url'          => 'hashtag/search',
+    ],
 ];

@@ -69,14 +69,11 @@
         },
         {
           "blockId": "gtjxg",
-          "component": "saved.block.SavedItemListingBlock",
+          "component": "saved.block.SavedItemBlock",
           "slotName": "main",
           "title": "all_items",
           "itemView": "saved.itemView.mainCard",
           "contentType": "saved",
-          "dataSource": {
-            "apiUrl": "/saveditems"
-          },
           "clearDataOnUnMount": true,
           "canLoadMore": true,
           "blockLayout": "SaveItem Main Lists",
@@ -85,7 +82,7 @@
           "emptyPageProps": {
             "title": "no_saved_items_found",
             "description": "no_saved_items_found_description",
-            "image": "ico-compose-alt",
+            "image": "ico-bookmark-o",
             "noBlock": 1
           },
           "itemLayout": "Saved Lists"
@@ -105,34 +102,54 @@
           },
           "contents": [
             {
+              "name": "core.block.searchBox"
+            },
+            {
+              "name": "saved.block.sidebarTypeFilter"
+            },
+            {
               "name": "core.block.sidebarAppMenu"
             },
             {
-              "name": "core.categoryBlock"
+              "name": "saved.block.savedListListingBlock",
+              "props": {
+                "component": "saved.block.savedListListingBlock",
+                "title": "collections",
+                "blockLayout": "Friend List Side Block",
+                "gridLayout": "Friend List - Small List",
+                "canLoadMore": 1,
+                "emptyPage": "no_content",
+                "emptyPageProps": {
+                  "variant": "side",
+                  "title": "no_collections",
+                  "color": "inherit",
+                  "description": "no_friend_lists_found",
+                  "noBlock": 1
+                },
+                "noContentLayout": "Side with description",
+                "itemLayout": "Friend List - Small List"
+              }
             }
           ],
           "blockId": "tggha"
         },
         {
           "blockId": "gtjxg",
-          "component": "saved.block.SavedItemListingBlock",
+          "component": "saved.block.SavedItemBlock",
           "slotName": "main",
           "title": "saved_items",
-          "itemView": "saved.itemView.mainCard",
           "contentType": "saved",
-          "dataSource": {
-            "apiUrl": "/saveditems"
-          },
           "canLoadMore": true,
-          "blockLayout": "App List - Mobile - Paper",
-          "gridLayout": "Saved Lists - Mobile",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "title": "no_saved_items_found",
             "description": "no_saved_items_found_description",
-            "image": "ico-compose-alt",
+            "image": "ico-bookmark-o",
             "noBlock": 1
           },
+          "itemView": "saved.itemView.mainCard",
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "Saved Lists - Mobile",
           "itemLayout": "Saved Lists - Mobile"
         }
       ],

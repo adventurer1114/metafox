@@ -29,6 +29,7 @@ class CheckAdminController extends ApiController
     public function overview()
     {
         Artisan::call('metafox:health-check');
+
         $message = Artisan::output();
 
         return $this->success([
@@ -41,12 +42,10 @@ class CheckAdminController extends ApiController
 
     public function wizard()
     {
-
         $checkers = Arr::flatten(ModuleManager::instance()->discoverSettings('getCheckers'));
 
         $steps = [];
         foreach ($checkers as $className) {
-
             /** @var Checker $checker */
             $checker = resolve($className);
 
@@ -59,9 +58,9 @@ class CheckAdminController extends ApiController
                     'apiUrl'    => '/admincp/health-check/check',
                     'apiMethod' => 'POST',
                 ],
-                'data'         => [
-                    'id' => $checker::class
-                ]
+                'data' => [
+                    'id' => $checker::class,
+                ],
             ];
         }
 
@@ -69,9 +68,9 @@ class CheckAdminController extends ApiController
             'title'     => 'Health Check',
             'component' => 'ui.step.processes',
             'props'     => [
-                'disableNavigateConfirm'=> true,
-                'steps' => $steps,
-            ]
+                'disableNavigateConfirm' => true,
+                'steps'                  => $steps,
+            ],
 
         ]);
     }
@@ -95,14 +94,13 @@ class CheckAdminController extends ApiController
         $result = $checker->check();
 
         $message = view('health-check::checker/step-report', [
-            'reports'=> $result->getReports(),
+            'reports' => $result->getReports(),
         ])->render();
 
-        if($result->okay()){
+        if ($result->okay()) {
             return $this->success(compact('message'));
         }
 
         return $this->error($message);
-
     }
 }

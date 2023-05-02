@@ -133,7 +133,7 @@ class EditSubscriptionPackageForm extends CreateSubscriptionPackageForm
 
     protected function hasDisableFields(): bool
     {
-        return Facade::hasDisableFields($this->resource->entityId());
+        return Facade::hasDisableFields($this->resource?->entityId());
     }
 
     protected function setFooterFields(Section $footer): void

@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@$PACKAGE_NAME$": "5.0.1"
+                "@$PACKAGE_NAME$": "*"
             },
             "internalUrl": "$INTERNAL_URL$",
             "internalAdminUrl": "$INTERNAL_ADMIN_URL$"

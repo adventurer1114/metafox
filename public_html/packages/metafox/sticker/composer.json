@@ -1,6 +1,6 @@
 {
     "name": "metafox/sticker",
-    "version": "5.0.2",
+    "version": "5.1.0",
     "description": "",
     "authors": [
         {
@@ -17,12 +17,12 @@
             "path": "packages/metafox/sticker",
             "title": "Sticker",
             "namespace": "MetaFox\\Sticker",
-            "internalAdminUrl": "/admincp/sticker/sticker-set/browse",
+            "internalAdminUrl": "/admincp/sticker/setting",
             "providers": [
                 "MetaFox\\Sticker\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/sticker": "5.0.1"
+                "@metafox/sticker": "*"
             },
             "frontendPaths": [
                 "packages/metafox/sticker"

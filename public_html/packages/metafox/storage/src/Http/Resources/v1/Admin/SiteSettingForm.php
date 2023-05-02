@@ -76,6 +76,17 @@ class SiteSettingForm extends Form
                             ->min(0)
                             ->max($this->getServerSizeLimit())
                     ),
+                Builder::text('storage.filesystems.max_upload_filesize.music')
+                    ->label(__p('storage::phrase.music_max_upload_size_title'))
+                    ->description(__p('storage::phrase.music_max_upload_size_description'))
+                    ->asNumber()
+                    ->preventScrolling()
+                    ->yup(
+                        Yup::number()
+                            ->unint()
+                            ->min(0)
+                            ->max($this->getServerSizeLimit())
+                    ),
             );
 
         $this->addDefaultFooter(true);

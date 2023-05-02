@@ -69,7 +69,7 @@ export default function Base({ title, ...rest }: Props) {
                 startIcon={<LineIcon icon="ico-folders-o" />}
                 to={'/activitypoint/packages'}
               >
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {i18n.formatMessage({ id: 'view_all_packages' })}
                 </Typography>
               </ButtonLink>
@@ -78,7 +78,7 @@ export default function Base({ title, ...rest }: Props) {
                 startIcon={<LineIcon icon="ico-crown-o" />}
                 to={'/activitypoint/how-to-earn'}
               >
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {i18n.formatMessage({ id: 'earn_more_points' })}
                 </Typography>
               </ButtonLink>

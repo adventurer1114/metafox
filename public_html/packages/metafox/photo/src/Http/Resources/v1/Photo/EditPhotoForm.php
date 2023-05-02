@@ -9,8 +9,10 @@ namespace MetaFox\Photo\Http\Resources\v1\Photo;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Form\Section;
 use MetaFox\Photo\Models\Photo;
 use MetaFox\Photo\Models\Photo as Model;
@@ -34,6 +36,8 @@ use MetaFox\Yup\Yup;
  */
 class EditPhotoForm extends AbstractForm
 {
+    use PrivacyFieldTrait;
+
     /**
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -43,6 +47,7 @@ class EditPhotoForm extends AbstractForm
         $context = user();
 
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
 
         policy_authorize(PhotoPolicy::class, 'update', $context, $this->resource);
     }
@@ -83,7 +88,7 @@ class EditPhotoForm extends AbstractForm
                     ['length' => MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH]
                 ))
                 ->yup(
-                    Yup::string()->required(__('validation.this_field_is_required'))
+                    Yup::string()->required(__('validation.this_field_is_a_required_field'))
                 ),
             Builder::textArea('text')
                 ->required(false)
@@ -93,7 +98,9 @@ class EditPhotoForm extends AbstractForm
 
         $this->addAlbumField($basic);
 
-        $this->addPrivacyField($basic);
+        $basic->addField(
+            $this->buildPrivacyFieldForPhoto()
+        );
 
         if (Settings::get('photo.allow_photo_category_selection', true)) {
             $basic->addFields(
@@ -107,31 +114,24 @@ class EditPhotoForm extends AbstractForm
         $this->addDefaultFooter(true);
     }
 
-    protected function addPrivacyField(Section $basic): void
+    protected function buildPrivacyFieldForPhoto(): AbstractField
     {
         $defaultAlbums = resolve(AlbumRepositoryInterface::class)->getDefaultUserAlbums($this->resource->ownerId());
+        $albumId       = $this->resource->album_id;
 
-        $showWhen = [
-            'and',
-            ['eq', 'owner_id', $this->resource->userId()],
-            ['falsy', 'album'],
-        ];
-
-        if ($defaultAlbums->count()) {
-            $showWhen[2] = [
-                'or',
-                ['falsy', 'album'],
-                ['oneOf', 'album', $defaultAlbums->pluck('id')->toArray()],
-            ];
+        if (in_array($albumId, $defaultAlbums->pluck('id')->toArray())) {
+            return Builder::hidden('privacy');
         }
 
-        $basic->addFields(
-            Builder::privacy()
-                ->fullWidth(false)
-                ->label(__p('photo::phrase.photo_privacy'))
-                ->description(__p('photo::phrase.photo_privacy_description'))
-                ->showWhen($showWhen),
-        );
+        if ($albumId != 0) {
+            return Builder::hidden('privacy');
+        }
+
+        return $this->buildPrivacyField()
+            ->fullWidth(false)
+            ->label(__p('photo::phrase.photo_privacy'))
+            ->description(__p('photo::phrase.photo_privacy_description'))
+            ->fullWidth(false);
     }
 
     protected function addAlbumField(Section $basic): void

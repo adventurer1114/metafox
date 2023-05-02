@@ -28,6 +28,7 @@ export default React.forwardRef<HTMLAnchorElement, LinkProps>(
       keepScroll,
       asChildPage,
       aliasPath,
+      resetModal,
       href,
       ...rest
     }: LinkProps,
@@ -38,7 +39,7 @@ export default React.forwardRef<HTMLAnchorElement, LinkProps>(
     let state;
 
     if (asModal) {
-      state = { asModal, keepScroll, aliasPath };
+      state = { asModal, keepScroll, aliasPath, resetModal };
     } else if (asChildPage) {
       state = { asChildPage, keepScroll, aliasPath };
     } else if (aliasPath) {

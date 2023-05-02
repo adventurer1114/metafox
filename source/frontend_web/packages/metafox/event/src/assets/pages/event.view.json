@@ -185,6 +185,13 @@
           "title": " ",
           "hasSearchBox": false,
           "freeze": false,
+          "blockProps": {
+            "blockStyle": {
+              "sx": {
+                "mt": 1
+              }
+            }
+          },
           "tabProps": {
             "tabs": [
               {

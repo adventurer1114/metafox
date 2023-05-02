@@ -30,7 +30,7 @@ class HashtagPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return false;
     }

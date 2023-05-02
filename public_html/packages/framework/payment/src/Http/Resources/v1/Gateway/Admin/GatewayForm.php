@@ -70,7 +70,7 @@ class GatewayForm extends AdminSettingForm
                 ->required()
                 ->label(__p(('core::phrase.title')))
                 ->yup(
-                    Yup::string()->required(__p('validation.this_field_is_required'))
+                    Yup::string()->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::richTextEditor('description')
                 ->required(false)
@@ -130,8 +130,8 @@ class GatewayForm extends AdminSettingForm
         return [
             'title'       => ['required', 'string', 'between:2,255'],
             'description' => ['sometimes', 'string'],
-            'is_active'   => ['sometimes', 'numeric', new AllowInRule([0, 1])],
-            'is_test'     => ['sometimes', 'numeric', new AllowInRule([0, 1])],
+            'is_active'   => ['sometimes', new AllowInRule([true, false, 0, 1])],
+            'is_test'     => ['sometimes', new AllowInRule([true, false, 0, 1])],
         ];
     }
 

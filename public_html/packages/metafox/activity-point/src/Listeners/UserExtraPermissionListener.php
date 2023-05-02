@@ -10,12 +10,16 @@ use MetaFox\Platform\Contracts\User;
 class UserExtraPermissionListener
 {
     /**
-     * @param  User                 $context
+     * @param  User|null            $context
      * @param  User|null            $user
      * @return array<string, mixed>
      */
-    public function handle(User $context, ?User $user = null): array
+    public function handle(?User $context, ?User $user = null): array
     {
+        if (!$context) {
+            return [];
+        }
+
         $canGiftPoints = $context->hasPermissionTo('activitypoint.can_gift_activity_points');
 
         return [
@@ -24,7 +28,7 @@ class UserExtraPermissionListener
         ];
     }
 
-    protected function canViewPointStatistic(User $context, ?User $user = null): bool
+    protected function canViewPointStatistic(?User $context, ?User $user = null): bool
     {
         if (!$user instanceof User) {
             return true;

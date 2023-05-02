@@ -2,12 +2,14 @@
 
 namespace MetaFox\Friend\Repositories;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use MetaFox\Friend\Models\TagFriend;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasTaggedFriend;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\User\Traits\UserMorphTrait;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
@@ -15,6 +17,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
  * @mixin BaseRepository
  * @method TagFriend find($id, $columns = ['*'])
  * @method TagFriend getModel()
+ * @mixin UserMorphTrait
  */
 interface TagFriendRepositoryInterface
 {
@@ -22,9 +25,9 @@ interface TagFriendRepositoryInterface
      * @param HasTaggedFriend $item
      * @param int             $limit
      *
-     * @return LengthAwarePaginator
+     * @return Builder
      */
-    public function getTagFriends(HasTaggedFriend $item, int $limit): LengthAwarePaginator;
+    public function getTagFriends(HasTaggedFriend $item, int $limit): Builder;
 
     /**
      * @param  HasTaggedFriend $item
@@ -95,10 +98,4 @@ interface TagFriendRepositoryInterface
      * @return void
      */
     public function deleteItemTagFriends(HasTaggedFriend $item, ?array $friendIds = null): void;
-
-    /**
-     * @param  int  $userId
-     * @return void
-     */
-    public function deleteUserData(int $userId): void;
 }

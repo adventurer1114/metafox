@@ -6,15 +6,11 @@
           "component": "core.block.mainListing",
           "slotName": "main",
           "title": "videos",
-          "dataSource": {
-            "apiParams": "sort=latest",
-            "apiUrl": "/blog"
-          },
           "blockId": "i11",
           "itemView": "video.itemView.mainCard",
-          "contentType": "blog",
+          "contentType": "video",
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Video - Main Card",
           "canLoadSmooth": 1,
           "emptyPage": "core.block.no_content_with_icon",
@@ -22,13 +18,14 @@
             "title": "no_videos_found",
             "description": ""
           },
-          "itemLayout": "Video - Main Card"
+          "itemLayout": "Video - Main Card",
+          "numberOfItemsPerPage": 12
         },
         {
           "blockId": "ia",
           "component": "core.block.sideAppHeader",
           "slotName": "side",
-          "title": "Blogs",
+          "title": "videos",
           "icon": "ico-compose-alt",
           "blockLayout": "sidebar app header"
         },
@@ -43,7 +40,7 @@
         {
           "component": "core.block.sidebarAppMenu",
           "slotName": "side",
-          "title": "Blogs",
+          "title": "videos",
           "blockId": "i8",
           "menuName": "sidebarMenu",
           "blockLayout": "sidebar app menu"
@@ -72,13 +69,12 @@
           "component": "core.categoryBlock",
           "slotName": "side",
           "title": "categories",
-          "href": "/blog/category",
+          "href": "/video/category",
           "blockId": "i9",
           "blockLayout": "sidebar app category"
         }
       ],
       "containers": {},
-      "pageName": "blog.home",
       "templateName": "two-column-fixed"
     },
     "small": {
@@ -221,15 +217,11 @@
           "component": "core.block.mainListing",
           "slotName": "main",
           "title": "videos",
-          "dataSource": {
-            "apiParams": "sort=latest",
-            "apiUrl": "/blog"
-          },
           "blockId": "i11",
           "itemView": "video.itemView.mainCard",
-          "contentType": "blog",
+          "contentType": "video",
           "canLoadMore": true,
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "canLoadSmooth": 1,
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -237,11 +229,11 @@
             "description": ""
           },
           "gridLayout": "Video - Flat View",
-          "itemLayout": "Video - Flat View"
+          "itemLayout": "Video - Main Card",
+          "numberOfItemsPerPage": 12
         }
       ],
       "containers": {},
-      "pageName": "blog.home",
       "templateName": "mobile"
     },
     "info": {

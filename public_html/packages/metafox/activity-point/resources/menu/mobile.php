@@ -14,7 +14,6 @@ return [
         'label'    => 'activitypoint::phrase.gift_points',
         'ordering' => 14,
         'value'    => 'getGiftForm',
-        'icon'     => 'ico-gift-o',
     ],
     [
         'showWhen'  => [],

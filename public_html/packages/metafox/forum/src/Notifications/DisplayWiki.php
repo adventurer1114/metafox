@@ -61,7 +61,7 @@ class DisplayWiki extends Notification
             return null;
         }
 
-        $isWiki = Arr::get($this->data, 'is_changed_to_wiki');
+        $isWiki = Arr::get($this->data, 'is_changed_to_wiki', $this->model?->is_wiki);
 
         if ($isWiki) {
             return $this->localize('forum::notification.admin_updated_your_thread_title_as_a_wiki', [
@@ -86,7 +86,7 @@ class DisplayWiki extends Notification
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($content)
-            ->action($this->localize('core::phrase.review_now'), $this->toUrl());
+            ->action($this->localize('core::phrase.view_now'), $this->toUrl());
     }
 
     public function toUrl(): ?string
@@ -109,7 +109,7 @@ class DisplayWiki extends Notification
 
     protected function getMailSubject(): string
     {
-        $isWiki = Arr::get($this->data, 'is_changed_to_wiki');
+        $isWiki = Arr::get($this->data, 'is_changed_to_wiki', $this->model?->is_wiki);
 
         if ($isWiki) {
             return $this->localize('forum::phrase.admin_updated_your_thread_title_as_a_wiki_subject', [
@@ -120,5 +120,16 @@ class DisplayWiki extends Notification
         return $this->localize('forum::phrase.admin_removed_your_thread_title_as_a_wiki_subject', [
             'title' => $this->model?->toTitle(),
         ]);
+    }
+
+    public function toRouter(): ?string
+    {
+        $model = $this->model;
+
+        if (null === $model) {
+            return null;
+        }
+
+        return $this->model->toRouter();
     }
 }

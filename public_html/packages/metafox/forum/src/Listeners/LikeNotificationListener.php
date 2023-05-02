@@ -15,7 +15,7 @@ use MetaFox\User\Models\UserEntity;
  */
 class LikeNotificationListener
 {
-    public function handle(User $context, ?UserEntity $user = null, ?Content $model = null): ?string
+    public function handle(?User $context, ?UserEntity $user = null, ?Content $model = null): ?string
     {
         if (!$user instanceof UserEntity) {
             return null;

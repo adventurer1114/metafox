@@ -52,7 +52,6 @@ interface CategoryRepositoryInterface
      * @param array<string, mixed> $attributes
      *
      * @return Collection
-     * @throws AuthorizationException
      */
     public function getAllCategories(User $context, array $attributes): Collection;
 
@@ -93,4 +92,6 @@ interface CategoryRepositoryInterface
      * @return bool
      */
     public function orderCategories(array $orderIds): bool;
+
+    public function toggleActive(int $id): Model;
 }

@@ -7,13 +7,13 @@
  * thumbnail:
  */
 import { createBlock, ListViewBlockProps } from '@metafox/framework';
+import { APP_SAVED, RESOURCE_SAVED_LIST } from '@metafox/saved/constant';
 
 export default createBlock<ListViewBlockProps>({
   name: 'SavedListListingBlock',
   extendBlock: 'core.block.listview',
   overrides: {
-    contentType: 'saved_list',
-    dataSource: { apiUrl: '/saveditems-collection' }
+    contentType: 'saved_list'
   },
   defaults: {
     title: 'My Collections',
@@ -30,6 +30,9 @@ export default createBlock<ListViewBlockProps>({
     },
     itemView: 'saved_collection_list.itemView.mainCard',
     gridContainerProps: { spacing: 2 },
-    gridItemProps: { xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }
+    gridItemProps: { xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
+    moduleName: APP_SAVED,
+    resourceName: RESOURCE_SAVED_LIST,
+    actionName: 'viewAll'
   }
 });

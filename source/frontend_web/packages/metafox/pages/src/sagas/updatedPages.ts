@@ -6,7 +6,7 @@
 import {
   LocalAction,
   viewItem,
-  PAGINATION_CLEAR,
+  PAGINATION_REFRESH,
   getGlobalContext
 } from '@metafox/framework';
 import { takeEvery } from 'redux-saga/effects';
@@ -17,7 +17,7 @@ function* updatedPages({ payload: { id } }: LocalAction<{ id: string }>) {
   yield* viewItem('page', 'page', id);
 
   dispatch({
-    type: PAGINATION_CLEAR,
+    type: PAGINATION_REFRESH,
     payload: { pagingId: '/user/shortcut' }
   });
 }

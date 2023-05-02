@@ -11,6 +11,7 @@ import ErrorTooltip from './ErrorTooltip';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import Description from './Description';
 
 const MAX_LENGTH_DEFAULT = 255;
 
@@ -67,7 +68,13 @@ const PasswordField = ({
     error: haveError,
     defaultValue: field.value ?? '',
     fullWidth,
-    helperText: !showErrorTooltip && haveError ? meta.error : description,
+    helperText:
+      !showErrorTooltip && haveError ? (
+        meta.error
+      ) : (
+        <Description text={description} />
+      ),
+
     InputProps: {
       endAdornment: (
         <InputAdornment position="end">

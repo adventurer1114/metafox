@@ -47,6 +47,14 @@ interface CurrencySupportContract
     public function getPriceFormatByCurrencyId(string $currencyId, float $price, ?string $precision = null): ?string;
 
     /**
+     * @param  string      $currencyId
+     * @param  string|null $precision
+     * @param  bool        $replaceForCurrency
+     * @return array|null
+     */
+    public function getFormatForPrice(string $currencyId, ?string $precision = null, bool $replaceForCurrency = false): ?array;
+
+    /**
      * @param  string               $name
      * @param  array<string, mixed> $rules
      * @return array<string, mixed>

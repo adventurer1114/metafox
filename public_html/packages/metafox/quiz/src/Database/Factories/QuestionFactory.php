@@ -63,4 +63,9 @@ class QuestionFactory extends Factory
 
         return $this->has(Answer::factory()->count($this->faker->numberBetween(1, 3)));
     }
+
+    public function configure()
+    {
+        return $this->has(Answer::factory()->times(2));
+    }
 }

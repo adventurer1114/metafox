@@ -8,7 +8,7 @@ return [
         'name'     => 'videos',
         'label'    => 'video::phrase.videos',
         'ordering' => 9,
-        'icon'     => 'ico-videocam',
+        'icon'     => 'ico-video-player',
         'to'       => '/video',
     ],
     [
@@ -17,7 +17,7 @@ return [
         'name'     => 'videos',
         'label'    => 'video::phrase.videos',
         'ordering' => 9,
-        'icon'     => 'ico-videocam',
+        'icon'     => 'ico-video-player',
         'to'       => '/video',
     ],
     [
@@ -109,7 +109,7 @@ return [
         'name'     => 'landing',
         'label'    => 'video::phrase.home',
         'ordering' => 1,
-        'icon'     => 'ico-videocam-o',
+        'icon'     => 'ico-video-player-o',
         'to'       => '/video',
     ],
     [
@@ -139,6 +139,7 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'video.sidebarMenu',
         'name'     => 'my_pending',
@@ -146,19 +147,6 @@ return [
         'ordering' => 4,
         'icon'     => 'ico-user1-clock-o',
         'to'       => '/video/my-pending',
-    ],
-    [
-        'tab'      => 'pending',
-        'showWhen' => [
-            'and',
-            ['truthy', 'acl.video.video.approve'],
-        ],
-        'menu'     => 'video.sidebarMenu',
-        'name'     => 'pending',
-        'label'    => 'video::phrase.pending_videos',
-        'ordering' => 5,
-        'icon'     => 'ico-clock-o',
-        'to'       => '/video/pending',
     ],
     [
         'tab'      => 'friend',
@@ -169,9 +157,23 @@ return [
         'menu'     => 'video.sidebarMenu',
         'name'     => 'friend',
         'label'    => 'video::phrase.friends_videos',
-        'ordering' => 6,
+        'ordering' => 5,
         'icon'     => 'ico-user1-two-o',
         'to'       => '/video/friend',
+    ],
+    [
+        'tab'      => 'pending',
+        'showWhen' => [
+            'and',
+            ['truthy', 'session.loggedIn'],
+            ['truthy', 'acl.video.video.approve'],
+        ],
+        'menu'     => 'video.sidebarMenu',
+        'name'     => 'pending',
+        'label'    => 'video::phrase.pending_videos',
+        'ordering' => 6,
+        'icon'     => 'ico-clock-o',
+        'to'       => '/video/pending',
     ],
     [
         'buttonProps' => [

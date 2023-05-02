@@ -51,6 +51,10 @@ class SitemapController extends Controller
                 continue;
             }
 
+            if ($total == 0) {
+                continue;
+            }
+
             if (in_array('updated_at', $modelInstance->getFillable())) {
                 $lastMod = DB::table($modelInstance->getTable())->max('updated_at');
 
@@ -61,9 +65,9 @@ class SitemapController extends Controller
 
             for ($page = 0; $page < $limit; $page++) {
                 $items[] = [
-                    'url' => url($page > 0 ?
-                        sprintf('sitemap/%s-%s.xml', $type, $page) :
-                        sprintf('sitemap/%s.xml', $type)),
+                    'url' => $page > 0 ?
+                        sprintf('%s/sitemap/%s-%s.xml', config('app.url'), $type, $page) :
+                        sprintf('%s/sitemap/%s.xml', config('app.url'), $type),
                     'lastmod' => $lastMod,
                 ];
             }
@@ -98,7 +102,7 @@ class SitemapController extends Controller
             return response($emptyResponse)->withHeaders($headers);
         }
 
-        $rows = $modelInstance->newQuery()->forPage($page, static::PER_PAGE)->cursor();
+        $rows = $modelInstance->newQuery()->forPage(++$page, static::PER_PAGE)->cursor();
 
         foreach ($rows as $row) {
             $lastMod = $row->updated_at;

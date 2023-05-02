@@ -51,8 +51,8 @@ export default function EventUpcomingCardItem({
                 value={item.start_time}
                 format="MMMM DD, yyyy"
               />{' '}
-              {item.location[0] && i18n.formatMessage({ id: 'at' })}{' '}
-              {item.location[0]}
+              {item.location?.address && i18n.formatMessage({ id: 'at' })}{' '}
+              {item.location?.address}
             </div>
           </div>
         </div>

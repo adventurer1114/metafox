@@ -23,9 +23,12 @@ class MobileSetting extends Setting
 {
     protected function initialize(): void
     {
-        $this->add('viewItem')
+        $this->add('viewAll')
             ->asGet()
             ->apiUrl('saveditems-collection')
+            ->apiRules([
+                'saved_id' => ['truthy', 'saved_id'],
+            ])
             ->apiParams([
                 'saved_id' => ':saved_id',
             ]);
@@ -61,5 +64,22 @@ class MobileSetting extends Setting
         $this->add('viewFriend')
             ->asGet()
             ->apiUrl('saveditems-collection/view-friend/:id');
+
+        $this->add('leaveCollection')
+            ->asDelete()
+            ->apiUrl('saveditems-collection/leave-collection/:id')
+            ->confirm(
+                [
+                    'title'   => __p('core::phrase.confirm'),
+                    'message' => __p('saved::phrase.leave_confirm_saved_list', ),
+                ]
+            );
+
+        $this->add('viewItem')
+            ->asGet()
+            ->apiUrl('saveditems-collection/item/:id')
+            ->apiParams([
+                'type' => ':type',
+            ]);
     }
 }

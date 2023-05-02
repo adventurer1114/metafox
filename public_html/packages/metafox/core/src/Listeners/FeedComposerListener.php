@@ -5,18 +5,19 @@ namespace MetaFox\Core\Listeners;
 use Illuminate\Support\Arr;
 use MetaFox\Core\Models\Link;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
 
 class FeedComposerListener
 {
     /**
-     * @param  User             $user
-     * @param  User             $owner
-     * @param  string           $postType
-     * @param  array            $params
-     * @return array|int[]|null
+     * @param  User|null  $user
+     * @param  User|null  $owner
+     * @param  string     $postType
+     * @param  array      $params
+     * @return array|null
      */
-    public function handle(User $user, User $owner, string $postType, array $params): ?array
+    public function handle(?User $user, ?User $owner, string $postType, array $params): ?array
     {
         if ($postType != Link::FEED_POST_TYPE) {
             return null;
@@ -45,18 +46,19 @@ class FeedComposerListener
         $link = new Link();
 
         $link->fill(array_merge([
-            'user_id'      => $user->entityId(),
-            'user_type'    => $user->entityType(),
-            'owner_id'     => $owner->entityId(),
-            'owner_type'   => $owner->entityType(),
-            'privacy'      => $params['privacy'],
-            'feed_content' => $content,
-            'title'        => $params['link_title'],
-            'link'         => $params['link_url'],
-            'host'         => $params['link_url'] ? parse_url($params['link_url'], PHP_URL_HOST) : null,
-            'image'        => $params['link_image'],
-            'description'  => $params['link_description'],
-            'has_embed'    => 0,
+            'user_id'           => $user->entityId(),
+            'user_type'         => $user->entityType(),
+            'owner_id'          => $owner->entityId(),
+            'owner_type'        => $owner->entityType(),
+            'privacy'           => $params['privacy'],
+            'feed_content'      => $content,
+            'title'             => Arr::get($params, 'link_title', MetaFoxConstant::EMPTY_STRING),
+            'link'              => Arr::get($params, 'link_url'),
+            'host'              => Arr::has($params, 'link_url') ? parse_url($params['link_url'], PHP_URL_HOST) : null,
+            'image'             => Arr::get($params, 'link_image'),
+            'description'       => Arr::get($params, 'link_description'),
+            'has_embed'         => 0,
+            'is_preview_hidden' => Arr::get($params, 'is_preview_hidden', false),
         ], $location));
 
         if ($link->privacy == MetaFoxPrivacy::CUSTOM) {

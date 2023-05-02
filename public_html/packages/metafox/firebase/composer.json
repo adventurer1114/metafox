@@ -1,6 +1,6 @@
 {
     "name": "metafox/firebase",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "metafox/firebase",
     "keyword": "metafox/firebase",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/firebase": "5.0.1"
+                "@metafox/firebase": "*"
             },
             "internalAdminUrl": "/admincp/firebase/setting"
         }

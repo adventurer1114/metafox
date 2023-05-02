@@ -2,12 +2,13 @@
 
 namespace MetaFox\Marketplace\Http\Resources\v1\Listing;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Arr;
 use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Mobile\Builder;
-use MetaFox\Form\Mobile\PrivacyField;
+use MetaFox\Form\PrivacyFieldMobileTrait;
 use MetaFox\Form\Section;
 use MetaFox\Marketplace\Http\Requests\v1\Listing\CreateFormRequest;
 use MetaFox\Marketplace\Models\Category;
@@ -15,7 +16,6 @@ use MetaFox\Marketplace\Models\Listing as Model;
 use MetaFox\Marketplace\Policies\ListingPolicy;
 use MetaFox\Marketplace\Repositories\CategoryRepositoryInterface;
 use MetaFox\Marketplace\Support\Facade\Listing;
-use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\User\Support\Facades\UserEntity;
@@ -36,10 +36,7 @@ use MetaFox\Yup\Yup;
  */
 class StoreListingMobileForm extends AbstractForm
 {
-    /**
-     * @var User|null
-     */
-    protected ?User $owner = null;
+    use PrivacyFieldMobileTrait;
 
     protected function prepare(): void
     {
@@ -66,7 +63,7 @@ class StoreListingMobileForm extends AbstractForm
             ]);
         }
 
-        $this->title(__p('marketplace::phrase.create_listing'))
+        $this->title(__p('marketplace::phrase.add_new_listing'))
             ->action('marketplace')
             ->asPost()
             ->setValue($values);
@@ -138,7 +135,6 @@ class StoreListingMobileForm extends AbstractForm
         $basic          = $this->addBasic();
         $minTitleLength = Listing::getMinimumTitleLength();
         $maxTitleLength = Listing::getMaximumTitleLength();
-        $context        = user();
 
         $basic->addFields(
             Builder::text('title')
@@ -209,11 +205,6 @@ class StoreListingMobileForm extends AbstractForm
                                 ->nullable()
                         )
                 ),
-            Builder::singlePhoto('thumbnail_photo')
-                ->label(__p('core::phrase.thumbnail'))
-                ->itemType('marketplace')
-                ->thumbnailSizes($this->resource?->getSizes())
-                ->previewUrl($this->resource?->image),
         );
 
         $this->addAttachedPhotosField($basic);
@@ -221,9 +212,7 @@ class StoreListingMobileForm extends AbstractForm
         $basic->addFields(
             $this->buildAllowPaymentField(),
             $this->buildAllowPointPaymentField(),
-            Builder::switch('auto_sold')
-                ->label(__p('marketplace::phrase.auto_sold'))
-                ->description(__p('marketplace::phrase.auto_sold_description')),
+            $this->buildAutoSoldField(),
             Builder::hidden('owner_id'),
         );
 
@@ -242,7 +231,8 @@ class StoreListingMobileForm extends AbstractForm
                 ->marginNormal()
                 ->label(__p('marketplace::phrase.product_tags'))
                 ->placeholder(__p('core::phrase.keywords')),
-            $this->addPrivacyField(),
+            $this->buildPrivacyField()
+                ->description(__p('marketplace::phrase.control_who_can_see_this_listing')),
         );
     }
 
@@ -269,6 +259,19 @@ class StoreListingMobileForm extends AbstractForm
                 'hasLink' => $paymentSettingUrl ? 1 : 0,
                 'link'    => $paymentSettingUrl ?: '',
             ]));
+    }
+
+    protected function buildAutoSoldField(): ?AbstractField
+    {
+        $context = user();
+
+        if (!$context->hasPermissionTo('marketplace.sell_items')) {
+            return null;
+        }
+
+        return Builder::switch('auto_sold')
+            ->label(__p('marketplace::phrase.auto_sold'))
+            ->description(__p('marketplace::phrase.auto_sold_description'));
     }
 
     /**
@@ -303,32 +306,36 @@ class StoreListingMobileForm extends AbstractForm
                 'has_limit_per_upload' => $maxUpload > 0 ? 1 : 0,
                 'max_per_upload'       => $maxUpload,
             ]))
+            ->maxFilesDescription(__p('marketplace::phrase.you_have_reached_thue_limit_file', [
+                'max_per_upload' => $maxUpload,
+            ]))
             ->accept('image/*')
             ->itemType('marketplace')
             ->uploadUrl('file')
+            ->required()
             ->maxFiles($maxUpload);
 
+        $yup = Yup::array()->min(1);
         /*
          * In case value is 0, it means unlimit
          */
         if ($maxUpload > 0) {
-            $field->yup(
-                Yup::array()
-                    ->maxWhen([
-                        'value' => $maxUpload,
-                        'when'  => [
-                            'includes', 'item.status',
-                            [MetaFoxConstant::FILE_CREATE_STATUS, MetaFoxConstant::FILE_UPDATE_STATUS],
-                        ],
-                    ], __p('marketplace::phrase.maximum_per_upload_limit_reached', ['limit' => $maxUpload]))
-                    ->of(
-                        Yup::object()
-                            ->addProperty('id', Yup::number())
-                            ->addProperty('type', Yup::string())
-                            ->addProperty('status', Yup::string())
-                    )
-            );
+            $yup->maxWhen([
+                'value' => $maxUpload,
+                'when'  => [
+                    'includes', 'item.status',
+                    [MetaFoxConstant::FILE_CREATE_STATUS, MetaFoxConstant::FILE_UPDATE_STATUS],
+                ],
+            ], __p('marketplace::phrase.maximum_per_upload_limit_reached', ['limit' => $maxUpload]))
+                ->of(
+                    Yup::object()
+                        ->addProperty('id', Yup::number())
+                        ->addProperty('type', Yup::string())
+                        ->addProperty('status', Yup::string())
+                );
         }
+
+        $field->yup($yup);
 
         $basic->addField($field);
     }
@@ -346,7 +353,7 @@ class StoreListingMobileForm extends AbstractForm
                                 ->addProperty(
                                     'value',
                                     Yup::number()
-                                        ->required(__p('marketplace::phrase.price_is_required'))
+                                        ->required(__p('marketplace::phrase.price_is_a_required_field'))
                                         ->min(
                                             0,
                                             __p(
@@ -359,9 +366,17 @@ class StoreListingMobileForm extends AbstractForm
                         )
                 )
                 ->description($description)
+                ->findReplace([
+                    'find'    => [','],
+                    'replace' => '.',
+                ])
         );
     }
 
+    /**
+     * @throws AuthenticationException
+     * @throws AuthorizationException
+     */
     public function boot(CreateFormRequest $request, ?int $id = null): void
     {
         $data = $request->validated();
@@ -370,10 +385,11 @@ class StoreListingMobileForm extends AbstractForm
 
         $context = user();
 
-        $this->owner = $context;
+        $this->setOwner($context);
 
         if ($ownerId > 0) {
-            $this->owner = UserEntity::getById($ownerId)->detail;
+            $owner = UserEntity::getById($ownerId)->detail;
+            $this->setOwner($owner);
         }
 
         policy_authorize(ListingPolicy::class, 'create', $context, $this->owner);
@@ -382,29 +398,5 @@ class StoreListingMobileForm extends AbstractForm
     protected function isEdit(): bool
     {
         return false;
-    }
-
-    protected function addPrivacyField(): PrivacyField
-    {
-        $context = user();
-
-        return Builder::privacy('privacy')
-            ->description(__p('marketplace::phrase.control_who_can_see_this_listing'))
-            ->showWhen([
-                'or',
-                [
-                    'falsy',
-                    'owner_id',
-                ],
-                [
-                    'eq',
-                    'owner_id',
-                    $context->entityId(),
-                ],
-                [
-                    'truthy',
-                    'is_moderator',
-                ],
-            ]);
     }
 }

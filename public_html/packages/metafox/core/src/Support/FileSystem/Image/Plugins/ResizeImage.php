@@ -252,7 +252,10 @@ class ResizeImage implements ResizeImageInterface
 
         $temporaryPath = tempnam(sys_get_temp_dir(), 'metafox');
 
-        Image::make($this->image)->resize($width, $height)->save($temporaryPath, $quality);
+        Image::make($this->image)
+            ->resize($width, $height)
+            ->orientate()
+            ->save($temporaryPath, $quality);
 
         $disk = Storage::disk($this->serverId);
 
@@ -265,7 +268,7 @@ class ResizeImage implements ResizeImageInterface
         $fileSize = filesize($temporaryPath);
 
         if (file_exists($temporaryPath)) {
-            unlink($temporaryPath);
+            @unlink($temporaryPath);
         }
 
         return $callback(array_merge([

@@ -15,18 +15,18 @@ class Actions
     /** @var array<string,ActionItem> */
     protected array $actions = [];
 
-    protected string $appName;
+    protected ?string $appName;
 
-    protected string $resourceName;
+    protected ?string $resourceName;
 
     /**
-     * @param string $appName
-     * @param string $resourceName
+     * @param ?string $appName
+     * @param ?string $resourceName
      */
-    public function __construct(string $appName, string $resourceName)
+    public function __construct(string $appName = null, string $resourceName = null)
     {
-        $this->appName      = $appName;
-        $this->resourceName = $resourceName;
+        $this->appName      = $appName?? '';
+        $this->resourceName = $resourceName??'';
     }
 
     /**

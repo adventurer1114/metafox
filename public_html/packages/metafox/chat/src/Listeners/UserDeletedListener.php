@@ -7,8 +7,11 @@ use MetaFox\Platform\Contracts\User;
 
 class UserDeletedListener
 {
-    public function handle(User $user): void
+    public function handle(?User $user): void
     {
+        if (!$user) {
+            return;
+        }
         resolve(SubscriptionRepositoryInterface::class)->deleteUserSubscriptions($user->entityId());
     }
 }

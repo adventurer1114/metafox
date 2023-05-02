@@ -17,6 +17,7 @@
           "component": "core.block.sidebarAppMenu",
           "slotName": "side",
           "title": "Manage Group",
+          "displayViewMore": false,
           "menuName": "groupManagerMenu",
           "blockLayout": "sidebar app menu",
           "blockProps": {

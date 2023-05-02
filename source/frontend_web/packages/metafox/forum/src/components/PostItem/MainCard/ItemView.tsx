@@ -34,7 +34,7 @@ const AvatarWrapper = styled('div', { name, slot: 'AvatarWrapper' })(
 const AttachmentTitle = styled('div', { name, slot: 'attachmentTitle' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(18),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightBold
   })
@@ -43,7 +43,6 @@ const Attachment = styled('div', { name, slot: 'attachment' })(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: theme.spacing(2),
   justifyContent: 'space-between'
 }));
 const AttachmentItemWrapper = styled('div', {

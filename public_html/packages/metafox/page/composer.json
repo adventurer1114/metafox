@@ -1,7 +1,7 @@
 {
     "name": "metafox/page",
     "description": "",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "authors": [
         {
             "name": "phpFox",
@@ -22,7 +22,7 @@
                 "MetaFox\\Page\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/pages": "5.0.1"
+                "@metafox/pages": "*"
             },
             "frontendPaths": [
                 "packages/metafox/pages"

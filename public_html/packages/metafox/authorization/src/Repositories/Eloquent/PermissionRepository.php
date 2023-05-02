@@ -89,6 +89,7 @@ class PermissionRepository extends AbstractRepository implements PermissionRepos
     public function viewPermission(User $context, int $id): Permission
     {
         $permission = $this->find($id);
+
         policy_authorize(PermissionPolicy::class, 'view', $context);
 
         return $permission;
@@ -103,7 +104,8 @@ class PermissionRepository extends AbstractRepository implements PermissionRepos
 
         $query = $this->getModel()->newModelInstance()
             ->newQuery()
-            ->where('is_public', '=', 1);
+            ->where('is_public', '=', 1)
+            ->whereNot('entity_type', '*');
 
         if (!empty($attributes['exclude_actions'])) {
             $query = $query->whereNotIn('action', $attributes['exclude_actions']);

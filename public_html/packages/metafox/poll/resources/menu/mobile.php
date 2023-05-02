@@ -5,14 +5,29 @@ return [
     [
         'post_type'  => 'poll',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'feed.feed.feedComposerMenu',
-        'name'       => 'compose_poll',
-        'label'      => 'activity::phrase.poll',
-        'ordering'   => 7,
-        'as'         => 'post.poll',
-        'value'      => 'poll',
-        'icon'       => 'barchart',
+        'showWhen'   => [
+            'or',
+            [
+                'and',
+                ['eq', 'attachmentType', 'poll'],
+                ['falsy', 'isEdit'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasMediaFile'],
+                ['neq', 'attachmentType', 'link'],
+                ['neq', 'module_name', 'event'],
+            ],
+        ],
+        'menu'     => 'feed.feed.feedComposerMenu',
+        'name'     => 'compose_poll',
+        'label'    => 'activity::phrase.poll',
+        'ordering' => 7,
+        'as'       => 'post.poll',
+        'value'    => 'poll',
+        'icon'     => 'barchart',
     ],
     [
         'tab'      => 'poll',
@@ -102,7 +117,6 @@ return [
         'label'    => 'poll::phrase.edit_poll_title',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -116,7 +130,6 @@ return [
         'label'    => 'poll::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -130,7 +143,6 @@ return [
         'label'    => 'poll::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -144,7 +156,6 @@ return [
         'label'    => 'poll::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -158,7 +169,6 @@ return [
         'label'    => 'poll::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -172,7 +182,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -186,7 +195,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -199,7 +207,6 @@ return [
         'label'    => 'poll::phrase.approve',
         'ordering' => 11,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -213,7 +220,6 @@ return [
         'label'     => 'poll::phrase.delete',
         'ordering'  => 12,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'menu'     => 'poll.poll.sort_menu',
@@ -254,7 +260,6 @@ return [
         'label'    => 'poll::phrase.all_polls',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/poll/all',
     ],
     [
@@ -268,7 +273,6 @@ return [
         'label'    => 'poll::phrase.my_polls',
         'ordering' => 2,
         'value'    => 'viewMyPolls',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/poll/my',
     ],
     [
@@ -277,12 +281,15 @@ return [
             'module_name'   => 'poll',
             'resource_name' => 'poll',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'poll.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'poll::phrase.my_pending_polls',
         'ordering' => 3,
         'value'    => 'viewMyPendingPolls',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'tab'    => 'friend',
@@ -295,7 +302,6 @@ return [
         'label'    => 'poll::phrase.friends_polls',
         'ordering' => 4,
         'value'    => 'viewFriendPolls',
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/poll/friend',
     ],
     [
@@ -313,7 +319,6 @@ return [
         'label'    => 'poll::phrase.pending_polls',
         'ordering' => 5,
         'value'    => 'viewPendingPolls',
-        'icon'     => 'ico-clock-o',
         'to'       => '/poll/pending',
     ],
     [
@@ -378,7 +383,6 @@ return [
         'label'    => 'poll::phrase.edit_poll_title',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -392,7 +396,6 @@ return [
         'label'    => 'poll::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -406,7 +409,6 @@ return [
         'label'    => 'poll::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -420,7 +422,6 @@ return [
         'label'    => 'poll::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -434,7 +435,6 @@ return [
         'label'    => 'poll::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -448,7 +448,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -462,7 +461,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -475,7 +473,6 @@ return [
         'label'    => 'poll::phrase.approve',
         'ordering' => 11,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -489,7 +486,6 @@ return [
         'label'     => 'poll::phrase.delete',
         'ordering'  => 12,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen'  => [],

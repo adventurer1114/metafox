@@ -147,12 +147,6 @@ class MobileSetting extends Setting
 
         $this->add('shareToNewsFeed');
 
-        $this->add('shareOnFriendProfile');
-
-        $this->add('shareOnPageProfile');
-
-        $this->add('shareOnGroupProfile');
-
         $this->add('copyLink');
 
         $this->add('searchGlobalPost')

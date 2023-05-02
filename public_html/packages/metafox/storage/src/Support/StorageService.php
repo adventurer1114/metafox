@@ -311,7 +311,7 @@ class StorageService
             $attributes['extension'] = $extension;
         }
 
-        if ($imageSize = getimagesize($realpath)) {
+        if ($mime_type && preg_match('/^image\//', $mime_type) && $imageSize = getimagesize($realpath)) {
             $attributes['width']  = $imageSize[0];
             $attributes['height'] = $imageSize[1];
         }
@@ -462,5 +462,26 @@ class StorageService
 
             $file->saveQuietly();
         }
+    }
+
+    public function getExt(int $id): ?string
+    {
+        $file = $this->getFile($id);
+
+        return $file?->extension;
+    }
+
+    public function getMimeType(int $id): ?string
+    {
+        $file = $this->fileRepository->getModel()
+            ->newQuery()
+            ->where('id', '=', $id)
+            ->first();
+
+        if (null === $file) {
+            return null;
+        }
+
+        return $file->mime_type;
     }
 }

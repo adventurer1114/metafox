@@ -15,19 +15,19 @@ export default makeStyles(
         paddingBottom: 0,
         overflow: 'hidden'
       },
-      paddingTopMedia: {
-        paddingTop: theme.spacing(2)
-      },
       rootSkeleton: {
         padding: theme.spacing(2)
       },
       header: {
         display: 'flex',
         flexDirection: 'row',
+        marginBottom: theme.spacing(1.5)
+      },
+      paddingTopMedia: {
+        paddingTop: theme.spacing(1.5),
         marginBottom: theme.spacing(2)
       },
       headerInfo: {
-        padding: theme.spacing(0.5, 0),
         flex: 1
       },
       headerHeadline: {
@@ -79,7 +79,6 @@ export default makeStyles(
       },
       statusBgWrapper: {
         display: 'block',
-        margin: 0,
         position: 'relative',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
@@ -87,7 +86,7 @@ export default makeStyles(
         backgroundOrigin: 'border-box',
         border: '1px solid rgba(0,0,0,0.1)',
         width: 'auto',
-        marginBottom: theme.spacing(2),
+        margin: `0 ${theme.spacing(-2)} ${theme.spacing(-2)}`,
         '&:before': {
           content: '""',
           display: 'block',
@@ -114,7 +113,10 @@ export default makeStyles(
         lineHeight: '37px',
         minHeight: '109px',
         fontWeight: 'bold',
-        color: '#fff'
+        color: '#fff',
+        '& a': {
+          color: '#fff !important'
+        }
       }
     }),
   { name: 'MuiFeedItemView' }

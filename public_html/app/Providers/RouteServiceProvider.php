@@ -93,7 +93,7 @@ class RouteServiceProvider extends ServiceProvider
             $apiAdminRegistrar->group($this->apiAdminRouteFiles);
             $sharingRegister->group($this->sharingFiles);
 
-            $this->autloadSharingRoutes($sharingRegister);
+            $this->autoloadSharingRoutes($sharingRegister);
 
             // catch all not found route.
             $sharingRegister->get('{uri}', [\MetaFox\SEO\Http\Controllers\SharingController::class, 'fallback'])
@@ -101,7 +101,7 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function autloadSharingRoutes(RouteRegistrar $sharingRegister)
+    protected function autoloadSharingRoutes(RouteRegistrar $sharingRegister)
     {
         if (!config('app.mfox_installed')) {
             return;
@@ -110,6 +110,10 @@ class RouteServiceProvider extends ServiceProvider
         try {
             $data = Meta::query()
                 ->whereNotNull('url')
+                // reduce route does not need to fallback
+                // there are more than 1,822 routes item should be reduce number of routes
+                // reduces alot of pages.
+                ->where('url', 'like', '%{%')
                 ->where('custom_sharing_route', '=', 0)
                 ->pluck('item_type', 'url')
                 ->toArray();

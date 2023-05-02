@@ -20,6 +20,7 @@ export default function ReportDialog(props) {
     <Dialog {...dialogProps} maxWidth="xs" fullWidth data-testid="popupReport">
       <RemoteFormBuilder
         dialog
+        keepPaginationData
         dataSource={{
           apiUrl: `/report/form?${qs.stringify(data)}`
         }}

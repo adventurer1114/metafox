@@ -47,8 +47,12 @@ class CountryCity implements CountryCitySupportContract
 
         return $cities->map(function (Model $city) {
             return [
-                'label' => $city->name,
-                'value' => $city->city_code,
+                'label'         => $city->name,
+                'value'         => $city->city_code,
+                'id'            => $city->entityId(),
+                'name'          => $city->name,
+                'module_name'   => 'user',
+                'resource_name' => $city->entityType(),
             ];
         })->toArray();
     }

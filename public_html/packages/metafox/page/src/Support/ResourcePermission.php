@@ -15,4 +15,5 @@ class ResourcePermission
     public const CAN_VIEW_INFO         = 'can_view_info';
     public const CAN_UNLIKE            = 'can_unlike';
     public const CAN_MESSAGE           = 'can_message';
+    public const CAN_FOLLOW            = 'can_follow';
 }

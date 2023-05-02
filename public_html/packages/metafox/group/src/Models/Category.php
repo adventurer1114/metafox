@@ -60,9 +60,12 @@ class Category extends Model implements Entity, HasTotalItem, HasSubCategory
         return CategoryFactory::new();
     }
 
-    public function subCategories(): HasMany
+    public function subCategories(): ?HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function groups(): HasMany
@@ -72,7 +75,10 @@ class Category extends Model implements Entity, HasTotalItem, HasSubCategory
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toUrl(): ?string

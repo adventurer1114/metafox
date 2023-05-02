@@ -59,6 +59,9 @@ class PackageSettingListener extends BasePackageSettingListener
             'models.notify.approved' => [
                 ModelApprovedListener::class,
             ],
+            'importer.completed' => [
+                ImporterCompleted::class,
+            ],
         ];
     }
 

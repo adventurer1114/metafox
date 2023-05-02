@@ -80,7 +80,7 @@ class MergeThread extends Notification
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($content)
-            ->action($this->localize('core::phrase.review_now'), $this->toUrl());
+            ->action($this->localize('core::phrase.view_now'), $this->toUrl());
     }
 
     public function toUrl(): ?string
@@ -91,5 +91,16 @@ class MergeThread extends Notification
     public function toLink(): ?string
     {
         return $this->model->toLink();
+    }
+
+    public function toRouter(): ?string
+    {
+        $model = $this->model;
+
+        if (null === $model) {
+            return null;
+        }
+
+        return $this->model->toRouter();
     }
 }

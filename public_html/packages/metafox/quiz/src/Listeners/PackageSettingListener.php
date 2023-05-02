@@ -28,7 +28,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'entity_type'     => Quiz::ENTITY_TYPE,
                 'is_active'       => true,
                 'title'           => 'quiz::phrase.quiz_type',
-                'description'     => 'quiz::phrase.added_a_quiz',
+                'description'     => 'added_a_quiz',
                 'is_system'       => 0,
                 'can_comment'     => true,
                 'can_like'        => true,
@@ -99,13 +99,13 @@ class PackageSettingListener extends BasePackageSettingListener
                 'view'   => UserRole::LEVEL_GUEST,
                 'create' => UserRole::LEVEL_REGISTERED,
                 // 'publish'       => UserRole::LEVEL_REGISTERED,
-                'update'   => UserRole::LEVEL_REGISTERED,
-                'delete'   => UserRole::LEVEL_REGISTERED,
-                'moderate' => UserRole::LEVEL_STAFF,
-                'feature'  => UserRole::LEVEL_REGISTERED,
-                'approve'  => UserRole::LEVEL_STAFF,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'update'               => UserRole::LEVEL_REGISTERED,
+                'delete'               => UserRole::LEVEL_REGISTERED,
+                'moderate'             => UserRole::LEVEL_STAFF,
+                'feature'              => UserRole::LEVEL_REGISTERED,
+                'approve'              => UserRole::LEVEL_STAFF,
+                'purchase_sponsor'     => UserRole::LEVEL_REGISTERED,
+                'sponsor'              => UserRole::LEVEL_REGISTERED,
                 'auto_approved'        => UserRole::LEVEL_REGISTERED,
                 'play'                 => UserRole::LEVEL_REGISTERED,
                 'save'                 => UserRole::LEVEL_REGISTERED,
@@ -168,7 +168,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'is_request' => 0,
                 'is_system'  => 1,
                 'can_edit'   => 1,
-                'channels'   => ['mail', 'sms', 'database'],
+                'channels'   => ['mail', 'sms', 'database', 'mobilepush', 'webpush'],
                 'ordering'   => 20,
             ],
             [
@@ -252,6 +252,15 @@ class PackageSettingListener extends BasePackageSettingListener
                         'fieldCreator' => [EditPermissionListener::class, 'minAnswerPerQuiz'],
                     ],
                 ],
+                'purchase_sponsor_price' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
             ],
         ];
     }
@@ -279,5 +288,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['quiz'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/quiz',
+                'name' => 'quiz::phrase.ad_mob_quiz_home_page',
+            ],
+            [
+                'path' => '/quiz/:id',
+                'name' => 'quiz::phrase.ad_mob_quiz_detail_page',
+            ],
+        ];
     }
 }

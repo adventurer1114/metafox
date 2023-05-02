@@ -47,7 +47,7 @@ class EditForm extends CreateForm
             'tags'          => $tags,
             'item_type'     => $itemType,
             'item_id'       => $itemId,
-            'is_subscribed' => $isSubscribed,
+            'is_subscribed' => (int) $isSubscribed,
             'is_wiki'       => (int) $resource->is_wiki,
             'id'            => $resource->entityId(),
             'owner_id'      => $resource->owner_id,

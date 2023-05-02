@@ -92,7 +92,7 @@ export default function PageProfileHeaderView({
 
   const likeButton = nth(actionMenuItems, 0);
 
-  const avatar = getImageSrc(item.image, '200', assetUrl('page.no_image'));
+  const avatar = getImageSrc(item.image, '200x200', assetUrl('page.no_image'));
   const cover = getImageSrc(
     item?.cover,
     '1024',

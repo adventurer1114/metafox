@@ -18,7 +18,12 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-const ActionItem = styled('div')(({ theme }) => ({ cursor: 'pointer' }));
+const ActionItem = styled('div')(({ theme }) => ({
+  cursor: 'pointer',
+  '&:hover': {
+    textDecoration: 'underline'
+  }
+}));
 const WrapperButtonIcon = styled(Button)(({ theme }) => ({
   color:
     theme.palette.mode === 'dark'
@@ -28,20 +33,6 @@ const WrapperButtonIcon = styled(Button)(({ theme }) => ({
   minWidth: theme.spacing(0)
 }));
 
-const ButtonIcon = styled(Button)(({ theme }) => ({
-  fontSize: theme.spacing(2.25),
-  minWidth: theme.spacing(6.25),
-  color: theme.palette.text.primary,
-  '& .ico.ico-check-circle-alt': {
-    marginRight: theme.spacing(0.75),
-    marginTop: theme.spacing(0.5),
-    fontSize: theme.spacing(1.75)
-  }
-}));
-
-// const TotalUnread = styled(Typography)(({ theme }) => ({
-//   marginLeft: theme.spacing(0.5)
-// }));
 const TitleHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'flex-end'
@@ -63,7 +54,7 @@ const Footer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1, 2),
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   color: theme.palette.text.primary
 }));
 
@@ -114,14 +105,6 @@ export default function MessagesPopper({
     });
 
     closePopover && closePopover();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleClickMarkAllRead = React.useCallback(() => {
-    dispatch({
-      type: 'chat/room/markAllRead'
-    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -211,19 +194,7 @@ export default function MessagesPopper({
         </ScrollContainer>
         <Footer>
           <ActionItem>
-            <ButtonIcon onClick={handleClickMarkAllRead}>
-              <LineIcon icon="ico-check-circle-alt" />
-              <Typography variant="body1">
-                {i18n.formatMessage({ id: 'mark_all_as_read' })}
-              </Typography>
-            </ButtonIcon>
-          </ActionItem>
-          <ActionItem>
-            <Typography
-              variant="body1"
-              onClick={handleClickViewAll}
-              // sx={{ textDecoration: 'underline' }}
-            >
+            <Typography variant="body1" onClick={handleClickViewAll}>
               {i18n.formatMessage({ id: 'view_all_messages' })}
             </Typography>
           </ActionItem>

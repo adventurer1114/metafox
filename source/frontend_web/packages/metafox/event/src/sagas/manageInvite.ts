@@ -446,7 +446,12 @@ function* inviteToComeHost(
 
     yield* makeDirtyPaging('event_hostevent');
 
+    const newStatistic = response.data?.data?.statistic;
+
     yield* handleActionFeedback(response);
+    yield* patchEntity(identity, {
+      statistic: { ...item.statistic, ...newStatistic }
+    });
   } catch (err) {
     yield* handleActionError(err);
   }

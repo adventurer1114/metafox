@@ -37,7 +37,10 @@ class SiteSettingForm extends AbstractForm
 
         foreach ($stores as $key => $value) {
             if ($value['selectable'] ?? false) {
-                $cacheOptions[] = ['label' => $value['label'] ?? $key, 'value' => $key];
+                $cacheOptions[] = [
+                    'label' => $value['label'] ?? ucfirst($key),
+                    'value' => $key,
+                ];
             }
         }
 

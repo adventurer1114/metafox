@@ -311,9 +311,22 @@ class MobileSetting extends Setting
                 'view' => Browse::VIEW_MY_PENDING,
             ]);
 
+        $this->add('follow')
+            ->apiUrl('follow')
+            ->asPost()
+            ->apiParams([
+                'user_id' => ':id',
+            ]);
+
+        $this->add('unfollow')
+            ->apiUrl('follow/:id')
+            ->asDelete();
+
         $this->add('generateInviteLink')
             ->apiUrl('invite-code')
             ->asPost()
             ->apiParams(['group_id' => ':id', 'refresh' => 0]);
+
+        $this->add('shareOnGroupProfile');
     }
 }

@@ -10,8 +10,6 @@ namespace MetaFox\Poll\Http\Resources\v1\Poll;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use MetaFox\Form\Mobile\Builder;
-use MetaFox\Form\Mobile\PrivacyField;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Poll\Http\Requests\v1\Poll\CreateFormRequest;
@@ -35,6 +33,9 @@ class UpdatePollMobileForm extends StorePollMobileForm
         $this->resource = $repository->with([
             'answers' => fn (HasMany $query) => $query->orderBy('ordering'),
         ])->find($id);
+
+        $this->setOwner($this->resource->owner);
+
         policy_authorize(PollPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -93,17 +94,5 @@ class UpdatePollMobileForm extends StorePollMobileForm
                 'has_banner'   => $hasBanner,
                 'file'         => $file,
             ]);
-    }
-
-    protected function buildPrivacyField(): PrivacyField
-    {
-        return Builder::privacy()
-            ->description(__p('poll::phrase.control_who_can_see_this_poll'))
-            ->fullWidth(false)
-            ->setAttributes([
-                'minWidth'  => 275,
-                'maxHeight' => 40,
-            ])
-            ->showWhen(['eq', 'owner_id', $this->resource->userId()]);
     }
 }

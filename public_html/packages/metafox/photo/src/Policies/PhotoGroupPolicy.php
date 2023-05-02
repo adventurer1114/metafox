@@ -2,11 +2,13 @@
 
 namespace MetaFox\Photo\Policies;
 
+use MetaFox\Photo\Models\Photo;
 use MetaFox\Photo\Models\PhotoGroup;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Facades\PolicyGate;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
 
@@ -38,8 +40,12 @@ class PhotoGroupPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -73,11 +79,19 @@ class PhotoGroupPolicy implements ResourcePolicyInterface
         }
 
         // Check setting view on resource.
+        /** @var PhotoPolicy $photoPolicy */
+        $photoPolicy = PolicyGate::getPolicyFor(Photo::class);
+        $statistic   = $resource->statistic?->toAggregateData();
+        $totalPhoto  = $statistic['total_photo'];
+
+        if ($totalPhoto == $resource->items()->count()) {
+            return $photoPolicy->viewOwner($user, $owner);
+        }
 
         return true;
     }
 
-    public function create(User $user, ?User $owner = null): bool
+    public function create(User $user, $owner = null): bool
     {
         if (!$user->hasPermissionTo('photo_set.create')) {
             return false;

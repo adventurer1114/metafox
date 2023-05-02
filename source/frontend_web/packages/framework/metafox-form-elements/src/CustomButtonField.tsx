@@ -16,6 +16,7 @@ const CancelButtonField = ({
   onReset
 }: FormFieldProps) => {
   const {
+    sxFieldWrapper,
     type = 'button',
     variant,
     disabled,
@@ -29,7 +30,7 @@ const CancelButtonField = ({
     onClick,
     customAction
   } = config;
-  const { navigate, dialog, onCancel } = useFormSchema();
+  const { dialog, onCancel } = useFormSchema();
   const { dispatch } = useGlobal();
   const { useDialog } = useGlobal();
   const { closeDialog } = useDialog();
@@ -41,8 +42,6 @@ const CancelButtonField = ({
       onClick();
     } else if (dialog) {
       closeDialog();
-    } else {
-      navigate(-1);
     }
   };
 
@@ -60,7 +59,7 @@ const CancelButtonField = ({
       margin={margin}
       fullWidth={fullWidth}
       data-testid={camelCase(`field ${name}`)}
-      sx={{ display: 'block' }}
+      sx={sxFieldWrapper}
     >
       <MuiButton
         fullWidth={fullWidth}

@@ -2,9 +2,11 @@
 
 namespace MetaFox\Quiz\Http\Resources\v1\Quiz;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Mobile\Builder;
-use MetaFox\Form\Mobile\SinglePhotoField;
+use MetaFox\Form\PrivacyFieldMobileTrait;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
@@ -12,6 +14,7 @@ use MetaFox\Quiz\Http\Requests\v1\Quiz\CreateFormRequest;
 use MetaFox\Quiz\Models\Quiz as Model;
 use MetaFox\Quiz\Policies\QuizPolicy;
 use MetaFox\Quiz\Repositories\QuizRepositoryInterface;
+use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
 use MetaFox\Yup\Yup;
 
@@ -22,11 +25,23 @@ use MetaFox\Yup\Yup;
  */
 class CreateQuizMobileForm extends AbstractForm
 {
+    use PrivacyFieldMobileTrait;
+
+    /**
+     * @throws AuthenticationException
+     * @throws AuthorizationException
+     */
     public function boot(CreateFormRequest $request, QuizRepositoryInterface $repository, ?int $id = null): void
     {
         $context = user();
         $params  = $request->validated();
-        policy_authorize(QuizPolicy::class, 'create', $context);
+
+        if ($params['owner_id'] != 0) {
+            $userEntity = UserEntity::getById($params['owner_id']);
+            $this->setOwner($userEntity->detail);
+        }
+
+        policy_authorize(QuizPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -110,7 +125,7 @@ class CreateQuizMobileForm extends AbstractForm
                 ->maxLength($maxLengthQuestion)
                 ->yup(
                     Yup::array()
-                        ->required(__p('quiz::validation.question_is_required'))
+                        ->required(__p('quiz::validation.question_is_a_required_field'))
                         ->min($minQuestion)
                         ->max($maxQuestion)
                         ->uniqueBy('question', __p('quiz::validation.the_question_list_must_be_unique'))
@@ -119,7 +134,7 @@ class CreateQuizMobileForm extends AbstractForm
                                 ->addProperty(
                                     'question',
                                     Yup::string()
-                                        ->required(__p('quiz::validation.question_is_required'))
+                                        ->required(__p('quiz::validation.question_is_a_required_field'))
                                         ->maxLength(
                                             $maxLengthQuestion,
                                             __p(
@@ -153,27 +168,17 @@ class CreateQuizMobileForm extends AbstractForm
                                                 ->addProperty(
                                                     'answer',
                                                     Yup::string()
-                                                        ->required(__p('quiz::validation.answer_is_required'))
+                                                        ->required(__p('quiz::validation.answer_is_a_required_field'))
                                                         ->maxLength(255)
                                                 )
                                         )
                                 )
                         )
                 ),
-            Builder::privacy()->description(__p('quiz::phrase.control_who_can_see_this_quiz'))
+            $this->buildPrivacyField()
+                ->description(__p('quiz::phrase.control_who_can_see_this_quiz'))
                 ->minWidth(275)
-                ->fullWidth(false)
-                ->showWhen([
-                    'or',
-                    [
-                        'falsy',
-                        'owner_id',
-                    ], [
-                        'eq',
-                        'owner_id',
-                        $context->entityId(),
-                    ],
-                ]),
+                ->fullWidth(false),
             Builder::hidden('owner_id')
         );
     }
@@ -181,12 +186,13 @@ class CreateQuizMobileForm extends AbstractForm
     protected function buildBannerField()
     {
         $context = user();
-
-        return Builder::singlePhoto('file')
-            ->itemType('quiz')
-            ->label(__p('Banner'))
-            ->previewUrl($this->resource->image)
-            ->thumbnailSizes($this->resource->getSizes())
-            ->required($context->hasPermissionTo('quiz.require_upload_photo'));
+        if ($context->hasPermissionTo('quiz.upload_photo_form')) {
+            return Builder::singlePhoto('file')
+                ->itemType('quiz')
+                ->label(__p('Banner'))
+                ->previewUrl($this->resource->image)
+                ->thumbnailSizes($this->resource->getSizes())
+                ->required($context->hasPermissionTo('quiz.require_upload_photo'));
+        }
     }
 }

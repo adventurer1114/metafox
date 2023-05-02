@@ -2,12 +2,13 @@ import { useGlobal } from '@metafox/framework';
 import { styled, Box } from '@mui/material';
 import { alpha } from '@mui/system/colorManipulator';
 import React from 'react';
+import { isFunction } from 'lodash';
 
 const ToggleViewMoreBtn = styled('span', {
   name: 'ToggleViewMoreBtn',
   slot: 'Root'
 })(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: theme.palette.primary.main,
   marginTop: theme.spacing(1),
   fontWeight: theme.typography.fontWeightBold,
   display: 'inline-flex',
@@ -67,22 +68,34 @@ const RichTextViewMore = (props: RichTextViewMoreProps) => {
   const [isFull, setIsFull] = React.useState(defaultShowFull);
   const [enable, setEnable] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>();
+  const refResize = React.useRef<ResizeObserver>();
   const checkEnable = React.useCallback(() => {
     if (ref.current && ref.current.scrollHeight > ref.current.clientHeight) {
       setEnable(true);
     }
-  }, []);
+  }, [ref?.current]);
 
   React.useEffect(() => {
-    if (ref.current.scrollHeight === 0) {
-      // delay when some case cannot get height of ele
-      setTimeout(() => {
-        checkEnable();
-      }, 1000);
-    } else {
+    if (!ref.current) return;
+
+    // need listener observer because div height will change when load image
+    refResize.current = new ResizeObserver(() => {
+      // Do what you want to do when the size of the element changes
       checkEnable();
-    }
+    });
+
+    refResize.current?.observe(ref.current);
+
+    return () => refResize?.current.disconnect(); // clean up
   }, []);
+
+  const handleClickMore = () => {
+    if (refResize.current && isFunction(refResize?.current.disconnect)) {
+      refResize?.current.disconnect();
+    }
+
+    setIsFull(prev => !prev);
+  };
 
   if (!children) return null;
 
@@ -95,7 +108,7 @@ const RichTextViewMore = (props: RichTextViewMoreProps) => {
         {enable && !isFull ? <ShadowContent /> : null}
       </Wrapper>
       {enable ? (
-        <ToggleViewMoreBtn onClick={() => setIsFull(!isFull)} role="button">
+        <ToggleViewMoreBtn onClick={handleClickMore} role="button">
           {i18n.formatMessage({ id: isFull ? textViewLess : textViewMore })}
         </ToggleViewMoreBtn>
       ) : null}

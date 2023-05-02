@@ -100,7 +100,7 @@ export function* attachNewComment(action: AttachNewCommentAction) {
 }
 
 export function* preFetchComment(action) {
-  const { text, identity } = action.payload;
+  const { text, identity, sticker_id } = action.payload;
   const item = yield* getItem(identity);
 
   const { preFetchingComment: defaultValue = {} } = item;
@@ -123,6 +123,13 @@ export function* preFetchComment(action) {
     payload: { ...action.payload, commentKey },
     meta: action?.meta
   });
+
+  if (sticker_id) {
+    yield put({
+      type: 'sticker/myStickerRecent/push',
+      payload: { data: `sticker.entities.sticker.${sticker_id}` }
+    });
+  }
 }
 
 export function* postComment({ payload, meta }) {

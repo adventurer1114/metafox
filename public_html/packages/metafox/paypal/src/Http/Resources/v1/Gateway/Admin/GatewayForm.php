@@ -38,13 +38,13 @@ class GatewayForm extends AdminGatewayForm
                 ->required()
                 ->label(__p(('paypal::admin.client_id')))
                 ->yup(
-                    Yup::string()->required(__p('validation.this_field_is_required'))
+                    Yup::string()->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::text('client_secret')
                 ->required()
                 ->label(__p(('paypal::admin.client_secret')))
                 ->yup(
-                    Yup::string()->required(__p('validation.this_field_is_required'))
+                    Yup::string()->required(__p('validation.this_field_is_a_required_field'))
                 ),
         ];
     }

@@ -33,7 +33,7 @@ return [
     'poll_create_description'            => '',
     'poll_create_heading'                => '',
     'poll_create_keywords'               => '',
-    'poll_create_title'                  => 'New Polls',
+    'poll_create_title'                  => 'Add New Poll',
     'poll_edit_description'              => '',
     'poll_edit_heading'                  => '',
     'poll_edit_keywords'                 => '',

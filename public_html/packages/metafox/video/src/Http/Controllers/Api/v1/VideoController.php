@@ -2,11 +2,11 @@
 
 namespace MetaFox\Video\Http\Controllers\Api\v1;
 
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use MetaFox\Video\Models\Video;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Platform\Http\Requests\v1\FeatureRequest;
@@ -58,7 +58,7 @@ class VideoController extends ApiController
             $owner = UserEntity::getById($params['user_id'])->detail;
 
             if (policy_check(VideoPolicy::class, 'viewOnProfilePage', $context, $owner) == false) {
-                return $this->success(new VideoItemCollection([]));
+                throw new AuthorizationException();
             }
 
             if (UserPrivacy::hasAccess($context, $owner, 'video.profile_menu') == false) {
@@ -101,7 +101,7 @@ class VideoController extends ApiController
      *
      * @return JsonResponse
      * @throws AuthenticationException
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(StoreRequest $request): JsonResponse
     {
@@ -143,7 +143,7 @@ class VideoController extends ApiController
         $params  = $request->validated();
         $data    = $this->repository->updateVideo($context, $id, $params);
 
-        return $this->success(new VideoDetail($data), [], __p('core::phrase.already_saved_changes'));
+        return $this->success(new VideoDetail($data), [], __p('video::phrase.video_updated_successfully'));
     }
 
     /**

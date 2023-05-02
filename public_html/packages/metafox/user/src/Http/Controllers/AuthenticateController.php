@@ -91,10 +91,6 @@ class AuthenticateController extends ApiController
 
         app('events')->dispatch('user.logout', [$context, $request]);
 
-        if ($context instanceof User) {
-            $context->revokeAllTokens();
-        }
-
         return $this->success([], [], 'Success');
     }
 

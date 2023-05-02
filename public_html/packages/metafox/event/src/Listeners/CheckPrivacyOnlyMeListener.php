@@ -12,10 +12,16 @@ use MetaFox\Platform\Contracts\User;
 class CheckPrivacyOnlyMeListener
 {
     /**
+     * @param  User|null $user
+     * @param  User|null $owner
      * @return ?bool
      */
-    public function handle(User $user, User $owner): ?bool
+    public function handle(?User $user, ?User $owner): ?bool
     {
+        if (!$user || !$owner) {
+            return false;
+        }
+
         if ($owner instanceof Event) {
             if ($owner->isAdmin($user)) {
                 return true;

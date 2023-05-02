@@ -115,12 +115,23 @@ class EventDetail extends JsonResource
                 'item',
                 false
             ) : null,
-            'parent_id' => 0,
+            'parent_id'      => 0,
+            'privacy_detail' => $this->getPrivacyDetail(),
         ];
+
         if ($this->resource->owner instanceof HasPrivacyMember) {
             $data['parent_id'] = $this->resource->ownerId();
         }
 
         return $data;
+    }
+
+    protected function getPrivacyDetail(): ?array
+    {
+        return app('events')->dispatch(
+            'activity.get_privacy_detail_on_owner',
+            [user(), $this->resource],
+            true
+        );
     }
 }

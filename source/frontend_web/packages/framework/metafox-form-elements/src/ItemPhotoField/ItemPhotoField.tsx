@@ -6,20 +6,25 @@
 
 import { FormFieldProps } from '@metafox/form';
 import { BasicFileItem, useGlobal } from '@metafox/framework';
-import { InputNotched, LineIcon } from '@metafox/ui';
+import { LineIcon, Image } from '@metafox/ui';
 import {
   getFileExtension,
   parseFileSize,
   shortenFileName,
   isVideoType
 } from '@metafox/utils';
-import { Button, FormControl, InputLabel, styled } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  Tooltip,
+  styled,
+  Link,
+  Typography
+} from '@mui/material';
 import { useField } from 'formik';
-import { camelCase, uniqueId } from 'lodash';
+import { camelCase, isEmpty, uniqueId } from 'lodash';
 import React, { useRef, useState } from 'react';
 import ErrorMessage from '../ErrorMessage';
-// import Label from '../Label';
-import useStyles from './ItemPhotoField.styles';
 
 // apply this style help automation ci works property
 const fixInputStyle: React.CSSProperties = {
@@ -35,12 +40,108 @@ const AddPhotoButton = styled(Button, { name: 'AddPhotoButton' })(
   })
 );
 
+const Root = styled(FormControl, { name: 'Root' })(({ theme }) => ({
+  margin: theme.spacing(2, 0, 1)
+}));
+
+const Preview = styled('div', { name: 'Preview' })(({ theme }) => ({
+  marginTop: -5,
+  borderRadius: 4,
+  width: '100%',
+  maxWidth: '100%',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+  '& button': {
+    '& + button': {
+      marginLeft: theme.spacing(1)
+    }
+  }
+}));
+
+const RemoveBtn = styled('div', {
+  name: 'RemoveBtn',
+  slot: 'removeBtn'
+})(({ theme }) => ({
+  width: theme.spacing(3),
+  height: theme.spacing(3),
+  borderRadius: theme.spacing(1.5),
+  backgroundColor: 'rgba(0,0,0,0.89)',
+  color: '#fff',
+  position: 'absolute',
+  top: theme.spacing(2),
+  right: theme.spacing(2),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer'
+}));
+
+const Controls = styled('div', {
+  name: 'Controls',
+  slot: 'Controls'
+})(({ theme }) => ({
+  borderRadius: 4,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%'
+}));
+
+const ImageWrapper = styled('div', {
+  name: 'ImageWrapper',
+  slot: 'ImageWrapper',
+  shouldForwardProp: prop => prop !== 'widthPhoto' && prop !== 'haveError'
+})<{
+  widthPhoto?: number;
+  haveError?: boolean;
+  hoverState?: boolean;
+}>(({ theme, haveError, hoverState, widthPhoto }) => ({
+  width: widthPhoto,
+  maxWidth: widthPhoto,
+  overflow: 'hidden',
+  position: 'relative',
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  borderColor:
+    theme.palette.mode === 'light' ? '#0000003b' : 'rgba(255, 255, 255, 0.23)',
+  borderRadius: 4,
+  ...(hoverState && {
+    borderColor: theme.palette.mode === 'light' ? '#000' : '#fff'
+  }),
+  ...(haveError && {
+    borderColor: theme.palette.error.main
+  })
+}));
+
 const readFile = (file: File) => {
   return new Promise(resolve => {
     const reader = new FileReader();
     reader.addEventListener('load', () => resolve(reader.result), false);
     reader.readAsDataURL(file);
   });
+};
+
+const checkFileAcceptNoPass = (typeFile: any, accept: any) => {
+  let result = true;
+
+  if (isEmpty(typeFile)) return true;
+
+  if (isEmpty(accept)) return false;
+
+  const acceptData = accept.split(',');
+
+  if (acceptData.some(item => typeFile.match(item))) {
+    result = false;
+  }
+
+  return result;
 };
 
 export default function ItemPhotoField({
@@ -58,9 +159,11 @@ export default function ItemPhotoField({
     preview_url: initialPreviewURL,
     disabled,
     returnBase64 = false,
-    thumbnail_sizes
+    thumbnail_sizes,
+    aspectRatio = '1:1',
+    widthPhoto = '200px',
+    accept = 'image/*'
   } = config;
-  const classes = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { dialogBackend, i18n } = useGlobal();
   const [, meta, { setValue }] = useField(name ?? 'ItemPhotoField');
@@ -69,6 +172,7 @@ export default function ItemPhotoField({
   const [hasPreview, setHasPreview] = useState(Boolean(previewUrl));
   const inputRef = useRef<HTMLInputElement>();
   const [hoverState, setHoverState] = useState<boolean>(false);
+  const Ratio = aspectRatio.replace(':', '');
 
   const handleConvertBase64 = async (fileData: File, cb) => {
     if (fileData) {
@@ -119,6 +223,18 @@ export default function ItemPhotoField({
       return;
     }
 
+    if (checkFileAcceptNoPass(fileItem?.file?.type, accept)) {
+      dialogBackend.alert({
+        message: i18n.formatMessage({ id: 'photo_accept_type_fail' })
+      });
+
+      if (inputRef?.current) {
+        inputRef.current.value = null;
+      }
+
+      return;
+    }
+
     if (fileItem) {
       setPreviewUrl(fileItem.source);
       setHasPreview(true);
@@ -152,52 +268,42 @@ export default function ItemPhotoField({
   if (hasPreview) {
     return (
       <>
-        <FormControl
-          className={classes.root}
+        <Root
           fullWidth
           variant={variant as any}
           margin="normal"
           data-testid={camelCase(`field ${name}`)}
         >
-          <div className={classes.preview}>
-            <div
-              className={classes.previewImage}
-              style={{ backgroundImage: `url(${previewUrl})` }}
+          <Typography sx={{ fontSize: '13px' }} color="text.hint" mb={1}>
+            {config.label}
+            {required ? '(*)' : ''}
+          </Typography>
+          <ImageWrapper
+            haveError={haveError}
+            hoverState={hoverState}
+            widthPhoto={widthPhoto}
+          >
+            <Preview
               onMouseOver={() => setHoverState(true)}
               onMouseLeave={() => setHoverState(false)}
-            />
-            <div className={classes.actions}>
-              <Button
-                size="smaller"
-                color="primary"
-                variant="contained"
-                disabled={disabled || forceDisabled || formik.isSubmitting}
-                data-testid={camelCase(`button add ${name}`)}
-                startIcon={<LineIcon icon="ico-photo-o" />}
-                onClick={handleControlClick}
-              >
-                {i18n.formatMessage({ id: 'change' })}
-              </Button>
-              <Button
-                size="smaller"
-                color="error"
-                data-testid={camelCase(`button remove ${name}`)}
-                variant="contained"
-                disabled={disabled || forceDisabled || formik.isSubmitting}
-                startIcon={<LineIcon icon="ico-trash-o" />}
-                onClick={handleDeletePhoto}
-              >
-                {i18n.formatMessage({ id: 'remove' })}
-              </Button>
-            </div>
-          </div>
-          <InputNotched
-            haveError={haveError}
-            variant={variant}
-            children={null}
-            hoverState={hoverState}
-          />
-        </FormControl>
+            >
+              <Image src={previewUrl} aspectRatio={Ratio} backgroundImage />
+              <Tooltip title={i18n.formatMessage({ id: 'remove' })}>
+                <RemoveBtn onClick={handleDeletePhoto}>
+                  <LineIcon icon="ico-close" />
+                </RemoveBtn>
+              </Tooltip>
+            </Preview>
+          </ImageWrapper>
+        </Root>
+        <Link
+          onClick={handleControlClick}
+          color="primary"
+          data-testid={camelCase(`button add ${name}`)}
+          disabled={disabled || forceDisabled || formik.isSubmitting}
+        >
+          {i18n.formatMessage({ id: 'change' })}
+        </Link>
         {haveError ? <ErrorMessage error={meta.error} /> : null}
         <input
           onClick={handleResetValue}
@@ -215,53 +321,47 @@ export default function ItemPhotoField({
 
   return (
     <>
-      <FormControl
-        className={classes.root}
-        fullWidth
+      <Root
         variant={variant as any}
         margin="normal"
         data-testid={camelCase(`field ${name}`)}
       >
-        <InputLabel
-          required={required}
-          className={classes.formLabel}
-          variant={variant as any}
-          shrink={variant === 'outlined'}
-        >
+        <Typography sx={{ fontSize: '13px' }} color="text.hint" mb={1}>
           {config.label}
-        </InputLabel>
-        <div
-          className={classes.controls}
-          role="button"
-          onClick={handleControlClick}
-          onMouseOver={() => setHoverState(true)}
-          onMouseLeave={() => setHoverState(false)}
-        >
-          <AddPhotoButton
-            size="small"
-            color="primary"
-            variant="outlined"
-            data-testid={camelCase(`button add ${name}`)}
-            disabled={disabled || forceDisabled || formik.isSubmitting}
-            startIcon={<LineIcon icon="ico-photo-plus-o" />}
-          >
-            {i18n.formatMessage({ id: placeholder })}
-          </AddPhotoButton>
-        </div>
-        <InputNotched
+          {required ? '(*)' : ''}
+        </Typography>
+        <ImageWrapper
           haveError={haveError}
-          children={config.label}
-          variant={variant}
           hoverState={hoverState}
-        />
-      </FormControl>
+          widthPhoto={widthPhoto}
+        >
+          <Image src={previewUrl} aspectRatio={Ratio} backgroundImage />
+          <Controls
+            role="button"
+            onClick={handleControlClick}
+            onMouseOver={() => setHoverState(true)}
+            onMouseLeave={() => setHoverState(false)}
+          >
+            <AddPhotoButton
+              size="small"
+              color="primary"
+              variant="outlined"
+              data-testid={camelCase(`button add ${name}`)}
+              disabled={disabled || forceDisabled || formik.isSubmitting}
+              startIcon={<LineIcon icon="ico-photo-plus-o" />}
+            >
+              {i18n.formatMessage({ id: placeholder })}
+            </AddPhotoButton>
+          </Controls>
+        </ImageWrapper>
+      </Root>
       {haveError ? <ErrorMessage error={meta.error} /> : null}
       <input
         onClick={handleResetValue}
         ref={inputRef}
         type="file"
         aria-hidden
-        accept="image/*"
+        accept={accept}
         data-testid={camelCase(`input ${name}`)}
         onChange={handleInputChange}
         style={fixInputStyle}

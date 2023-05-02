@@ -74,6 +74,7 @@ const FeedItemContent = ({
     status,
     status_background,
     location,
+    is_show_location = true,
     item_type,
     total_friends_tagged,
     extra,
@@ -108,7 +109,7 @@ const FeedItemContent = ({
                 />
               </HeadlineSpan>
             ) : null}
-            {location && item_type !== 'event' ? (
+            {location && is_show_location ? (
               <HeadlineSpan>
                 {i18n.formatMessage(
                   {

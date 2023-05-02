@@ -77,6 +77,9 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getUserPermissions(): array
     {
         return [
+            '*' => [
+                'comment' => UserRole::LEVEL_REGISTERED,
+            ],
             Comment::ENTITY_TYPE => [
                 'comment'            => UserRole::LEVEL_REGISTERED,
                 'update'             => UserRole::LEVEL_REGISTERED,

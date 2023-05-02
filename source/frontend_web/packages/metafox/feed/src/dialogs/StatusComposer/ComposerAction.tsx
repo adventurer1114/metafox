@@ -5,7 +5,16 @@ import useComposerContext from '@metafox/feed/hooks/useComposerContext';
 import React from 'react';
 import Control from './Control';
 import MuiButton from '@mui/lab/LoadingButton';
+import { styled } from '@mui/material';
 
+const ActionStyled = styled('div')(({ theme }) => ({
+  flex: 1,
+  [theme.breakpoints.down('sm')]: {
+    '& span': {
+      marginRight: theme.spacing(1.5)
+    }
+  }
+}));
 interface Props {
   submitting: boolean;
   onSubmit: () => void;
@@ -43,7 +52,7 @@ const ComposerAction = ({
       >
         {updateBtnLabel}
       </MuiButton>
-      <div style={{ flex: 1 }}>
+      <ActionStyled>
         {attachers.map(item =>
           jsxBackend.render({
             component: item.as,
@@ -59,7 +68,7 @@ const ComposerAction = ({
             }
           })
         )}
-      </div>
+      </ActionStyled>
     </DialogActions>
   );
 };

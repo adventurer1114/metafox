@@ -29,7 +29,7 @@ class VideoServiceItem extends JsonResource
             'resource_name' => $this->resource->entityType(),
             'name'          => $this->resource->name,
             'driver'        => $this->resource->service_class,
-            'detail_link'   => '/admincp/video/setting/' . $this->resource->driver,
+            'detail_link'   => $this->resource->detail_link,
         ];
     }
 }

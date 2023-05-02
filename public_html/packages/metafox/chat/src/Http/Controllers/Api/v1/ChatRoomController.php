@@ -24,8 +24,8 @@ class ChatRoomController extends ApiController
     private SubscriptionRepositoryInterface $subscriptionRepository;
 
     /**
-     * @param  RoomRepositoryInterface  $repository
-     * @param  SubscriptionRepositoryInterface  $subscriptionRepository
+     * @param RoomRepositoryInterface         $repository
+     * @param SubscriptionRepositoryInterface $subscriptionRepository
      */
     public function __construct(
         RoomRepositoryInterface $repository,
@@ -86,7 +86,7 @@ class ChatRoomController extends ApiController
 
     public function formCreateRoom()
     {
-        $form    = new CreateChatRoomForm();
+        $form = new CreateChatRoomForm();
 
         return $this->success($form);
     }

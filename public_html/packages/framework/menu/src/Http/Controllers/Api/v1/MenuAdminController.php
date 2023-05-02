@@ -96,9 +96,10 @@ class MenuAdminController extends ApiController
     {
         $params = $request->validated();
 
-        $data = $this->repository->create($params);
+        $data       = $this->repository->create($params);
+        $nextAction = ['type' => 'navigate', 'payload' => ['url' => '/admincp/menu/menu/browse']];
 
-        return new JsonResponse(new Detail($data));
+        return $this->success(new Detail($data), ['nextAction' => $nextAction]);
     }
 
     /**
@@ -128,9 +129,10 @@ class MenuAdminController extends ApiController
     {
         $params = $request->validated();
 
-        $data = $this->repository->update($params, $id);
+        $data       = $this->repository->update($params, $id);
+        $nextAction = ['type' => 'navigate', 'payload' => ['url' => '/admincp/menu/menu/browse']];
 
-        return $this->success(new Detail($data));
+        return $this->success(new Detail($data), ['nextAction' => $nextAction]);
     }
 
     /**

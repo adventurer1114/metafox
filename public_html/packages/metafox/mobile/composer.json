@@ -1,0 +1,41 @@
+{
+    "name": "metafox/mobile",
+    "version": "5.0.0",
+    "description": "metafox/mobile",
+    "keyword": "metafox/mobile",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "alias": "mobile",
+            "asset": "mobile",
+            "namespace": "MetaFox\\Mobile",
+            "path": "packages/metafox/mobile",
+            "title": "Mobile Services",
+            "providers": [
+                "MetaFox\\Mobile\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {
+            },
+            "frontend": {},
+            "internalUrl": "/mobile",
+            "internalAdminUrl": "/admincp/mobile/setting"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Mobile\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Mobile\\Tests\\": "tests/"
+        }
+    }
+}

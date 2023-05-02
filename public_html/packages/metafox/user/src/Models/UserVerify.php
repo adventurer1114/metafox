@@ -20,7 +20,7 @@ use MetaFox\User\Database\Factories\UserVerifyFactory;
  * @property string  $hash_code
  * @property ?string $email
  *
- * @method UserVerifyFactory factory(...$parameters)
+ * @method static UserVerifyFactory factory(...$parameters)
  */
 class UserVerify extends Model implements Entity
 {

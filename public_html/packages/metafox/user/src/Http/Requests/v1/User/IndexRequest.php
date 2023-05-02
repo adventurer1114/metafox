@@ -35,15 +35,17 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'q'         => ['sometimes', 'nullable', 'string'],
-            'view'      => ['sometimes', 'string', new AllowInRule(ViewScope::getAllowView())],
-            'gender'    => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_gender,id')],
-            'page'      => ['sometimes', 'numeric', 'min:1'],
-            'limit'     => ['sometimes', 'numeric', new PaginationLimitRule()],
-            'sort'      => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSort())],
-            'sort_type' => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSortType())],
-            'country'   => ['sometimes', 'string', 'min:2'],
-            'city'      => ['sometimes', 'string'],
+            'q'                => ['sometimes', 'nullable', 'string'],
+            'view'             => ['sometimes', 'string', new AllowInRule(ViewScope::getAllowView())],
+            'gender'           => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_gender,id')],
+            'page'             => ['sometimes', 'numeric', 'min:1'],
+            'limit'            => ['sometimes', 'numeric', new PaginationLimitRule()],
+            'sort'             => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSort())],
+            'sort_type'        => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSortType())],
+            'country'          => ['sometimes', 'string', 'min:2'],
+            'country_state_id' => ['sometimes', 'nullable', 'string'],
+            'city'             => ['sometimes', 'nullable'],
+            'city_code'        => ['sometimes', 'nullable', 'string'],
         ];
     }
 
@@ -56,9 +58,10 @@ class IndexRequest extends FormRequest
         $data    = Arr::add($data, 'sort', SortScope::getSortDefault());
         $data    = Arr::add($data, 'sort_type', SortScope::getDefaultSortType(Arr::get($data, 'sort')));
         $data    = Arr::add($data, 'limit', Pagination::DEFAULT_ITEM_PER_PAGE);
-        $country = Arr::get($data, 'country', 'all');
-        if ($country === 'all') {
-            Arr::forget($data, 'country');
+        $country = Arr::get($data, 'country');
+
+        if (null === $country) {
+            Arr::forget($data, ['country', 'country_state_id']);
         }
 
         return $data;

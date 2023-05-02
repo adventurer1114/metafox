@@ -170,10 +170,7 @@ class ViewScope extends BaseScope
 
             case Browse::VIEW_MY:
                 $builder->where($this->alias($table, 'is_approved'), 1)
-                    ->where(function (Builder $whereQuery) use ($userContext, $table) {
-                        $whereQuery->where($this->alias($table, 'owner_id'), '=', $userContext->entityId())
-                            ->orWhere($this->alias($table, 'user_id'), '=', $userContext->entityId());
-                    });
+                    ->where($this->alias($table, 'user_id'), '=', $userContext->entityId());
                 break;
 
             case Browse::VIEW_LATEST:

@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use MetaFox\Core\Support\Facades\Language;
 use MetaFox\Core\Support\Facades\Timezone;
 use MetaFox\Platform\Facades\ResourceGate;
-use MetaFox\Platform\Facades\Settings;
 use MetaFox\User\Models\User as Model;
 use MetaFox\User\Support\Browse\Traits\User\ExtraTrait;
 use MetaFox\User\Support\Facades\User as UserFacade;
@@ -56,9 +55,9 @@ class UserDetail extends JsonResource
 
         $custom = $this->resource->customProfile();
 
-        $bio     = parse_output()->parseUrl($custom['bio'] ?? null);
+        $bio = parse_output()->parseUrl($custom['bio'] ?? null);
         // $aboutMe = parse_output()->parseUrl($custom['about_me'] ?? null); @todo: Using this?
-        $data    = [
+        $data = [
             'id'                    => $this->resource->entityId(),
             'module_name'           => $this->resource->entityType(),
             'resource_name'         => $this->resource->entityType(),
@@ -100,6 +99,7 @@ class UserDetail extends JsonResource
             'status_id'             => 0,
             'message'               => '',
             'friendship'            => UserFacade::getFriendship($context, $this->resource),
+            'is_following'          => UserFacade::isFollowing($context, $this->resource),
             'bio'                   => $bio,
             'interest'              => $custom['interest'] ?? null,
             'about_me'              => $custom['about_me'] ?? null,
@@ -107,7 +107,7 @@ class UserDetail extends JsonResource
             'address'               => UserFacade::getAddress($context, $this->resource),
             'birthday_text'         => UserFacade::getBirthday($profile->birthday, $birthdaySetting),
             'gender_text'           => UserFacade::getGender($profile),
-            'relationship_text'     => $this->getRelationship($profile->relation),
+            'relationship_text'     => $profile->relationship_text,
             'is_deleted'            => $this->resource->isDeleted(),
             'cover_resource'        => $this->getCoverResources(),
             'avatar_resource'       => $this->getAvatarResources(),
@@ -125,17 +125,6 @@ class UserDetail extends JsonResource
     protected function isBlocked(): bool
     {
         return UserBlocked::isBlocked($this->resource, user());
-    }
-
-    protected function getRelationship(int $key): ?string
-    {
-        $enableRelationship = Settings::get('user.enable_relationship_status', false);
-
-        if (!$enableRelationship) {
-            return null;
-        }
-
-        return UserFacade::getRelationship($key);
     }
 
     protected function getCoverResources(): ?JsonResource

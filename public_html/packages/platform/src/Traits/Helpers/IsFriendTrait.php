@@ -2,7 +2,7 @@
 
 namespace MetaFox\Platform\Traits\Helpers;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasTaggedFriend;
 use MetaFox\Platform\Contracts\User;
@@ -36,7 +36,7 @@ trait IsFriendTrait
         return true;
     }
 
-    public function getTaggedFriends(?Entity $item, int $limit = 10): ?LengthAwarePaginator
+    public function getTaggedFriends(?Entity $item, int $limit = 10): ?Builder
     {
         if ($item === null) {
             return null;
@@ -50,10 +50,10 @@ trait IsFriendTrait
             return null;
         }
 
-        /** @var LengthAwarePaginator|null $tagFriends */
+        /** @var Builder|null $tagFriends */
         $tagFriends = app('events')->dispatch('friend.get_tag_friends', [$item, $limit], true);
 
-        if (!$tagFriends instanceof LengthAwarePaginator) {
+        if (!$tagFriends instanceof Builder) {
             return null;
         }
 

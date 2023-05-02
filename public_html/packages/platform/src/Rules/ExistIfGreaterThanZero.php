@@ -6,17 +6,18 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Class ExistIfGreaterThanZero
- * @package MetaFox\Platform\Rules
+ * Class ExistIfGreaterThanZero.
  */
 class ExistIfGreaterThanZero implements Rule
 {
     private string $ruleExist;
     private string $attribute;
+    private ?string $message;
 
-    public function __construct(string $ruleExist)
+    public function __construct(string $ruleExist, ?string $message = null)
     {
         $this->ruleExist = $ruleExist;
+        $this->message   = $message;
     }
 
     /**
@@ -38,6 +39,9 @@ class ExistIfGreaterThanZero implements Rule
             return true;
         }
 
+        // fix security: sql injections
+        $value = intval($value, 10);
+
         $validator = Validator::make([$attribute => $value], [
             $attribute => [$this->ruleExist],
         ]);
@@ -54,6 +58,10 @@ class ExistIfGreaterThanZero implements Rule
      */
     public function message(): string
     {
+        if (null !== $this->message) {
+            return $this->message;
+        }
+
         return __p('validation.exists', ['attribute' => $this->attribute]);
     }
 }

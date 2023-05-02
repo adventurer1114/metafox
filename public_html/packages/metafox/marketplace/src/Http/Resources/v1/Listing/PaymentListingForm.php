@@ -55,4 +55,14 @@ class PaymentListingForm extends GatewayForm
             'price'    => $price,
         ]);
     }
+
+    protected function setFooterFields(): void
+    {
+        $this->addFooter()
+            ->addFields(
+                Builder::submit()
+                    ->label(__p('marketplace::phrase.purchase')),
+                Builder::cancelButton(),
+            );
+    }
 }

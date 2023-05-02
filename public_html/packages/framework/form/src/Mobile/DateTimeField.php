@@ -26,4 +26,9 @@ class DateTimeField extends AbstractField
     {
         return $this->setAttribute('displayFormat', $format);
     }
+
+    public function timeFormat(int $value): self
+    {
+        return $this->setAttribute('timeFormat', $value);
+    }
 }

@@ -17,6 +17,7 @@ use MetaFox\Forum\Repositories\ForumThreadRepositoryInterface;
 use MetaFox\Forum\Support\Facades\Forum as ForumFacade;
 use MetaFox\Forum\Support\ForumSupport;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\MetaFox;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Repositories\AbstractRepository;
 
@@ -207,6 +208,12 @@ class ForumRepository extends AbstractRepository implements ForumRepositoryInter
             return [];
         }
 
+        if (MetaFox::isMobile()) {
+            return localCacheStore()->rememberForever(ForumFacade::getViewMobileCacheId(), function () {
+                return ForumFacade::buildForumsForViewMobile();
+            });
+        }
+
         return localCacheStore()->rememberForever(ForumFacade::getViewCacheId(), function () {
             return ForumFacade::buildForumsForView();
         });
@@ -330,6 +337,7 @@ class ForumRepository extends AbstractRepository implements ForumRepositoryInter
             ForumFacade::getNavigationCacheId(),
             ForumFacade::getViewCacheId(),
             ForumFacade::getFormCacheId(),
+            ForumFacade::getViewMobileCacheId(),
         ]);
     }
 
@@ -350,7 +358,7 @@ class ForumRepository extends AbstractRepository implements ForumRepositoryInter
         return true;
     }
 
-    public function close(User $context, int $id, bool $closed): bool
+    public function close(User $context, int $id, bool $closed): ?Forum
     {
         $forum = $this->find($id);
 
@@ -362,7 +370,7 @@ class ForumRepository extends AbstractRepository implements ForumRepositoryInter
 
         $this->clearCaches();
 
-        return true;
+        return $forum;
     }
 
     public function getAscendantIds(int $forumId, bool $includeSelf = true): array
@@ -580,5 +588,15 @@ class ForumRepository extends AbstractRepository implements ForumRepositoryInter
             ])
             ->orderBy('ordering')
             ->paginate($limit, ['forums.*']);
+    }
+
+    public function countActiveForumByLevel(int $level): int
+    {
+        return $this->getModel()
+            ->newQuery()
+            ->where([
+                'level'     => $level,
+                'is_closed' => 0,
+            ])->count();
     }
 }

@@ -11,6 +11,7 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
  * Class Saved.
  *
  * @mixin Builder
+ * @property int $id
  * @property int $list_id
  * @property int $user_id
  */
@@ -18,7 +19,7 @@ class SavedListMember extends Model implements Entity
 {
     use HasEntity;
 
-    public const ENTITY_TYPE = 'save_list_member';
+    public const ENTITY_TYPE = 'saved_list_member';
 
     protected $table = 'saved_list_members';
 

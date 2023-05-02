@@ -13,6 +13,7 @@ use MetaFox\Core\Models\Link as Model;
 class LinkImporter extends JsonImporter
 {
     protected array $requiredColumns = ['user_id'];
+
     public function getModelClass(): string
     {
         return Model::class;
@@ -43,7 +44,7 @@ class LinkImporter extends JsonImporter
             [
                 'id'                 => $oid,
                 'privacy'            => $this->privacyMapEntry($entry),
-                'title'              => $entry['title'] ?? '',
+                'title'              => empty($entry['title']) ? 'Untitled link' : $entry['title'],
                 'is_approved'        => $entry['is_approved'] ?? 1,
                 'total_like'         => $entry['total_like'] ?? 0,
                 'total_comment'      => $entry['total_comment'] ?? 0,

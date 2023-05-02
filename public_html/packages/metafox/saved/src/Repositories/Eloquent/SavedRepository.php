@@ -323,8 +323,9 @@ class SavedRepository extends AbstractRepository implements SavedRepositoryInter
     {
         $collection = SavedList::query()->getModel()
             ->find($attributes['collection_id']);
+        $saved = $this->find($attributes['saved_id']);
 
-        policy_authorize(SavedPolicy::class, 'removeItemFromCollection', $context, $collection);
+        policy_authorize(SavedPolicy::class, 'removeItemFromCollection', $context, $collection, $saved);
 
         return SavedListData::query()->getModel()
             ->where([

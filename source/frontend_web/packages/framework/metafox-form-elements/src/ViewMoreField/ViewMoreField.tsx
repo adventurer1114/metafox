@@ -8,16 +8,12 @@ import { FormFieldProps } from '@metafox/form';
 import { useGlobal } from '@metafox/framework';
 import { Link, Box } from '@mui/material';
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default function ViewMore({ config, name }: FormFieldProps) {
   const [field, , { setValue }] = useField(name ?? 'ViewMoreField');
 
   const { i18n } = useGlobal();
-
-  useEffect(() => {
-    setValue(!!field.value);
-  }, []);
 
   const {
     moreText = 'view_more',
@@ -29,8 +25,8 @@ export default function ViewMore({ config, name }: FormFieldProps) {
     <Box sx={sxFieldWrapper}>
       <Link
         color="primary"
-        component="button"
-        onClick={() => setValue(!field.value)}
+        component="span"
+        onClick={() => setValue(Number(!field.value))}
         style={{ cursor: 'pointer' }}
         variant="body2"
       >

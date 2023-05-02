@@ -20,6 +20,7 @@ class ForumPostText extends Model implements ResourceText
     protected $table = 'forum_post_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

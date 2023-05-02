@@ -1,6 +1,6 @@
 {
     "name": "metafox/report",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Report\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/report": "5.0.1"
+                "@metafox/report": "*"
             },
             "frontendPaths": [
                 "packages/metafox/report"

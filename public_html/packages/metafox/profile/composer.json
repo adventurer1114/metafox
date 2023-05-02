@@ -1,8 +1,8 @@
 {
     "name": "metafox/profile",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Profile",
-    "keyword": "profile",
+    "keyword": "",
     "authors": [
         {
             "name": "phpFox",
@@ -12,7 +12,7 @@
     "extra": {
         "metafox": {
             "core": true,
-            "priority": 3,
+            "priority": 100,
             "alias": "profile",
             "asset": "profile",
             "namespace": "MetaFox\\Profile",
@@ -21,12 +21,16 @@
             "providers": [
                 "MetaFox\\Profile\\Providers\\PackageServiceProvider"
             ],
-            "aliases": {
-            },
+            "aliases": null,
             "frontend": {
-                "@metafox/profile": "5.0.1"
+                "@metafox/profile": "*"
             },
-            "internalAdminUrl": "/admincp/profile/field/browse"
+            "internalAdminUrl": "/admincp/profile/field/browse",
+            "type": "app",
+            "mobile": [],
+            "store_id": 0,
+            "store_url": null,
+            "internalUrl": ""
         }
     },
     "autoload": {
@@ -34,7 +38,7 @@
             "MetaFox\\Profile\\": "src/"
         }
     },
-    "autoload-dev":{
+    "autoload-dev": {
         "psr-4": {
             "MetaFox\\Profile\\Tests\\": "tests/"
         }

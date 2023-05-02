@@ -27,20 +27,13 @@ const useStyles = makeStyles(
         alignItems: 'baseline'
       },
       subTabWrapper: {
-        // fix FOXSOCIAL5-1827
-        // height: theme.mixins.pxToRem(60),
-        padding: theme.spacing(1.5, 0),
+        paddingBottom: theme.spacing(1.875),
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
-          flexWrap: 'wrap',
-          height: 'auto',
-          padding: 0,
-          '.MuiBox-root + .MuiBox-root > &': {
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2)
-          }
+          flexDirection: 'column-reverse',
+          alignItems: 'flex-start'
         }
       },
       popperMenu: {

@@ -29,7 +29,7 @@ class StoreRequest extends FormRequest
             'options'  => [
                 'required_unless:type_id,' . Question::TYPE_TEXT,
                 'array',
-                new QuestionOptionsRule($this->input('type_id', Question::TYPE_TEXT)),
+                new QuestionOptionsRule((int) $this->input('type_id', Question::TYPE_TEXT)),
             ],
             'options.*.title'  => ['required_with:options', 'string'],
             'options.*.status' => ['sometimes', 'string'],
@@ -49,10 +49,10 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'question.required'             => __p('group::phrase.question_is_required'),
-            'question.string'               => __p('group::phrase.question_is_required'),
+            'question.required'             => __p('group::phrase.question_is_a_required_field'),
+            'question.string'               => __p('group::phrase.question_is_a_required_field'),
             'options.required_unless'       => __p('group::phrase.question_requires_at_least_two_option'),
-            'options.*.title.required_with' => __p('group::phrase.answer_title_is_required'),
+            'options.*.title.required_with' => __p('group::phrase.answer_title_is_a_required_field'),
         ];
     }
 }

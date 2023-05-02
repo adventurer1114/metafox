@@ -16,15 +16,6 @@ trait HasRoles
         return app(PermissionRegistrar::class);
     }
 
-    public function checkPermissionIfExists($permission, $guardName = 'api'): bool
-    {
-        try {
-            return $this->hasPermissionTo($permission, $guardName);
-        } catch (Exception $e) {
-            return true;
-        }
-    }
-
     public function hasPermissionTo($permission, $guardName = 'api'): bool
     {
         if (!is_string($permission)) {
@@ -41,21 +32,36 @@ trait HasRoles
             return $getFromCache;
         }
 
-        $permissionModel = $this->getPermissionClass()->findByName($permission, $guardName);
+        try {
+            $permissionModel = $this->resolvePermissionModel($permission, $guardName);
+            if (!$permissionModel instanceof Permission) {
+                throw new PermissionDoesNotExist();
+            }
 
-        if (!$permissionModel instanceof Permission) {
-            throw new PermissionDoesNotExist();
+            $value = $this->hasPermissionViaRole($permissionModel);
+
+            $this->getPermissionRegistrar()->setPermissionViaRole($this, $permission, $value);
+
+            return $value;
+        } catch (Exception) {
+            $this->getPermissionRegistrar()->setPermissionViaRole($this, $permission, false);
         }
 
-        $value = $this->hasPermissionViaRole($permissionModel);
-
-        $this->getPermissionRegistrar()->setPermissionViaRole($this, $permission, $value);
-
-        return $value;
+        return false;
     }
 
     public function roleId(): int
     {
         return $this->getRole()?->id ?? 0;
+    }
+
+    protected function resolvePermissionModel(string $permission, $guardName = 'api')
+    {
+        try {
+            return $this->getPermissionClass()->findByName($permission, $guardName);
+        } catch (Exception) {
+            // try to resolve wildcard permission
+            return $this->getPermissionClass()->findByWildcardName($permission, $guardName);
+        }
     }
 }

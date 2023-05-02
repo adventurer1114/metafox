@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use MetaFox\Form\AbstractForm as Form;
 use MetaFox\Form\Builder;
 use MetaFox\Yup\Yup;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * @driverType form-cache
@@ -18,8 +19,8 @@ class UpdateFileCacheForm extends Form
     protected function prepare(): void
     {
         $resource = $this->resource ?? [];
-        $value = $resource['value'] ?? [];
-        $action = apiUrl('admin.cache.store.update', ['driver' => 'file', 'name' => $resource['name']]);
+        $value    = $resource['value'] ?? [];
+        $action   = apiUrl('admin.cache.store.update', ['driver' => 'file', 'name' => $resource['name']]);
 
         $this->title(__p('cache::phrase.edit_cache_store'))
             ->action($action)
@@ -43,9 +44,9 @@ class UpdateFileCacheForm extends Form
     }
 
     /**
-     * @param  Request  $request
+     * @param  Request                  $request
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function validated(Request $request): array
     {

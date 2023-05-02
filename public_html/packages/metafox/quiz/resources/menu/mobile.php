@@ -76,7 +76,6 @@ return [
         'label'    => 'quiz::phrase.edit',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -90,7 +89,6 @@ return [
         'label'    => 'quiz::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -104,7 +102,6 @@ return [
         'label'    => 'quiz::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -118,7 +115,6 @@ return [
         'label'    => 'quiz::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -132,7 +128,6 @@ return [
         'label'    => 'quiz::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -146,7 +141,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -160,7 +154,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -173,7 +166,6 @@ return [
         'label'    => 'quiz::phrase.approve',
         'ordering' => 11,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -187,7 +179,6 @@ return [
         'label'     => 'quiz::phrase.delete',
         'ordering'  => 12,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'menu'     => 'quiz.quiz.sort_menu',
@@ -228,7 +219,6 @@ return [
         'label'    => 'quiz::phrase.all_quizzes',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/quiz/all',
     ],
     [
@@ -243,13 +233,15 @@ return [
         'label'    => 'quiz::phrase.my_quizzes',
         'ordering' => 2,
         'value'    => 'viewMyQuizzes',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/quiz/my',
     ],
     [
         'tab'      => 'my_pending',
-        'showWhen' => [],
-        'params'   => [
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
+        'params' => [
             'module_name'   => 'quiz',
             'resource_name' => 'quiz',
         ],
@@ -258,7 +250,6 @@ return [
         'label'    => 'quiz::phrase.my_pending_quizzes',
         'ordering' => 3,
         'value'    => 'viewMyPendingQuizzes',
-        'icon'     => 'ico-check-circle-alt',
         'to'       => '/quiz/pending',
     ],
     [
@@ -273,7 +264,6 @@ return [
         'label'    => 'quiz::phrase.friends_quizzes',
         'ordering' => 4,
         'value'    => 'viewFriendQuizzes',
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/quiz/friend',
     ],
     [
@@ -291,7 +281,6 @@ return [
         'label'    => 'quiz::phrase.pending_quizzes',
         'ordering' => 5,
         'value'    => 'viewPendingQuizzes',
-        'icon'     => 'ico-check-circle-alt',
         'to'       => '/quiz/pending',
     ],
     [
@@ -356,7 +345,6 @@ return [
         'label'    => 'quiz::phrase.edit',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -370,7 +358,6 @@ return [
         'label'    => 'quiz::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -384,7 +371,6 @@ return [
         'label'    => 'quiz::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -398,7 +384,6 @@ return [
         'label'    => 'quiz::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -412,7 +397,6 @@ return [
         'label'    => 'quiz::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -426,7 +410,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -440,7 +423,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -453,7 +435,6 @@ return [
         'label'    => 'quiz::phrase.approve',
         'ordering' => 11,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -467,7 +448,6 @@ return [
         'label'     => 'quiz::phrase.delete',
         'ordering'  => 12,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen'  => [],

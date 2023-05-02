@@ -7,7 +7,7 @@
           "component": "activity-point.block.package",
           "slotName": "main",
           "title": "point_packages",
-          "blockLayout": "Large Main Lists"
+          "blockLayout": "App List"
         },
         {
           "blockId": "ia",
@@ -55,7 +55,7 @@
           "component": "activity-point.block.package",
           "slotName": "main",
           "title": "point_packages",
-          "blockLayout": "Large Main Lists Mobile"
+          "blockLayout": "App List - Mobile"
         },
         {
           "blockId": "ia",

@@ -10,6 +10,7 @@ namespace MetaFox\Payment\Contracts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use MetaFox\Platform\Contracts\Entity;
+use MetaFox\Platform\Contracts\User;
 
 /**
  * Interface IsBillable.
@@ -30,4 +31,9 @@ interface IsBillable extends Entity
      * @return MorphOne
      */
     public function order(): MorphOne;
+
+    /**
+     * @return User|null
+     */
+    public function payee(): ?User;
 }

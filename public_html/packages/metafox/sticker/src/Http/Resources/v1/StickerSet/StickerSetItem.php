@@ -53,7 +53,7 @@ class StickerSetItem extends JsonResource
             'view_only'     => $this->resource->view_only,
             'is_deleted'    => $this->resource->is_deleted,
             'statistic'     => $this->getStatistic(),
-            'is_added'      => resolve(StickerSetRepositoryInterface::class)->checkSickerSetAdded(user()->entityId(), $this->resource->entityId()),
+            'is_added'      => resolve(StickerSetRepositoryInterface::class)->checkStickerSetAdded(user()->entityId(), $this->resource->entityId()),
             'stickers'      => new StickerItemCollection($this->resource->stickers),
         ];
     }

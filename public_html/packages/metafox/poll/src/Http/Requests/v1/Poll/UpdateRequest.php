@@ -84,7 +84,7 @@ class UpdateRequest extends FormRequest
         if (isset($data['answers'])) {
             $ordering = 0;
 
-            $formattedAnswer = [];
+            $formattedAnswer                   = [];
             $formattedAnswer['changedAnswers'] = [];
 
             foreach ($data['answers'] as $answer) {
@@ -137,7 +137,7 @@ class UpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'answers.*.answer.required_with' => __p('poll::phrase.answer_is_required'),
+            'answers.*.answer.required_with' => __p('poll::phrase.answer_is_a_required_field'),
             'answers.*.answer.between'       => __p('validation.between.string', [
                 'attribute' => 'answer',
                 'min'       => StoreRequest::MIN_ANSWER_LENGTH,

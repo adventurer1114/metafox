@@ -25,7 +25,7 @@ export default function EditableEmail({ loaded, title, data }: Props) {
             <SmartFormBuilder
               successAction={RELOAD_ACCOUNT}
               dataSource={{ apiUrl: '/user/account/email-form' }}
-              loadingComponent={<LoadingComponent />}
+              loadingComponent={LoadingComponent}
               onSuccess={() => setEdit(false)}
               onCancel={() => setEdit(false)}
             />

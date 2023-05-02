@@ -49,8 +49,12 @@ class ForumThreadPolicy implements ResourcePolicyInterface
         return policy_check(ForumPolicy::class, 'viewAny', $user);
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (PrivacyPolicy::checkPermissionOwner($user, $owner) === false) {
             return false;
@@ -75,6 +79,12 @@ class ForumThreadPolicy implements ResourcePolicyInterface
             return false;
         }
 
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo($this->type . '.moderate')) {
             return true;
         }
@@ -92,7 +102,7 @@ class ForumThreadPolicy implements ResourcePolicyInterface
             return false;
         }
 
-        if (!$resource->isApproved()) {
+        if (!$isApproved) {
             if ($user->hasPermissionTo('forum_thread.approve')) {
                 return true;
             }
@@ -177,7 +187,15 @@ class ForumThreadPolicy implements ResourcePolicyInterface
 
     public function subscribe(User $user, Content $resource): bool
     {
-        return $this->checkResourcePermission('subscribe', $user, $resource, false, false);
+        if (!$this->checkResourcePermission('subscribe', $user, $resource, false, false)) {
+            return false;
+        }
+
+        if (!$resource->isApproved()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function checkResourcePermission(
@@ -404,6 +422,10 @@ class ForumThreadPolicy implements ResourcePolicyInterface
 
     public function approve(User $user, ?Content $resource = null): bool
     {
+        if ($user->isGuest()) {
+            return false;
+        }
+
         if (null !== $resource) {
             return $this->checkResourcePermission('approve', $user, $resource) && !$resource->isApproved();
         }
@@ -427,11 +449,6 @@ class ForumThreadPolicy implements ResourcePolicyInterface
     public function autoApproved(User $user): bool
     {
         return $this->checkResourcePermission('auto_approved', $user);
-    }
-
-    public function viewOnProfilePage(User $context, User $owner): bool
-    {
-        return true;
     }
 
     protected function checkClosedForum(Content $resource): bool

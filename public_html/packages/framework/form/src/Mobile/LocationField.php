@@ -10,6 +10,7 @@ class LocationField extends AbstractField
     public function initialize(): void
     {
         $this->setComponent('Location')
+            ->variant('standard')
             ->label(__p('core::phrase.location'));
     }
 }

@@ -7,17 +7,17 @@
 
 namespace MetaFox\Video\Listeners;
 
-use MetaFox\Video\Notifications\VideoApproveNotification;
 use MetaFox\Platform\MetaFoxConstant;
+use MetaFox\Platform\MetaFoxDataType;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\BasePackageSettingListener;
 use MetaFox\Platform\UserRole;
 use MetaFox\Video\Models\Category;
 use MetaFox\Video\Models\Video;
+use MetaFox\Video\Notifications\VideoApproveNotification;
 use MetaFox\Video\Notifications\VideoDoneProcessingNotification;
 use MetaFox\Video\Policies\CategoryPolicy;
 use MetaFox\Video\Policies\VideoPolicy;
-use MetaFox\Platform\MetaFoxDataType;
 
 /**
  * Class PackageSettingListener.
@@ -76,6 +76,15 @@ class PackageSettingListener extends BasePackageSettingListener
                         UserRole::NORMAL_USER => 0,
                     ],
                 ],
+                'purchase_sponsor_price' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
             ],
         ];
     }
@@ -84,22 +93,22 @@ class PackageSettingListener extends BasePackageSettingListener
     {
         return [
             Video::ENTITY_TYPE => [
-                'view'     => UserRole::LEVEL_GUEST,
-                'create'   => UserRole::LEVEL_PAGE,
-                'update'   => UserRole::LEVEL_PAGE,
-                'delete'   => UserRole::LEVEL_PAGE,
-                'moderate' => UserRole::LEVEL_STAFF,
-                'feature'  => UserRole::LEVEL_PAGE,
-                'approve'  => UserRole::LEVEL_STAFF,
-                'save'     => UserRole::LEVEL_REGISTERED,
-                'like'     => UserRole::LEVEL_REGISTERED,
-                'share'    => UserRole::LEVEL_REGISTERED,
-                'comment'  => UserRole::LEVEL_REGISTERED,
-                'report'   => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
-                // 'sponsor_in_feed'  => UserRole::LEVEL_REGISTERED,
-                'auto_approved' => UserRole::LEVEL_PAGE,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_PAGE,
+                'update'           => UserRole::LEVEL_PAGE,
+                'delete'           => UserRole::LEVEL_PAGE,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'feature'          => UserRole::LEVEL_PAGE,
+                'approve'          => UserRole::LEVEL_STAFF,
+                'save'             => UserRole::LEVEL_REGISTERED,
+                'like'             => UserRole::LEVEL_REGISTERED,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'comment'          => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'sponsor_in_feed'  => UserRole::LEVEL_REGISTERED,
+                'auto_approved'    => UserRole::LEVEL_PAGE,
             ],
         ];
     }
@@ -162,12 +171,17 @@ class PackageSettingListener extends BasePackageSettingListener
             'maximum_name_length'            => ['value' => 100],
             'ffmpeg.binaries'                => ['value' => '/usr/bin/ffmpeg', 'is_public' => false],
             'ffprobe.binaries'               => ['value' => '/usr/bin/ffprobe', 'is_public' => false],
-            'ffmpeg.timeout'                 => ['env_var' => 'MFOX_FFMPEG_TIMEOUT', 'value' => 3600, 'is_public' => false],
-            'ffmpeg.threads'                 => ['env_var' => 'MFOX_FFMPEG_THREADS', 'value' => 8, 'is_public' => false],
-            'mux.client_id'                  => ['env_var' => 'MFOX_MUX_TOKEN_ID', 'value' => '', 'is_public' => false],
-            'mux.client_secret'              => ['env_var' => 'MFOX_MUX_TOKEN_SECRET', 'value' => '', 'is_public' => false],
-            'mux.webhook_secret'             => ['env_var' => 'MFOX_MUX_WEBHOOK_SECRET', 'value' => '', 'is_public' => false],
-            'default_category'               => ['value' => 1],
+            'ffmpeg.timeout'                 => [
+                'env_var'   => 'MFOX_FFMPEG_TIMEOUT',
+                'value'     => 3600,
+                'is_public' => false,
+            ],
+            'ffmpeg.threads' => [
+                'env_var'   => 'MFOX_FFMPEG_THREADS',
+                'value'     => 8,
+                'is_public' => false,
+            ],
+            'default_category' => ['value' => 1],
         ];
     }
 
@@ -202,9 +216,7 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getEvents(): array
     {
         return [
-            'video.callback' => [
-                MuxWebhookCallback::class,
-            ],
+
             'photo.media_upload' => [
                 MediaUploadListener::class,
             ],
@@ -265,6 +277,9 @@ class PackageSettingListener extends BasePackageSettingListener
             'comment.notification_to_callback_message' => [
                 CommentNotificationMessageListener::class,
             ],
+            'packages.installed' => [
+                PackageInstalledListener::class,
+            ],
             'user.deleted' => [
                 UserDeletedListener::class,
             ],
@@ -294,5 +309,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['video', 'video_category'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/video',
+                'name' => 'video::phrase.ad_mob_video_home_page',
+            ],
+            [
+                'path' => '/video/:id',
+                'name' => 'video::phrase.ad_mob_video_detail_page',
+            ],
+        ];
     }
 }

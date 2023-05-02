@@ -64,11 +64,12 @@ const ComposeInputWrapper = styled('div', {
       : 'solid 1px rgba(73, 73, 73, 0.2)',
   backgroundColor: theme.palette.action.hover,
   minHeight: theme.spacing(4),
-  borderRadius: theme.spacing(2),
+  borderRadius: theme.spacing(3),
   display: 'flex',
   flexFlow: 'wrap',
   transition: 'all 200ms ease 0s',
   [theme.breakpoints.down('sm')]: {
+    minHeight: theme.spacing(5),
     '.activeSend &': {
       width: 'calc(100% - 20px)'
     }
@@ -80,6 +81,9 @@ const Composer = styled('div', { name, slot: 'composer' })(({ theme }) => ({
   flexBasis: 'auto',
   minWidth: 0,
   padding: '6px 8px 6px 12px',
+  [theme.breakpoints.down('sm')]: {
+    padding: '12px 8px 1px 12px'
+  },
   display: 'flex',
   '& .public-DraftEditorPlaceholder-root': {
     position: 'absolute',
@@ -112,7 +116,7 @@ const Composer = styled('div', { name, slot: 'composer' })(({ theme }) => ({
 const AttachIconsWrapper = styled('div', { name, slot: 'attachIconsWrapper' })(
   ({ theme }) => ({
     display: 'inline-flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     padding: theme.spacing(0, 0.25),
     marginLeft: 'auto'
   })
@@ -255,9 +259,11 @@ function CommentComposer(
     useSession,
     dispatch,
     jsxBackend,
-    dialogBackend
+    dialogBackend,
+    useIsMobile
   } = useGlobal();
   const { user: authUser } = useSession();
+  const isMobile = useIsMobile();
   const acl = getAcl();
   const setting = getSetting('comment') as Object;
   const captchaData = useCaptcha('comment.create_comment');
@@ -637,7 +643,7 @@ function CommentComposer(
         <AvatarWrapper>
           <UserAvatar
             user={authUser as any}
-            size={32}
+            size={isMobile ? 40 : 32}
             data-testid="userAvatar"
           />
         </AvatarWrapper>

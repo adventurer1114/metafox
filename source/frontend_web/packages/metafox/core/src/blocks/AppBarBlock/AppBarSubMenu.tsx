@@ -7,7 +7,9 @@ import { useLocation } from 'react-router-dom';
 import useStyles from './AppBar.styles';
 
 export default function AppBarSubMenu() {
-  const { useActionControl, getAcl, useSession, getSetting } = useGlobal();
+  const { useActionControl, getAcl, useSession, getSetting, usePageParams } =
+    useGlobal();
+  const params = usePageParams();
   const session = useSession();
   const acl = getAcl();
   const setting = getSetting();
@@ -22,7 +24,8 @@ export default function AppBarSubMenu() {
   const filteredItems = filterShowWhen(subMenu.items, {
     acl,
     setting,
-    session
+    session,
+    params
   });
 
   return (

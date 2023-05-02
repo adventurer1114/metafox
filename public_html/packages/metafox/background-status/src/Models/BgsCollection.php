@@ -84,4 +84,14 @@ class BgsCollection extends Model implements Entity
     {
         return $this->belongsTo(BgsBackground::class, 'main_background_id', 'id');
     }
+
+    public function getAdminBrowseUrlAttribute()
+    {
+        return '/admincp/bgs/collection/browse';
+    }
+
+    public function getAdminEditUrlAttribute()
+    {
+        return "/admincp/bgs/collection/edit/{$this->id}";
+    }
 }

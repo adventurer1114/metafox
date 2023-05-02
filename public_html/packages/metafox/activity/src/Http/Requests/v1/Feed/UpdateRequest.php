@@ -28,7 +28,8 @@ class UpdateRequest extends StoreRequest
             'status_background_id' => ['sometimes', 'numeric', 'min:0'],
 
             // Post to.
-            'parent_item_id' => ['sometimes', 'exists:user_entities,id'],
+            // sql injection fixed.
+            'parent_item_id' => ['sometimes', 'integer', 'exists:user_entities,id'],
             'user_status'    => ['sometimes'],
         ];
 

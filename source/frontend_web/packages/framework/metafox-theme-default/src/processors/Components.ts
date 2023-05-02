@@ -439,11 +439,14 @@ export default function overridesComponents(theme: Theme): void {
         fontSize: '13px'
       },
       startIcon: {
+        marginLeft: 0,
         '&>*:nth-of-type(1)': {
           fontSize: 'inherit'
         }
       },
-      endIcon: {}
+      endIcon: {
+        marginRight: 0
+      }
     },
     variants: [
       {
@@ -586,7 +589,7 @@ export default function overridesComponents(theme: Theme): void {
             padding: '9px 12px'
           }
         },
-        '&[name="email"]': {
+        'header &[name="email"]': {
           minWidth: 240
         }
       },

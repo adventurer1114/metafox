@@ -4,6 +4,7 @@ namespace MetaFox\User\Database\Seeders;
 
 use Faker\Generator;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Seeder;
 
 /**
@@ -16,7 +17,8 @@ class PackageSeeder extends Seeder
     /**
      * Get a new Faker instance.
      *
-     * @return \Faker\Generator
+     * @return Generator
+     * @throws BindingResolutionException
      */
     protected function withFaker()
     {
@@ -33,5 +35,6 @@ class PackageSeeder extends Seeder
         $this->call(AuthPassportTableSeeder::class);
         $this->call(AuthRoleTableSeeder::class);
         $this->call(UserGenderTableSeeder::class);
+        $this->call(UserRelationTableSeeder::class);
     }
 }

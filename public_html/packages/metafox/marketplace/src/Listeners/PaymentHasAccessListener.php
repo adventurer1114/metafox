@@ -10,7 +10,7 @@ use MetaFox\Platform\Contracts\User;
 
 class PaymentHasAccessListener
 {
-    public function handle(User $context, string $entityType, int $entityId, Gateway $gateway): ?bool
+    public function handle(?User $context, string $entityType, int $entityId, Gateway $gateway): ?bool
     {
         if ($entityType !== Listing::ENTITY_TYPE) {
             return null;

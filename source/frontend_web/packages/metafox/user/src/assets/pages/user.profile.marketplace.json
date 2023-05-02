@@ -95,7 +95,7 @@
           "hasSearchBox": true,
           "title": "marketplace",
           "tabProps": {
-            "placeholderSearch": "search_marketplaces",
+            "placeholderSearch": "search_marketplace",
             "tabs": [
               {
                 "id": 1,
@@ -215,7 +215,7 @@
           "hasSearchBox": true,
           "title": "marketplace",
           "tabProps": {
-            "placeholderSearch": "search_marketplaces",
+            "placeholderSearch": "search_marketplace",
             "tabs": [
               {
                 "id": 1,

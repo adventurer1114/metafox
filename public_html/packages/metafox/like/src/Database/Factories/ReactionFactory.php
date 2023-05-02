@@ -27,10 +27,10 @@ class ReactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'      => $this->faker->sentence,
+            'title'      => uniqid('reaction factory '),
             'is_active'  => 1,
             'icon_path'  => $this->faker->url,
-            'color'      => 'fff',
+            'color'      => '#fff',
             'server_id'  => 'public',
             'ordering'   => 1,
             'is_default' => 0,

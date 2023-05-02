@@ -28,6 +28,7 @@ class AnnouncementText extends Model implements ResourceText
     protected $table = 'announcement_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

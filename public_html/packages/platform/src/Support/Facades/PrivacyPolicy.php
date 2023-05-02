@@ -9,12 +9,11 @@ use MetaFox\Platform\Contracts\User;
 
 /**
  * Class PrivacyPolicy.
- * @package MetaFox\Platform\Support\Facades
- * @method static bool checkPermission(?User $user, Content $content)
- * @method static bool checkPermissionOwner(?User $user, User $owner)
- * @method static bool checkCreateOnOwner(User $user, User $owner)
- * @method static bool checkCreateResourceOnOwner(Content $content)
- * @method static bool hasAbilityOnOwner(User $user, User $owner, int $privacy, string $privacyType = null)
+ * @method static bool  checkPermission(?User $user, Content $content)
+ * @method static bool  checkPermissionOwner(?User $user, User $owner)
+ * @method static bool  checkCreateOnOwner(User $user, ?User $owner)
+ * @method static bool  checkCreateResourceOnOwner(Content $content)
+ * @method static bool  hasAbilityOnOwner(User $user, User $owner, int $privacy, string $privacyType = null)
  * @method static int[] getResourcePrivacyList(Content $content)
  * @method static array getPrivacyItem(Content $content)
  */

@@ -50,8 +50,6 @@ class DataGrid extends Grid
         $this->withItemMenu(function (ItemActionMenu $menu) {
             $menu->withEdit()
                 ->showWhen(['truthy', 'item.can_edit']);
-            $menu->withDelete()
-                ->showWhen(['truthy', 'item.can_delete']);
         });
     }
 }

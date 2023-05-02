@@ -26,9 +26,11 @@ export default function PageMemberItem({
   wrapAs,
   wrapProps
 }: PagesItemProps) {
-  const { ItemActionMenu, i18n, dispatch, useSession } = useGlobal();
+  const { ItemActionMenu, i18n, dispatch, useSession, useIsMobile } =
+    useGlobal();
 
   const session = useSession();
+  const isMobile = useIsMobile();
 
   if (!item) return null;
 
@@ -40,7 +42,8 @@ export default function PageMemberItem({
     dispatch({
       type: 'chat/room/openChatRoom',
       payload: {
-        identity: user._identity
+        identity: user._identity,
+        isMobile
       }
     });
   };

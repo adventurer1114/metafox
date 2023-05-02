@@ -17,7 +17,7 @@ export default createBlock<any>({
     contentType: 'group',
     title: 'moderation_rights',
     showWhen: ['truthy', 'profile.extra.can_manage_setting'],
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - PendingPost - Main Card',
     itemLayout: 'Group - PendingPost - Main Card'
   }

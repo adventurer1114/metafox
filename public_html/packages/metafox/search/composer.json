@@ -1,6 +1,6 @@
 {
     "name": "metafox/search",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "metafox/search",
     "keyword": "metafox/search",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/search": "5.0.1"
+                "@metafox/search": "*"
             },
             "frontendPaths": [
                 "packages/metafox/search"

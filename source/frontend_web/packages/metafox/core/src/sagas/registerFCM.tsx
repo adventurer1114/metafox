@@ -5,12 +5,14 @@
 import {
   getGlobalContext,
   ItemLocalAction,
-  getResourceAction
+  getResourceAction,
+  getSession
 } from '@metafox/framework';
 import { takeEvery } from 'redux-saga/effects';
 
 function* registerFCM(action: ItemLocalAction<{ token: string }>) {
   const { token } = action.payload;
+  const { user: authUser } = yield* getSession();
 
   const { apiClient, compactData, cookieBackend } = yield* getGlobalContext();
 
@@ -36,7 +38,7 @@ function* registerFCM(action: ItemLocalAction<{ token: string }>) {
     if (status === 'success') {
       const isRemember = cookieBackend.get('refreshToken');
 
-      cookieBackend.set('fcm-notification', token, {
+      cookieBackend.set('fcm-notification', authUser?.id, {
         expires: isRemember ? 30 : undefined
       });
     }

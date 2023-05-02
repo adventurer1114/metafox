@@ -7,7 +7,7 @@ return [
     'comment'                                       => 'Comment',
     'comment_add_photo'                             => 'Comment with a photo has been added successfully.',
     'comment_delete_photo'                          => 'Comment with a photo has been deleted successfully.',
-    'comment_for_approval_notification_type'        => 'Comment for Approval Notification Type',
+    'comment_for_approval_notification_type'        => 'Comments for Approval',
     'comment_notification_type'                     => 'Comment Notifications',
     'comment_successfully_deleted'                  => 'Comment has been deleted successfully.',
     'comment_successfully_hidden'                   => 'Comment has been successfully hidden.',

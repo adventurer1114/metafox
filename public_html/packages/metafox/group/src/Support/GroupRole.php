@@ -83,6 +83,7 @@ class GroupRole
             ResourcePermission::CAN_ADD_NEW_MODERATE             => $policy->addNewModerator($context, $group),
             ResourcePermission::CAN_ADD_NEW_ADMIN                => $policy->addNewAdmin($context, $group),
             ResourcePermission::CAN_JOIN                         => $policy->join($context, $group),
+            ResourcePermission::CAN_FOLLOW                       => $policy->follow($context, $group),
         ];
     }
 }

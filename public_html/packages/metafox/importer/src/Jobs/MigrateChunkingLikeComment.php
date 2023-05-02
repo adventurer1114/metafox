@@ -10,7 +10,6 @@ use Illuminate\Queue\SerializesModels;
 use MetaFox\Comment\Models\Comment;
 use MetaFox\Like\Models\Like;
 use MetaFox\Like\Models\LikeAgg;
-use MetaFox\Photo\Models\Photo;
 use MetaFox\Photo\Models\PhotoGroup;
 use MetaFox\Photo\Models\PhotoGroupItem;
 
@@ -40,46 +39,39 @@ class MigrateChunkingLikeComment implements ShouldQueue
         }
 
         foreach ($photoGroups as $photoGroup) {
-            if (!$photoGroup instanceof PhotoGroup) {
+            $photoGroupItems = $photoGroup
+                ->hasMany(PhotoGroupItem::class, 'group_id', 'id')
+                ->orderBy('item_id')
+                ->get();
+
+            if (!$photoGroupItems->count()) {
                 continue;
             }
 
-            $photoGroupItem = $photoGroup->items()->first() ?? null;
-            if (!$photoGroupItem instanceof PhotoGroupItem) {
+            $photoItems = $photoGroupItems
+                ->map->only(['item_id', 'item_type'])
+                ->toArray();
+
+            $firstPhoto = $photoItems[0] ?? null;
+
+            if (!$firstPhoto) {
                 continue;
             }
 
-            $photo = $photoGroupItem->detail ?? null;
-            if (!$photo instanceof Photo) {
-                continue;
-            }
+            $this->updateModelData($photoGroup, $firstPhoto);
+        }
+    }
 
-            Comment::query()
-                ->where([
-                    'item_id'   => $photo->entityId(),
-                    'item_type' => $photo->entityType(),
-                ])
-                ->update([
-                    'item_id'   => $photoGroup->entityId(),
-                    'item_type' => $photoGroup->entityType(),
-                ]);
+    private function updateModelData(PhotoGroup $photoGroup, array $photo): void
+    {
+        $modelClasses = [Like::class, LikeAgg::class, Comment::class];
 
-            LikeAgg::query()
+        foreach ($modelClasses as $modelClass) {
+            $modelClass::query()
                 ->where([
-                    'item_id'   => $photo->entityId(),
-                    'item_type' => $photo->entityType(),
-                ])
-                ->update([
-                    'item_id'   => $photoGroup->entityId(),
-                    'item_type' => $photoGroup->entityType(),
-                ]);
-
-            Like::query()
-                ->where([
-                    'item_id'   => $photo->entityId(),
-                    'item_type' => $photo->entityType(),
-                ])
-                ->update([
+                    'item_id'   => $photo['item_id'],
+                    'item_type' => $photo['item_type'],
+                ])->update([
                     'item_id'   => $photoGroup->entityId(),
                     'item_type' => $photoGroup->entityType(),
                 ]);

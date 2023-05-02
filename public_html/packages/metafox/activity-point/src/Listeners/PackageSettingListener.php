@@ -68,6 +68,9 @@ class PackageSettingListener extends BasePackageSettingListener
             'packages.installed' => [
                 PackageInstalledListener::class,
             ],
+            'user.role.created' => [
+                UserRoleCreatedListener::class,
+            ],
         ];
     }
 
@@ -186,7 +189,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'type'       => 'purchase_package_fail',
                 'module_id'  => 'activitypoint',
                 'handler'    => PurchasePackageFailedNotification::class,
-                'title'      => 'activitypoint::phrase.purchase_package_success',
+                'title'      => 'activitypoint::phrase.purchase_package_fail_notification',
                 'is_request' => 0,
                 'is_system'  => 1,
                 'can_edit'   => 1,

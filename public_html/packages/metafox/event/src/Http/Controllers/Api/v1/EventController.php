@@ -11,11 +11,11 @@ use MetaFox\Event\Http\Requests\v1\Event\MassEmailRequest;
 use MetaFox\Event\Http\Requests\v1\Event\ShowRequest;
 use MetaFox\Event\Http\Requests\v1\Event\StoreRequest;
 use MetaFox\Event\Http\Requests\v1\Event\UpdateRequest;
-use MetaFox\Event\Http\Resources\v1\Event\CreateEventForm;
-use MetaFox\Event\Http\Resources\v1\Event\EditEventForm;
 use MetaFox\Event\Http\Resources\v1\Event\EventDetail as Detail;
 use MetaFox\Event\Http\Resources\v1\Event\EventItemCollection as ItemCollection;
 use MetaFox\Event\Http\Resources\v1\Event\EventStatDetail;
+use MetaFox\Event\Http\Resources\v1\Event\StoreEventForm;
+use MetaFox\Event\Http\Resources\v1\Event\UpdateEventForm;
 use MetaFox\Event\Models\Event;
 use MetaFox\Event\Policies\EventPolicy;
 use MetaFox\Event\Repositories\EventRepositoryInterface;
@@ -63,6 +63,8 @@ class EventController extends ApiController
      * @param IndexRequest $request
      *
      * @return mixed
+     * @throws AuthenticationException
+     * @throws AuthorizationException
      */
     public function index(IndexRequest $request)
     {
@@ -70,11 +72,11 @@ class EventController extends ApiController
         $owner  = $context = user();
         if ($params['user_id'] > 0) {
             $owner = UserEntity::getById($params['user_id'])->detail;
-            if (policy_check(EventPolicy::class, 'viewOnProfilePage', $context, $owner) == false) {
-                return $this->success([]);
+            if (!policy_check(EventPolicy::class, 'viewOnProfilePage', $context, $owner)) {
+                throw new AuthorizationException();
             }
 
-            if (UserPrivacy::hasAccess($context, $owner, 'event.profile_menu') == false) {
+            if (!UserPrivacy::hasAccess($context, $owner, 'event.profile_menu')) {
                 return $this->success([]);
             }
         }
@@ -261,12 +263,12 @@ class EventController extends ApiController
             $event = $this->repository->find($id);
             policy_authorize(EventPolicy::class, 'update', $context, $event);
 
-            return $this->success(new EditEventForm($event), [], '');
+            return $this->success(new UpdateEventForm($event), [], '');
         }
 
         policy_authorize(EventPolicy::class, 'create', $context, $owner);
 
-        return $this->success(new CreateEventForm($event), [], '');
+        return $this->success(new StoreEventForm($event), [], '');
     }
 
     /**

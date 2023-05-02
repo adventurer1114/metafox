@@ -36,7 +36,7 @@ abstract class Notification extends LaravelNotification implements ShouldQueue
     /** @var mixed */
     protected mixed $model;
 
-    protected ?UserEntity $user;
+    protected ?UserEntity $user = null;
 
     /** @var array<mixed> */
     protected array $data = [];
@@ -181,7 +181,7 @@ abstract class Notification extends LaravelNotification implements ShouldQueue
         return $message;
     }
 
-    public function setNotifiable(IsNotifiable $notifiable): self
+    public function setNotifiable(?IsNotifiable $notifiable): self
     {
         $this->notifiable = $notifiable;
 
@@ -189,8 +189,8 @@ abstract class Notification extends LaravelNotification implements ShouldQueue
     }
 
     /**
-     * @param string|null          $key
-     * @param array<string, mixed> $replace
+     * @param  string|null          $key
+     * @param  array<string, mixed> $replace
      * @return string
      */
     public function localize(string $key = null, array $replace = []): string
@@ -201,7 +201,7 @@ abstract class Notification extends LaravelNotification implements ShouldQueue
     public function getLocale(): ?string
     {
         if ($this->notifiable instanceof HasLocalePreference) {
-            return $this->notifiable?->preferredLocale();
+            return $this->notifiable->preferredLocale();
         }
 
         return null;

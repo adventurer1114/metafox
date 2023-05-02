@@ -3,6 +3,8 @@
 namespace MetaFox\User\Http\Requests\v1\UserRelation\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use MetaFox\Platform\Rules\AllowInRule;
+use MetaFox\User\Rules\UserRelationRule;
 
 /**
  * --------------------------------------------------------------------------
@@ -28,8 +30,28 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'phrase_var' => ['required', 'string'],
-            'confirm'    => ['sometimes', 'numeric', 'in:0,1'],
+            'locale'         => ['required', 'string', 'exists:core_languages,language_code'],
+            'package_id'     => ['required', 'string', 'exists:packages,alias'],
+            'group'          => ['required', 'string'],
+            'phrase_var'     => ['required', 'string', new UserRelationRule()],
+            'title'          => ['required', 'string'],
+            'file'           => ['required', 'array'],
+            'file.temp_file' => ['required_with:file', 'numeric', 'exists:storage_files,id'],
+            'file.file_type' => ['required_with:file', 'string', new AllowInRule(['photo'])],
+            'is_active'      => ['sometimes', 'nullable', new AllowInRule([0, 1])],
+            'is_custom'      => ['sometimes', 'nullable', new AllowInRule([0, 1])],
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated($key, $default);
+
+        $data['temp_file'] = 0;
+        if (isset($data['file']['temp_file'])) {
+            $data['temp_file'] = $data['file']['temp_file'];
+        }
+
+        return $data;
     }
 }

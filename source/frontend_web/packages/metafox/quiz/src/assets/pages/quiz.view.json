@@ -6,7 +6,8 @@
         {
           "component": "quiz.block.quizView",
           "slotName": "main",
-          "blockId": "xpwnv"
+          "blockId": "xpwnv",
+          "blockLayout": "Detail - Paper - Radius Bottom"
         },
         {
           "blockId": "g3p9c",

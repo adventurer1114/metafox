@@ -29,26 +29,27 @@ use MetaFox\User\Support\Facades\User;
 /**
  * Class SubscriptionPackage.
  *
- * @property int                           $id
- * @property mixed                         $recurring_period
- * @property string|null                   $image_file_id
- * @property string                        $price
- * @property string                        $recurring_price
- * @property string                        $allowed_renew_type
- * @property string                        $title
- * @property string                        $status
- * @property bool                          $is_popular
- * @property bool                          $is_on_registration
- * @property bool                          $is_free
- * @property string                        $created_at
- * @property string                        $updated_at
- * @property int                           $total_success
- * @property int                           $total_expired
- * @property int                           $total_canceled
- * @property int                           $upgraded_role_id
- * @property SubscriptionDependencyPackage $downgradedPackage
- * @property SubscriptionDependencyPackage $upgradedPackages
- * @method   static                        SubscriptionPackageFactory factory(...$parameters)
+ * @property        int                           $id
+ * @property        mixed                         $recurring_period
+ * @property        string|null                   $image_file_id
+ * @property        string                        $price
+ * @property        string                        $recurring_price
+ * @property        string                        $allowed_renew_type
+ * @property        string                        $title
+ * @property        string                        $status
+ * @property        bool                          $is_popular
+ * @property        bool                          $is_on_registration
+ * @property        bool                          $is_free
+ * @property        string                        $created_at
+ * @property        string                        $updated_at
+ * @property        string                        $description
+ * @property        int                           $total_success
+ * @property        int                           $total_expired
+ * @property        int                           $total_canceled
+ * @property        int                           $upgraded_role_id
+ * @property        SubscriptionDependencyPackage $downgradedPackage
+ * @property        SubscriptionDependencyPackage $upgradedPackages
+ * @method   static SubscriptionPackageFactory    factory(...$parameters)
  */
 class SubscriptionPackage extends Model implements
     Entity,

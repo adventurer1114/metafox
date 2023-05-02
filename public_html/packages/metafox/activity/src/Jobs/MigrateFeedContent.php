@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use MetaFox\Activity\Models\Feed;
 use MetaFox\Activity\Repositories\FeedRepositoryInterface;
 
 class MigrateFeedContent implements ShouldQueue
@@ -20,59 +19,41 @@ class MigrateFeedContent implements ShouldQueue
 
     public function handle()
     {
-        $typeIdList = ['activity_post'];
+        $typeIdList = [
+            'activity_post',
+        ];
 
-        foreach ($typeIdList as $key => $typeId) {
-            $feeds = resolve(FeedRepositoryInterface::class)->getMissingContentFeed($typeId);
+        foreach ($typeIdList as $key => $value) {
+            $modelClass = $this->getModelClass($value);
 
-            if ($feeds->isEmpty()) {
-                if ($key == count($typeIdList) - 1) {
-                    return;
-                }
-
+            if (!$modelClass) {
                 continue;
             }
 
-            $feedMaps = [];
-            $itemIds  = [];
-            $itemMaps = [];
+            $typeId = is_int($key) ? $value : $key;
 
-            foreach ($feeds as $feed) {
-                if (!$feed instanceof Feed) {
-                    continue;
-                }
+            $feeds = resolve(FeedRepositoryInterface::class)->getMissingContentFeed($typeId);
 
-                $feedMaps[$feed->entityId()] = $feed;
-                $itemIds[]                   = $feed->itemId();
+            if (!$feeds->count()) {
+                continue;
             }
 
-            $modelClass = Relation::getMorphedModel($typeId);
-            $items      = $modelClass::query()
-                ->whereIn('id', $itemIds)
-                ->get(['id', 'content'])
-                ->toArray();
+            $collections = $feeds->chunk(100);
 
-            array_map(function ($item) use (&$itemMaps) {
-                $itemMaps[$item['id']] = $item['content'] ?? '';
-            }, $items);
-
-            $feedData = [];
-
-            foreach ($feedMaps as $feedValue) {
-                $itemId = $feedValue->itemId();
-
-                if (!isset($itemMaps[$itemId])) {
-                    continue;
-                }
-
-                $feedData[] = array_merge($feedValue->toArray(), [
-                    'content' => $itemMaps[$itemId] ?? '',
-                ]);
+            foreach ($collections as $collection) {
+                MigrateChunkingFeedContent::dispatch($modelClass, $collection->pluck('id')->toArray());
             }
+        }
+    }
 
-            Feed::query()->upsert($feedData, ['id']);
+    protected function getModelClass(string $entityType): ?string
+    {
+        $modelClass = Relation::getMorphedModel($entityType);
+
+        if (!$modelClass || !class_exists($modelClass)) {
+            return null;
         }
 
-        self::dispatch();
+        return $modelClass;
     }
 }

@@ -76,7 +76,7 @@
           "emptyPage": "hide",
           "displayLimit": "6",
           "blockId": "si2jt",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Group - Main Card",
           "itemLayout": "Group - Main Card"
         },
@@ -99,10 +99,11 @@
           },
           "freeze": false,
           "blockId": "q9yrh",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Group - Main Card",
           "itemLayout": "Group - Main Card",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "maxPageNumber": 2,
           "numberOfItemsPerPage": 10
         }
@@ -136,9 +137,6 @@
           "slotName": "main",
           "title": "featured_groups",
           "itemView": "group.itemView.mainCard",
-          "groups": {
-            "spacing": 2
-          },
           "contentType": "groups",
           "dataSource": {
             "apiUrl": "/group",
@@ -147,7 +145,7 @@
           "emptyPage": "hide",
           "displayLimit": "6",
           "blockId": "mmfbs",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Group - Main Card",
           "itemLayout": "Group - Main Card"
         },
@@ -171,7 +169,7 @@
           "canLoadSmooth": true,
           "freeze": false,
           "blockId": "09gpn",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Group - Main Card",
           "displayLimit": "50",
           "itemLayout": "Group - Main Card"

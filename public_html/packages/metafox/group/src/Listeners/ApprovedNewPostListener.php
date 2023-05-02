@@ -2,11 +2,15 @@
 
 namespace MetaFox\Group\Listeners;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Notification;
+use MetaFox\Activity\Support\ActivitySubscription;
 use MetaFox\Group\Models\Group;
 use MetaFox\Group\Notifications\ApproveNewPostNotification;
+use MetaFox\Group\Support\Facades\Group as GroupFacade;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\User\Support\Facades\UserEntity;
 
 /**
  * Class ApprovedNewPostListener.
@@ -44,9 +48,62 @@ class ApprovedNewPostListener
                 continue;
             }
 
+            $isFollowing = GroupFacade::isFollowing($authorizer->user, $resource);
+
+            if (!$isFollowing) {
+                continue;
+            }
+
             $notificationParams = [$authorizer->user, $notification];
 
             Notification::send(...$notificationParams);
         }
+
+        $this->handleSendNotificationForFollowers($item, $resource);
+    }
+
+    /**
+     * @param  Content $item
+     * @param  Group   $resource
+     * @return void
+     */
+    protected function handleSendNotificationForFollowers(Content $item, Group $resource): void
+    {
+        $notification = new ApproveNewPostNotification($item);
+        $userItem     = $item->user;
+        $followers    = [];
+
+        if (!$resource->isModerator($userItem) && !$resource->isAdmin($userItem)) {
+            return;
+        }
+
+        $consider    = ['owner_id' => $resource->entityId()];
+        $idFollowers = $this->activitySub()->buildSubscriptions($consider)->pluck('user_id')->toArray();
+
+        foreach ($idFollowers as $id) {
+            if ($id == $userItem->entityId()) {
+                continue;
+            }
+
+            $follower    = UserEntity::getById($id)->detail;
+            $isFollowing = GroupFacade::isFollowing($follower, $resource);
+
+            if (!$isFollowing) {
+                continue;
+            }
+
+            $followers[] = $follower;
+        }
+
+        $notificationParams = [$followers, $notification];
+        Notification::send(...$notificationParams);
+    }
+
+    /**
+     * @return Application|ActivitySubscription|(ActivitySubscription&Application)|mixed
+     */
+    private function activitySub()
+    {
+        return resolve('Activity.Subscription');
     }
 }

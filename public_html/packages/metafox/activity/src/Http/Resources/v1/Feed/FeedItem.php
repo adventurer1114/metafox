@@ -10,12 +10,12 @@ use MetaFox\Activity\Models\Share;
 use MetaFox\Activity\Support\Facades\ActivityFeed;
 use MetaFox\Activity\Traits\FeedSupport;
 use MetaFox\Platform\Contracts\Content;
+use MetaFox\Platform\Contracts\User as UserContract;
 use MetaFox\Platform\Facades\ResourceGate;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityCollection;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
 use MetaFox\User\Models\User;
 use MetaFox\User\Models\UserEntity;
-use MetaFox\Platform\Contracts\User as UserContract;
 
 /**
  * Class FeedItem.
@@ -42,16 +42,11 @@ class FeedItem extends JsonResource
     {
         $profileId = $request->get('user_id', 0);
 
-        $item = $this->resource->item;
-
-        $actionItem = $this->getActionResource();
-
-        $context = user();
-
+        $item        = $this->resource->item;
+        $actionItem  = $this->getActionResource();
+        $context     = user();
         $postOnOther = $this->resource->userId() != $this->resource->ownerId();
-
-        $userEntity = $this->resource->userEntity;
-
+        $userEntity  = $this->resource->userEntity;
         $ownerEntity = $this->resource->ownerEntity;
 
         $userResource = new UserEntityDetail($userEntity);
@@ -80,6 +75,12 @@ class FeedItem extends JsonResource
 
         if (!$postOnOther) {
             $isOwnerTagged = $this->isTagged($owner, $profileId, $taggedFriends);
+        }
+
+        $isShowLocation = true;
+
+        if (method_exists($reactItem, 'isShowLocation')) {
+            $isShowLocation = $reactItem->isShowLocation();
         }
 
         $data = [
@@ -112,6 +113,7 @@ class FeedItem extends JsonResource
             'is_hidden_all'              => $this->getHideAllService()->isHideAll($context, $owner),
             'is_just_hide'               => false,
             'is_just_remove_tag'         => false,
+            'is_show_location'           => $isShowLocation,
             'user_full_name'             => $userEntity instanceof UserEntity ? $userEntity->name : null,
             'owner_full_name'            => $ownerEntity instanceof UserEntity ? $ownerEntity->name : null,
             'creation_date'              => $this->resource->created_at,
@@ -128,9 +130,13 @@ class FeedItem extends JsonResource
             'relevant_comments'          => null,
             'user_reacted'               => $this->userReacted($context, $reactItem),
             'most_reactions'             => $this->userMostReactions($context, $reactItem),
-            'privacy_detail'             => ActivityFeed::getPrivacyDetail($context, $this->resource, $this->resource->owner?->getRepresentativePrivacy()),
-            'pins'                       => app('activity.pin')->getPinOwnwerIds($context, $this->resource->id),
-            'is_owner_tagged'            => $isOwnerTagged,
+            'privacy_detail'             => ActivityFeed::getPrivacyDetail(
+                $context,
+                $this->resource,
+                $this->resource->owner?->getRepresentativePrivacy()
+            ),
+            'pins'            => app('activity.pin')->getPinOwnerIds($context, $this->resource->id),
+            'is_owner_tagged' => $isOwnerTagged,
         ];
 
         // Get sharedUser, sharedOwner full name

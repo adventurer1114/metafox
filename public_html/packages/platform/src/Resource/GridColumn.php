@@ -354,4 +354,9 @@ class GridColumn
 
         return $this;
     }
+
+    public function variant(string $variant): static
+    {
+        return $this->setAttribute('variant', $variant);
+    }
 }

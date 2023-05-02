@@ -15,6 +15,7 @@ import EditableUserName from './EditableUserName';
 import CancelAccount from './CancelAccount';
 // types
 import useStyles from './styles';
+import EditablePhoneNumber from './EditablePhoneNumber';
 
 export type Props = BlockViewProps & AppState['accountSettings'];
 
@@ -46,6 +47,11 @@ const GeneralSettings = ({ data, loaded, title }: Props) => {
           <EditableEmail
             loaded={loaded}
             title={i18n.formatMessage({ id: 'email_address' })}
+            data={data}
+          />
+          <EditablePhoneNumber
+            loaded={loaded}
+            title={i18n.formatMessage({ id: 'phone_number' })}
             data={data}
           />
           <EditablePassword

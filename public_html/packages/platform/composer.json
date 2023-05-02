@@ -1,6 +1,6 @@
 {
     "name": "metafox/platform",
-    "version": "5.0.2",
+    "version": "5.1.0",
     "description": "Framework Kernel",
     "authors": [
         {
@@ -18,7 +18,7 @@
             "alias": "platform",
             "asset": "platform",
             "namespace": "MetaFox\\Platform",
-            "internalAdminUrl": "/admincp",
+            "internalAdminUrl": "",
             "providers": [],
             "frontend": [],
             "aliases": null,

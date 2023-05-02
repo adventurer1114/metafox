@@ -7,13 +7,13 @@ use MetaFox\Platform\Contracts\User as User;
 
 trait PinFeedPolicyTrait
 {
-    private function prepareCheckPin(User $user, User $owner, Feed $feed, ?bool $isProfileFeed = null): bool
+    private function prepareCheckPin(User $user, ?User $owner, Feed $feed, ?bool $isProfileFeed = null): bool
     {
         if (!$user->hasPermissionTo('feed.pin')) {
             return false;
         }
 
-        if (method_exists($owner, 'canPinFeed')) {
+        if ($owner && method_exists($owner, 'canPinFeed')) {
             return call_user_func([$owner, 'canPinFeed'], $user, $feed);
         }
 

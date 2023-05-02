@@ -22,7 +22,7 @@ const name = 'BlogItemEmbedCard';
 const ItemContent = styled('div', { name, slot: 'itemInner' })(({ theme }) => ({
   flex: 1,
   minWidth: 0,
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column'
 }));

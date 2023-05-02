@@ -45,7 +45,7 @@ return [
         'phrase_description' => 'page::seo.page_browse_all_description',
         'phrase_keywords'    => 'page::seo.page_browse_all_keywords',
         'phrase_heading'     => 'page::seo.page_browse_all_heading',
-        'url'                => 'page',
+        'url'                => 'page/all',
         'item_type'          => 'page',
     ],
     [

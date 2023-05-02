@@ -46,7 +46,6 @@ class StoreRequest extends FormRequest
             'is_register'     => ['int', 'sometimes'],
             'is_search'       => ['int', 'sometimes'],
             'is_feed'         => ['int', 'sometimes'],
-            'ordering'        => ['int', 'sometimes'],
             'label'           => ['string', 'required'],
             'description'     => ['string', 'sometimes'],
             'has_label'       => ['int', 'sometimes'],

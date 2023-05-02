@@ -12,7 +12,7 @@ return [
     ],
     'configuration_is_invalid' => 'Configuration is invalid.',
     'description'              => [
-        'required' => 'The description is required.',
+        'required' => 'The description is a required field.',
     ],
     'external_link' => [
         'url' => 'The external Link is in the wrong format.',
@@ -22,19 +22,19 @@ return [
     'license_credentials_were_incorrect' => 'The license credentials were incorrect.',
     'name'                               => [
         'length_between' => 'The title must be between :min and :max characters.',
-        'required'       => 'The title is required.',
+        'required'       => 'The title is a required field.',
     ],
     'no_active_storage'                                         => 'No active storages.',
     'numeric'                                                   => ':attribute must be a number.',
     'price_must_be_numeric_and_greater_than_or_equal_to_number' => 'The price must be numeric and greater than or equal to: a number.',
     'the_attribute_already_existed'                             => 'The :attribute already existed.',
     'this_action_is_unauthorized'                               => 'This action is unauthorized.',
-    'this_field_is_required'                                    => 'This field is required.',
+    'this_field_is_a_required_field'                            => 'This field is a required field.',
     'title_maximum_length_of_characters'                        => 'Title length must be between :min and :max.',
     'title_minimum_length_of_characters'                        => 'Title must contain at least :number characters.',
     'type_id'                                                   => [
         'exists'   => 'The category does not exist.',
-        'required' => 'The category is required.',
+        'required' => 'The category is a required field.',
     ],
     'unable_to_create_this_item_due_to_privacy' => 'Cannot create this item due to privacy.',
     'unable_to_delete_this_item_due_to_privacy' => 'Cannot delete this item due to privacy.',
@@ -42,4 +42,5 @@ return [
     'unable_to_view_this_item_due_to_privacy'   => 'Cannot view this item due to privacy.',
     'you_must_fill_in_all_price_values'         => 'You must fill in all price values.',
     'you_must_pick_a_categories'                => 'You must pick at least one category.',
+    'file_must_be_image'                        => 'File must be image.',
 ];

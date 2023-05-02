@@ -33,6 +33,13 @@ return [
         'is_preload' => false,
     ],
     [
+        'driver' => 'MetaFox\\Activity\\Models\\Hidden',
+        'type'   => 'entity',
+        'name'   => 'activity_hidden',
+        'is_active'  => true,
+        'is_preload' => false,
+    ],
+    [
         'driver'     => 'MetaFox\\Activity\\Models\\Stream',
         'type'       => 'entity',
         'name'       => 'activity_stream',

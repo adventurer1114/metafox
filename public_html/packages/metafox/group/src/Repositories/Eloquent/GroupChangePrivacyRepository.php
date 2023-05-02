@@ -86,7 +86,7 @@ class GroupChangePrivacyRepository extends AbstractRepository implements GroupCh
         /* @var GroupChangePrivacy $groupChangePrivacy */
         if ($numberDays > 0) {
             $data['expired_at'] = Carbon::now()->addDays($numberDays);
-            $data['is_active'] = GroupChangePrivacy::IS_ACTIVE;
+            $data['is_active']  = GroupChangePrivacy::IS_ACTIVE;
             $groupChangePrivacy = parent::create($data);
             $this->sentNotificationWhenPending($groupChangePrivacy->entityId());
 
@@ -103,19 +103,18 @@ class GroupChangePrivacyRepository extends AbstractRepository implements GroupCh
     }
 
     /**
-     * @param User $user
-     * @param int  $groupId
+     * @param  User                   $user
+     * @param  int                    $groupId
      * @return bool
      * @throws AuthorizationException
      */
     public function cancelRequest(User $user, int $groupId): bool
     {
+        $now   = Carbon::now();
         $group = $this->groupRepository()->find($groupId);
-        if (empty($group)) {
-            return false;
-        }
+
         policy_authorize(GroupPolicy::class, 'update', $user, $group);
-        $now = Carbon::now();
+
         /** @var $model GroupChangePrivacy */
         $model = $this->getModel()->newQuery()
             ->where([
@@ -123,13 +122,18 @@ class GroupChangePrivacyRepository extends AbstractRepository implements GroupCh
                 'is_active' => GroupChangePrivacy::IS_ACTIVE,
             ])
             ->whereDate('expired_at', '>=', $now)->first();
-        if (empty($model)) {
+
+        if (!$model instanceof GroupChangePrivacy) {
             return false;
         }
+
         $model->update(['is_active' => GroupChangePrivacy::IS_NOT_ACTIVE]);
 
-        app('events')->dispatch('notification.delete_notification_by_type_and_item',
-            ['pending_privacy', $model->entityId(), $model->entityType()]);
+        app('events')->dispatch(
+            'notification.delete_notification_by_type_and_item',
+            ['pending_privacy', $model->entityId(), $model->entityType()]
+        );
+
         return true;
     }
 
@@ -139,8 +143,8 @@ class GroupChangePrivacyRepository extends AbstractRepository implements GroupCh
     public function sentNotificationWhenPending(int $id): void
     {
         $groupChangePrivacy = $this->find($id);
-        $group = $this->groupRepository()->find($groupChangePrivacy->group->entityId());
-        $members = $this->groupMemberRepository()->getModel()
+        $group              = $this->groupRepository()->find($groupChangePrivacy->group->entityId());
+        $members            = $this->groupMemberRepository()->getModel()
             ->newQuery()->with('userEntity')
             ->where('group_id', $group->entityId())
             ->where('member_type', Member::ADMIN)->get();
@@ -182,8 +186,8 @@ class GroupChangePrivacyRepository extends AbstractRepository implements GroupCh
     }
 
     /**
-     * @param Group  $group
-     * @param string $privacyType
+     * @param  Group  $group
+     * @param  string $privacyType
      * @return void
      */
     public function updatePrivacyGroup(Group $group, string $privacyType): void

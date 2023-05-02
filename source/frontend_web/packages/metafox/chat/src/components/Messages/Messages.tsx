@@ -1,19 +1,21 @@
 import { ChatMsgPassProps, MsgGroupShape } from '@metafox/chat/types';
 import { convertDateTime } from '@metafox/chat/utils';
 import { useScrollRef } from '@metafox/framework';
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import React from 'react';
 import { MessagesContext } from '../ChatComposer/context';
 import MsgGroup from './MsgGroup';
 import ChatFileProgress from '../ChatFileProgess';
 import { isEmpty } from 'lodash';
+import MsgPreFetching from './MsgPreFetching';
 
 const name = 'Messages';
 
-const DateTimeGroup = styled('div', { name, slot: 'DateTimeGroup' })(
+const DateTimeGroup = styled(Box, { name, slot: 'DateTimeGroup' })(
   ({ theme }) => ({
     textAlign: 'center',
-    color: theme.palette.grey['600']
+    color: theme.palette.grey['600'],
+    padding: theme.spacing(1, 0)
   })
 );
 interface MessagesProps extends ChatMsgPassProps {
@@ -35,6 +37,7 @@ function Messages(
     rid,
     groups,
     groupIds,
+    preFetchingMsg,
     newest,
     disableReact,
     room,
@@ -124,6 +127,11 @@ function Messages(
           isAllPage={isAllPage}
         />
       ) : null}
+      {preFetchingMsg
+        ? preFetchingMsg
+            .filter(item => item?.isLoading === true)
+            .map(item => <MsgPreFetching key={item} item={item} />)
+        : null}
     </MessagesContext.Provider>
   );
 }

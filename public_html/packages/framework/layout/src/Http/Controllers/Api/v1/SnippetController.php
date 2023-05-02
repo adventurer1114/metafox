@@ -159,13 +159,15 @@ class SnippetController extends ApiController
 
         $revision->revert();
 
-        return $this->success(new RevisionDetail($revision), [], __('layout::phrase.revert_changes_successfully'));
+        $this->message(__('layout::phrase.revert_changes_successfully'));
+
+        return new RevisionDetail($revision);
     }
 
-    public function history(string $name): JsonResponse
+    public function history(string $name)
     {
         /** @var ?Snippet $snippet */
-        $snippet = Snippet::query()->firstWhere('snippet', '=', $name);
+        $snippet = $this->repository->query()->firstWhere('snippet', '=', $name);
 
         if (!$snippet) {
             return $this->success([]);
@@ -176,19 +178,19 @@ class SnippetController extends ApiController
             ->limit(50)
             ->get();
 
-        return $this->success(new RevisionItemCollection($items));
+        return new RevisionItemCollection($items);
     }
 
     public function purgeHistory(string $name): JsonResponse
     {
         try {
             /** @var ?Snippet $snippet */
-            $snippet = Snippet::query()->where('snippet', '=', $name)->first();
+            $snippet = $this->repository->query()->firstWhere('snippet', '=', $name);
             $snippet?->delete();
         } catch (\Exception $exception) {
             // avoid not found
         }
 
-        return $this->success([], [], __p('layout::phrase.clear_changes'));
+        return $this->success([], [], __p('layout::phrase.all_changes_are_cleared'));
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "metafox/core",
-    "version": "5.0.2",
+    "version": "5.1.0",
     "description": "",
     "authors": [
         {
@@ -23,8 +23,8 @@
                 "MetaFox\\Core\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/core": "5.0.1",
-                "@metafox/emoji": "5.0.1"
+                "@metafox/core": "*",
+                "@metafox/emoji": "*"
             },
             "frontendPaths": [
                 "packages/metafox/core",

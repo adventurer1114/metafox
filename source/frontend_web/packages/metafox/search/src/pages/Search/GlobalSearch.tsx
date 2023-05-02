@@ -20,8 +20,8 @@ export default function SearchPage(props: any) {
   const pageParams = createPageParams<Params>(props, prev => {
     return {
       q: prev.q ?? '',
-      tab: prev.view || 'all',
-      view: prev.view || 'all',
+      tab: prev.view?.replace(/-/g, '_') || 'all',
+      view: prev.view?.replace(/-/g, '_') || 'all',
       appName: 'search',
       resourceName: 'search',
       module_name: 'search',

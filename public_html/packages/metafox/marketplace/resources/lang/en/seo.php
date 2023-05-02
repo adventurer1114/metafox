@@ -49,7 +49,7 @@ return [
     'marketplace_create_description'                             => '',
     'marketplace_create_heading'                                 => '',
     'marketplace_create_keywords'                                => '',
-    'marketplace_create_title'                                   => 'Create Listing',
+    'marketplace_create_title'                                   => 'Add New Listing',
     'marketplace_edit_description'                               => '',
     'marketplace_edit_heading'                                   => '',
     'marketplace_edit_keywords'                                  => '',

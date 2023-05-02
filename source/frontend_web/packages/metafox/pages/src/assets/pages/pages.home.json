@@ -72,7 +72,7 @@
           },
           "displayLimit": "6",
           "emptyPage": "hide",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Page - Main Card",
           "itemLayout": "Page - Main Card"
         },
@@ -95,7 +95,7 @@
             "apiParams": "sort=most_member"
           },
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Page - Main Card",
           "itemLayout": "Page - Main Card",
           "canLoadMore": true,
@@ -141,7 +141,7 @@
           },
           "displayLimit": "6",
           "emptyPage": "hide",
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Page - Main Card - Mobile",
           "itemLayout": "Page - Main Card - Mobile"
         },
@@ -165,7 +165,7 @@
           "canLoadMore": true,
           "canLoadSmooth": true,
           "freeze": false,
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Page - Main Card - Mobile",
           "displayLimit": "50",
           "itemLayout": "Page - Main Card - Mobile"

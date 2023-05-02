@@ -117,6 +117,24 @@ return [
         'type'          => 'context',
     ],
     [
+        'name'          => 'event.view_map.filter_menu',
+        'resource_name' => 'event',
+        'resolution'    => 'mobile',
+        'type'          => 'filter',
+    ],
+    [
+        'name'          => 'event.view_map.sort_menu',
+        'resource_name' => 'event',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'event.view_map.nearest',
+        'resource_name' => 'event',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
         'name'          => 'event.event.headerItemActionOnUserProfileMenu',
         'resource_name' => 'event',
         'resolution'    => 'web',

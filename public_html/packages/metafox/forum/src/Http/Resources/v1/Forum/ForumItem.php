@@ -46,6 +46,7 @@ class ForumItem extends JsonResource
             'is_closed'         => $resource->is_closed,
             'sub_link'          => $subLink,
             'link'              => $resource->toLink(),
+            'url'               => $resource->toUrl(),
         ];
     }
 

@@ -41,6 +41,7 @@ class StoreUserGenderForm extends AbstractForm
                 'locale'     => 'en',
                 'package_id' => 'user',
                 'group'      => 'phrase',
+                'text'       => '',
                 'is_custom'  => 1,
             ]);
     }
@@ -68,7 +69,9 @@ class StoreUserGenderForm extends AbstractForm
                 ->required()
                 ->yup(Yup::string()->required()->maxLength(64)),
             Builder::textArea('text')
-                ->label(__p('localize::phrase.text_value')),
+                ->required()
+                ->label(__p('user::phrase.gender_name'))
+                ->yup(Yup::string()->required()),
             Builder::hidden('is_custom'),
         );
 

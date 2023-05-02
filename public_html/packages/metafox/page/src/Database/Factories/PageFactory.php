@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use MetaFox\Page\Models\Page;
 use MetaFox\Page\Models\PageMember;
+use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\Factory\HasSetState;
 
 /**
@@ -41,15 +42,19 @@ class PageFactory extends Factory
             'privacy'            => 0,
             'name'               => $this->faker->company(),
             'profile_name'       => $profileName,
-            'is_featured'        => $this->faker->boolean(10),
+            'is_featured'        => 0,
             'is_sponsor'         => mt_rand(0, 1),
-            'is_approved'        => $this->faker->boolean(90),
+            'is_approved'        => 1,
             'location_latitude'  => 0.2,
             'location_longitude' => 0.2,
             'location_name'      => $this->faker->address,
             'text'               => $text,
-            'text_parsed'        => $text,
         ];
+    }
+
+    public function setOwner(User $user): static
+    {
+        return $this;
     }
 
     public function seed()

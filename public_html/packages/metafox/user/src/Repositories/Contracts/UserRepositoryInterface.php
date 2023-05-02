@@ -5,7 +5,6 @@ namespace MetaFox\User\Repositories\Contracts;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use MetaFox\Authorization\Models\Role;
@@ -172,13 +171,6 @@ interface UserRepositoryInterface extends HasFeature
     public function viewUsers(ContractUser $context, array $attributes): Paginator;
 
     /**
-     * @param  ContractUser         $context
-     * @param  array<mixed>         $attributes
-     * @return LengthAwarePaginator
-     */
-    public function viewUsersAdminCP(ContractUser $context, array $attributes): LengthAwarePaginator;
-
-    /**
      * View a user.
      *
      * @param ContractUser $context
@@ -230,10 +222,9 @@ interface UserRepositoryInterface extends HasFeature
     /**
      * @param  ContractUser $context
      * @param  int          $id
-     * @param  array        $attributes
      * @return Content
      */
-    public function approve(ContractUser $context, int $id, array $attributes): Content;
+    public function approve(ContractUser $context, int $id): Content;
 
     /**
      * @param  ContractUser $context

@@ -1,6 +1,6 @@
 {
     "name": "metafox/captcha",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Captcha",
     "keyword": "phpFox",
     "authors": [
@@ -23,7 +23,7 @@
             ],
             "aliases": null,
             "frontend": {
-                "@metafox/captcha": "5.0.1"
+                "@metafox/captcha": "*"
             },
             "internalAdminUrl": "/admincp/captcha/setting",
             "type": "app",

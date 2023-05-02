@@ -9,8 +9,8 @@ use MetaFox\Form\Builder;
 use MetaFox\Photo\Models\Album;
 use MetaFox\Photo\Models\Album as Model;
 use MetaFox\Photo\Repositories\AlbumRepositoryInterface;
-use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Facades\Settings;
 
 /**
  * --------------------------------------------------------------------------
@@ -94,6 +94,7 @@ class AddPhotosForm extends AbstractForm
         $uploadField = Builder::simpleUploadPhotos('items')
             ->required()
             ->allowTypes($types)
+            ->placeholder(__p('photo::phrase.add'))
             ->dialogTitle(__p('photo::phrase.add_photos', ['allowVideo' => (int) $this->allowVideo]));
 
         if ($this->album->items->isEmpty()) {

@@ -8,6 +8,7 @@ use MetaFox\Form\Mobile\Builder;
 use MetaFox\Form\Mobile\MobileForm as AbstractForm;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\User\Models\User as Model;
+use MetaFox\User\Policies\UserPolicy;
 use MetaFox\Yup\Yup;
 
 /**
@@ -22,12 +23,20 @@ class AccountSettingMobileForm extends AbstractForm
      */
     public function boot(): void
     {
-        $this->resource = user();
+        /** @var Model $context */
+        $context        = user();
+        $this->resource = $context;
+
+        policy_authorize(UserPolicy::class, 'update', $context, $this->resource);
     }
 
     protected function prepare(): void
     {
-        $profile = $this->resource instanceof Model ? $this->resource->profile : null;
+        if (!$this->resource instanceof Model) {
+            return;
+        }
+
+        $profile = $this->resource->profile;
 
         $this
             ->title(__p('user::phrase.edit_account'))
@@ -35,12 +44,13 @@ class AccountSettingMobileForm extends AbstractForm
             ->asPut()
             ->setValue([
                 'profile' => [
-                    'language_id' => $profile?->language_id,
-                    'currency_id' => $profile?->currency_id,
+                    'language_id'  => $profile->language_id,
+                    'currency_id'  => $profile->currency_id,
+                    'phone_number' => $profile->phone_number,
                 ],
-                'full_name' => $this->resource instanceof Model ? $this->resource->full_name : null,
-                'user_name' => $this->resource instanceof Model ? $this->resource->user_name : null,
-                'email'     => $this->resource instanceof Model ? $this->resource->email : null,
+                'full_name' => $this->resource->full_name,
+                'user_name' => $this->resource->user_name,
+                'email'     => $this->resource->email,
             ]);
     }
 
@@ -83,6 +93,7 @@ class AccountSettingMobileForm extends AbstractForm
                             ->email(__p('validation.invalid_email_address'))
                             ->required()
                     ),
+                Builder::phoneNumber('profile.phone_number'),
                 Builder::choice('profile.currency_id')
                     ->required()
                     ->label(__p('core::phrase.preferred_currency'))

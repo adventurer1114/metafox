@@ -54,6 +54,8 @@ const NoContentBlock = ({
   const classes = useStyles();
   const { i18n } = useGlobal();
 
+  if (title === null) return null;
+
   return (
     <Box className={classes[variant]} sx={contentStyle?.sx}>
       {i18n.formatMessage({ id: title })}

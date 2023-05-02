@@ -31,4 +31,13 @@ class Autocomplete extends AbstractField
     {
         return $this->setAttribute('search_params', $params);
     }
+
+    /**
+     * @param  string $key
+     * @return $this
+     */
+    public function valueKey(string $key): self
+    {
+        return $this->setAttribute('valueKey', $key);
+    }
 }

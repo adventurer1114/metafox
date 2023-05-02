@@ -3,6 +3,7 @@
 namespace MetaFox\Authorization\Http\Requests\v1\Role\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use MetaFox\Authorization\Models\Permission;
 use MetaFox\Authorization\Models\Role;
 
@@ -22,6 +23,11 @@ use MetaFox\Authorization\Models\Role;
  */
 class AssignPermissionRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return Auth::user()?->hasPermissionTo('admincp.has_admin_access');
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

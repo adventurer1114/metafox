@@ -7,7 +7,6 @@ const useStyles = makeStyles(
       root: {
         border: theme.mixins.border('secondary'),
         borderRadius: theme.shape.borderRadius,
-        marginTop: theme.spacing(2),
         padding: theme.spacing(2)
       },
       answerWrapper: {},

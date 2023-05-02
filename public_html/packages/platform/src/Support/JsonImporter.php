@@ -7,16 +7,19 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use MetaFox\Activity\Models\PrivacyMember as ActivityPrivacyMember;
 use MetaFox\Activity\Models\Subscription;
 use MetaFox\Activity\Support\Support;
 use MetaFox\Core\Models\Privacy;
 use MetaFox\Core\Models\PrivacyMember;
 use MetaFox\Core\Models\PrivacyStream;
+use MetaFox\Friend\Models\TagFriend;
 use MetaFox\Hashtag\Models\Tag;
 use MetaFox\Importer\Models\Bundle;
 use MetaFox\Importer\Models\Entry;
 use MetaFox\Importer\Repositories\EntryRepositoryInterface;
+use MetaFox\Importer\Supports\Emoji;
 use MetaFox\Importer\Supports\JsonImport;
 use MetaFox\Importer\Supports\Status;
 use MetaFox\Localize\Models\Currency;
@@ -50,6 +53,8 @@ class JsonImporter
     protected array $uniqueColumns = [];
 
     protected bool $keepOldId = false;
+
+    protected array $mentionUsers = [];
 
     protected array $privacyMapping = [
         'phpfox' => [
@@ -893,8 +898,9 @@ class JsonImporter
 
     public function transformPrivacyMember(array $privacyList = [], string $privacyBy = '$user', string $ownerCol = null, string $modelClass = PrivacyMember::class): void
     {
-        $data = [];
-        $map  = [
+        $data         = [];
+        $dataActivity = [];
+        $map          = [
             MetaFoxPrivacy::EVERYONE           => MetaFoxPrivacy::NETWORK_PUBLIC_PRIVACY_ID,
             MetaFoxPrivacy::MEMBERS            => MetaFoxPrivacy::NETWORK_MEMBERS_PRIVACY_ID,
             MetaFoxPrivacy::FRIENDS_OF_FRIENDS => MetaFoxPrivacy::NETWORK_FRIEND_OF_FRIENDS_ID,
@@ -911,11 +917,18 @@ class JsonImporter
                     'default_privacy_id' => $map[$privacy] ?? null,
                     'privacy_class'      => $modelClass,
                 ];
+                $dataActivity[] = [
+                    '$id'                => 'apm.' . $entry[$privacyBy] . '.' . $entry[$ownerCol ?? $privacyBy] . '.' . $privacy,
+                    '$privacy'           => $entry[$privacyBy] . '.' . $privacy,
+                    '$user'              => $entry[$ownerCol ?? $privacyBy],
+                    'default_privacy_id' => $map[$privacy] ?? null,
+                    'privacy_class'      => $modelClass,
+                ];
             }
         }
 
         $this->exportBundledEntries($data, PrivacyMember::ENTITY_TYPE, 3, PrivacyMember::ENTITY_TYPE . ($ownerCol ?? $privacyBy));
-        $this->exportBundledEntries($data, ActivityPrivacyMember::ENTITY_TYPE, 3, ActivityPrivacyMember::ENTITY_TYPE . ($ownerCol ?? $privacyBy));
+        $this->exportBundledEntries($dataActivity, ActivityPrivacyMember::ENTITY_TYPE, 3, ActivityPrivacyMember::ENTITY_TYPE . ($ownerCol ?? $privacyBy));
     }
 
     public function transformActivitySubscription($userCol = '$user', $ownerCol = '$owner', $subSuperAdmin = false)
@@ -949,18 +962,117 @@ class JsonImporter
 
     /**
      * @param  string $text
+     * @param  bool   $isHtmlContent
+     * @param  bool   $parseMention
      * @return string
      */
-    public function parseText(string $text): string
+    public function parseText(string $text, bool $isHtmlContent = true, bool $parseMention = false, ?array $entry = []): string
     {
-        // Insert paragraph tag
-        $text = '[MetaFox_SP]' . html_entity_decode($text) . '[MetaFox_EP]';
-        $text = preg_replace('/(<img[^>]*>)/', '[MetaFox_EP]$1[MetaFox_SP]', $text);
-        $text = str_replace('[MetaFox_SP][MetaFox_EP]', '', $text);
-        // Remove useless break line
-        $text = preg_replace('/\[MetaFox_SP\]\R{1,2}/', '[MetaFox_SP]', $text);
+        $text    = html_entity_decode($text);
+        $regex   = ['/(<)(?!\w|\/\w)/', '/(?<!\w|\/|\s|"|\')>/'];
+        $replace = ['&lt;', '&gt;'];
+        if (!$isHtmlContent) {
+            $text = preg_replace($regex, $replace, $text);
+        } else {
+            if (!Str::startsWith($text, '<p>')) {
+                // Insert paragraph tag
+                $text = '[MetaFox_SP]' . $text . '[MetaFox_EP]';
+            }
+            $regex[]   = '/(?<!>)(<img[^>]*>)(?!<\/)/';
+            $replace[] = '[MetaFox_EP]$1[MetaFox_SP]';
+            $text      = preg_replace($regex, $replace, $text);
+            // Remove empty tag
+            $text = preg_replace('/(?<!^)\[MetaFox_SP\]\[MetaFox_EP\]/', '', $text);
+            // Remove useless break line
+            $text = preg_replace('/\[MetaFox_SP\]\R{1,2}/', '[MetaFox_SP]', $text);
+            $text = str_replace(['[MetaFox_SP]', '[MetaFox_EP]'], ['<p>', '</p>'], $text);
+        }
+        if ($parseMention) {
+            $text = $this->parseMention($text, $entry);
+        }
 
-        return str_replace(['[MetaFox_SP]', '[MetaFox_EP]'], ['<p>', '</p>'], $text);
+        return $text;
+    }
+
+    /**
+     * @param  string $text
+     * @return string
+     */
+    public function parseMention(string $text, array $entry = []): string
+    {
+        $allMention  = [];
+        $userMention = [];
+        $text        = preg_replace_callback('/\[user=(\d+)\](.+?)\[\/user\]/u', function ($matches) use (&$allMention, &$userMention) {
+            [, $userId, $name] = $matches;
+            $key               = "mf_user_$userId";
+            $allMention[$key]  = "user#$userId";
+            $userMention[]     = "user#$userId";
+
+            return "[user=$key]" . $name . '[/user]';
+        }, $text);
+        $text = preg_replace_callback('/\[page=(\d+)\](.+?)\[\/page\]/u', function ($matches) use (&$allMention) {
+            [, $pageId, $name] = $matches;
+            $key               = "mf_page_$pageId";
+            $allMention[$key]  = "page#$pageId";
+
+            return "[page=$key]" . $name . '[/page]';
+        }, $text);
+        $text = preg_replace_callback('/\[group=(\d+)\](.+?)\[\/group\]/u', function ($matches) use (&$allMention) {
+            [, $groupId, $name] = $matches;
+            $key                = "mf_group_$groupId";
+            $allMention[$key]   = "group#$groupId";
+
+            return "[group=$key]" . $name . '[/group]';
+        }, $text);
+        if (!count($allMention)) {
+            return $text;
+        }
+        $allMentionRefId = array_values($allMention);
+        $rows            = Entry::query()->whereIn('ref_id', $allMentionRefId)
+            ->get(['ref_id', 'resource_id', 'resource_type'])
+            ->whereNotNull('resource_id')
+            ->pluck('resource_id', 'ref_id')
+            ->toArray();
+        foreach ($allMention as &$refId) {
+            $value = Arr::get($rows, $refId);
+            if (!$value) {
+                $refId = (int) str_replace(['user#', 'page#', 'group#'], ['', '', ''], $refId);
+                continue;
+            }
+            $refId = $value;
+        }
+        $text = str_replace(array_keys($allMention), array_values($allMention), $text);
+        if ($entry && count($userMention)) {
+            foreach ($userMention as $owner) {
+                $id = "tf.{$owner}_{$entry['$id']}";
+                if (isset($this->mentionUsers[$id]) || !isset($entry['$id'])) {
+                    continue;
+                }
+                $this->mentionUsers[$id] = [
+                    '$id'        => $id,
+                    '$user'      => $entry['$user'] ?? $entry['$owner'],
+                    '$owner'     => $owner,
+                    '$item'      => $entry['$id'],
+                    'px'         => $entry['px'] ?? '0.000',
+                    'py'         => $entry['py'] ?? '0.000',
+                    'is_mention' => 1,
+                    'content'    => $text,
+                ];
+            }
+        }
+
+        return $text;
+    }
+
+    public function processImportUserMention(): void
+    {
+        if (!count($this->mentionUsers)) {
+            return;
+        }
+        $chunks = array_chunk(array_values($this->mentionUsers), 1000);
+        foreach ($chunks as $key => $chunk) {
+            $this->exportBundledEntries($chunk, TagFriend::ENTITY_TYPE, 3, $key);
+        }
     }
 
     public function importTagData(string $model): void
@@ -978,7 +1090,7 @@ class JsonImporter
             ->pluck('id', 'text')
             ->toArray();
         $batch    = [];
-        $threadId = [];
+        $itemId   = [];
         foreach ($this->entries as $entry) {
             $allTags = array_unique(array_merge($entry['tags'] ?? [], $entry['hashtags'] ?? []));
             if (!count($allTags)) {
@@ -991,11 +1103,11 @@ class JsonImporter
                         'item_id' => $entry['$oid'],
                         'tag_id'  => $key,
                     ];
-                    $threadId[] = $entry['$oid'];
+                    $itemId[] = $entry['$oid'];
                 }
             }
         }
-        $model::query()->whereIn('item_id', $threadId)->delete();
+        $model::query()->whereIn('item_id', $itemId)->delete();
         $model::query()->insert($batch);
     }
 
@@ -1025,5 +1137,41 @@ class JsonImporter
             }
         }
         $this->exportBundledEntries($data, UserPrivacy::ENTITY_TYPE, 6);
+    }
+
+    public function remapEmoji(string|array $fields = ['text', 'text_parsed'], bool $isTwaEmoji = false): void
+    {
+        $list    = $isTwaEmoji ? Emoji::getMessageEmoji() : Emoji::getCommentEmoji();
+        $pattern = $this->getRegexPattern($list);
+
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+
+        foreach ($this->entries as &$entry) {
+            foreach ($fields as $field) {
+                $entry[$field] =  $this->handleEmoji($list, $pattern, $entry[$field] ?? '');
+            }
+        }
+    }
+
+    public function handleEmoji(array $list, string $pattern, string $text): string
+    {
+        return preg_replace_callback('/' . $pattern . '/', function ($match) use ($list) {
+            if (isset($list[$match[0]])) {
+                return json_decode('"' . $list[$match[0]] . '"');
+            }
+
+            return $match[0];
+        }, $text);
+    }
+
+    protected function getRegexPattern(array $list): string
+    {
+        $str = implode('[REGEX_KEY]', array_keys($list));
+
+        $str = str_replace(['(', ')', '*', '-', '/', '|'], ['\(', '\)', '\*', '\-', '\/', '\|'], $str);
+
+        return str_replace('[REGEX_KEY]', '|', $str);
     }
 }

@@ -17,7 +17,7 @@ class GetNewNotificationCount
     /**
      * @param  User     $user
      * @param  StdClass $data
-     * @return int
+     * @return void
      */
     public function handle(User $user, StdClass $data): void
     {

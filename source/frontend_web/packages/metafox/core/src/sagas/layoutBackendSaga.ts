@@ -290,6 +290,31 @@ function* saveGridLayout({
   }
 }
 
+function* saveItemLayout({
+  payload: { values, dialogItem, form }
+}: FormSubmitAction) {
+  try {
+    const { styleName } = values;
+
+    const { layoutBackend } = yield* getGlobalContext();
+
+    /// which data to overwrite to preset
+    const config = pick(values, ['itemProps']);
+
+    yield layoutBackend.setItemPreset(styleName, config);
+
+    if (dialogItem) {
+      dialogItem.closeDialog();
+    }
+
+    if (form) {
+      form.setSubmitting(false);
+    }
+  } catch (err) {
+    yield* handleActionError(err);
+  }
+}
+
 function* editBlockLayout({
   payload: { styleName },
   meta
@@ -820,6 +845,7 @@ const sagas = [
   takeEvery('@layout/saveBlockLayout', saveBlockLayout),
   takeEvery('@layout/saveNoContentLayout', saveNoContentLayout),
   takeEvery('@layout/saveGridLayout', saveGridLayout),
+  takeEvery('@layout/saveItemLayout', saveItemLayout),
   takeLatest('@layout/manageBlockLayout', manageBlockLayout),
   takeLatest('@layout/manageNoContentLayout', manageNoContentLayout),
   takeLatest('@layout/editBlockLayout', editBlockLayout),

@@ -33,6 +33,8 @@ class StatusBackground extends Model
 
     protected $table = 'bgs_status_background';
 
+    public $timestamps = false;
+
     /** @var string[] */
     protected $fillable = [
         'item_id',

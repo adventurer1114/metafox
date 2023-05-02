@@ -45,6 +45,48 @@ return [
         'value'    => 'ongoing',
     ],
     [
+        'menu'     => 'event.view_map.filter_menu',
+        'name'     => 'all',
+        'label'    => 'core::phrase.when.all',
+        'ordering' => 1,
+        'value'    => 'all',
+    ],
+    [
+        'menu'     => 'event.view_map.filter_menu',
+        'name'     => 'this_month',
+        'label'    => 'core::phrase.when.this_month',
+        'ordering' => 2,
+        'value'    => 'this_month',
+    ],
+    [
+        'menu'     => 'event.view_map.filter_menu',
+        'name'     => 'this_week',
+        'label'    => 'core::phrase.when.this_week',
+        'ordering' => 3,
+        'value'    => 'this_week',
+    ],
+    [
+        'menu'     => 'event.view_map.filter_menu',
+        'name'     => 'today',
+        'label'    => 'core::phrase.when.today',
+        'ordering' => 4,
+        'value'    => 'today',
+    ],
+    [
+        'menu'     => 'event.view_map.filter_menu',
+        'name'     => 'upcoming',
+        'label'    => 'event::phrase.when.upcoming',
+        'ordering' => 5,
+        'value'    => 'upcoming',
+    ],
+    [
+        'menu'     => 'event.view_map.filter_menu',
+        'name'     => 'ongoing',
+        'label'    => 'event::phrase.when.ongoing',
+        'ordering' => 6,
+        'value'    => 'ongoing',
+    ],
+    [
         'color'  => 'primary',
         'params' => [
             'joinEvent' => [
@@ -56,7 +98,6 @@ return [
         'label'    => 'event::phrase.going',
         'ordering' => 1,
         'value'    => 'joinEvent',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'tab'      => 'event',
@@ -84,7 +125,6 @@ return [
         'label'    => 'event::phrase.interested',
         'ordering' => 1,
         'value'    => 'interestedEvent',
-        'icon'     => 'ico-calendar-star',
     ],
     [
         'params' => [
@@ -97,7 +137,6 @@ return [
         'label'    => 'event::phrase.not_interested',
         'ordering' => 2,
         'value'    => 'notInterestedEvent',
-        'icon'     => 'ico-calendar-star-o',
     ],
     [
         'showWhen' => [
@@ -109,7 +148,6 @@ return [
         'label'    => 'event::phrase.generate_invite_link',
         'ordering' => 1,
         'value'    => 'event/generateInviteLink',
-        'icon'     => 'ico-link',
     ],
     [
         'showWhen' => [
@@ -122,7 +160,6 @@ return [
         'label'    => 'event::phrase.invite_people_to_come',
         'ordering' => 2,
         'value'    => 'event-invite/addItem',
-        'icon'     => 'ico-user-man-plus',
     ],
     [
         'showWhen' => [
@@ -134,7 +171,6 @@ return [
         'label'    => 'event::phrase.edit_event',
         'ordering' => 3,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -147,7 +183,6 @@ return [
         'label'    => 'event::phrase.approve',
         'ordering' => 4,
         'value'    => 'event/approveItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -160,7 +195,6 @@ return [
         'label'    => 'event::phrase.manage_guest_list',
         'ordering' => 5,
         'value'    => 'event/viewAllGuest',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -174,7 +208,6 @@ return [
         'label'    => 'event::phrase.manage_host_list',
         'ordering' => 6,
         'value'    => 'event-host-invite/viewAll',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -187,7 +220,6 @@ return [
         'label'    => 'event::phrase.manage_privacy_setting',
         'ordering' => 7,
         'value'    => 'event/updatePrivacySettings',
-        'icon'     => 'ico-gear',
     ],
     [
         'showWhen' => [
@@ -201,7 +233,6 @@ return [
         'label'    => 'event::phrase.manage_my_pending_post',
         'ordering' => 8,
         'value'    => 'event/viewMyPendingPost',
-        'icon'     => 'ico-gear',
     ],
     [
         'showWhen' => [
@@ -215,7 +246,6 @@ return [
         'label'    => 'event::phrase.sponsor_in_feed',
         'ordering' => 9,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -229,7 +259,6 @@ return [
         'label'    => 'event::phrase.unsponsor_in_feed',
         'ordering' => 10,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -243,7 +272,6 @@ return [
         'label'    => 'event::phrase.sponsor_this_item',
         'ordering' => 11,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -257,7 +285,6 @@ return [
         'label'    => 'event::phrase.unsponsor_this_item',
         'ordering' => 12,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -271,7 +298,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 13,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -285,7 +311,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 14,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -296,9 +321,8 @@ return [
         'menu'     => 'event.event.itemActionMenu',
         'name'     => 'delete',
         'label'    => 'event::phrase.delete',
-        'ordering' => 16,
+        'ordering' => 17,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'menu'     => 'event.event.manageItemMenu',
@@ -313,7 +337,6 @@ return [
         'name'     => 'general',
         'label'    => 'event::phrase.event_detail',
         'ordering' => 2,
-        'icon'     => 'ico-calendar-o',
         'to'       => '/event/manage/:id',
     ],
     [
@@ -322,7 +345,6 @@ return [
         'name'     => 'invite_guest',
         'label'    => 'event::phrase.invite_guests',
         'ordering' => 3,
-        'icon'     => 'ico-hashtag',
         'to'       => '/event/manage/:id/invite',
     ],
     [
@@ -331,7 +353,6 @@ return [
         'name'     => 'guest_list',
         'label'    => 'event::phrase.guest_list',
         'ordering' => 4,
-        'icon'     => 'ico-user-man-o',
         'to'       => '/event/manage/:id/guests',
     ],
     [
@@ -340,7 +361,6 @@ return [
         'name'     => 'mass_email',
         'label'    => 'event::phrase.mass_email',
         'ordering' => 5,
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/event/manage/:id/mass-email',
     ],
     [
@@ -379,6 +399,48 @@ return [
         'value'    => 'most_member',
     ],
     [
+        'menu'     => 'event.view_map.sort_menu',
+        'name'     => 'new',
+        'label'    => 'core::phrase.new',
+        'ordering' => 1,
+        'value'    => 'desc',
+    ],
+    [
+        'menu'     => 'event.view_map.sort_menu',
+        'name'     => 'latest',
+        'label'    => 'core::phrase.sort.latest',
+        'ordering' => 2,
+        'value'    => 'asc',
+    ],
+    [
+        'menu'     => 'event.view_map.nearest',
+        'name'     => 'view_5_nearest',
+        'label'    => 'event::phrase.nearest.view_5_nearest_events',
+        'ordering' => 1,
+        'value'    => 5,
+    ],
+    [
+        'menu'     => 'event.view_map.nearest',
+        'name'     => 'view_10_nearest',
+        'label'    => 'event::phrase.nearest.view_10_nearest_events',
+        'ordering' => 2,
+        'value'    => 10,
+    ],
+    [
+        'menu'     => 'event.view_map.nearest',
+        'name'     => 'view_15_nearest',
+        'label'    => 'event::phrase.nearest.view_15_nearest_events',
+        'ordering' => 3,
+        'value'    => 15,
+    ],
+    [
+        'menu'     => 'event.view_map.nearest',
+        'name'     => 'view_20_nearest',
+        'label'    => 'event::phrase.nearest.view_20_nearest_events',
+        'ordering' => 4,
+        'value'    => 20,
+    ],
+    [
         'tab'    => 'all',
         'params' => [
             'module_name'   => 'event',
@@ -389,7 +451,6 @@ return [
         'label'    => 'event::phrase.all_events',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/event/all',
     ],
     [
@@ -403,7 +464,6 @@ return [
         'label'    => 'event::phrase.hosted_events',
         'ordering' => 2,
         'value'    => 'viewHosting',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/event/hosted',
     ],
     [
@@ -411,12 +471,15 @@ return [
             'module_name'   => 'event',
             'resource_name' => 'event',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'event.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'event::phrase.my_pending_events',
         'ordering' => 3,
         'value'    => 'viewMyPendingEvents',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'tab'    => 'friend',
@@ -429,7 +492,6 @@ return [
         'label'    => 'event::phrase.friends_events',
         'ordering' => 4,
         'value'    => 'viewFriendEvents',
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/event/friend',
     ],
     [
@@ -443,7 +505,6 @@ return [
         'label'    => 'event::phrase.past_events',
         'ordering' => 5,
         'value'    => 'viewPast',
-        'icon'     => 'ico-calendar-check-o',
         'to'       => '/event/past',
     ],
     [
@@ -457,7 +518,6 @@ return [
         'label'    => 'event::phrase.event_invites',
         'ordering' => 6,
         'value'    => 'viewInvites',
-        'icon'     => 'ico-envelope-o',
         'to'       => '/event/invites',
     ],
     [
@@ -475,7 +535,6 @@ return [
         'label'    => 'event::phrase.pending_events',
         'ordering' => 7,
         'value'    => 'viewPendingEvents',
-        'icon'     => 'ico-clock-o',
         'to'       => '/event/pending',
     ],
     [
@@ -560,7 +619,6 @@ return [
         'label'    => 'event::phrase.generate_invite_link',
         'ordering' => 1,
         'value'    => 'event/generateInviteLink',
-        'icon'     => 'ico-link',
     ],
     [
         'showWhen' => [
@@ -573,7 +631,6 @@ return [
         'label'    => 'event::phrase.invite_people_to_come',
         'ordering' => 2,
         'value'    => 'event-invite/addItem',
-        'icon'     => 'ico-user-man-plus',
     ],
     [
         'showWhen' => [
@@ -585,7 +642,6 @@ return [
         'label'    => 'event::phrase.edit_event',
         'ordering' => 3,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -598,7 +654,6 @@ return [
         'label'    => 'event::phrase.approve',
         'ordering' => 4,
         'value'    => 'event/approveItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -611,7 +666,6 @@ return [
         'label'    => 'event::phrase.manage_guest_list',
         'ordering' => 5,
         'value'    => 'event/viewAllGuest',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -624,7 +678,6 @@ return [
         'label'    => 'event::phrase.mass_email_guest',
         'ordering' => 6,
         'value'    => 'event/massEmailEvent',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => [
@@ -638,7 +691,6 @@ return [
         'label'    => 'event::phrase.manage_host_list',
         'ordering' => 7,
         'value'    => 'event-host-invite/viewAll',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -651,7 +703,6 @@ return [
         'label'    => 'event::phrase.manage_privacy_setting',
         'ordering' => 8,
         'value'    => 'event/updatePrivacySettings',
-        'icon'     => 'ico-gear',
     ],
     [
         'showWhen' => [
@@ -665,7 +716,6 @@ return [
         'label'    => 'event::phrase.manage_my_pending_post',
         'ordering' => 10,
         'value'    => 'event/viewMyPendingPost',
-        'icon'     => 'ico-gear',
     ],
     [
         'showWhen' => [
@@ -679,7 +729,6 @@ return [
         'label'    => 'event::phrase.sponsor_in_feed',
         'ordering' => 11,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -693,7 +742,6 @@ return [
         'label'    => 'event::phrase.unsponsor_in_feed',
         'ordering' => 11,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -707,7 +755,6 @@ return [
         'label'    => 'event::phrase.sponsor_this_item',
         'ordering' => 12,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -721,7 +768,6 @@ return [
         'label'    => 'event::phrase.unsponsor_this_item',
         'ordering' => 12,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -735,7 +781,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 13,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -749,7 +794,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 14,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -762,7 +806,6 @@ return [
         'label'    => 'event::phrase.delete',
         'ordering' => 16,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen'  => [],

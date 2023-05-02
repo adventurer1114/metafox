@@ -147,8 +147,9 @@ function PrivacyControl({
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        sx={{ margin: '4px 0' }}
       >
-        <Box component="div" data-testid="menuPrivacy">
+        <Box component="div" data-testid="menuPrivacy" py={1}>
           {options
             ? options.map((item, index) => (
                 <MenuItem

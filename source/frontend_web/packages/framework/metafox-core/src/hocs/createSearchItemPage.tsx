@@ -108,8 +108,6 @@ export default function createSearchItemPage<T extends Params = Params>({
       }
     );
 
-    console.log(pageParams);
-
     const contentParams = createContentParams({
       mainListing: {
         canLoadMore: true,

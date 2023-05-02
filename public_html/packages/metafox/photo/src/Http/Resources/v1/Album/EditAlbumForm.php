@@ -4,8 +4,10 @@ namespace MetaFox\Photo\Http\Resources\v1\Album;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Form\Section;
 use MetaFox\Photo\Http\Requests\v1\Album\CreateFormRequest;
 use MetaFox\Photo\Policies\AlbumPolicy;
@@ -36,6 +38,8 @@ use MetaFox\Yup\Yup;
  */
 class EditAlbumForm extends AbstractForm
 {
+    use PrivacyFieldTrait;
+
     /**
      * @var bool
      */
@@ -58,6 +62,7 @@ class EditAlbumForm extends AbstractForm
 
         policy_authorize(AlbumPolicy::class, 'update', $context, $this->resource);
 
+        $this->setOwner($this->resource->owner);
         $this->isAllowedUploadItem = policy_check(AlbumPolicy::class, 'uploadMedias', $context, $this->resource);
 
         $this->allowVideo = $this->allowUploadVideo($context);
@@ -118,6 +123,9 @@ class EditAlbumForm extends AbstractForm
             ]);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     protected function initialize(): void
     {
         $isDefaultAlbum = FacadesAlbum::isDefaultAlbum($this->resource->album_type);
@@ -139,11 +147,13 @@ class EditAlbumForm extends AbstractForm
                 ->required()
                 ->returnKeyType('next')
                 ->marginNormal()
+                ->description(__p('core::phrase.maximum_length_of_characters', ['length' => $maxAlbumNameLength]))
                 ->label(__p('core::phrase.name'))
+                ->maxLength($maxAlbumNameLength)
                 ->disabled($isDefaultAlbum)
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->minLength(
                             $minAlbumNameLength,
                             __p(
@@ -172,18 +182,29 @@ class EditAlbumForm extends AbstractForm
                 ->required(false)
                 ->returnKeyType('default')
                 ->label(__p('core::phrase.description')),
-            Builder::privacy('privacy')
-                ->disabled($isDefaultAlbum)
-                ->description(__p('photo::phrase.description_for_privacy_field'))
-                ->showWhen([
-                    'and',
-                    ['truthy', 'canSetPrivacy'],
-                    ['eq', 'owner_id', $this->resource->userId()],
-                ]),
+            $this->buildPrivacyFieldForAlbum(),
             Builder::hidden('owner_id'),
         );
 
         $this->addDefaultFooter(true);
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    protected function buildPrivacyFieldForAlbum(): AbstractField
+    {
+        $isDefaultAlbum = FacadesAlbum::isDefaultAlbum($this->resource->album_type);
+        $context        = user();
+
+        if (!$context->hasPermissionTo('photo_album.set_privacy')) {
+            return Builder::hidden('privacy');
+        }
+
+        return $this->buildPrivacyField()
+            ->disabled($isDefaultAlbum)
+            ->label(__p('photo::phrase.album_privacy'))
+            ->description(__p('photo::phrase.description_for_privacy_field'));
     }
 
     protected function buildUploadField(Section $basic): void

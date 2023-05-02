@@ -12,8 +12,8 @@ class MetaFoxConstant
     /* wrap frontend in the directory.*/
     public const FRONTEND_WRAP_NAME = 'frontend';
 
-    public const VERSION       = '5.0.2';
-    public const PRODUCT_BUILD = '6';
+    public const VERSION       = '5.1.0';
+    public const PRODUCT_BUILD = '1';
 
     public const RIGHT  = 'right';
     public const LEFT   = 'left';
@@ -48,7 +48,9 @@ class MetaFoxConstant
 
     public const CACHE_TIME = 3000;
 
-    public const TIME_Y_M_D = 'Y-m-d H:i:s';
+    public const TIME_Y_M_D             = 'Y-m-d H:i:s';
+    public const DISPLAY_FORMAT_TIME_24 = 'DD/MM/YYYY - HH:mm';
+    public const DISPLAY_FORMAT_TIME_12 = 'DD/MM/YYYY - hh:mm A';
 
     public const IS_ACTIVE   = 1;
     public const IS_INACTIVE = 0;
@@ -75,6 +77,7 @@ class MetaFoxConstant
     public const USERNAME_REGEX            = '^[a-zA-Z0-9_\-\x7f-\xff]+$';
     public const RESOURCE_IDENTIFIER_REGEX = '^[a-z0-9]+(_[a-z0-9]+)*$';
     public const SLUGIFY_REGEX             = ['/', '_', ' ', '!', '@', '#', '$', '%', '^', '&', '*'];
+    public const PHONE_NUMBER_REGEX        = '^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$';
 
     public const PAYMENT_STATUS_SUCCESS  = 'success';
     public const PAYMENT_STATUS_CANCELED = 'canceled';

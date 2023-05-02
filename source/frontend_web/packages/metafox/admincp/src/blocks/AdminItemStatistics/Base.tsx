@@ -53,8 +53,8 @@ const Value = styled('div', { slot: 'Value' })(({ theme }) => ({
 
 const BlockContentWrapper = styled(BlockContent, { slot: 'BlockContent' })(
   ({ theme }) => ({
-    margin: theme.spacing(0, 1),
-    padding: theme.spacing(2, 0, 0, 0),
+    margin: theme.spacing(0),
+    padding: theme.spacing(0),
     '& .slick-track': {
       display: 'flex',
       flexWrap: 'wrap',
@@ -123,13 +123,13 @@ export default function AdminItemStats({ blockProps, title }: Props) {
   const settings = {
     infinite: false,
     speed: 400,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: false,
     loop: false,
     responsive: [
       {
-        breakpoint: 1400,
+        breakpoint: 1500,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1
@@ -157,6 +157,16 @@ export default function AdminItemStats({ blockProps, title }: Props) {
       <Block>
         <BlockContentWrapper>
           <Slider {...settings}>
+            <ItemContent>
+              <ItemMediaWrapper>
+                <Skeleton variant="circular" width={60} height={60} />
+              </ItemMediaWrapper>
+              <ItemText>
+                <Skeleton variant="text" width="70%" />
+                <Skeleton variant="text" width="90%" />
+              </ItemText>
+            </ItemContent>
+
             <ItemContent>
               <ItemMediaWrapper>
                 <Skeleton variant="circular" width={60} height={60} />

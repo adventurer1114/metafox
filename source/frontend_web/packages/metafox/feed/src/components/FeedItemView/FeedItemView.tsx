@@ -43,7 +43,6 @@ const FeedItemView = ({
   const {
     i18n,
     CommentList,
-    SortCommentList,
     jsxBackend,
     CommentActButton,
     ShareActButton,
@@ -59,7 +58,6 @@ const FeedItemView = ({
   const pageParams = usePageParams();
   const myRef = React.useRef(null);
   const [sortType, setSortType, loadingSort, setLoadingSort] = useSortComment();
-  const [showSort, setShowSort] = React.useState(false);
   const [visible, setVisible] = React.useState<boolean>(true);
 
   const isMobile = useIsMobile();
@@ -232,11 +230,6 @@ const FeedItemView = ({
           ) : null}
           {[SORT_OLDEST, SORT_NEWEST].includes(sortType) ? (
             <>
-              {!isMobile && showSort ? (
-                <Box mt={1}>
-                  <SortCommentList value={sortType} setValue={setSortType} />
-                </Box>
-              ) : null}
               {session.loggedIn &&
               item.extra.can_comment &&
               CommentComposer &&
@@ -262,8 +255,7 @@ const FeedItemView = ({
                   total_reply={statistic?.total_reply}
                   parent_user={parent_user}
                   sortType={sortType}
-                  forceHideSort
-                  setShowSort={setShowSort}
+                  setSortType={setSortType}
                   setLoadingSort={setLoadingSort}
                 />
               )}
@@ -284,6 +276,7 @@ const FeedItemView = ({
                   sortType={sortType}
                   setSortType={setSortType}
                   setLoadingSort={setLoadingSort}
+                  isDetailPage
                 />
               )}
               {!loadingSort ? (

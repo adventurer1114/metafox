@@ -25,7 +25,7 @@ const name = 'FlyChatRoomPanel';
 const UIChatMsgStart = styled('div', { name, slot: 'UIChatMsgStart' })(
   ({ theme }) => ({
     textAlign: 'center',
-    padding: theme.spacing(2),
+    padding: theme.spacing(2, 2, 1),
     fontStyle: 'italic',
     color: theme.palette.text.primary,
     fontSize: theme.spacing(1.75)
@@ -115,8 +115,47 @@ export default function FlyChatRoomPanel({ rid, collapsed }: Props) {
   const userIdentity = data?.other_members[0] || undefined;
 
   const user = useGetItem(userIdentity);
+  const userSelectedMsg = useGetItem(selectedMsg?.user);
 
   const ChatSimpleComposer = jsxBackend.get('ChatSimpleComposer');
+
+  const [loadingMsgs, setLoadingMsgs] = React.useState(false);
+
+  const oldScrollOffset = React.useRef();
+
+  const handleScroll = evt => {
+    if (evt.target.scrollTop < 100 && !loadingMsgs) {
+      const { endLoadmoreMessage, lastMsgId } = chatRoom;
+
+      if (!lastMsgId || endLoadmoreMessage) return;
+
+      oldScrollOffset.current =
+        evt.target.scrollHeight - evt.target.clientHeight;
+      setLoadingMsgs(true);
+      dispatch({
+        type: 'chat/room/loadHistory',
+        payload: { rid, lastMsgId },
+        meta: {
+          onSuccess: () => {
+            setLoadingMsgs(false);
+          }
+        }
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    // check when some msg pushed
+    if (!chatRoom?.lastMsgId || !oldScrollOffset.current) return;
+
+    const curScrollPos = 0;
+    const newScroll =
+      scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
+
+    scrollRef.current.scrollTop =
+      curScrollPos + (newScroll - oldScrollOffset.current);
+    oldScrollOffset.current = 0;
+  }, [chatRoom?.lastMsgId]);
 
   const handleMarkAsRead = React.useCallback(() => {
     if (rid) {
@@ -242,13 +281,14 @@ export default function FlyChatRoomPanel({ rid, collapsed }: Props) {
           autoHeight
           autoHeightMax={'100%'}
           ref={scrollRef}
+          onScroll={handleScroll}
         >
           <PanelContent
             searching={isSearching}
             collapsed={collapsed}
             ref={scrollRef}
           >
-            {isSearching || loading ? null : (
+            {isSearching || loading || !chatRoom?.endLoadmoreMessage ? null : (
               <UIChatMsgStart>
                 {i18n.formatMessage({ id: 'start_of_conversation' })}
               </UIChatMsgStart>
@@ -271,6 +311,7 @@ export default function FlyChatRoomPanel({ rid, collapsed }: Props) {
                 rid={rid}
                 groups={chatRoom?.groups}
                 groupIds={chatRoom?.groupIds}
+                preFetchingMsg={chatRoom?.preFetchingMsg}
                 newest={chatRoom?.newest}
                 room={data}
                 containerRef={scrollRef}
@@ -293,7 +334,7 @@ export default function FlyChatRoomPanel({ rid, collapsed }: Props) {
                 ? i18n.formatMessage(
                     { id: 'reply_to_user_at_timestamp' },
                     {
-                      user: selectedMsg?.user?.full_name,
+                      user: userSelectedMsg?.full_name,
                       time: new Date(selectedMsg.created_at).toLocaleTimeString(
                         [],
                         { hour: '2-digit', minute: '2-digit' }

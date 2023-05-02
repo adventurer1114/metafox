@@ -11,6 +11,7 @@ use MetaFox\Page\Http\Resources\v1\Traits\PageHasExtra;
 use MetaFox\Page\Models\Page as Model;
 use MetaFox\Page\Models\PageInvite;
 use MetaFox\Page\Repositories\PageInviteRepositoryInterface;
+use MetaFox\Page\Support\Facade\Page as PageFacade;
 use MetaFox\Page\Support\Facade\PageMembership;
 use MetaFox\Platform\Contracts\ResourceText;
 use MetaFox\Platform\Facades\ResourceGate;
@@ -88,6 +89,7 @@ class PageDetail extends JsonResource
             'is_invited'           => $this->isUserInvited($context),
             'is_featured'          => (bool) $this->resource->is_featured,
             'is_sponsor'           => (bool) $this->resource->is_sponsor,
+            'is_following'         => PageFacade::isFollowing($context, $this->resource),
             'membership'           => PageMembership::getMembership($this->resource, $context),
             'image'                => $this->resource->avatars, //@todo: remove later if not used anymore
             'image_id'             => $this->resource->getAvatarId(), //@todo: remove later if not used anymore
@@ -114,7 +116,17 @@ class PageDetail extends JsonResource
             'invite'               => $pendingInvite ? ResourceGate::asResource($pendingInvite, 'item', false) : null,
             'cover_resource'       => $this->getCoverResources(),
             'avatar_resource'      => $this->getAvatarResources(),
+            'privacy_detail'       => $this->getPrivacyDetail(),
         ];
+    }
+
+    protected function getPrivacyDetail(): ?array
+    {
+        return app('events')->dispatch(
+            'activity.get_privacy_detail_on_owner',
+            [user(), $this->resource],
+            true
+        );
     }
 
     protected function getCoverResources(): ?JsonResource

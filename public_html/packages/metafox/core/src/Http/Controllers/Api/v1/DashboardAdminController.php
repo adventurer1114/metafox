@@ -84,7 +84,7 @@ class DashboardAdminController extends ApiController
             'license_expired_at'   => $expired,
             'version'              => MetaFox::getVersion(),
             'latest_version'       => $latestVersion,
-            'can_upgrade'          => version_compare(MetaFox::getVersion(), $latestVersion, '<'),
+            'can_upgrade'          => false, // temporarily disable platform upgrade
         ]);
     }
 

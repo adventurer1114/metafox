@@ -16,6 +16,7 @@ use MetaFox\Comment\Http\Requests\v1\Comment\StoreRequest;
 use MetaFox\Comment\Http\Requests\v1\Comment\UpdateRequest;
 use MetaFox\Comment\Http\Resources\v1\Comment\CommentDetail as Detail;
 use MetaFox\Comment\Http\Resources\v1\Comment\CommentItemCollection as ItemCollection;
+use MetaFox\Comment\Http\Resources\v1\Comment\CommentListingItemCollection;
 use MetaFox\Comment\Http\Resources\v1\CommentHistory\CommentHistoryCollection;
 use MetaFox\Comment\Models\Comment;
 use MetaFox\Comment\Policies\CommentPolicy;
@@ -24,6 +25,7 @@ use MetaFox\Comment\Repositories\CommentRepositoryInterface;
 use MetaFox\Platform\Contracts\ActivityFeedSource;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Exceptions\PermissionDeniedException;
+use MetaFox\Platform\Facades\ResourceGate;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityItemCollection;
 
@@ -69,7 +71,7 @@ class CommentController extends ApiController
 
         $data = $this->repository->viewComments(user(), $params);
 
-        return new ItemCollection($data);
+        return new CommentListingItemCollection($data);
     }
 
     /**
@@ -261,5 +263,19 @@ class CommentController extends ApiController
         $response = new Detail($data);
 
         return $this->success($response->setIsPreview(true));
+    }
+
+    public function removeLinkPreview(int $id): JsonResponse
+    {
+        $comment = $this->repository->find($id);
+        $context = user();
+
+        policy_authorize(CommentPolicy::class, 'removeLinkPreview', $context, $comment);
+
+        $this->repository->removeLinkPreview($comment);
+
+        $comment->refresh();
+
+        return $this->success(ResourceGate::asItem($comment, null));
     }
 }

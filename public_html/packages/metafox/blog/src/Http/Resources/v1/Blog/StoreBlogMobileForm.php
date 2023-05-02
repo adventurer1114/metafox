@@ -10,9 +10,8 @@ use MetaFox\Blog\Policies\BlogPolicy;
 use MetaFox\Blog\Repositories\BlogRepositoryInterface;
 use MetaFox\Blog\Repositories\CategoryRepositoryInterface;
 use MetaFox\Form\AbstractForm;
-use MetaFox\Form\FormField;
 use MetaFox\Form\Mobile\Builder;
-use MetaFox\Platform\Contracts\User;
+use MetaFox\Form\PrivacyFieldMobileTrait;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
@@ -27,6 +26,8 @@ use MetaFox\Yup\Yup;
  */
 class StoreBlogMobileForm extends AbstractForm
 {
+    use PrivacyFieldMobileTrait;
+
     public bool $preserveKeys = true;
 
     /**
@@ -38,13 +39,13 @@ class StoreBlogMobileForm extends AbstractForm
     {
         $context = user();
         $params  = $request->validated();
-        $owner   = null;
+
         if ($params['owner_id'] != 0) {
             $userEntity = UserEntity::getById($params['owner_id']);
-            $owner      = $userEntity->detail;
+            $this->setOwner($userEntity->detail);
         }
 
-        policy_authorize(BlogPolicy::class, 'create', $context, $owner);
+        policy_authorize(BlogPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -74,9 +75,6 @@ class StoreBlogMobileForm extends AbstractForm
             ]);
     }
 
-    /**
-     * @throws AuthenticationException
-     */
     protected function initialize(): void
     {
         $basic              = $this->addBasic();
@@ -140,19 +138,9 @@ class StoreBlogMobileForm extends AbstractForm
         );
 
         // Handle build privacy field with custom criteria
-        $basic->addField($this->buildPrivacyField(user()));
-    }
-
-    protected function buildPrivacyField(User $context): FormField
-    {
-        return Builder::privacy('privacy')
-            ->description(__p('blog::phrase.control_who_can_see_this_blog'))
-            ->showWhen(
-                [
-                    'or',
-                    ['falsy', 'owner_id'],
-                    ['eq', 'owner_id', $context->entityId()],
-                ]
-            );
+        $basic->addField(
+            $this->buildPrivacyField()
+                ->description(__p('blog::phrase.control_who_can_see_this_blog'))
+        );
     }
 }

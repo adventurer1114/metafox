@@ -38,10 +38,18 @@ class SearchListingMapForm extends AbstractForm
                 ->label('Reset')
                 ->align('right')
                 ->excludeFields(['category_id', 'q', 'view']),
-            Builder::choice('sort')
+            Builder::choice('sort_type')
                 ->label(__p('core::phrase.sort_label'))
                 ->marginNormal()
-                ->options($this->getSortOptions()),
+                ->options([
+                    [
+                        'label' => __p('core::phrase.new'),
+                        'value' => Browse::SORT_TYPE_DESC,
+                    ], [
+                        'label' => __p('core::phrase.sort.latest'),
+                        'value' => Browse::SORT_TYPE_ASC,
+                    ],
+                ]),
             Builder::choice('when')
                 ->label(__p('core::phrase.when_label'))
                 ->marginNormal()
@@ -51,16 +59,6 @@ class SearchListingMapForm extends AbstractForm
                 ->marginNormal()
                 ->options($this->getLimitOptions()),
         );
-    }
-
-    protected function getSortOptions(): array
-    {
-        return [
-            ['label' => __p('core::phrase.sort.recent'), 'value' => Browse::SORT_RECENT],
-            ['label' => __p('core::phrase.sort.most_viewed'), 'value' => Browse::SORT_MOST_VIEWED],
-            ['label' => __p('core::phrase.sort.most_liked'), 'value' => Browse::SORT_MOST_LIKED],
-            ['label' => __p('core::phrase.sort.most_discussed'), 'value' => Browse::SORT_MOST_DISCUSSED],
-        ];
     }
 
     protected function getWhenOptions(): array
@@ -77,26 +75,18 @@ class SearchListingMapForm extends AbstractForm
     {
         return [
             [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_5_NEAREST),
+                'label' => __p('marketplace::phrase.nearest.view_5_nearest_listings'),
                 'value' => MetaFoxConstant::VIEW_5_NEAREST,
             ], [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_10_NEAREST),
+                'label' => __p('marketplace::phrase.nearest.view_10_nearest_listings'),
                 'value' => MetaFoxConstant::VIEW_10_NEAREST,
             ], [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_15_NEAREST),
+                'label' => __p('marketplace::phrase.nearest.view_15_nearest_listings'),
                 'value' => MetaFoxConstant::VIEW_15_NEAREST,
             ], [
-                'label' => $this->getLimitLabel(MetaFoxConstant::VIEW_20_NEAREST),
+                'label' => __p('marketplace::phrase.nearest.view_20_nearest_listings'),
                 'value' => MetaFoxConstant::VIEW_20_NEAREST,
             ],
         ];
-    }
-
-    protected function getLimitLabel(int $number): string
-    {
-        return __p(
-            'marketplace::phrase.view_nearest_listing',
-            ['number' => $number]
-        );
     }
 }

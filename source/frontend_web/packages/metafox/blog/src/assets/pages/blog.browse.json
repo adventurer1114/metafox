@@ -23,7 +23,7 @@
           "itemView": "blog.itemView.mainCard",
           "contentType": "blog",
           "canLoadMore": true,
-          "blockLayout": "Forum Slider",
+          "blockLayout": "App List",
           "canLoadSmooth": 1,
           "gridLayout": "Blog - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
@@ -130,13 +130,13 @@
           "canLoadMore": true,
           "contentType": "blog",
           "title": "",
-          "blockLayout": "App List - Mobile - Paper",
-          "gridLayout": "Blog - Mobile Main Card",
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "Blog - Main Card - Mobile",
           "emptyPageProps": {
             "noBlock": 1
           },
           "emptyPage": "core.block.no_content_with_icon",
-          "itemLayout": "Blog - Mobile Main Card"
+          "itemLayout": "Blog - Main Card - Mobile"
         }
       ],
       "containers": {},

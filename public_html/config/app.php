@@ -287,15 +287,12 @@ return [
     'install_module_path' => env('MFOX_INSTALL_PACKAGE_PATH', 'install-module'),
     'trusted_proxies'     => env('APP_TRUSTED_PROXIES', '**'),
 
-    'mfox_api_key'    => env('MFOX_API_KEY'),
-    'mfox_api_secret' => env('MFOX_API_SECRET'),
-
-    'mfox_license_id'            => env('MFOX_LICENSE_ID'),
-    'mfox_license_key'           => env('MFOX_LICENSE_KEY'),
-    'mfox_installed'             => env('MFOX_APP_INSTALLED'),
-    'mfox_frontend_root'         => env('MFOX_FRONTEND_ROOT'),
+    'mfox_license_id'            => env('MFOX_LICENSE_ID', ''),
+    'mfox_license_key'           => env('MFOX_LICENSE_KEY', ''),
+    'mfox_installed'             => env('MFOX_APP_INSTALLED', false),
+    'mfox_frontend_root'         => env('MFOX_FRONTEND_ROOT', ''),
     'mfox_app_channel'           => env('MFOX_APP_CHANNEL', 'production'),
-    'mfox_store_api_token'       => env('MFOX_STORE_API_TOKEN'),
+    'mfox_store_api_token'       => env('MFOX_STORE_API_TOKEN', ''),
     'mfox_bundle_service_url'    => env('MFOX_BUNDLE_SERVICE_URL', 'https://cloudcall-s01.phpfox.com/build-service'),
     'mfox_default_video_service' => env('MFOX_VIDEO_PROVIDER', 'ffmpeg'),
 

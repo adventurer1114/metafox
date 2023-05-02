@@ -47,7 +47,7 @@ class ItemActionMenu extends MenuConfig
             ->value(MetaFoxForm::ACTION_ROW_DELETE)
             ->label($label ?? __p('core::phrase.delete'))
             ->action('destroy')
-            ->confirm(true)
+            ->confirm($confirmation ?: true)
             ->showWhen($showWhen);
     }
 

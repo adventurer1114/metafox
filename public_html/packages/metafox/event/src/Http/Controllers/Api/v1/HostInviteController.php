@@ -9,6 +9,7 @@ use MetaFox\Event\Http\Requests\v1\Invite\DeleteRequest;
 use MetaFox\Event\Http\Requests\v1\Invite\IndexRequest;
 use MetaFox\Event\Http\Requests\v1\Invite\StoreRequest;
 use MetaFox\Event\Http\Requests\v1\Invite\UpdateRequest;
+use MetaFox\Event\Http\Resources\v1\Event\EventDetail;
 use MetaFox\Event\Http\Resources\v1\HostInvite\InviteItemCollection as ItemCollection;
 use MetaFox\Event\Models\Member;
 use MetaFox\Event\Repositories\EventRepositoryInterface;
@@ -64,15 +65,17 @@ class HostInviteController extends ApiController
         $context = user();
         $this->repository->inviteHosts($context, $event, $params['user_ids']);
 
-        return $this->success([], [], __p('core::phrase.invitation_s_successfully_sent'));
+        $data = new EventDetail($event);
+
+        return $this->success($data, [], __p('core::phrase.invitation_s_successfully_sent'));
     }
 
     /**
      * @param UpdateRequest $request
      *
      * @return JsonResponse
-     * @throws ValidatorException
      * @throws AuthenticationException
+     * @throws ValidatorException
      */
     public function update(UpdateRequest $request): JsonResponse
     {
@@ -89,7 +92,7 @@ class HostInviteController extends ApiController
             $result = $this->repository->declineInvite($event, $context);
         }
 
-        if (false == $result) {
+        if (!$result) {
             return $this->error(__p('validation.something_went_wrong_please_try_again'), 403);
         }
 

@@ -146,7 +146,7 @@ class UpgradeAdminController extends ApiController
         $lockName = base_path('storage/install/installation.lock');
 
         if (file_exists($lockName)) {
-            unlink($lockName);
+            @unlink($lockName);
         }
 
         $files = app('files');
@@ -213,7 +213,7 @@ class UpgradeAdminController extends ApiController
         ]);
     }
 
-    public function checkStepIsRetry($lockName, $verifier = null)
+    private function checkStepIsRetry($lockName, $verifier = null)
     {
         $status = get_installation_lock($lockName);
 
@@ -233,14 +233,14 @@ class UpgradeAdminController extends ApiController
         }
     }
 
-    public function stepRestartQueueWorker()
+    private function stepRestartQueueWorker()
     {
         $this->execCommand(sprintf('%s artisan queue:restart', $this->getPhpPath()));
 
         return $this->success([]);
     }
 
-    public function stepDownloadFramework()
+    private function stepDownloadFramework()
     {
         if (file_exists($this->frameworkFilename)) {
             return $this->success([]);
@@ -267,7 +267,7 @@ class UpgradeAdminController extends ApiController
         return $this->success([]);
     }
 
-    public function stepExtractFramework()
+    private function stepExtractFramework()
     {
         if (!file_exists($this->frameworkFilename)) {
             return $this->error('Failed loading ' . $this->frameworkFilename);
@@ -308,7 +308,7 @@ class UpgradeAdminController extends ApiController
         return $this->success([]);
     }
 
-    public function stepClean()
+    private function stepClean()
     {
         $this->execCommand(sprintf('%s artisan optimize:clear ', $this->getPhpPath()));
 
@@ -318,14 +318,14 @@ class UpgradeAdminController extends ApiController
         return $this->success([]);
     }
 
-    public function ensureDir($directory)
+    private function ensureDir($directory)
     {
         if (!is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
     }
 
-    public function setStepDone($lockName = null)
+    private function setStepDone($lockName = null)
     {
         if (!$lockName) {
             $lockName = $this->lockName;
@@ -333,7 +333,7 @@ class UpgradeAdminController extends ApiController
         $this->setLockValue($lockName, self::DONE);
     }
 
-    public function setStepFailed($lockName = null)
+    private function setStepFailed($lockName = null)
     {
         if (!$lockName) {
             $lockName = $this->lockName;
@@ -341,7 +341,7 @@ class UpgradeAdminController extends ApiController
         $this->setLockValue($lockName, self::FAILED);
     }
 
-    public function setStepIsProcessing($lockName = null)
+    private function setStepIsProcessing($lockName = null)
     {
         if (!$lockName) {
             $lockName = $this->lockName;
@@ -350,12 +350,12 @@ class UpgradeAdminController extends ApiController
         $this->setLockValue($lockName, self::PROCESSING);
     }
 
-    public function setLockName($lockName)
+    private function setLockName($lockName)
     {
         $this->lockName = $lockName;
     }
 
-    public function getLockValue($lockName, $default = null)
+    private function getLockValue($lockName, $default = null)
     {
         if (file_exists($this->lockFile)) {
             $data = json_decode(file_get_contents($this->lockFile), true);
@@ -366,7 +366,7 @@ class UpgradeAdminController extends ApiController
         return $default;
     }
 
-    public function setLockValue($lockName, $value)
+    private function setLockValue($lockName, $value)
     {
         $data = [];
         if (file_exists($this->lockFile)) {
@@ -377,7 +377,7 @@ class UpgradeAdminController extends ApiController
         file_put_contents($this->lockFile, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL);
     }
 
-    public function clearLockValue()
+    private function clearLockValue()
     {
         file_put_contents($this->lockFile, json_encode([], JSON_PRETTY_PRINT) . PHP_EOL);
     }
@@ -458,7 +458,7 @@ class UpgradeAdminController extends ApiController
         throw new RuntimeException('Failed finding php path');
     }
 
-    public function stepWaitFrontend()
+    private function stepWaitFrontend()
     {
         $lockName = 'stepBuildFrontend';
         if (($result = $this->checkStepIsRetry($lockName))) {
@@ -478,7 +478,7 @@ class UpgradeAdminController extends ApiController
     /**
      * @link /install/build-frontend
      */
-    public function stepBuildFrontend()
+    private function stepBuildFrontend()
     {
         $this->execCommand(sprintf('%s artisan frontend:build', $this->getPhpPath(), ), getenv());
 
@@ -535,7 +535,7 @@ class UpgradeAdminController extends ApiController
         ];
     }
 
-    public function discoverExistedPackages(): array
+    private function discoverExistedPackages(): array
     {
         $basePath = $this->projectRoot;
         $files    = [];
@@ -817,7 +817,7 @@ class UpgradeAdminController extends ApiController
         ];
     }
 
-    protected function stepDownloadApp()
+    private function stepDownloadApp()
     {
         $this->log(sprintf('Start %s', __METHOD__));
         $id              = Arr::get($this->input, 'identity');
@@ -852,7 +852,7 @@ class UpgradeAdminController extends ApiController
         register_shutdown_function(function () use ($temporary, $filename) {
             if (file_exists($temporary)) {
                 copy($temporary, $filename);
-                unlink($temporary);
+                @unlink($temporary);
             }
         });
 
@@ -864,14 +864,14 @@ class UpgradeAdminController extends ApiController
         return $this->success([]);
     }
 
-    protected function log($message, $level = 'DEBUG')
+    private function log($message, $level = 'DEBUG')
     {
         $message = sprintf('[%s] production:%s: %s', strtoupper($level), date('Y-m-d H:i:s'), $message);
 
         file_put_contents($this->logFile, $message . PHP_EOL, FILE_APPEND);
     }
 
-    public function stepProcessUpgrade()
+    private function stepProcessUpgrade()
     {
         $canUpgrade    = Arr::get($this->input, 'canUpgrade');
         $latestVersion = Arr::get($this->input, 'latestVersion');
@@ -977,7 +977,7 @@ class UpgradeAdminController extends ApiController
     /**
      * Get collections of app to upgrades.
      */
-    public function getRecommendAppsToUpgrades()
+    private function getRecommendAppsToUpgrades()
     {
         $this->log(sprintf('Start %s', __METHOD__));
 
@@ -1061,12 +1061,12 @@ class UpgradeAdminController extends ApiController
         return $json['version'];
     }
 
-    public function clearDownloadApps()
+    private function clearDownloadApps()
     {
         $this->execCommand('rm -rf ' . $this->downloadFrameworkFolder);
     }
 
-    public function stepExtractApps()
+    private function stepExtractApps()
     {
         $files = app('files')->files($this->downloadAppFolder);
 
@@ -1115,21 +1115,21 @@ class UpgradeAdminController extends ApiController
         return $this->success([], [], 'Install dependency successfully');
     }
 
-    public function stepDownSite()
+    private function stepDownSite()
     {
         $this->execCommand(sprintf('%s artisan down', $this->getPhpPath()), getenv(), false);
 
         return $this->success([]);
     }
 
-    public function stepUpSite()
+    private function stepUpSite()
     {
         $this->execCommand(sprintf('%s artisan up', $this->getPhpPath()));
 
         return $this->success([]);
     }
 
-    public function isStepProcessing($lockName)
+    private function isStepProcessing($lockName)
     {
         return $this->getLockValue($lockName) === self::PROCESSING;
     }

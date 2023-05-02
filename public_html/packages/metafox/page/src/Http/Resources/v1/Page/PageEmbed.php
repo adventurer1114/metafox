@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use MetaFox\Page\Http\Resources\v1\Traits\IsUserInvited;
 use MetaFox\Page\Http\Resources\v1\Traits\PageHasExtra;
 use MetaFox\Page\Models\Page as Model;
+use MetaFox\Page\Support\Facade\PageMembership;
 use MetaFox\Platform\Traits\Http\Resources\HasStatistic;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
 use MetaFox\User\Support\Facades\User;
@@ -55,6 +56,8 @@ class PageEmbed extends JsonResource
             'user_name'     => $this->resource->profile_name,
             'is_liked'      => $this->resource->isMember($context),
             'is_member'     => $this->resource->isMember($context),
+            'is_owner'      => $this->resource->isUser($context),
+            'membership'    => PageMembership::getMembership($this->resource, $context),
             'is_admin'      => $this->resource->isAdmin($context),
             'is_invited'    => !$this->isUserInvited($context),
             'is_featured'   => (bool) $this->resource->is_featured,

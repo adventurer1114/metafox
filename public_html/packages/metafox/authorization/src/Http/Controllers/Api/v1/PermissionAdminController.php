@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use MetaFox\Authorization\Http\Requests\v1\Permission\Admin\EditFormRequest;
 use MetaFox\Authorization\Http\Resources\v1\Permission\Admin\SearchPermissionForm;
+use MetaFox\Authorization\Http\Resources\v1\Role\Admin\RoleItemCollection;
 use MetaFox\Authorization\Repositories\Contracts\PermissionRepositoryInterface;
 use MetaFox\Authorization\Repositories\Contracts\RoleRepositoryInterface;
 use MetaFox\Core\Constants;
@@ -60,6 +61,11 @@ class PermissionAdminController extends ApiController
         $this->roles = $roles;
     }
 
+    public function index()
+    {
+        return $this->success(new RoleItemCollection($this->roles->all()));
+    }
+
     /**
      * @param Request $request
      * @param int     $id
@@ -70,13 +76,14 @@ class PermissionAdminController extends ApiController
      */
     public function update(Request $request, int $id): JsonResponse
     {
+
         $role     = $this->roles->find($id);
         $context  = user();
         $moduleId = $request->get('module_id', 'user');
         $values   = Arr::dot($request->all());
 
         if (!in_array($moduleId, app('core.packages')->getActivePackageAliases())) {
-            throw new ModelNotFoundException();
+            return $this->error('Package not found');
         }
 
         [, $driver, ,] = app('core.drivers')->loadDriver(Constants::DRIVER_TYPE_FORM, 'user.edit_permission', 'admin');
@@ -94,6 +101,8 @@ class PermissionAdminController extends ApiController
         if (method_exists($form, 'validated')) {
             $values = app()->call([$form, 'validated'], $request->route()->parameters());
         }
+
+
 
         // Unset these param because user may search for setting before send form to api
         // And module_id, role_id is also included

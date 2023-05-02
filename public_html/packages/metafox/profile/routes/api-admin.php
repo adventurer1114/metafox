@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('profile')
     ->as('profile.')
     ->group(function () {
+        Route::post('field/order', [FieldAdminController::class, 'order']);
         Route::resource('field', FieldAdminController::class);
         Route::resource('profile', ProfileAdminController::class);
         Route::resource('section', SectionAdminController::class);

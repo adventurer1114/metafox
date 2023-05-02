@@ -60,7 +60,7 @@ class AbstractFeedAction
     public function getPrivacy(): int
     {
         if ($this->source instanceof HasPrivacy) {
-            return $this->source->privacy;
+            return $this->source->privacy ?? 0;
         }
 
         return 0;

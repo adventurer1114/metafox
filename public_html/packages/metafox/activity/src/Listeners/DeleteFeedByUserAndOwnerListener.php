@@ -19,12 +19,15 @@ class DeleteFeedByUserAndOwnerListener
     }
 
     /**
-     * @param  User     $context
-     * @param  Content  $owner
+     * @param  User|null $context
+     * @param  Content   $owner
      * @return void
      */
-    public function handle(User $context, Content $owner): void
+    public function handle(?User $context, Content $owner): void
     {
+        if (!$context) {
+            return;
+        }
         $this->repository->deleteFeedByUserAndOwner($context, $owner);
     }
 }

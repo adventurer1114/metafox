@@ -8,7 +8,6 @@
 namespace MetaFox\Platform\Support;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use MetaFox\Platform\Facades\PolicyGate;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 use MetaFox\Platform\UserRole;
@@ -81,38 +80,6 @@ trait HasUser
     public function hasPendingMode(): bool
     {
         return null !== $this->isPendingMode();
-    }
-
-    /**
-     * @param mixed        $abilities
-     * @param array<mixed> $arguments
-     *
-     * @return bool
-     */
-    public function can($abilities, $arguments = []): bool
-    {
-        if (!is_string($abilities)) {
-            abort(500, 'Metafox is not supported');
-        }
-        if (!isset($arguments[0])) {
-            abort(500, 'Missing the first argument');
-        }
-
-        $className = $arguments[0];
-        unset($arguments[0]);
-
-        if (!is_string($className)) {
-            $className = get_class($className);
-        }
-
-        $policy = PolicyGate::getPolicyFor($className);
-
-        if (!$policy) {
-            // should return true by default if there is no policy handler
-            return true;
-        }
-
-        return $policy->{$abilities}($this, ...$arguments);
     }
 
     public function getItemPrivacy(): ?int

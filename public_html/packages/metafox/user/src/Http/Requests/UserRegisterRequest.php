@@ -168,7 +168,7 @@ class UserRegisterRequest extends FormRequest
             'password.required'          => __p('validation.password_field_validation_required'),
             'password_confirmation.same' => __p('validation.the_password_confirmation_is_not_matched'),
             'reenter_email.same'         => __p('validation.the_reenter_email_is_not_matched'),
-            'custom_gender.required_if'  => __p('validation.the_custom_gender_field_is_required'),
+            'custom_gender.required_if'  => __p('validation.the_custom_gender_field_is_a_required_field'),
         ];
 
         $extraMessages = app('events')->dispatch('user.registration.extra_field.rule_messages');

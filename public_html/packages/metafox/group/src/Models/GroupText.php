@@ -28,6 +28,7 @@ class GroupText extends Model implements ResourceText
     protected $table = 'group_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

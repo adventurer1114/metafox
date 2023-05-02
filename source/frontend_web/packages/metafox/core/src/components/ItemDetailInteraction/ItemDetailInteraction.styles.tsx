@@ -8,10 +8,6 @@ const useStyles = makeStyles(
       listingComment: {
         marginTop: theme.spacing(2)
       },
-      borderBottomPhoto: {
-        borderBottom: 'solid 1px',
-        borderBottomColor: theme.palette.border?.secondary
-      },
       actionButtonStaticsWrapper: {
         display: 'flex',
         alignItems: 'center',

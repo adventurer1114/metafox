@@ -17,13 +17,13 @@ class GetPrivacyDetailListener
     }
 
     /**
-     * @param  User       $context
-     * @param  Content    $resource
-     * @param  int|null   $representativePrivacy
-     * @param  bool       $checkOwner
+     * @param  User|null    $context
+     * @param  Content|null $resource
+     * @param  int|null     $representativePrivacy
+     * @param  bool         $checkOwner
      * @return array|null
      */
-    public function handle(User $context, Content $resource, ?int $representativePrivacy = null, bool $checkOwner = false): ?array
+    public function handle(?User $context, ?Content $resource, ?int $representativePrivacy = null, bool $checkOwner = false): ?array
     {
         return match ($checkOwner) {
             true  => $this->getPrivacyDetailOnOwner($context, $resource),
@@ -48,10 +48,6 @@ class GetPrivacyDetailListener
             $owner = $resource->owner;
         }
 
-        return app('events')->dispatch(
-            'activity.get_privacy_detail_on_owner',
-            [$context, $owner],
-            true
-        );
+        return $this->repository->getOwnerPrivacyDetail($context, $owner, $owner->getRepresentativePrivacy());
     }
 }

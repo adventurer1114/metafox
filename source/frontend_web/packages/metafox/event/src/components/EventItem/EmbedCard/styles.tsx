@@ -59,7 +59,7 @@ export default makeStyles(
       itemInner: {
         flex: 1,
         minWidth: 0,
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column'
       },

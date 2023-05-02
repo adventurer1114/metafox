@@ -5,6 +5,7 @@ namespace MetaFox\ActivityPoint\Http\Requests\v1\PointPackage\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use MetaFox\ActivityPoint\Rules\ValidPackageThumbnailRule;
 use MetaFox\Platform\Rules\AllowInRule;
 
 /**
@@ -31,6 +32,7 @@ class StoreRequest extends FormRequest
     public function rules(Request $request): array
     {
         $priceRules = app('currency')->rules('price', ['required', 'integer']);
+
         $rules = [
             'title'     => ['required', 'string'],
             'amount'    => ['required', 'numeric', 'digits_between:1,7'],
@@ -47,6 +49,7 @@ class StoreRequest extends FormRequest
         $data = parent::validated($key, $default);
 
         $price = Arr::get($data, 'price', []);
+
         if (!is_array($price)) {
             $price = [];
         }
@@ -67,8 +70,7 @@ class StoreRequest extends FormRequest
     protected function applyFileRule(array $rules): array
     {
         return array_merge($rules, [
-            'file'           => ['sometimes', 'array'],
-            'file.temp_file' => ['sometimes', 'numeric', 'exists:storage_files,id'],
+            'file' => ['sometimes', resolve(ValidPackageThumbnailRule::class)],
         ]);
     }
 

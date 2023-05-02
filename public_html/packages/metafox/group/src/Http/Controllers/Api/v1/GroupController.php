@@ -84,7 +84,7 @@ class GroupController extends ApiController
         if ($params['user_id'] > 0) {
             $owner = UserEntity::getById($params['user_id'])->detail;
             if (!policy_check(GroupPolicy::class, 'viewOnProfilePage', $context, $owner)) {
-                return $this->success([]);
+                throw new AuthorizationException();
             }
 
             if (!UserPrivacy::hasAccess($context, $owner, 'group.profile_menu')) {
@@ -352,7 +352,7 @@ class GroupController extends ApiController
     {
         $context = user();
 
-        $group   = $this->repository->find($id);
+        $group = $this->repository->find($id);
 
         policy_authorize(GroupPolicy::class, 'update', $context, $group);
 

@@ -14,7 +14,11 @@ export default function MainListViewBlock(props: ListViewBlockProps) {
 
   const { pageParams } = usePageParams();
   const { mainListing } = useContentParams();
-  const { dataSource, canLoadMore: canLoadMoreMain, ...blockProps } = mainListing;
+  const {
+    dataSource,
+    canLoadMore: canLoadMoreMain,
+    ...blockProps
+  } = mainListing;
 
   const apiParams = compactData(
     dataSource.apiParams,

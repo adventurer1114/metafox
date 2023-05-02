@@ -66,44 +66,21 @@
           "component": "feed.block.statusComposer",
           "slotName": "main",
           "title": "Status Composer",
-          "blockProps": {
-            "variant": "contained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle1",
-            "titleColor": "textPrimary",
-            "blockStyle": {
-              "mb": 2,
-              "bgColor": "paper"
-            },
-            "headerStyle": {
-              "pl": 2,
-              "pt": 1,
-              "pb": 1,
-              "pr": 2
-            },
-            "contentStyle": {
-              "pl": 2,
-              "pt": 2,
-              "pb": 2,
-              "pr": 2
-            },
-            "footerStyle": {
-              "pl": 2,
-              "pt": 1,
-              "pb": 1,
-              "pr": 2
-            }
-          },
-          "blockId": "srfte"
+          "blockId": "srfte",
+          "blockLayout": "Blocker - Mobile"
         },
         {
           "component": "feed.block.groupProfileFeeds",
           "slotName": "main",
-          "title": "Update",
-          "blockId": "ymm1q",
           "moduleName": "feed",
           "resourceName": "feed",
-          "actionName": "viewOwnerItem"
+          "actionName": "viewOwnerItem",
+          "blockId": "d90ip",
+          "itemView": "feed.itemView.mainCard",
+          "emptyPage": "core.block.no_content_with_description",
+          "blockLayout": "Main Listings",
+          "gridLayout": "Feed - Main Card",
+          "itemLayout": "Feed - Main Card"
         }
       ]
     },

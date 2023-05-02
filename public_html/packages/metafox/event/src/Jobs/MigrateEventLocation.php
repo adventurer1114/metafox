@@ -7,9 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use MetaFox\Event\Models\Event;
 use MetaFox\Event\Repositories\EventRepositoryInterface;
-use MetaFox\Event\Support\Facades\Event as EventSupport;
 
 class MigrateEventLocation implements ShouldQueue
 {
@@ -20,28 +18,21 @@ class MigrateEventLocation implements ShouldQueue
 
     public function handle()
     {
+        $apiKey = env('MFOX_GOOGLE_MAP_API_KEY');
+        if (empty($apiKey)) {
+            return null;
+        }
+
         $events = resolve(EventRepositoryInterface::class)->getMissingLocationEvent();
 
-        if ($events->isEmpty()) {
+        if (!$events->count()) {
             return;
         }
 
-        foreach ($events as $event) {
-            if (!$event instanceof Event) {
-                continue;
-            }
+        $collections = $events->chunk(50);
 
-            $location = EventSupport::createLocationWithName($event->location_name);
-
-            $event->update([
-                'location_name'      => $location['location_name'] ?? null,
-                'location_latitude'  => $location['location_latitude'] ?? null,
-                'location_longitude' => $location['location_longitude'] ?? null,
-            ]);
+        foreach ($collections as $collection) {
+            MigrateChunkingEventLocation::dispatch($collection->pluck('id')->toArray());
         }
-
-        sleep(5);
-
-        self::dispatch();
     }
 }

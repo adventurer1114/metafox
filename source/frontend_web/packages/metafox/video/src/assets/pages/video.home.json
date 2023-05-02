@@ -65,14 +65,14 @@
           "blockId": "i98",
           "contentType": "video",
           "emptyPage": "hide",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Video - Main Card",
           "itemLayout": "Video - Main Card",
           "canLoadMore": false,
           "displayLimit": 6,
           "dataSource": {
             "apiUrl": "/video",
-            "apiParams": "view=feature"
+            "apiParams": "view=feature&limit=6"
           }
         },
         {
@@ -86,10 +86,10 @@
           "contentType": "video",
           "dataSource": {
             "apiUrl": "/video",
-            "apiParams": "sort=most_viewed"
+            "apiParams": "sort=most_viewed&limit=12"
           },
           "emptyPage": "core.block.no_content_with_icon",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Video - Main Card",
           "emptyPageProps": {
             "noHeader": true,
@@ -100,6 +100,7 @@
           },
           "itemLayout": "Video - Main Card",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "maxPageNumber": 2,
           "numberOfItemsPerPage": 10
         }
@@ -131,12 +132,12 @@
           "contentType": "video",
           "dataSource": {
             "apiUrl": "/video",
-            "apiParams": "view=feature"
+            "apiParams": "view=feature&limit=6"
           },
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Video - Flat View",
-          "displayLimit": "3",
-          "itemLayout": "Video - Flat View"
+          "displayLimit": "6",
+          "itemLayout": "Video - Main Card"
         },
         {
           "blockId": "5i937",
@@ -150,16 +151,16 @@
           "contentType": "video",
           "dataSource": {
             "apiUrl": "/video",
-            "apiParams": "sort=most_viewed"
+            "apiParams": "sort=most_viewed&limit=12"
           },
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Video - Flat View",
           "displayLimit": "4",
           "emptyPageProps": {
             "title": "no_videos_found",
             "image": "ico-video"
           },
-          "itemLayout": "Video - Flat View"
+          "itemLayout": "Video - Main Card"
         }
       ],
       "containers": {},

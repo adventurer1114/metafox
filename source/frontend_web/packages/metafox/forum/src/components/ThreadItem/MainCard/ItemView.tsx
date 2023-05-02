@@ -24,6 +24,7 @@ const SubInfoStyled = styled('div', { name, slot: 'subInfoStyled' })(
     display: 'flex',
     alignItems: 'center',
     marginRight: theme.spacing(1),
+    flexFlow: 'wrap',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       alignItems: 'flex-start'
@@ -65,7 +66,8 @@ const IconTitle = styled(LineIcon, { name, slot: 'IconTitle' })(
   ({ theme }) => ({
     marginRight: theme.spacing(1),
     color: theme.palette.success.main,
-    fontSize: theme.spacing(2.5)
+    display: 'inline-block',
+    transform: 'translateY(2px)'
   })
 );
 

@@ -22,17 +22,6 @@ use MetaFox\Platform\Rules\ExistIfGreaterThanZero;
  */
 class UpdateRequest extends StoreRequest
 {
-    protected function applyFileRule(array $rules): array
-    {
-        return array_merge($rules, [
-            'file'           => ['sometimes', 'array'],
-            'file.temp_file' => [
-                'required_if:file.status,update', 'numeric', new ExistIfGreaterThanZero('exists:storage_files,id'),
-            ],
-            'file.status' => ['required_with:file', 'string', new AllowInRule(['update', 'remove'])],
-        ]);
-    }
-
     /**
      * @param  array<string, mixed> $data
      * @return array<string, mixed>
@@ -40,6 +29,7 @@ class UpdateRequest extends StoreRequest
     protected function handleFileData(array $data): array
     {
         $data['temp_file'] = Arr::get($data, 'file.temp_file', 0);
+
         $removeImage       = Arr::get($data, 'file.status', null);
 
         if (is_string($removeImage)) {

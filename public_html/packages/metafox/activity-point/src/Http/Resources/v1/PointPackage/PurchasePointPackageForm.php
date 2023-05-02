@@ -67,9 +67,10 @@ class PurchasePointPackageForm extends AbstractForm
 
         $this->addFooter()
             ->addFields(
-                Builder::cancelButton(),
                 Builder::submit()
-                    ->label(__p('activitypoint::phrase.purchase')),
+                    ->label(__p('activitypoint::phrase.purchase'))
+                    ->disableWhenClean(),
+                Builder::cancelButton(),
             );
     }
 

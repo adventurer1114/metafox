@@ -98,30 +98,24 @@ const VideoItemMainCard = ({
             {item.title}
           </Link>
         </ItemTitle>
-        <ItemSummary>
-          <Link
-            to={`/${user?.user_name}`}
-            children={user.full_name}
-            data-testid="itemAuthor"
-          />
-        </ItemSummary>
-        {item.statistic?.total_view ? (
+        <Box>
           <ItemSummary>
-            <Statistic
-              color="text.hint"
-              values={item.statistic}
-              display={'total_view'}
+            <Link
+              to={`/${user?.user_name}`}
+              children={user.full_name}
+              data-testid="itemAuthor"
             />
           </ItemSummary>
-        ) : null}
-        {itemProps.showActionMenu ? (
-          <ItemActionMenu
-            identity={identity}
-            icon={'ico-dottedmore-vertical-o'}
-            handleAction={handleAction}
-            className={classes.actionMenu}
-          />
-        ) : null}
+          <Statistic values={item.statistic} display={'total_view'} />
+          {itemProps.showActionMenu ? (
+            <ItemActionMenu
+              identity={identity}
+              icon={'ico-dottedmore-vertical-o'}
+              handleAction={handleAction}
+              className={classes.actionMenu}
+            />
+          ) : null}
+        </Box>
       </ItemText>
     </ItemView>
   );

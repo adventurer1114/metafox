@@ -28,8 +28,7 @@ class DeleteRequest extends FormRequest
     public function rules()
     {
         return [
-            'page_id' => ['sometimes', 'numeric'],
-            'user_id' => ['sometimes', 'numeric'],
+            'user_id' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

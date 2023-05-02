@@ -71,7 +71,7 @@ return [
     ],
     [
         'name'               => 'event.event.all',
-        'phrase_title'       => 'event::seo.event',
+        'phrase_title'       => 'event::seo.event_browse_all_title',
         'phrase_description' => 'event::seo.event_desription',
         'phrase_keywords'    => 'event::seo.event_keywords',
         'phrase_heading'     => 'event::seo.event_heading',
@@ -98,7 +98,7 @@ return [
     ],
     [
         'name'               => 'event.event.friend',
-        'phrase_title'       => 'event::seo.event',
+        'phrase_title'       => 'event::seo.event_browse_friend_title',
         'phrase_description' => 'event::seo.event_desription',
         'phrase_keywords'    => 'event::seo.event_keywords',
         'phrase_heading'     => 'event::seo.event_heading',

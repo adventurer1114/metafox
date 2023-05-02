@@ -1,7 +1,7 @@
 {
     "name": "metafox/notification",
     "description": "Notification",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "authors": [
         {
             "name": "phpFox",
@@ -21,7 +21,7 @@
                 "MetaFox\\Notification\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/notification": "5.0.1"
+                "@metafox/notification": "*"
             },
             "frontendPaths": [
                 "packages/metafox/notification"

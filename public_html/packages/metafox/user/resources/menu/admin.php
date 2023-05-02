@@ -19,6 +19,14 @@ return [
         'to'          => '/admincp/user/user-gender/browse',
     ],
     [
+        'menu'        => 'core.adminSidebarMenu',
+        'parent_name' => 'members',
+        'name'        => 'relation',
+        'label'       => 'user::phrase.user_relations',
+        'ordering'    => 8,
+        'to'          => '/admincp/user/relation/browse',
+    ],
+    [
         'menu'     => 'user.admin',
         'name'     => 'userSettings',
         'label'    => 'user::phrase.user_settings',
@@ -56,5 +64,27 @@ return [
         'ordering' => 5,
         'as'       => 'subMenu',
         'to'       => '/admincp/user/setting/registration',
+    ],
+    [
+        'menu'     => 'user.admin',
+        'name'     => 'userRelation',
+        'label'    => 'user::phrase.user_relations',
+        'ordering' => 6,
+        'as'       => 'subMenu',
+        'to'       => '/admincp/user/relation/browse',
+    ],
+    [
+        'menu'     => 'user.admin',
+        'name'     => 'createRelation',
+        'label'    => 'user::phrase.add_new_relation',
+        'ordering' => 7,
+        'to'       => '/admincp/user/relation/create',
+    ],
+    [
+        'menu'     => 'user.admin',
+        'name'     => 'manage_cancelled_members',
+        'label'    => 'user::phrase.cancelled_members',
+        'ordering' => 8,
+        'to'       => '/admincp/user/cancelled/browse/feedback',
     ],
 ];

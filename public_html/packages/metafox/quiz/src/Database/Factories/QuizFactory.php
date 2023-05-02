@@ -4,6 +4,7 @@ namespace MetaFox\Quiz\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use MetaFox\Platform\Support\Factory\HasSetState;
+use MetaFox\Quiz\Models\Question;
 use MetaFox\Quiz\Models\Quiz;
 
 class QuizFactory extends Factory
@@ -80,5 +81,10 @@ class QuizFactory extends Factory
     public function seed()
     {
         return $this->hasQuestions($this->faker->numberBetween(2, 5));
+    }
+
+    public function configure()
+    {
+        return $this->has(Question::factory()->times(2));
     }
 }

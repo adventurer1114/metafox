@@ -3,6 +3,7 @@
 namespace MetaFox\Profile\Http\Controllers\Api\v1;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Profile\Http\Resources\v1\Field\Admin\CreateFieldForm;
@@ -83,7 +84,7 @@ class FieldAdminController extends ApiController
     {
         $params = $request->validated();
 
-        $data   = $this->repository->create($params);
+        $data = $this->repository->createField($params);
 
         Artisan::call('cache:reset');
 
@@ -157,5 +158,14 @@ class FieldAdminController extends ApiController
         $message = __p('profile::phrase.custom_field_has_been_deleted_successfully');
 
         return $this->success(['id' => $id], [], $message);
+    }
+
+    public function order(Request $request): JsonResponse
+    {
+        $orderIds = $request->get('order_ids');
+
+        $this->repository->orderFields($orderIds);
+
+        return $this->success([], [], __p('profile::phrase.fields_successfully_ordered'));
     }
 }

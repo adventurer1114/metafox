@@ -40,6 +40,7 @@ class PackageSettingListener extends BasePackageSettingListener
             'staff_emails'            => ['value' => ''],
             'enable_auto_responder'   => ['value' => 1],
             'allow_html_contact_form' => ['value' => 1],
+            'default_category'        => ['value' => 1],
         ];
     }
 }

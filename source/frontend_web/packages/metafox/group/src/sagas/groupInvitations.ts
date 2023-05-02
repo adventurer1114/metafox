@@ -16,7 +16,7 @@ import {
   handleActionFeedback,
   ItemLocalAction,
   makeDirtyPaging,
-  PAGINATION_CLEAR,
+  PAGINATION_REFRESH,
   patchEntity
 } from '@metafox/framework';
 import { compactData } from '@metafox/utils';
@@ -26,7 +26,7 @@ import { APP_GROUP, GROUP_MEMBER, GROUP_REQUEST, MEMBERSHIP } from '..';
 
 export function* joinGroup(action: ItemLocalAction) {
   const {
-    payload: { identity }
+    payload: { identity, onSuccess }
   } = action;
 
   const item = yield* getItem(identity);
@@ -63,12 +63,14 @@ export function* joinGroup(action: ItemLocalAction) {
 
     if (data.membership === MEMBERSHIP) {
       dispatch({
-        type: PAGINATION_CLEAR,
+        type: PAGINATION_REFRESH,
         payload: { pagingId: '/user/shortcut' }
       });
     }
 
     item?._loadedDetail && (yield* makeDirtyPaging('group'));
+
+    if (onSuccess) onSuccess();
 
     yield* handleActionFeedback(response);
   } catch (error) {
@@ -149,7 +151,7 @@ export function* unjoinGroup(action: ItemLocalAction) {
     }
 
     dispatch({
-      type: PAGINATION_CLEAR,
+      type: PAGINATION_REFRESH,
       payload: { pagingId: '/user/shortcut' }
     });
   } catch (error) {

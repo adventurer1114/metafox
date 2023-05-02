@@ -4,12 +4,11 @@ namespace MetaFox\User\Http\Resources\v1\Account;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Gate;
 use MetaFox\Core\Support\Facades\Language;
 use MetaFox\Core\Support\Facades\Timezone as TimezoneFacade;
 use MetaFox\Platform\MetaFoxPrivacy;
-use MetaFox\Platform\Traits\Http\Resources\HasExtra;
 use MetaFox\User\Models\User as Model;
-use MetaFox\User\Policies\UserPolicy;
 
 /**
  * Class User.
@@ -41,6 +40,7 @@ class AccountSetting extends JsonResource
             'email'             => $this->resource->email,
             'language_id'       => $languageId,
             'language_name'     => Language::getName($languageId),
+            'phone_number'      => $this->resource->profile?->phone_number,
             'timezone_id'       => $timezoneId,
             'timezone_name'     => TimezoneFacade::getName($timezoneId),
             'currency_id'       => $currencyId,
@@ -61,7 +61,11 @@ class AccountSetting extends JsonResource
      */
     protected function getExtra(): array
     {
-        $canDelete = policy_check(UserPolicy::class, 'delete', $this->resource, $this->resource);
+        /*
+         * Migrated from policy_check to using Gate::allows.
+         * $canDelete = policy_check(UserPolicy::class, 'delete', $this->resource, $this->resource);
+         */
+        $canDelete = Gate::allows('delete', $this->resource);
 
         return [
             'can_delete_account' => !$this->resource->hasSuperAdminRole() && $canDelete,

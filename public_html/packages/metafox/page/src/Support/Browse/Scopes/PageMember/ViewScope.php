@@ -45,9 +45,9 @@ class ViewScope extends BaseScope
     private string $view = self::VIEW_ALL;
 
     /**
-     * @var User
+     * @var ?User
      */
-    protected User $user;
+    protected ?User $user = null;
 
     /**
      * @return array<int, string>
@@ -163,9 +163,9 @@ class ViewScope extends BaseScope
     }
 
     /**
-     * @return User
+     * @return ?User
      */
-    public function getUserContext(): User
+    public function getUserContext(): ?User
     {
         return $this->user;
     }

@@ -27,6 +27,8 @@ class RecentUsed extends Model
 
     public const ENTITY_TYPE = 'bgs_recent_used';
 
+    public const UPDATED_AT = null;
+
     protected $table = 'bgs_recent_used';
 
     /** @var string[] */

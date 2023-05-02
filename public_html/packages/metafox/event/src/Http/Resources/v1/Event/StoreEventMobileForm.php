@@ -81,8 +81,10 @@ class StoreEventMobileForm extends AbstractForm
     {
         $basic = $this->addBasic();
 
-        $minNameLength        = Settings::get('event.minimum_name_length', MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH);
-        $maxNameLength        = Settings::get('event.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
+        $minNameLength = Settings::get('event.minimum_name_length', MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH);
+        $maxNameLength = Settings::get('event.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
+        $timeFormat    = Settings::get('event.default_timeFormat_format', 12);
+
         $minEventDate         = Carbon::now();
         $isDisableEventFields = $this->isDisableEventFields();
         $canManageHosts       = $this->canManageHosts();
@@ -137,30 +139,34 @@ class StoreEventMobileForm extends AbstractForm
                                     Yup::string()
                                         ->required()
                                         ->url()
-                                        ->setError('required', __p('validation.this_field_is_required'))
+                                        ->setError('required', __p('validation.this_field_is_a_required_field'))
                                         ->setError('format', __p('event::phrase.this_field_must_be_valid_url'))
                                 )
                         )
                 ),
             Builder::dateTime('start_time')
                 ->label(__p('event::phrase.start_time'))
+                ->displayFormat($this->getDisplayFormat($timeFormat))
+                ->timeFormat($timeFormat)
                 ->required()
                 ->disabled($isDisableEventFields)
                 ->yup(
                     Yup::date()->required()
-                        ->setError('required', __p('validation.this_field_is_required'))
+                        ->setError('required', __p('validation.this_field_is_a_required_field'))
                         ->setError('min', __p('event::phrase.the_event_time_should_be_greater_than_the_current_time'))
                 ),
             Builder::dateTime('end_time')
                 ->label(__p('event::phrase.end_time'))
+                ->displayFormat($this->getDisplayFormat($timeFormat))
                 ->required()
+                ->timeFormat($timeFormat)
                 ->minDateTime($isDisableEventFields ? null : $minEventDate)
                 ->disabled($isDisableEventFields)
                 ->yup(
                     Yup::date()
                         ->required()
                         ->min(['ref' => 'start_time'])
-                        ->setError('required', __p('validation.this_field_is_required'))
+                        ->setError('required', __p('validation.this_field_is_a_required_field'))
                         ->setError(
                             'minDateTime',
                             __p('event::phrase.the_end_time_should_be_greater_than_the_current_time')
@@ -175,13 +181,17 @@ class StoreEventMobileForm extends AbstractForm
                     ->placeholder(__p('event::phrase.search_hosts_by_their_name_dot'))
                     ->multiple(true)
                     ->endpoint('friend')
-                    ->disabled($isDisableEventFields || !$canManageHosts),
+                    ->disabled($isDisableEventFields || !$canManageHosts)
+                    ->enableWhen([
+                        'neq', 'privacy', MetaFoxPrivacy::ONLY_ME,
+                    ]),
             );
         }
 
         $basic->addFields(
             Builder::location('location')
                 ->requiredWhen(['eq', 'is_online', 0])
+                ->showWhen(['eq', 'is_online', 0])
                 ->placeholder(__p('event::phrase.where_will_be_hosted'))
                 ->disabled($isDisableEventFields)
                 ->yup(
@@ -275,5 +285,15 @@ class StoreEventMobileForm extends AbstractForm
                     $context->entityId(),
                 ],
             ]);
+    }
+
+    protected function getDisplayFormat(int $value): string
+    {
+        $displayFormat = [
+            12 => MetaFoxConstant::DISPLAY_FORMAT_TIME_12,
+            24 => MetaFoxConstant::DISPLAY_FORMAT_TIME_24,
+        ];
+
+        return $displayFormat[$value];
     }
 }

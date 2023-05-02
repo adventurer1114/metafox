@@ -41,7 +41,7 @@ class StoreRequest extends FormRequest
         $rules = [
             'forum_id'        => [new RequiredForumRule()],
             'title'           => ['required', 'string', 'between: ' . $minTitleLength . ',' . $maxTitleLength],
-            'text'            => ['required', 'string', new ResourceTextRule()],
+            'text'            => ['required', 'string', new ResourceTextRule(true)],
             'tags'            => ['sometimes', 'array'],
             'tags.*'          => ['string'],
             'is_subscribed'   => ['sometimes', new AllowInRule([0, 1])],

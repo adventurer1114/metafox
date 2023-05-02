@@ -47,7 +47,7 @@ export default function HostInviteCard({
 
   if (!owner) return null;
 
-  const { link: to } = user;
+  const { link: to, full_name } = owner;
 
   return (
     <Root
@@ -62,7 +62,7 @@ export default function HostInviteCard({
         </ItemMedia>
         <ItemText>
           <ItemTitle>
-            <Link to={to} children={owner.full_name} color={'inherit'} />
+            <Link to={to} children={full_name} color={'inherit'} />
           </ItemTitle>
         </ItemText>
         <ItemAction>

@@ -20,6 +20,7 @@ use MetaFox\Platform\Contracts\ActivityFeedForm;
 use MetaFox\Platform\Contracts\ActivityFeedSourceCanEditAttachment;
 use MetaFox\Platform\Contracts\HasApprove;
 use MetaFox\Platform\Contracts\HasFeature;
+use MetaFox\Platform\Contracts\HasFeedContent;
 use MetaFox\Platform\Contracts\HasGlobalSearch;
 use MetaFox\Platform\Contracts\HasLocationCheckin;
 use MetaFox\Platform\Contracts\HasPrivacy;
@@ -399,9 +400,14 @@ class Photo extends Model implements
             'total_photo'    => 1,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function toSearchable(): ?array
     {
         if (!$this->isApproved()) {
@@ -409,10 +415,11 @@ class Photo extends Model implements
         }
 
         $reactItem = $this->reactItem();
+        $text      = $reactItem instanceof HasFeedContent ? $reactItem->getFeedContent() : MetaFoxConstant::EMPTY_STRING;
 
         return [
             'title' => $this->title,
-            'text'  => $reactItem->getFeedContent() ?? MetaFoxConstant::EMPTY_STRING,
+            'text'  => $text,
         ];
     }
 
@@ -448,42 +455,42 @@ class Photo extends Model implements
      */
     public function toCallbackMessage(UserEntity $user, UserEntity $owner): string
     {
-        $context      = user();
         $yourName     = $user->name;
         $friendName   = $owner->name;
+        $itemUser     = $this->user;
         $itemUserId   = $this->userId();
         $itemUserName = $this->user->full_name;
 
-        // User A tagged user B in photo of User B => B received a notification
-        if ($owner->entityId() == $context->entityId() && $itemUserId == $context->entityId()) {
+        // $user tagged $owner in photo of $owner => $owner received a notification
+        if ($owner->entityId() == $itemUserId) {
             return __p('core::phrase.username_tagged_you_in_your_photo', [
                 'username' => $yourName,
             ]);
         }
 
-        // User A tagged themself in photo of User B => B received a notification
+        // $user tagged themself in photo of $owner => $owner received a notification
         if ($user->entityId() == $owner->entityId()) {
             return $this->handleMessageForGender($user->gender, $yourName);
         }
 
-        // User A tagged user C in photo of User B => C received a notification
-        if ($context->entityId() == $owner->entityId() && $context->entityId() != $itemUserId && $user->entityId() != $itemUserId) {
+        // $user tagged $owner in photo of $itemUser => $owner received a notification
+        if ($owner->entityId() != $itemUserId && $user->entityId() != $itemUserId) {
             return __p('core::phrase.username_tagged_you_in_photo_of_item_user', [
                 'username'     => $yourName,
                 'itemUserName' => $itemUserName,
             ]);
         }
 
-        // User A tagged user C in photo of User B => B received a notification
-        if ($context->entityId() != $owner->entityId() && $context->entityId() == $itemUserId && $user->entityId() != $itemUserId) {
+        // $user tagged user $owner in photo of $itemUser => $itemUser received a notification
+        if ($itemUser->entityId() != $owner->entityId() && $user->entityId() != $itemUserId) {
             return __p('core::phrase.username_tagged_friendname_in_your_photo', [
                 'username'   => $yourName,
                 'friendname' => $friendName,
             ]);
         }
 
-        // User B tagged user A in photo of User B => A received a notification
-        if ($user->entityId() == $itemUserId && $context->entityId() == $owner->entityId()) {
+        // $user tagged $owner in photo of $user => $user received a notification
+        if ($user->entityId() == $itemUserId) {
             return __p('core::phrase.username_tagged_you_in_a_photo', [
                 'username' => $yourName,
             ]);
@@ -510,6 +517,9 @@ class Photo extends Model implements
         return false;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function toApprovedNotification(): array
     {
         return [$this->user, new PhotoApproveNotification($this)];

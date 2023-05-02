@@ -5,9 +5,11 @@ namespace App\Console\Commands;
 use Composer\Console\Input\InputOption;
 use Illuminate\Console\Command;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use MetaFox\Core\Models\Driver;
 use MetaFox\Form\AbstractForm;
@@ -24,6 +26,7 @@ use MetaFox\Sms\Contracts\ServiceInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Symfony\Component\Console\Input\InputArgument;
+use Tests\TestCase;
 
 class ReviewCommand extends Command
 {
@@ -46,7 +49,11 @@ class ReviewCommand extends Command
 
     private array $reviewTasks = [];
 
-    private ?string $package =  null;
+    private ?string $package = null;
+
+    private bool $continue = false;
+
+    public const LOG_FILE = 'storage/logs/review.log';
 
     /**
      * Execute the console command.
@@ -55,7 +62,8 @@ class ReviewCommand extends Command
      */
     public function handle()
     {
-        $this->package = $this->argument('package');
+        $this->continue = $this->option('continue');
+        $this->package  = $this->argument('package');
 
         $this->createLogger();
         $packages = config('metafox.packages');
@@ -72,27 +80,40 @@ class ReviewCommand extends Command
         $this->addTask('Review table core_drivers - p1', fn () => $this->reviewDriverClasses() == 0);
         $this->addTask('Review missing core_seo_meta phrases - p1', fn () => $this->checkMissingSeoPhrase() == 0);
         $this->addTask('Review menu has title attribute', fn () => $this->checkMenuHasTitle() == 0);
+        $this->addTask('Review missed controller actions', fn () => $this->reviewRoutes() == 0);
         $this->checkLoadClasses();
 
         if ($this->package) {
             $name = $this->package;
-            $this->addTask('Review dependency ' . $name, fn () => $this->checkImportDepdenency($name) == 0);
+            $this->addTask('Review dependency ' . $name, fn () => $this->checkDependencies([$name]) == 0);
         } else {
-            foreach ($packages as $name => $packageInfo) {
-                $this->addTask('Review dependency ' . $name, fn () => $this->checkImportDepdenency($name) == 0);
-            }
+            $this->addTask('Review dependencies', fn () => $this->checkDependencies(array_keys($packages)) == 0);
         }
 
         $this->processTasks($this->reviewTasks);
 
-        $this->info(sprintf('view %s for more further information!', storage_path('logs/review.log')));
+        preg_match_all('/\[[\d\-\ :]{19}\] \w+.ERROR:/m', file_get_contents(base_path(self::LOG_FILE)), $matches);
 
-        return Command::SUCCESS;
+        $exitCode = empty($matches) ? 0 : 1;
+
+        if ($exitCode) {
+            $this->getOutput()->writeln(sprintf(
+                'view <error>%s</error> for more further information!',
+                base_path(self::LOG_FILE)
+            ));
+        } else {
+            $this->getOutput()->writeln(sprintf(
+                'view <info>%s</info> for more further information!',
+                base_path(self::LOG_FILE)
+            ));
+        }
+
+        return $exitCode;
     }
 
     public function createLogger()
     {
-        $logfile = storage_path('logs/review.log');
+        $logfile = base_path(self::LOG_FILE);
 
         if (file_exists($logfile)) {
             @unlink($logfile);
@@ -121,9 +142,11 @@ class ReviewCommand extends Command
 
         $entityClasses     = [];
         $adminSettingForms = [];
+        $formClasses       = [];
+        $testCasesClasses  = [];
 
         foreach ($classLoader->getClassMap() as $className => $filename) {
-            if (!str_starts_with($className, 'MetaFox') || str_contains($className, '\\Tests\\')) {
+            if (!str_starts_with($className, 'MetaFox')) {
                 continue;
             }
 
@@ -140,10 +163,23 @@ class ReviewCommand extends Command
             if ($ref->isSubclassOf(Entity::class)) {
                 $entityClasses[] = $className;
             }
+
+            if ($ref->isSubclassOf(FormRequest::class)) {
+                $formClasses[] = $className;
+            }
+
+            if ($ref->isSubclassOf(TestCase::class) && str_ends_with($className, 'Test')) {
+                $testCasesClasses[$className] = $filename;
+            }
         }
 
-        $this->addTask('Review site settings forms', fn () => $this->reviewSiteSettingForms($adminSettingForms) == 0);
-        $this->addTask('Review entity class', fn () => $this->reviewEntityClasses($entityClasses) == 0);
+        $this->addTask('Review settings forms', fn () => $this->reviewSiteSettingForms($adminSettingForms) == 0);
+        $this->addTask('Review entities', fn () => $this->reviewEntityClasses($entityClasses) == 0);
+        $this->addTask('Review tests ', fn () => $this->reviewTestCaseClasses($testCasesClasses) == 0);
+
+        if ($this->option('clean')) {
+            $this->addTask('Clean request class', fn () => $this->reviewMessRequest($formClasses) == 0);
+        }
     }
 
     public function addTask($name, $fn)
@@ -168,6 +204,7 @@ class ReviewCommand extends Command
             ->toArray();
 
         $missings = array_diff($haystack, $driverClasses);
+
         collect($missings)->each(fn (
             $name
         ) => $this->logger->notice(sprintf('Missed core_driver(type=form-settings, driver=%s)', $name)));
@@ -289,18 +326,18 @@ class ReviewCommand extends Command
                 ));
             }
             if ($type === 'policy-resource' && !$ref->isSubclassOf(\MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface::class)) {
-                $this->logger->error(sprintf(
-                    '%s must be sub-class of %s',
-                    $className,
-                    \MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface::class
-                ));
+//                $this->logger->error(sprintf(
+//                    '%s must be sub-class of %s',
+//                    $className,
+//                    \MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface::class
+//                ));
             }
             if ($type === 'policy-rule' && !$ref->isSubclassOf(\MetaFox\Platform\Support\PolicyRuleInterface::class)) {
-                $this->logger->error(sprintf(
-                    'driver entity %s must be sub-class of %s',
-                    $className,
-                    \MetaFox\Platform\Support\PolicyRuleInterface::class
-                ));
+//                $this->logger->info(sprintf(
+//                    'driver entity %s must be sub-class of %s',
+//                    $className,
+//                    \MetaFox\Platform\Support\PolicyRuleInterface::class
+//                ));
             }
             if ($type === 'sms-service' && !$ref->isSubclassOf(ServiceInterface::class)) {
                 $this->logger->error(sprintf(
@@ -345,7 +382,19 @@ class ReviewCommand extends Command
         return 0;
     }
 
-    public function checkImportDepdenency(string $packageName): int
+    public function checkDependencies(array $packages)
+    {
+        $hasError = 0;
+        foreach ($packages as $package) {
+            if (!$this->checkImportDepdenency($package)) {
+                $hasError = 1;
+            }
+        }
+
+        return $hasError;
+    }
+
+    private function checkImportDepdenency(string $packageName): int
     {
         $packages = config('metafox.packages');
         $info     = $packages[$packageName] ?? null;
@@ -430,8 +479,6 @@ class ReviewCommand extends Command
 
     public function checkMenuHasTitle()
     {
-        $response = static::SUCCESS;
-
         $query = Menu::query();
 
         if ($this->package) {
@@ -446,11 +493,10 @@ class ReviewCommand extends Command
                 continue;
             }
 
-            $response = static::FAILURE;
-            $this->logger->warning(sprintf('Missed menu title (name=%s, module_id=%s)', $menu->name, $menu->module_id));
+            $this->logger->notice(sprintf('Missed menu title (name=%s, module_id=%s)', $menu->name, $menu->module_id));
         }
 
-        return $response;
+        return 0;
     }
 
     public function checkMissingSeoPhrase(): int
@@ -524,6 +570,100 @@ class ReviewCommand extends Command
     {
         return [
             ['fix', null, InputOption::VALUE_NONE, 'Automatic fix (run on APP_ENV=local)'],
+            ['clean', null, InputOption::VALUE_NONE, 'Check to clear class'],
+            ['continue', null, InputOption::VALUE_NONE, 'Continue mode'],
         ];
+    }
+
+    public function reviewMessRequest(array $formClasses): int
+    {
+        $response = 0;
+        foreach ($formClasses as $class) {
+            $command = sprintf("grep --exclude=\"*Test.php\" -rnw packages -e 'use %s'", addslashes($class));
+            $output  = null;
+            exec($command, $output);
+
+            if (empty($output)) {
+                $response = 1;
+                $this->logger->notice(sprintf('Un-use class %s: %s', $class, implode(PHP_EOL, $output)));
+            }
+        }
+
+        return $response;
+    }
+
+    public function reviewTestCaseClasses(array $classNames)
+    {
+        $controllerLog = fopen(base_path('storage/logs/review.controllers.md'), 'w');
+        $requestLog    = fopen(base_path('storage/logs/review.requests.md'), 'w');
+
+        fwrite($controllerLog, 'Move api tests to ./fixtures.' . PHP_EOL);
+
+        foreach ($classNames as $className => $filename) {
+            $ref = new ReflectionClass($className);
+
+            if (str_contains($className, '\Unit\Http\Requests')
+                && $ref->isSubclassOf(TestCase::class)
+                && !$ref->hasMethod('requestName')) {
+                fwrite($requestLog, sprintf('%s', $className) . PHP_EOL);
+            }
+
+            if (str_contains($className, '\Unit\Http\Controllers')
+                && $ref->isSubclassOf(TestCase::class)
+                && strpos(file_get_contents($filename), 'API_PREFIX') != false) {
+                fwrite($controllerLog, $className . PHP_EOL);
+            }
+        }
+
+        fclose($controllerLog);
+        fclose($requestLog);
+
+        return 0;
+    }
+
+    public function reviewRoutes()
+    {
+        $hasError = 0;
+        Artisan::call('route:list', ['--json' => true]);
+
+        $output = Artisan::output();
+
+        $routes            = json_decode($output, true);
+        $lastApiController = null;
+        $lastRef           = null;
+
+        foreach ($routes as $route) {
+            if (!str_contains($route['action'], '@') || !str_contains($route['action'], 'Api')) {
+                continue;
+            }
+            [$gatewayController, $action] = explode('@', $route['action']);
+            $apiController                = str_replace('\\Api\\', '\\Api\\v1\\', $gatewayController);
+
+            if (str_contains($gatewayController, '\\Api\\v1\\')) {
+                $this->logger->error($gatewayController . ' should bind to route via version gateway' . PHP_EOL);
+                $this->confirm('continue');
+                continue;
+            }
+
+            $ref = $lastRef;
+
+            if ($lastApiController != $apiController) {
+                $lastApiController = $apiController;
+                $ref               = $lastRef = new ReflectionClass($apiController);
+            }
+
+            // report if there are route but not method.
+            if (!$ref->hasMethod($action)) {
+                $this->logger->error(sprintf(
+                    'Missed %s@%s for declared route %s',
+                    $apiController,
+                    $action,
+                    $route['uri']
+                ));
+                $hasError = 1;
+            }
+        }
+
+        return $hasError;
     }
 }

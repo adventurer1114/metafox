@@ -11,7 +11,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
- * Interface BgsCollection.
+ * Interface BgsCollectionRepositoryInterface.
  * @mixin BaseRepository
  * @method BgsCollection getModel()
  * @method BgsCollection find($id, $columns = ['*'])

@@ -27,7 +27,7 @@ class GatewayPolicy implements GatewayPolicyInterface
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('gateway.view');
+        return $user->hasPermissionTo('admincp.has_admin_access');
     }
 
     /**
@@ -39,7 +39,7 @@ class GatewayPolicy implements GatewayPolicyInterface
      */
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('gateway.view');
+        return $user->hasPermissionTo('admincp.has_admin_access');
     }
 
     /**
@@ -51,6 +51,6 @@ class GatewayPolicy implements GatewayPolicyInterface
      */
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('gateway.update');
+        return $user->hasPermissionTo('admincp.has_admin_access');
     }
 }

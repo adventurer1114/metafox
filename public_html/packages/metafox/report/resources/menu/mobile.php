@@ -13,7 +13,6 @@ return [
         'label'    => 'blog::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -26,7 +25,61 @@ return [
         'label'    => 'blog::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'music.music_song.detailActionMenu',
+        'name'     => 'report',
+        'label'    => 'music::phrase.report',
+        'ordering' => 19,
+        'value'    => 'reportItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'music.music_song.itemActionMenu',
+        'name'     => 'report',
+        'label'    => 'music::phrase.report',
+        'ordering' => 19,
+        'value'    => 'reportItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'music.music_playlist.detailActionMenu',
+        'name'     => 'report',
+        'label'    => 'music::phrase.report',
+        'ordering' => 19,
+        'value'    => 'reportItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'music.music_album.detailActionMenu',
+        'name'     => 'report',
+        'label'    => 'music::phrase.report',
+        'ordering' => 19,
+        'value'    => 'reportItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'music.music_album.itemActionMenu',
+        'name'     => 'report',
+        'label'    => 'music::phrase.report',
+        'ordering' => 19,
+        'value'    => 'reportItem',
     ],
     [
         'showWhen' => [
@@ -38,7 +91,6 @@ return [
         'label'    => 'comment::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -49,9 +101,8 @@ return [
         'menu'     => 'event.event.itemActionMenu',
         'name'     => 'report',
         'label'    => 'event::phrase.report',
-        'ordering' => 7,
+        'ordering' => 16,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -64,7 +115,6 @@ return [
         'label'    => 'activity::phrase.report_item',
         'ordering' => 13,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -77,7 +127,6 @@ return [
         'label'    => 'activity::phrase.report_to_group_admins',
         'ordering' => 14,
         'value'    => 'reportToOwner',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -89,7 +138,6 @@ return [
         'label'    => 'core::phrase.report',
         'ordering' => 6,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -101,7 +149,6 @@ return [
         'label'    => 'core::phrase.report',
         'ordering' => 6,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -113,7 +160,6 @@ return [
         'label'    => 'core::phrase.report',
         'ordering' => 21,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -125,7 +171,6 @@ return [
         'label'    => 'core::phrase.report',
         'ordering' => 21,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -141,7 +186,6 @@ return [
         'label'    => 'group::phrase.report',
         'ordering' => 8,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'color'    => 'primary',
@@ -158,7 +202,6 @@ return [
         'label'    => 'group::phrase.report_group',
         'ordering' => 13,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -174,7 +217,6 @@ return [
         'label'    => 'group::phrase.report',
         'ordering' => 4,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'color'    => 'primary',
@@ -191,7 +233,6 @@ return [
         'label'    => 'group::phrase.report_this_user',
         'ordering' => 13,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -204,7 +245,6 @@ return [
         'label'    => 'marketplace::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -217,43 +257,6 @@ return [
         'label'    => 'marketplace::phrase.report',
         'ordering' => 12,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
-    ],
-    [
-        'showWhen' => [
-            'and',
-            ['truthy', 'item.extra.can_report'],
-        ],
-        'menu'     => 'music.music_album.itemActionMenu',
-        'name'     => 'report',
-        'label'    => 'music::phrase.report',
-        'ordering' => 2,
-        'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
-    ],
-    [
-        'showWhen' => [
-            'and',
-            ['truthy', 'item.extra.can_report'],
-        ],
-        'menu'     => 'music.music_playlist.itemActionMenu',
-        'name'     => 'report',
-        'label'    => 'music::phrase.report',
-        'ordering' => 2,
-        'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
-    ],
-    [
-        'showWhen' => [
-            'and',
-            ['truthy', 'item.extra.can_report'],
-        ],
-        'menu'     => 'music.music_song.itemActionMenu',
-        'name'     => 'report',
-        'label'    => 'music::phrase.report',
-        'ordering' => 2,
-        'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -265,7 +268,6 @@ return [
         'label'    => 'page::phrase.report',
         'ordering' => 9,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -277,7 +279,6 @@ return [
         'label'    => 'page::phrase.report',
         'ordering' => 14,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -289,7 +290,6 @@ return [
         'label'    => 'page::phrase.report',
         'ordering' => 3,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -301,7 +301,6 @@ return [
         'label'    => 'photo::phrase.report',
         'ordering' => 16,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-circle-o',
     ],
     [
         'showWhen' => [
@@ -313,7 +312,6 @@ return [
         'label'    => 'photo::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -326,7 +324,6 @@ return [
         'label'    => 'poll::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -339,7 +336,6 @@ return [
         'label'    => 'quiz::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'menu'     => 'report.report_owner.itemActionMenu',
@@ -365,7 +361,6 @@ return [
         'label'    => 'user::phrase.report',
         'ordering' => 5,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'color'    => 'primary',
@@ -379,7 +374,6 @@ return [
         'label'    => 'user::phrase.report_this_user',
         'ordering' => 13,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -391,7 +385,6 @@ return [
         'label'    => 'user::phrase.report',
         'ordering' => 5,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -403,7 +396,6 @@ return [
         'label'    => 'video::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -416,7 +408,6 @@ return [
         'label'    => 'event::phrase.report',
         'ordering' => 7,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -428,7 +419,6 @@ return [
         'label'    => 'user::phrase.report',
         'ordering' => 5,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -440,7 +430,6 @@ return [
         'label'    => 'video::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -452,7 +441,6 @@ return [
         'label'    => 'photo::phrase.report',
         'ordering' => 16,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-circle-o',
     ],
     [
         'showWhen' => [
@@ -464,7 +452,6 @@ return [
         'label'    => 'photo::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -477,7 +464,6 @@ return [
         'label'    => 'poll::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -490,7 +476,6 @@ return [
         'label'    => 'quiz::phrase.report',
         'ordering' => 2,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -506,7 +491,6 @@ return [
         'label'    => 'group::phrase.report',
         'ordering' => 8,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
     ],
     [
         'showWhen' => [
@@ -518,6 +502,38 @@ return [
         'label'    => 'page::phrase.report',
         'ordering' => 9,
         'value'    => 'reportItem',
-        'icon'     => 'ico-warning-o',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'music.music_playlist.itemActionMenu',
+        'name'     => 'report',
+        'label'    => 'music::phrase.report',
+        'ordering' => 19,
+        'value'    => 'reportItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'livestreaming.live_video.detailActionMenu',
+        'name'     => 'report',
+        'label'    => 'livestreaming::phrase.report',
+        'ordering' => 2,
+        'value'    => 'reportItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_report'],
+        ],
+        'menu'     => 'livestreaming.live_video.itemActionMenu',
+        'name'     => 'report',
+        'label'    => 'livestreaming::phrase.report',
+        'ordering' => 2,
+        'value'    => 'reportItem',
     ],
 ];

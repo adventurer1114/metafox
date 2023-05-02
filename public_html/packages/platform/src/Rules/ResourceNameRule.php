@@ -19,8 +19,8 @@ class ResourceNameRule implements Rule
     public function __construct(?string $package)
     {
         if ($package) {
-            $this->minLength = Settings::get($package . '.minimum_name_length', MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH);
-            $this->maxLength = Settings::get($package . '.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
+            $this->minLength = Settings::get($package . '.minimum_name_length') ?? MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH;
+            $this->maxLength = Settings::get($package . '.maximum_name_length') ?? MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH;
         }
     }
 
@@ -36,6 +36,10 @@ class ResourceNameRule implements Rule
     public function passes($attribute, $value): bool
     {
         try {
+            if (!is_string($value)) {
+                return false;
+            }
+
             $length = mb_strlen(trim($value));
 
             return $length >= $this->minLength && $length <= $this->maxLength;

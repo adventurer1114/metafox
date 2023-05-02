@@ -53,8 +53,8 @@ class RoomRepository extends AbstractRepository implements RoomRepositoryInterfa
         }
 
         $roomData = $query
-            ->orderByDesc('chat_rooms.updated_at')
-            ->simplePaginate($limit, ['chat_rooms.*', 'cs.total_unseen', 'cs.name']);
+            ->orderByDesc('cs.updated_at')
+            ->simplePaginate($limit, ['chat_rooms.*', 'cs.total_unseen', 'cs.name', 'cs.updated_at']);
 
         return $roomData;
     }
@@ -107,6 +107,7 @@ class RoomRepository extends AbstractRepository implements RoomRepositoryInterfa
                     'is_deleted' => 0,
                 ]);
             }
+            $subscription->touch('updated_at');
 
             return $checkedRoom;
         }

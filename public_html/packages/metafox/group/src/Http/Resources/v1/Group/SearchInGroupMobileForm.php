@@ -19,14 +19,13 @@ class SearchInGroupMobileForm extends AbstractForm
 {
     protected function prepare(): void
     {
-        $this->action(apiUrl('search.index'))
-            ->acceptPageParams(['q', 'sort', 'when', 'related_comment_friend_only', 'view', 'owner_id'])
+        $this->action('/group/search/:id')
+            ->acceptPageParams(['q', 'sort', 'when', 'related_comment_friend_only', 'view', 'returnUrl'])
             ->setValue([
                 'when'                        => Browse::VIEW_ALL,
                 'view'                        => Browse::VIEW_ALL,
                 'sort'                        => Browse::SORT_RECENT,
                 'related_comment_friend_only' => 0,
-                'owner_id'                    => 0,
             ]);
     }
 

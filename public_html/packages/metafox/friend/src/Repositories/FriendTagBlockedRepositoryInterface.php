@@ -4,6 +4,7 @@ namespace MetaFox\Friend\Repositories;
 
 use MetaFox\Friend\Models\TagFriend;
 use MetaFox\Platform\Contracts\HasTaggedFriend;
+use MetaFox\User\Traits\UserMorphTrait;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
@@ -11,6 +12,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
  *
  * @mixin BaseRepository
  * stub: /packages/repositories/interface.stub
+ * @mixin UserMorphTrait
  */
 interface FriendTagBlockedRepositoryInterface
 {
@@ -26,10 +28,4 @@ interface FriendTagBlockedRepositoryInterface
      * @return bool
      */
     public function isBlocked(int $ownerId, HasTaggedFriend $item): bool;
-
-    /**
-     * @param  int  $userId
-     * @return void
-     */
-    public function deleteUserData(int $userId): void;
 }

@@ -29,11 +29,11 @@ interface DeviceRepositoryInterface
     public function createDevice(User $context, array $attributes = []): Model;
 
     /**
-     * @param  User   $context
-     * @param  string $deviceId
-     * @return bool
+     * @param  User           $context
+     * @param  string         $deviceId
+     * @return ?array<string>
      */
-    public function deleteDeviceById(User $context, string $deviceId): bool;
+    public function deleteDeviceById(User $context, string $deviceId): ?array;
 
     /**
      * @param  User                 $context

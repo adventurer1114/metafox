@@ -149,24 +149,26 @@ class PackageSettingListener extends BasePackageSettingListener
                 'view' => UserRole::LEVEL_GUEST,
             ],
             ForumThread::ENTITY_TYPE => [
-                'create'         => UserRole::LEVEL_REGISTERED,
-                'moderate'       => UserRole::LEVEL_STAFF,
-                'update_own'     => UserRole::LEVEL_REGISTERED,
-                'delete_own'     => UserRole::LEVEL_REGISTERED,
-                'subscribe'      => UserRole::LEVEL_REGISTERED,
-                'stick'          => UserRole::LEVEL_STAFF,
-                'close_own'      => UserRole::LEVEL_REGISTERED,
-                'save'           => UserRole::LEVEL_REGISTERED,
-                'copy'           => UserRole::LEVEL_REGISTERED,
-                'merge_own'      => UserRole::LEVEL_REGISTERED,
-                'approve'        => UserRole::LEVEL_STAFF,
-                'attach_poll'    => UserRole::LEVEL_REGISTERED,
-                'auto_approved'  => UserRole::LEVEL_REGISTERED,
-                'like'           => UserRole::LEVEL_REGISTERED,
-                'share'          => UserRole::LEVEL_REGISTERED,
-                'report'         => UserRole::LEVEL_REGISTERED,
-                'create_as_wiki' => UserRole::LEVEL_ADMINISTRATOR,
-                'move'           => UserRole::LEVEL_REGISTERED,
+                'create'           => UserRole::LEVEL_REGISTERED,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'update_own'       => UserRole::LEVEL_REGISTERED,
+                'delete_own'       => UserRole::LEVEL_REGISTERED,
+                'subscribe'        => UserRole::LEVEL_REGISTERED,
+                'stick'            => UserRole::LEVEL_STAFF,
+                'close_own'        => UserRole::LEVEL_REGISTERED,
+                'save'             => UserRole::LEVEL_REGISTERED,
+                'copy'             => UserRole::LEVEL_REGISTERED,
+                'merge_own'        => UserRole::LEVEL_REGISTERED,
+                'approve'          => UserRole::LEVEL_STAFF,
+                'attach_poll'      => UserRole::LEVEL_REGISTERED,
+                'auto_approved'    => UserRole::LEVEL_REGISTERED,
+                'like'             => UserRole::LEVEL_REGISTERED,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'create_as_wiki'   => UserRole::LEVEL_ADMINISTRATOR,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'move'             => UserRole::LEVEL_REGISTERED,
             ],
             ForumPost::ENTITY_TYPE => [
                 'reply'         => UserRole::LEVEL_REGISTERED,
@@ -339,5 +341,26 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['forum', 'forum_thread', 'forum_post'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/forum/forum_thread',
+                'name' => 'forum::phrase.ad_mob_thread_home_page',
+            ],
+            [
+                'path' => '/forum/forum_thread/:id',
+                'name' => 'forum::phrase.ad_mob_thread_detail_page',
+            ],
+            [
+                'path' => '/forum/forum_post',
+                'name' => 'forum::phrase.ad_mob_post_home_page',
+            ],
+        ];
     }
 }

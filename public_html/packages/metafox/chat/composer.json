@@ -1,6 +1,6 @@
 {
     "name": "metafox/chat",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "metafox/chat",
     "keyword": "metafox/chat",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/chat": "5.0.1"
+                "@metafox/chat": "*"
             },
             "internalAdminUrl": "/admincp/chat/setting"
         }

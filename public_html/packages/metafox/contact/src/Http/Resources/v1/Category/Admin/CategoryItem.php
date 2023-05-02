@@ -30,9 +30,12 @@ class CategoryItem extends JsonResource
             $parent = new CategoryEmbed($this->resource->parentCategory);
         }
 
+        $isActive = !$this->resource->is_default ? $this->resource->is_active : null;
+
         return [
             'id'             => $this->resource->entityId(),
-            'is_active'      => $this->resource->is_active,
+            'is_default'     => $this->resource->is_default,
+            'is_active'      => $isActive,
             'module_name'    => 'contact',
             'resource_name'  => $this->resource->entityType(),
             'name'           => $this->resource->name,

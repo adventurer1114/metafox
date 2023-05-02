@@ -5,6 +5,7 @@ namespace MetaFox\User\Support;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use MetaFox\User\Contracts\UserAuth as ContractsUserAuth;
 use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
@@ -30,7 +31,7 @@ class UserAuth implements ContractsUserAuth
 
         $response = app('events')->dispatch('user.request_mfa_token', [$user], true);
 
-        if($response){
+        if ($response) {
             return $response;
         }
 
@@ -39,6 +40,19 @@ class UserAuth implements ContractsUserAuth
         app('events')->dispatch('user.signed_in', [$user, $params]);
 
         return $response;
+    }
+
+    public function fixApiSecret()
+    {
+        $apiKey    = config('app.api_key');
+        $apiSecret = config('app.api_secret');
+        $secret    = DB::table('oauth_clients')->where('id', $apiKey)->value('secret');
+
+        if ($secret === $apiSecret) {
+            return;
+        }
+
+        DB::table('oauth_clients')->where('id', $apiKey)->update(['secret' => $apiSecret]);
     }
 
     /**
@@ -67,7 +81,7 @@ class UserAuth implements ContractsUserAuth
             }
 
             $params = [
-                'title' => __p('user::phrase.oops_login_failed')
+                'title' => __p('user::phrase.oops_login_failed'),
             ];
 
             if (is_array($content)) {

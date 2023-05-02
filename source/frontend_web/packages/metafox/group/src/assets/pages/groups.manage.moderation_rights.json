@@ -11,11 +11,8 @@
           "pageSize": "large",
           "title": "moderation_right",
           "contentType": "group",
-          "showWhen": [
-            "truthy",
-            "profile.extra.can_manage_setting"
-          ],
-          "blockLayout": "App Lists Pending Posts",
+          "showWhen": ["truthy", "profile.extra.can_manage_setting"],
+          "blockLayout": "App List Pending Posts",
           "gridLayout": "Group - PendingPost - Main Card",
           "itemLayout": "Group - PendingPost - Main Card"
         },
@@ -31,6 +28,7 @@
           "component": "core.block.sidebarAppMenu",
           "slotName": "side",
           "title": "Manage Group",
+          "displayViewMore": false,
           "blockProps": {
             "variant": "plained",
             "titleComponent": "h2",
@@ -67,20 +65,7 @@
           "blockId": "rgmt",
           "component": "core.block.mainBlock",
           "slotName": "main",
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle2",
-            "titleColor": "textPrimary",
-            "headerStyle": {
-              "pt": 1,
-              "pb": 1
-            },
-            "contentStyle": {
-              "pt": 1,
-              "pb": 1
-            }
-          }
+          "blockLayout": "App List - Mobile"
         }
       ]
     },

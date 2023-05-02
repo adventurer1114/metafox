@@ -15,8 +15,8 @@ use MetaFox\Poll\Http\Requests\v1\Poll\IndexRequest;
 use MetaFox\Poll\Http\Requests\v1\Poll\StoreRequest;
 use MetaFox\Poll\Http\Requests\v1\Poll\UpdateRequest;
 use MetaFox\Poll\Http\Resources\v1\Poll\IntegrationCreatePollForm;
-use MetaFox\Poll\Http\Resources\v1\Poll\PollDetail as Detail;
 use MetaFox\Poll\Http\Resources\v1\Poll\PollDetail;
+use MetaFox\Poll\Http\Resources\v1\Poll\PollDetail as Detail;
 use MetaFox\Poll\Http\Resources\v1\Poll\PollItemCollection as ItemCollection;
 use MetaFox\Poll\Http\Resources\v1\Poll\SearchPollForm as SearchForm;
 use MetaFox\Poll\Http\Resources\v1\Poll\StatusCreatePollForm;
@@ -68,11 +68,11 @@ class PollController extends ApiController
     public function index(IndexRequest $request): JsonResponse
     {
         $params = $request->validated();
-        $owner  = $context  = user();
+        $owner  = $context = user();
         if ($params['user_id'] > 0) {
             $owner = UserEntity::getById($params['user_id'])->detail;
             if (policy_check(PollPolicy::class, 'viewOnProfilePage', $context, $owner) == false) {
-                return $this->success([]);
+                throw new AuthorizationException();
             }
 
             if (UserPrivacy::hasAccess($context, $owner, 'poll.profile_menu') == false) {
@@ -98,7 +98,7 @@ class PollController extends ApiController
      */
     public function store(StoreRequest $request): JsonResponse
     {
-        $owner  = $context  = user();
+        $owner  = $context = user();
         $params = $request->validated();
 
         app('flood')->checkFloodControlWhenCreateItem(user(), Poll::ENTITY_TYPE);

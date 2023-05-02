@@ -15,24 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    // Quiz's Forms
-    Route::get('quiz/form/{id?}', 'QuizController@form');
-    Route::get('quiz/search-form', 'QuizController@searchForm');
+// Quiz's Forms
+Route::controller(QuizController::class)
+    ->prefix('quiz')
+    ->group(function () {
+        Route::get('form/{id?}', 'form');
+        Route::get('search-form', 'searchForm');
+        Route::patch('approve/{id}', 'approve');
+        Route::patch('feature/{id}', 'feature');
+        Route::patch('sponsor/{id}', 'sponsor');
+        Route::patch('sponsor-in-feed/{id}', 'sponsorInFeed');
+    });
 
-    Route::patch('quiz/approve/{id}', 'QuizController@approve');
-    Route::patch('quiz/feature/{id}', 'QuizController@feature');
-    Route::patch('quiz/sponsor/{id}', 'QuizController@sponsor');
-    Route::patch('quiz/sponsor-in-feed/{id}', 'QuizController@sponsorInFeed');
-    Route::resource('quiz', 'QuizController');
-
-    //Quiz Result API endpoints
-    Route::get('quiz-result/view-individual-play', 'ResultController@viewIndividualPlay');
-    Route::resource('quiz-result', 'ResultController')->only(['index', 'store']);
-
-    //Quiz Question API endpoints
-    Route::get('quiz-question/view-plays', 'QuestionController@viewPlays');
+Route::controller(QuestionController::class)->group(function () {
+    Route::get('quiz-question/view-plays', 'viewPlays');
 });
+
+//Quiz Result API endpoints
+Route::controller(ResultController::class)->group(function () {
+    Route::get('quiz-result/view-individual-play', 'viewIndividualPlay');
+});
+
+Route::resource('quiz', QuizController::class);
+Route::resource('quiz-result', ResultController::class)->only(['index', 'store']);

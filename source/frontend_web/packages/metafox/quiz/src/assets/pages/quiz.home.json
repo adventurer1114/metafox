@@ -50,7 +50,7 @@
           "hasSearchBox": false,
           "freeze": false,
           "displayLimit": 6,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Quiz - Main Card",
           "itemLayout": "Quiz - Main Card"
         },
@@ -72,10 +72,11 @@
           },
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Quiz - Main Card",
           "itemLayout": "Quiz - Main Card",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "maxPageNumber": 2,
           "numberOfItemsPerPage": 10
         }
@@ -107,9 +108,9 @@
           "hasSearchBox": false,
           "freeze": false,
           "displayLimit": "6",
-          "blockLayout": "App List - Mobile - Paper",
-          "gridLayout": "Poll - Main Card - Mobile",
-          "itemLayout": "Poll - Main Card - Mobile"
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "Quiz - Main Card - Mobile",
+          "itemLayout": "Quiz - Main Card - Mobile"
         },
         {
           "blockId": "5cf0f",
@@ -124,14 +125,15 @@
           "contentType": "quiz",
           "dataSource": {
             "apiUrl": "/quiz",
-            "apiParams": "sort=latest"
+            "apiParams": "sort=most_played"
           },
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "App Lists",
-          "gridLayout": "Quiz - Main Card",
-          "itemLayout": "Quiz - Main Card"
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "Quiz - Main Card - Mobile",
+          "itemLayout": "Quiz - Main Card - Mobile"
         }
       ],
       "containers": {},

@@ -122,11 +122,15 @@ function* reactMessage({
 
     const { apiClient } = yield* getGlobalContext();
 
-    yield apiClient.request({
+    const response = yield apiClient.request({
       method: 'PUT',
       url: `/chat/react/${item.id}`,
       data: { react: shortcut }
     });
+
+    const data = response.data.data;
+
+    yield* patchEntity(identity, { reactions: data?.reactions });
   } catch (error) {
     yield* handleActionError(error);
   }
@@ -146,11 +150,15 @@ function* unsetReactMessage(
 
     const { apiClient } = yield* getGlobalContext();
 
-    yield apiClient.request({
+    const response = yield apiClient.request({
       method: 'PUT',
       url: `/chat/react/${item.id}`,
       data: { remove: 1 }
     });
+
+    const data = response.data.data;
+
+    yield* patchEntity(identity, { reactions: data?.reactions });
 
     isFunction(action?.meta.onSuccess) && action.meta.onSuccess();
   } catch (error) {

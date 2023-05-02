@@ -54,7 +54,6 @@ class EventFactory extends Factory
             'created_at'         => $this->faker->dateTime,
             'updated_at'         => $this->faker->dateTime,
             'text'               => $text,
-            'text_parsed'        => $text,
             'categories'         => [1, 2, 3],
         ];
     }

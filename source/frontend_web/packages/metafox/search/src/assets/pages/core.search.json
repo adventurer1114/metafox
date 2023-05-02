@@ -25,7 +25,7 @@
           "slotName": "main",
           "blockId": "d90mi",
           "title": "Search Results",
-          "blockLayout": "App Lists Mobile"
+          "blockLayout": "App List - Mobile"
         },
         {
           "component": "core.globalSearchFilterBlock",

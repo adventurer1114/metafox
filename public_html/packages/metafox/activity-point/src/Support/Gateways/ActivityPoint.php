@@ -43,7 +43,6 @@ class ActivityPoint extends AbstractPaymentGateway implements HasSupportSubscrip
         return self::GATEWAY_SERVICE_NAME;
     }
 
-
     public function createGatewaySubscription(Order $order, array $params = []): array
     {
         return [];

@@ -32,7 +32,7 @@ const useStyles = makeStyles(
 
 export default function PreviewLink({
   composerRef,
-  hideRemove
+  isEdit
 }: StatusComposerControlProps) {
   const classes = useStyles();
   const { i18n, jsxBackend } = useGlobal();
@@ -40,26 +40,40 @@ export default function PreviewLink({
     composerRef.current.state,
     'attachments.link.value'
   );
+
   const ItemView = jsxBackend.get('feedArticle.view.list.embedItem');
 
+  React.useEffect(() => {
+    if (item?.is_preview_hidden && isEdit) {
+      composerRef.current.setAttachments('link', 'link', {
+        as: 'StatusComposerControlPreviewLink',
+        value: { ...item, is_preview_hidden: false }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleRemoveAll = () => {
-    composerRef.current.removeAttachments();
+    composerRef.current.setAttachments('link', 'link', {
+      as: 'StatusComposerControlPreviewLink',
+      value: { ...item, is_preview_hidden: true }
+    });
   };
+
+  if (item?.is_preview_hidden) return null;
 
   return (
     <div>
       <div className={classes.root}>
         <ItemView {...item} widthImage="180px" />
         <div className={classes.removeButtonWrapper}>
-          {!hideRemove ? (
-            <StyledIconButton
-              color="inherit"
-              icon="ico-close"
-              size="small"
-              title={i18n.formatMessage({ id: 'remove_all' })}
-              onClick={handleRemoveAll}
-            />
-          ) : null}
+          <StyledIconButton
+            color="inherit"
+            icon="ico-close"
+            size="small"
+            title={i18n.formatMessage({ id: 'remove_all' })}
+            onClick={handleRemoveAll}
+          />
         </div>
       </div>
     </div>

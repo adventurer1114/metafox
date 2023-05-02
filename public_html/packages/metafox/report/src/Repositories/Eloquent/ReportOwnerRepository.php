@@ -62,7 +62,7 @@ class ReportOwnerRepository extends AbstractRepository implements ReportOwnerRep
         }
 
         $owner = $item->owner;
-        gate_authorize($context, 'reportToOwner', $owner, $item);
+        gate_authorize($context, 'reportToOwner', $item, $item);
 
         $reportData = array_merge($reportData, [
             'owner_id'   => $owner->entityId(),

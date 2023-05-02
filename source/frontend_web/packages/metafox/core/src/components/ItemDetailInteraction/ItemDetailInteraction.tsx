@@ -12,24 +12,30 @@ const StatisticWrapper = styled('div', {
   name,
   slot: 'root',
   shouldForwardProp: prop => prop !== 'isStatistic' && prop !== 'isOpenComposer'
-})<{ isStatistic?: boolean; isOpenComposer?: boolean }>(
-  ({ theme, isStatistic, isOpenComposer }) => ({
-    display: 'flex',
-    alignItems: 'center',
+})<{
+  isStatistic?: boolean;
+  isOpenComposer?: boolean;
+  borderBottom?: boolean;
+  borderTop?: boolean;
+}>(({ theme, isStatistic, isOpenComposer, borderBottom, borderTop }) => ({
+  display: 'flex',
+  alignItems: 'center',
 
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column-reverse'
-    },
-    ...(isStatistic && {
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column-reverse'
+  },
+  ...(isStatistic &&
+    borderTop && {
       borderTop: 'solid 1px',
       borderTopColor: theme.palette.border?.secondary
     }),
-    ...(isOpenComposer && {
-      borderBottom: 'solid 1px',
-      borderBottomColor: theme.palette.border?.secondary
-    })
-  })
-);
+  ...(isOpenComposer || borderBottom
+    ? {
+        borderBottom: 'solid 1px',
+        borderBottomColor: theme.palette.border?.secondary
+      }
+    : {})
+}));
 
 export default function ItemDetailInteraction({
   identity,
@@ -45,8 +51,10 @@ export default function ItemDetailInteraction({
   related_comments_statistic,
   hideComposerInListComment = false,
   messageCommentStatistic,
-  borderBottomPhoto,
+  borderTop = true,
+  borderBottom = false,
   forceHideCommentList = false,
+  forceHideReactionGroup = false,
   dataSourceCommentStatistic,
   handleActionCommentStatistic
 }: ItemDetailInteractionProps) {
@@ -67,7 +75,9 @@ export default function ItemDetailInteraction({
   const [sortType, setSortType] = useSortComment();
 
   const isStatistic =
-    session.loggedIn ||
+    extra?.can_like ||
+    extra?.can_comment ||
+    extra?.can_share ||
     statistic?.total_like ||
     statistic?.total_comment ||
     statistic?.total_share;
@@ -109,14 +119,15 @@ export default function ItemDetailInteraction({
     <div className={clsx(classes.listingComment, className)}>
       <StatisticWrapper
         isStatistic={isStatistic}
+        borderBottom={borderBottom}
+        borderTop={borderTop}
         isOpenComposer={
           state.commentOpened &&
           !hideComposerInListComment &&
           !forceHideCommentList
         }
-        className={clsx(borderBottomPhoto && classes.borderBottomPhoto)}
       >
-        {session.loggedIn ? (
+        {session.loggedIn && !forceHideReactionGroup ? (
           <div className={classes.reactionWrapper}>
             <CommentReaction>
               {extra?.can_like && ReactionActButton ? (
@@ -174,6 +185,7 @@ export default function ItemDetailInteraction({
           open={state.commentOpened}
           sortType={sortType}
           setSortType={setSortType}
+          isDetailPage
         />
       ) : null}
       {session.loggedIn &&

@@ -66,7 +66,11 @@ const DropdownField = ({
       ? {
           anchorOrigin: {
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'right'
+          },
+          transformOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
           }
         }
       : {};
@@ -88,7 +92,7 @@ const DropdownField = ({
       <InputLabel>{label}</InputLabel>
       <Select
         onBlur={handleBlur}
-        value={field.value}
+        value={field.value ?? ''}
         displayEmpty
         label={label}
         defaultValue={options[0]?.value}

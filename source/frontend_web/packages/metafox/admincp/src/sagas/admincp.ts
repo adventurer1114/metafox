@@ -197,6 +197,8 @@ function* batchEditRows({
 
     const dataSource = apiRef.current.config.actions[action];
 
+    const isCheckboxSelection = apiRef.current.config?.checkboxSelection;
+
     const asFormDialog = !!(dataSource?.asFormDialog ?? true);
 
     const ok = yield handleActionConfirm(dataSource);
@@ -216,6 +218,10 @@ function* batchEditRows({
         // update or refresh
         if (reload) {
           apiRef.current.refresh();
+
+          if (isCheckboxSelection) {
+            apiRef.current.refreshSelection();
+          }
         } else if (isArray(data)) {
           apiRef.current.patchMultiRows(data);
         } else {
@@ -237,6 +243,10 @@ function* batchEditRows({
       // update or refresh
       if (reload) {
         apiRef.current.refresh();
+
+        if (isCheckboxSelection) {
+          apiRef.current.refreshSelection();
+        }
       } else if (isArray(data)) {
         apiRef.current.refresh();
         apiRef.current.patchMultiRows(data);
@@ -469,6 +479,7 @@ function* showCacheDialog() {
 
   dialogBackend.present({
     component: 'core.dialog.RemoteForm',
+    dialogId: 'admincp_clear_cache_dialog',
     props: {
       dataSource: {
         apiUrl: 'admincp/core/form/core.admin.destroy_cache'
@@ -479,14 +490,18 @@ function* showCacheDialog() {
 
 function* batchItem({
   type,
-  payload: { id, dataSource, action, reload },
+  payload: { id, dataSource, action, reload, confirm },
   meta: { apiRef }
-}: GridMassAction) {
+}: GridMassAction & { payload: { confirm?: any } }) {
   // const { dialogBackend } = yield* getGlobalContext();
   try {
     const { apiClient, compactUrl } = yield* getGlobalContext();
 
     dataSource = dataSource ?? apiRef.current.config.actions[action];
+
+    const ok = yield handleActionConfirm({ confirm } as AppResourceAction);
+
+    if (!ok) return;
 
     const response = yield apiClient.request({
       url: compactUrl(dataSource.apiUrl, { id }),

@@ -146,4 +146,10 @@ return [
         'resolution'    => 'mobile',
         'type'          => 'context',
     ],
+    [
+        'name'          => 'page.page.profileShareActionMenu',
+        'resource_name' => 'page',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
 ];

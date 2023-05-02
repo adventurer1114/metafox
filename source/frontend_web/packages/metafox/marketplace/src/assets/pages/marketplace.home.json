@@ -80,7 +80,7 @@
             "apiUrl": "/marketplace"
           },
           "contentType": "marketplace",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Marketplace - Main Card",
           "itemLayout": "Marketplace - Main Card"
         },
@@ -101,10 +101,11 @@
             "apiUrl": "/marketplace"
           },
           "contentType": "marketplace",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Marketplace - Main Card",
           "itemLayout": "Marketplace - Main Card",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "maxPageNumber": 2,
           "numberOfItemsPerPage": 10
         }
@@ -132,7 +133,7 @@
             "apiUrl": "/marketplace"
           },
           "contentType": "marketplace",
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Marketplace - MainCard - Mobile",
           "itemLayout": "Marketplace - MainCard - Mobile"
         },
@@ -152,8 +153,10 @@
             "apiUrl": "/marketplace"
           },
           "canLoadMore": true,
+          "canLoadSmooth": 1,
+          "maxPageNumber": 2,
           "contentType": "marketplace",
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Marketplace - MainCard - Mobile",
           "itemLayout": "Marketplace - MainCard - Mobile"
         }

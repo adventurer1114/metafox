@@ -29,7 +29,9 @@ class FeedDetail extends FeedItem
         $commentId = $request->get('comment_id');
 
         if ($commentId) {
-            $relevantComment = app('events')->dispatch('comment.relevant_comment_by_id', [user(), $commentId, $this->resource->item], true);
+            $resource = $this->getActionResource();
+
+            $relevantComment = app('events')->dispatch('comment.relevant_comment_by_id', [user(), $commentId, $resource], true);
 
             if (null !== $relevantComment) {
                 Arr::set($response, 'relevant_comments', $relevantComment);

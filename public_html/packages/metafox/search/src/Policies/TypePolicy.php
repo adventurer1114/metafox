@@ -6,6 +6,7 @@ use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Facades\PolicyGate;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
 
@@ -37,8 +38,12 @@ class TypePolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -143,6 +148,20 @@ class TypePolicy implements ResourcePolicyInterface
             if ($user->entityId() != $resource->userId()) {
                 return false;
             }
+        }
+
+        return true;
+    }
+    public function viewOnProfilePage(User $user, User $owner): bool
+    {
+        $policy = PolicyGate::getPolicyFor(get_class($owner));
+
+        if ($policy == null) {
+            return false;
+        }
+
+        if (method_exists($policy, 'viewOnProfilePage')) {
+            return $policy->viewOnProfilePage($user, $owner);
         }
 
         return true;

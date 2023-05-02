@@ -3,6 +3,7 @@
 namespace MetaFox\Video\Support;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Video\Contracts\ProviderManagerInterface;
 use MetaFox\Video\Contracts\VideoServiceInterface;
@@ -44,9 +45,12 @@ class ProviderManager implements ProviderManagerInterface
 
     public function getDefaultServiceClass(): VideoServiceInterface
     {
-        $service = $this->getDefaultService();
+        $service      = $this->getDefaultService();
+        $serviceClass = $service->service_class;
 
-        $serviceClass = resolve($service->service_class, ['extra' => $service->extra]);
+        Log::channel('dev')->info('Loading Video Service: ' . $serviceClass);
+
+        $serviceClass = new $serviceClass();
 
         if (!$serviceClass instanceof VideoServiceInterface) {
             abort(400, __p('video::phrase.no_active_video_service'));

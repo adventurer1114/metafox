@@ -7,7 +7,7 @@ use MetaFox\Platform\Contracts\User;
 
 class CheckIntegrationPermissionListener
 {
-    public function handle(User $context, User $owner, string $parentType)
+    public function handle(?User $context, ?User $owner, string $parentType)
     {
         policy_authorize(ForumThreadPolicy::class, 'attachPoll', $context);
     }

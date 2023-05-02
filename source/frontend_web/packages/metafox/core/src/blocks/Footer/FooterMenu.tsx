@@ -10,6 +10,7 @@
 import { createBlock, Link, useGlobal } from '@metafox/framework';
 import { styled } from '@mui/material';
 import React from 'react';
+import { Block, BlockContent } from '@metafox/layout';
 
 type FooterMenuProps = {
   color?:
@@ -24,10 +25,6 @@ type FooterMenuProps = {
 };
 
 const name = 'Footer';
-
-const Root = styled('div', { name, slot: 'root' })(({ theme }) => ({
-  padding: theme.spacing(2.5, 0)
-}));
 
 const Content = styled('div', {
   name,
@@ -86,44 +83,47 @@ function FooterMenu({ color = 'inherit', slotName }: FooterMenuProps) {
   if (!leftFooterMenu && !rightFooterMenu) return null;
 
   return (
-    <Root>
-      <Content isSideSlot={isSideSlot}>
-        <LeftMenu isSideSlot={isSideSlot}>
-          {leftFooterMenu
-            ? leftFooterMenu.items.map((item, index) => (
-                <li key={index.toString()}>
-                  <Link color={color} to={item.to} key={item.to}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))
-            : null}
-        </LeftMenu>
-        <RightMenu isSideSlot={isSideSlot}>
-          {rightFooterMenu
-            ? // eslint-disable-next-line no-confusing-arrow
-              rightFooterMenu.items.map((item, index) => (
-                <span key={`k${index}`}>
-                  {item.name === 'copyright' ? (
-                    `${copyright} ${new Date().getFullYear()}`
-                  ) : (
+    <Block>
+      <BlockContent>
+        <Content isSideSlot={isSideSlot}>
+          <LeftMenu isSideSlot={isSideSlot}>
+            {leftFooterMenu
+              ? leftFooterMenu.items.map((item, index) => (
+                  <li key={index.toString()}>
                     <Link color={color} to={item.to} key={item.to}>
                       {item.label}
                     </Link>
-                  )}
-                </span>
-              ))
-            : null}
-        </RightMenu>
-      </Content>
-    </Root>
+                  </li>
+                ))
+              : null}
+          </LeftMenu>
+          <RightMenu isSideSlot={isSideSlot}>
+            {rightFooterMenu
+              ? // eslint-disable-next-line no-confusing-arrow
+                rightFooterMenu.items.map((item, index) => (
+                  <span key={`k${index}`}>
+                    {item.name === 'copyright' ? (
+                      `${copyright} ${new Date().getFullYear()}`
+                    ) : (
+                      <Link color={color} to={item.to} key={item.to}>
+                        {item.label}
+                      </Link>
+                    )}
+                  </span>
+                ))
+              : null}
+          </RightMenu>
+        </Content>
+      </BlockContent>
+    </Block>
   );
 }
 
 export default createBlock({
   extendBlock: FooterMenu,
   defaults: {
-    title: 'Footer Menu'
+    title: 'Footer Menu',
+    blockLayout: 'footer - login'
   },
   overrides: {
     noHeader: true

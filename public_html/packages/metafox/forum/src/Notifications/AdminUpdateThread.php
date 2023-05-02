@@ -17,11 +17,15 @@ class AdminUpdateThread extends Notification
      */
     public function toMail(): MailMessage
     {
-        $intro = $this->localize('forum::phrase.your_thread_has_been_updated_by_an_admin');
-        $url   = $this->model->toUrl();
+        $intro   = $this->localize('forum::phrase.your_thread_has_been_updated_by_an_admin');
+        $subject = $this->localize('forum::phrase.your_thread_has_been_updated_by_an_admin_subject', [
+            'title' => $this->model->toTitle(),
+        ]);
+        $url = $this->model->toUrl();
 
         return (new MailMessage())
             ->locale($this->getLocale())
+            ->subject($subject)
             ->line($intro)
             ->action($this->localize('forum::phrase.forum'), $url);
     }
@@ -46,5 +50,16 @@ class AdminUpdateThread extends Notification
     public function callbackMessage(): ?string
     {
         return $this->localize('forum::notification.your_thread_has_been_updated_by_an_admin');
+    }
+
+    public function toRouter(): ?string
+    {
+        $model = $this->model;
+
+        if (null === $model) {
+            return null;
+        }
+
+        return $this->model->toRouter();
     }
 }

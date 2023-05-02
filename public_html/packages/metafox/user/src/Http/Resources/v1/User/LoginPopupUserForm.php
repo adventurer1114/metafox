@@ -49,7 +49,7 @@ class LoginPopupUserForm extends AbstractForm
                 ->autoFocus(true)
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::password('password')
                 ->label(__p('user::phrase.password'))

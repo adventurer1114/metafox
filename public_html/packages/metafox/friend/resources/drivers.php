@@ -83,6 +83,14 @@ return [
         'is_preload' => 1,
     ],
     [
+        'driver'     => 'MetaFox\\Friend\\Http\\Resources\\v1\\Friend\\SearchFriendForm',
+        'type'       => 'form',
+        'name'       => 'friend.search',
+        'version'    => 'v1',
+        'resolution' => 'web',
+        'is_preload' => 1,
+    ],
+    [
         'driver'     => 'MetaFox\\Friend\\Http\\Resources\\v1\\Admin\\SiteSettingForm',
         'type'       => 'form-settings',
         'name'       => 'friend',

@@ -15,8 +15,12 @@ use MetaFox\Platform\Contracts\User;
  */
 class CanAddFriendListener
 {
-    public function handle(User $context, User $owner): bool
+    public function handle(?User $context, ?User $owner): bool
     {
+        if (!$context || !$owner) {
+            return false;
+        }
+
         $friendRequestPolicy = resolve(FriendRequestPolicy::class);
 
         $friendPolicy = resolve(FriendPolicy::class);

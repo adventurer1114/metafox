@@ -12,7 +12,7 @@ use MetaFox\User\Database\Factories\UserVerifyErrorFactory;
  * Class UserVerifyError.
  *
  * @property int                    $id
- * @method   UserVerifyErrorFactory factory(...$parameters)
+ * @method   static UserVerifyErrorFactory factory(...$parameters)
  */
 class UserVerifyError extends Model implements Entity
 {

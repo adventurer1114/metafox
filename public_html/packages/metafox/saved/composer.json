@@ -1,6 +1,6 @@
 {
     "name": "metafox/saved",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Saved\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/saved": "5.0.1"
+                "@metafox/saved": "*"
             },
             "frontendPaths": [
                 "packages/metafox/saved"

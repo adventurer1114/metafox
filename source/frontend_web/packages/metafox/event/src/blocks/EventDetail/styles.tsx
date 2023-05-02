@@ -140,28 +140,6 @@ const useStyles = makeStyles(
       location: {
         marginTop: theme.spacing(1.5)
       },
-      actionGroup: {
-        height: theme.spacing(5),
-        display: 'inline-flex',
-        marginTop: theme.spacing(2),
-        [theme.breakpoints.down('xs')]: {
-          display: 'flex'
-        },
-        [theme.breakpoints.down('sm')]: {
-          width: 'calc(100% - 56px)',
-          '& > .MuiButtonBase-root': {
-            justifyContent: 'inherit',
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2),
-            '& .ico-caret-down': {
-              marginLeft: 'auto'
-            }
-          }
-        },
-        '& >*': {
-          marginRight: `${theme.spacing(1)} !important`
-        }
-      },
       actionMenu: {
         border: '1px solid',
         width: '40px',

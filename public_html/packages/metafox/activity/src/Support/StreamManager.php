@@ -767,7 +767,7 @@ class StreamManager
         return $query;
     }
 
-    protected function buildProfileQueryForMember(bool $isFriendOfFriend): Builder
+    protected function buildProfileQueryForMember(?bool $isFriendOfFriend): Builder
     {
         return DB::table('activity_privacy_members', 'privacy')
             // Note: do not distinct, its fine if you get duplicate feed_id, using php logic code outside this method to get more feed.

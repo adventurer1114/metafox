@@ -23,16 +23,20 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'q'           => ['sometimes', 'nullable', 'string'],
-            'view'        => ['sometimes', 'string', new AllowInRule(ViewScope::getAllowView())],
-            'sort'        => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSort())],
-            'sort_type'   => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSortType())],
-            'when'        => ['sometimes', 'string', new AllowInRule(WhenScope::getAllowWhen())],
-            'category_id' => ['sometimes', 'nullable', 'numeric', 'exists:marketplace_categories,id'],
-            'user_id'     => ['sometimes', 'numeric', 'exists:user_entities,id'],
-            'page'        => ['sometimes', 'numeric', 'min:1'],
-            'limit'       => ['sometimes', 'numeric', new PaginationLimitRule()],
-            'country_iso' => ['sometimes', 'string', 'exists:core_countries,country_iso'],
+            'q'            => ['sometimes', 'nullable', 'string'],
+            'view'         => ['sometimes', 'string', new AllowInRule(ViewScope::getAllowView())],
+            'sort'         => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSort())],
+            'sort_type'    => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSortType())],
+            'when'         => ['sometimes', 'string', new AllowInRule(WhenScope::getAllowWhen())],
+            'category_id'  => ['sometimes', 'nullable', 'numeric', 'exists:marketplace_categories,id'],
+            'user_id'      => ['sometimes', 'numeric', 'exists:user_entities,id'],
+            'page'         => ['sometimes', 'numeric', 'min:1'],
+            'limit'        => ['sometimes', 'numeric', new PaginationLimitRule()],
+            'country_iso'  => ['sometimes', 'string', 'exists:core_countries,country_iso'],
+            'bounds_west'  => ['sometimes', 'numeric'],
+            'bounds_east'  => ['sometimes', 'numeric'],
+            'bounds_south' => ['sometimes', 'numeric'],
+            'bounds_north' => ['sometimes', 'numeric'],
         ];
     }
 

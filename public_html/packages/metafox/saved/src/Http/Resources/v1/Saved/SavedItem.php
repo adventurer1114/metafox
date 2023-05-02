@@ -5,13 +5,16 @@ namespace MetaFox\Saved\Http\Resources\v1\Saved;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\HasSavedItem;
+use MetaFox\Platform\Facades\PolicyGate;
 use MetaFox\Platform\Facades\ResourceGate;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\ResourcePermission as ACL;
-use MetaFox\Platform\Traits\Http\Resources\HasExtra;
 use MetaFox\Platform\Traits\Http\Resources\HasStatistic;
+use MetaFox\Saved\Models\Saved;
 use MetaFox\Saved\Models\Saved as Model;
+use MetaFox\Saved\Policies\SavedPolicy;
 use MetaFox\Saved\Repositories\SavedListRepositoryInterface;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
 use MetaFox\User\Models\UserEntity;
@@ -24,16 +27,21 @@ use MetaFox\User\Models\UserEntity;
 class SavedItem extends JsonResource
 {
     use HasStatistic;
-    use HasExtra;
 
     private ?int $collectionId = null;
 
+    protected function listRepository(): SavedListRepositoryInterface
+    {
+        return resolve(SavedListRepositoryInterface::class);
+    }
+
     /**
      * @return array<string, mixed>
+     * @throws AuthenticationException
      */
     protected function getStatistic(): array
     {
-        $savedLists = resolve(SavedListRepositoryInterface::class)->filterSavedListByUser(
+        $savedLists = $this->listRepository()->filterSavedListByUser(
             user(),
             $this->resource->savedLists
         );
@@ -73,7 +81,7 @@ class SavedItem extends JsonResource
         if ($item instanceof HasSavedItem) {
             $savedData = $item->toSavedItem();
             if (!empty($savedData)) {
-                $title = $savedData['title']; //todo: substring
+                $title = $this->handleTitle($item, $savedData['title']); //todo: substring
                 $image = $savedData['image'];
                 /** @var UserEntity $owner */
                 $owner        = $savedData['user'];
@@ -101,6 +109,10 @@ class SavedItem extends JsonResource
             $belongToCollection = true;
         }
 
+        if ($this->collectionId == null) {
+            $this->collectionId = $defaultCollection?->entityId();
+        }
+
         return [
             'id'                      => $this->resource->entityId(),
             'module_name'             => 'saved',
@@ -123,6 +135,7 @@ class SavedItem extends JsonResource
             'default_collection_id'   => $defaultCollection?->entityId(),
             'creation_date'           => $this->resource->created_at,
             'modification_date'       => $this->resource->updated_at,
+            'list_id'                 => $this->collectionId,
             'link'                    => $link,
             'extra'                   => $this->getCustomExtra(),
             'privacy'                 => MetaFoxPrivacy::EVERYONE,
@@ -139,14 +152,33 @@ class SavedItem extends JsonResource
      */
     protected function getCustomExtra(): array
     {
-        $extras = $this->getExtra();
+        $context = user();
+        /** @var SavedPolicy $policy */
+        $policy = PolicyGate::getPolicyFor(Saved::class);
 
-        return [
-            ACL::CAN_VIEW   => $extras[ACL::CAN_VIEW] ?? true,
-            ACL::CAN_DELETE => $extras[ACL::CAN_DELETE] ?? true,
-            ACL::CAN_ADD    => $extras[ACL::CAN_ADD] ?? true,
-            ACL::CAN_EDIT   => $extras[ACL::CAN_EDIT] ?? true,
-            ACL::CAN_SHARE  => false,
+        $extraPerms = [
+            ACL::CAN_VIEW         => $policy->view($context, $this->resource),
+            ACL::CAN_DELETE       => $policy->delete($context, $this->resource),
+            ACL::CAN_ADD          => $policy->create($context),
+            ACL::CAN_EDIT         => $policy->update($context, $this->resource),
+            ACL::CAN_SHARE        => false,
+            'is_collection_owner' => false,
+            'can_remove'          => false,
         ];
+
+        if ($this->collectionId) {
+            $collection                        = resolve(SavedListRepositoryInterface::class)->find($this->collectionId);
+            $extraPerms['is_collection_owner'] = $collection->userId() == $context->entityId();
+            $extraPerms['can_remove']          = $extraPerms['is_collection_owner'] || $this->resource->user_id == $context->entityId();
+        }
+
+        return $extraPerms;
+    }
+
+    private function handleTitle(Content $item, string $title): string
+    {
+        app('events')->dispatch('core.parse_content', [$item, &$title]);
+
+        return strip_tags($title);
     }
 }

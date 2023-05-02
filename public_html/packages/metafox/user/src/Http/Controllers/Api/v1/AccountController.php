@@ -2,7 +2,6 @@
 
 namespace MetaFox\User\Http\Controllers\Api\v1;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,11 +25,9 @@ use MetaFox\User\Http\Resources\v1\Account\EditPaymentForm;
 use MetaFox\User\Http\Resources\v1\Account\EditReviewTagPostForm;
 use MetaFox\User\Http\Resources\v1\Account\EditTimezoneForm;
 use MetaFox\User\Http\Resources\v1\Account\EditUserNameForm;
-use MetaFox\User\Http\Resources\v1\User\Forms\AccountSettingForm;
 use MetaFox\User\Http\Resources\v1\User\UserDetail;
 use MetaFox\User\Http\Resources\v1\UserBlocked\UserBlockedItemCollection;
 use MetaFox\User\Models\User;
-use MetaFox\User\Policies\UserPolicy;
 use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
 use MetaFox\User\Repositories\Eloquent\UserRepository;
 use MetaFox\User\Repositories\UserPrivacyRepositoryInterface;
@@ -233,19 +230,6 @@ class AccountController extends ApiController
     public function setting(): JsonResponse
     {
         return $this->success(new AccountSetting(user()));
-    }
-
-    /**
-     * @throws AuthenticationException|AuthorizationException
-     * @group user/account
-     */
-    public function getAccountSettingForm(): AccountSettingForm
-    {
-        $context = user();
-
-        policy_authorize(UserPolicy::class, 'update', $context, $context);
-
-        return new AccountSettingForm(user());
     }
 
     /**

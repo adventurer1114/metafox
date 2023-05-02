@@ -286,21 +286,22 @@ export default function FormBuilder<T extends object = object>({
     ) => {
       if (!formSchema) return;
 
-      const handleSuccess = resetFormWhenSuccess
-        ? () => {
-            if (onSuccess) {
-              onSuccess();
-            }
+      const handleSuccess =
+        resetFormWhenSuccess || formSchemaRaw?.resetFormWhenSuccess
+          ? () => {
+              if (onSuccess) {
+                onSuccess();
+              }
 
-            form.resetForm(
-              resetFormWhenSuccess?.keepValues
-                ? { values: currentValues }
-                : {
-                    ...(initialValues || formSchemaRaw?.values)
-                  }
-            );
-          }
-        : onSuccess;
+              form.resetForm(
+                resetFormWhenSuccess?.keepValues
+                  ? { values: currentValues }
+                  : {
+                      ...(initialValues || formSchemaRaw?.values)
+                    }
+              );
+            }
+          : onSuccess;
 
       dispatch(
         formSubmitAction(
@@ -321,7 +322,8 @@ export default function FormBuilder<T extends object = object>({
             failureAction,
             preventReset: formSchema.preventReset,
             formSchema,
-            keepPaginationData
+            keepPaginationData:
+              keepPaginationData || formSchema?.keepPaginationData
           },
           {
             onSuccess: handleSuccess,

@@ -9,3 +9,9 @@ export const getStickerSets = (
   state: GlobalState,
   ids: string[]
 ): StickerSetShape[] => (ids ? ids.map(id => get(state, id)) : []);
+
+export const getMyStickerRecent = (state: GlobalState) =>
+  state.sticker.myStickerRecent;
+
+export const getAllStickerSet = (state: GlobalState) =>
+  state.sticker.stickerSet;

@@ -4,9 +4,12 @@ namespace MetaFox\Quiz\Http\Resources\v1\Quiz;
 
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
+use MetaFox\Quiz\Http\Requests\v1\Quiz\CreateFormRequest;
 use MetaFox\Quiz\Models\Answer;
 use MetaFox\Quiz\Models\Question;
 use MetaFox\Quiz\Models\Quiz as Model;
+use MetaFox\Quiz\Policies\QuizPolicy;
+use MetaFox\Quiz\Repositories\QuizRepositoryInterface;
 
 /**
  * @property Model $resource
@@ -14,6 +17,14 @@ use MetaFox\Quiz\Models\Quiz as Model;
  */
 class EditQuizForm extends CreateQuizForm
 {
+    public function boot(CreateFormRequest $request, QuizRepositoryInterface $repository, ?int $id = null): void
+    {
+        $context        = user();
+        $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
+        policy_authorize(QuizPolicy::class, 'update', $context, $this->resource);
+    }
+
     protected function prepare(): void
     {
         $questions = $this->resource->questions->map(function (Question $question) {

@@ -64,7 +64,10 @@ class Category extends Model implements Entity, HasTotalItem, HasUrl, HasSubCate
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function marketplaces(): BelongsToMany
@@ -79,7 +82,10 @@ class Category extends Model implements Entity, HasTotalItem, HasUrl, HasSubCate
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toLink(): ?string
@@ -106,7 +112,11 @@ class Category extends Model implements Entity, HasTotalItem, HasUrl, HasSubCate
 
     public function toSubCategoriesLink(): string
     {
-        return url_utility()->makeApiUrl(sprintf('admincp/marketplace/category/%s/category/browse?parent_id=%s', $this->entityId(), $this->entityId()));
+        return url_utility()->makeApiUrl(sprintf(
+            'admincp/marketplace/category/%s/category/browse?parent_id=%s',
+            $this->entityId(),
+            $this->entityId()
+        ));
     }
 
     public function toSubCategoriesUrl(): string
@@ -129,6 +139,10 @@ class Category extends Model implements Entity, HasTotalItem, HasUrl, HasSubCate
             return '/admincp/marketplace/category/browse';
         }
 
-        return sprintf('/admincp/marketplace/category/%s/category/browse?parent_id=%s', $this->parent_id, $this->parent_id);
+        return sprintf(
+            '/admincp/marketplace/category/%s/category/browse?parent_id=%s',
+            $this->parent_id,
+            $this->parent_id
+        );
     }
 }

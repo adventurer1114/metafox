@@ -34,7 +34,7 @@ function* registerTask() {
   const { getSetting } = yield* getGlobalContext();
   const refresh_time = getSetting('notification.refresh_time');
 
-  const delayTime = (refresh_time) * 60 * 1000;
+  const delayTime = refresh_time * 60 * 1000;
 
   if (process.env.MFOX_BUILD_TYPE === 'installation') {
     return;

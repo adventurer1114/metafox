@@ -13,7 +13,7 @@ import {
   Statistic
 } from '@metafox/ui';
 import { getImageSrc } from '@metafox/utils';
-import { styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import React from 'react';
 
 const name = 'PhotoAlbumItemMainCard';
@@ -89,24 +89,26 @@ const PhotoAlbumItemMainCard = ({
         <ItemTitle>
           <Link color={'inherit'} to={to} children={name} />
         </ItemTitle>
-        <ItemSummary>
-          <Link
-            color={'inherit'}
-            to={`/user/${user?.id}`}
-            children={user.full_name}
-            hoverCard
-          />
-        </ItemSummary>
-        <Statistic values={statistic} display="total_item" skipZero={false} />
-        {itemProps.showActionMenu ? (
-          <ItemActionMenu
-            identity={identity}
-            icon={'ico-dottedmore-vertical-o'}
-            state={state}
-            handleAction={handleAction}
-            className={'actionMenu'}
-          />
-        ) : null}
+        <Box>
+          <ItemSummary>
+            <Link
+              color={'inherit'}
+              to={`/user/${user?.id}`}
+              children={user.full_name}
+              hoverCard
+            />
+          </ItemSummary>
+          <Statistic values={statistic} display="total_item" skipZero={false} />
+          {itemProps.showActionMenu ? (
+            <ItemActionMenu
+              identity={identity}
+              icon={'ico-dottedmore-vertical-o'}
+              state={state}
+              handleAction={handleAction}
+              className={'actionMenu'}
+            />
+          ) : null}
+        </Box>
       </ItemText>
     </ItemViewStyled>
   );

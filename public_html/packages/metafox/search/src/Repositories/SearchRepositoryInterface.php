@@ -2,6 +2,7 @@
 
 namespace MetaFox\Search\Repositories;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use MetaFox\Platform\Contracts\HasGlobalSearch;
@@ -81,4 +82,10 @@ interface SearchRepositoryInterface
      * @return bool
      */
     public function deletedByItem(string $itemType, int $itemId): bool;
+
+    /**
+     * @param  array     $attributes
+     * @return Paginator
+     */
+    public function getTrendingHashtags(array $attributes = []): Paginator;
 }

@@ -50,6 +50,8 @@ class SiteSetting extends Model
         'module_id',
         'name',
         'config_name',
+        'package_id',
+        'type',
         'is_auto',
         'value_actual',
         'value_default',
@@ -67,7 +69,7 @@ class SiteSetting extends Model
 
     protected static function booted()
     {
-        self::saving(function (SiteSetting $model) {
+        self::saving(function (self $model) {
             if (!$model->env_var) {
                 $model->env_var = null;
             }
@@ -79,7 +81,7 @@ class SiteSetting extends Model
 
     public function getValueAttribute()
     {
-        return is_null($this->value_actual) ? $this->value_default : $this->value_actual;
+        return null === $this->value_actual ? $this->value_default : $this->value_actual;
     }
 }
 

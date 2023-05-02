@@ -6,6 +6,8 @@
 
 namespace MetaFox\Platform\Resource;
 
+use Illuminate\Support\Arr;
+
 class ActionItem
 {
     /**
@@ -247,6 +249,17 @@ class ActionItem
         $this->asFormDialog(false);
         $this->asDownload(true);
         $this->attributes['pageUrl'] = $downloadUrl;
+
+        return $this;
+    }
+
+    /**
+     * @param  array $params
+     * @return $this
+     */
+    public function pageParams(array $params): static
+    {
+        Arr::set($this->attributes, 'pageParams', $params);
 
         return $this;
     }

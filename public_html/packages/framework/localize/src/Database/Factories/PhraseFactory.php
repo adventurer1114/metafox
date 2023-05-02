@@ -32,9 +32,9 @@ class PhraseFactory extends Factory
     public function definition(): array
     {
         $text  = $this->faker->sentence;
-        $group = 'phrase';
+        $group = 'phpunit';
 
-        $name = str_replace(' ', '_', $text);
+        $name = strtolower(str_replace(' ', '_', $text));
 
         return [
             'key'   => 'core::phrase.' . $name,

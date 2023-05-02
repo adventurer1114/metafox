@@ -6,6 +6,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
+use MetaFox\Search\Http\Requests\v1\Search\TrendingRequest;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Search\Http\Requests\v1\Search\GroupRequest;
 use MetaFox\Search\Http\Requests\v1\Search\IndexRequest;
@@ -13,6 +14,7 @@ use MetaFox\Search\Http\Requests\v1\Search\SuggestionRequest;
 use MetaFox\Search\Http\Resources\v1\Search\SearchGroupItemCollection;
 use MetaFox\Search\Http\Resources\v1\Search\SearchItemCollection as ItemCollection;
 use MetaFox\Search\Http\Resources\v1\Search\SuggestionItemCollection;
+use MetaFox\Search\Http\Resources\v1\Search\TrendingHashtagCollection;
 use MetaFox\Search\Repositories\SearchRepositoryInterface;
 
 /**
@@ -101,5 +103,20 @@ class SearchController extends ApiController
         $data = $this->repository->getSuggestion($context, $params);
 
         return $this->success(new SuggestionItemCollection($data));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param TrendingRequest $request
+     *
+     * @return ResourceCollection
+     * @throws AuthenticationException
+     */
+    public function getTrendingHashtags(TrendingRequest $request): ResourceCollection
+    {
+        $data = $this->repository->getTrendingHashtags($request->validated());
+
+        return new TrendingHashtagCollection($data);
     }
 }

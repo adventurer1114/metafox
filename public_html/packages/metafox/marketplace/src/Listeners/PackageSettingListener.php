@@ -70,7 +70,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'entity_type'     => Listing::ENTITY_TYPE,
                 'is_active'       => true,
                 'title'           => 'marketplace::phrase.marketplace_listings_type',
-                'description'     => 'marketplace::phrase.added_a_listing_in_marketplace',
+                'description'     => 'added_a_marketplace',
                 'is_system'       => 0,
                 'can_comment'     => true,
                 'can_like'        => true,
@@ -147,13 +147,13 @@ class PackageSettingListener extends BasePackageSettingListener
                 'feature'  => UserRole::LEVEL_REGISTERED,
                 'approve'  => UserRole::LEVEL_STAFF,
                 // 'publish'  => UserRole::LEVEL_REGISTERED,
-                'save'    => UserRole::LEVEL_REGISTERED,
-                'like'    => UserRole::LEVEL_REGISTERED,
-                'share'   => UserRole::LEVEL_REGISTERED,
-                'comment' => UserRole::LEVEL_REGISTERED,
-                'report'  => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'save'                          => UserRole::LEVEL_REGISTERED,
+                'like'                          => UserRole::LEVEL_REGISTERED,
+                'share'                         => UserRole::LEVEL_REGISTERED,
+                'comment'                       => UserRole::LEVEL_REGISTERED,
+                'report'                        => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor'              => UserRole::LEVEL_REGISTERED,
+                'sponsor'                       => UserRole::LEVEL_REGISTERED,
                 'auto_approved'                 => UserRole::LEVEL_REGISTERED,
                 'view_expired'                  => UserRole::LEVEL_ADMINISTRATOR,
                 'reopen_own_expired'            => UserRole::LEVEL_REGISTERED,
@@ -207,6 +207,7 @@ class PackageSettingListener extends BasePackageSettingListener
             'days_to_expire'               => ['value' => 30],
             'days_to_notify_before_expire' => ['value' => 0],
             'default_category'             => ['value' => 1],
+            'enable_map'                   => ['value' => true],
         ];
     }
 
@@ -214,7 +215,7 @@ class PackageSettingListener extends BasePackageSettingListener
     {
         return [
             [
-                'label' => __p('marketplace::phrase.listings'),
+                'label' => __p('marketplace::phrase.marketplace'),
                 'value' => 'marketplace',
             ],
         ];
@@ -303,5 +304,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['marketplace', 'marketplace_category'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/marketplace',
+                'name' => 'marketplace::phrase.ad_mob_marketplace_home_page',
+            ],
+            [
+                'path' => '/marketplace/:id',
+                'name' => 'marketplace::phrase.ad_mob_marketplace_detail_page',
+            ],
+        ];
     }
 }

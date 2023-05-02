@@ -14,6 +14,12 @@ use MetaFox\Page\Repositories\PageCategoryRepositoryInterface;
  */
 class DestroyCategoryForm extends AbstractDestroyCategoryForm
 {
+    public function __construct($resource, PageCategoryRepositoryInterface $repository)
+    {
+        parent::__construct($resource);
+        $this->repository = $repository;
+    }
+
     public function boot(PageCategoryRepositoryInterface $repository, ?int $id = null): void
     {
         $this->repository = $repository;

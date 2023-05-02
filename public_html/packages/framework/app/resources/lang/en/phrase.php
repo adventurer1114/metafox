@@ -4,6 +4,7 @@
 return [
     'active'                           => 'Active',
     'active_package_confirm_desc'      => 'Are you sure to activate this package?',
+    'app'                              => 'App',
     'author'                           => 'Author',
     'author_homepage'                  => 'Home Page',
     'author_name'                      => 'Author Name',
@@ -23,6 +24,7 @@ return [
     'install_package_confirm_desc'     => 'Are you sure to install this app?',
     'is_active'                        => 'Is Active',
     'is_core'                          => 'Is Core',
+    'language'                         => 'Language',
     'language_code'                    => 'Language Code',
     'latest_version'                   => 'Latest Version',
     'name'                             => 'Name',
@@ -35,6 +37,7 @@ return [
     'package_installed_successfully'   => 'App was installed successfully.',
     'package_uninstalled_successfully' => 'App was uninstalled successfully.',
     'pricing_type'                     => 'Pricing Type',
+    'product_name'                     => '{productName}',
     'purchased'                        => 'Purchased',
     'resource_name'                    => 'Resource',
     'uninstall'                        => 'Uninstall',
@@ -42,6 +45,4 @@ return [
     'upgrade'                          => '',
     'vendor_name_desc'                 => 'Vendor\'s name, for example, phpFox.',
     'version'                          => 'Version',
-    'app'                              => 'App',
-    'language'                         => 'Language',
 ];

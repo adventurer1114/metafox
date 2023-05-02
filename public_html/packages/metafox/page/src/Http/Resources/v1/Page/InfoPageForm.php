@@ -50,7 +50,7 @@ class InfoPageForm extends AbstractForm
 
     protected function initialize(): void
     {
-        $options = resolve(PageCategoryRepositoryInterface::class)->getCategoriesForForm();
+        $options           = resolve(PageCategoryRepositoryInterface::class)->getCategoriesForForm();
         $minPageNameLength = Settings::get('page.minimum_name_length', MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH);
         $maxPageNameLength = Settings::get('page.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
 
@@ -65,7 +65,7 @@ class InfoPageForm extends AbstractForm
                 ->placeholder(__p('page::phrase.fill_in_a_name_for_your_page'))
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxPageNameLength,
                             __p('validation.field_must_be_at_most_max_length_characters', [
@@ -118,7 +118,7 @@ class InfoPageForm extends AbstractForm
     protected function getProfileMenus(): array
     {
         $menuItemRepository = $this->getMenuItemRepository();
-        $menus = $menuItemRepository->loadItems('page.page.profileMenu', 'web');
+        $menus              = $menuItemRepository->loadItems('page.page.profileMenu', 'web');
 
         return collect($menus)->map(function ($menu) {
             return [

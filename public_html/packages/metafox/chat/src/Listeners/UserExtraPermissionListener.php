@@ -10,12 +10,16 @@ class UserExtraPermissionListener
     use ChatTrait;
 
     /**
-     * @param  User                 $context
+     * @param  User|null            $context
      * @param  User|null            $user
      * @return array<string, mixed>
      */
-    public function handle(User $context, ?User $user = null): array
+    public function handle(?User $context, ?User $user = null): array
     {
+        if (!$user) {
+            return ['can_message' => false];
+        }
+
         return [
             'can_message' => $this->canMessage($context, $user),
         ];

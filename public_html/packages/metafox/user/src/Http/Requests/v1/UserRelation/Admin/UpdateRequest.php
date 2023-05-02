@@ -3,6 +3,7 @@
 namespace MetaFox\User\Http\Requests\v1\UserRelation\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use MetaFox\Platform\Rules\AllowInRule;
 
 /**
  * --------------------------------------------------------------------------
@@ -28,8 +29,23 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'page'  => ['sometimes', 'numeric', 'min:1'],
-            'limit' => ['sometimes', 'numeric', 'min:10'],
+            'locale'         => ['sometimes', 'string', 'exists:core_languages,language_code'],
+            'title'          => ['sometimes', 'string'],
+            'file'           => ['required', 'array'],
+            'file.temp_file' => ['required_with:file', 'numeric', 'exists:storage_files,id'],
+            'is_active'      => ['sometimes', 'numeric', new AllowInRule([0, 1])],
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated($key, $default);
+
+        $data['temp_file'] = 0;
+        if (isset($data['file']['temp_file'])) {
+            $data['temp_file'] = $data['file']['temp_file'];
+        }
+
+        return $data;
     }
 }

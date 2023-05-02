@@ -31,7 +31,10 @@ class UserBlockedFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id'    => null,
+            'user_type'  => 'user',
+            'owner_id'   => null,
+            'owner_type' => 'user',
         ];
     }
 }

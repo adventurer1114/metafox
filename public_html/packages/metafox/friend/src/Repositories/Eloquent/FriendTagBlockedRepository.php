@@ -8,6 +8,7 @@ use MetaFox\Friend\Repositories\FriendTagBlockedRepositoryInterface;
 use MetaFox\Platform\Contracts\HasTaggedFriend;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\User\Support\Facades\UserEntity;
+use MetaFox\User\Traits\UserMorphTrait;
 
 /**
  * stub: /packages/repositories/eloquent_repository.stub.
@@ -21,6 +22,7 @@ use MetaFox\User\Support\Facades\UserEntity;
  */
 class FriendTagBlockedRepository extends AbstractRepository implements FriendTagBlockedRepositoryInterface
 {
+    use UserMorphTrait;
     public function model()
     {
         return FriendTagBlocked::class;
@@ -59,18 +61,5 @@ class FriendTagBlockedRepository extends AbstractRepository implements FriendTag
         ];
 
         return $this->getModel()->newQuery()->where($data)->exists();
-    }
-
-    public function deleteUserData(int $userId): void
-    {
-        $blockedTags = $this->getModel()->newModelQuery()
-            ->where([
-                'owner_id' => $userId,
-            ])
-            ->get();
-
-        foreach ($blockedTags as $blockedTag) {
-            $blockedTag->delete();
-        }
     }
 }

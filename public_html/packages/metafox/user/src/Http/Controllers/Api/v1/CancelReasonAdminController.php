@@ -40,7 +40,7 @@ class CancelReasonAdminController extends ApiController
     /**
      * @var CancelReasonRepositoryInterface
      */
-    public $repository;
+    public CancelReasonRepositoryInterface $repository;
 
     /**
      * CancelReasonAdminController constructor.
@@ -80,6 +80,7 @@ class CancelReasonAdminController extends ApiController
     public function store(StoreRequest $request): Detail
     {
         $params = $request->validated();
+
         $data   = $this->repository->create($params);
 
         return new Detail($data);
@@ -143,6 +144,20 @@ class CancelReasonAdminController extends ApiController
         $resource = $this->repository->find($id);
 
         return new EditForm($resource);
+    }
+
+    public function edit($id)
+    {
+        $resource = $this->repository->find($id);
+
+        return new EditForm($resource);
+    }
+
+    public function create()
+    {
+        $resource = new CancelReason();
+
+        return new CreateForm($resource);
     }
 
     /**

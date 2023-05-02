@@ -3,23 +3,21 @@
 namespace MetaFox\Captcha\Http\Controllers\Api\v1;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
-use MetaFox\Captcha\Http\Requests\v1\Captcha\Admin\IndexRequest;
 use MetaFox\Core\Repositories\DriverRepositoryInterface;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Platform\MetaFoxConstant;
 
 /**
- | --------------------------------------------------------------------------
- |  Api Controller
- | --------------------------------------------------------------------------
- |
- | stub: /packages/controllers/api_controller.stub
- | Assign this class in $controllers of
- | @link \MetaFox\Captcha\Http\Controllers\Api\CaptchaAdminController::$controllers;
+ * | --------------------------------------------------------------------------
+ * |  Api Controller
+ * | --------------------------------------------------------------------------
+ * |
+ * | stub: /packages/controllers/api_controller.stub
+ * | Assign this class in $controllers of
+ * | @link \MetaFox\Captcha\Http\Controllers\Api\CaptchaAdminController::$controllers;.
  */
 
 /**
@@ -32,11 +30,11 @@ class CaptchaAdminController extends ApiController
     /**
      * CaptchaAdminController Constructor.
      */
-    public function __construct()
+    public function __construct(protected DriverRepositoryInterface $driverRepository)
     {
     }
 
-    public function index(IndexRequest $request): JsonResponse
+    public function index(): JsonResponse
     {
         $types = Settings::get('captcha.types', []);
 
@@ -47,8 +45,7 @@ class CaptchaAdminController extends ApiController
 
     protected function transformTypes(array $types): array
     {
-        $drivers = resolve(DriverRepositoryInterface::class)
-            ->getNamesHasHandlerClass('form-captcha');
+        $drivers = $this->driverRepository->getNamesHasHandlerClass('form-captcha');
 
         $data = array_map(function ($config) use ($drivers) {
             $type = Arr::get($config, 'type', MetaFoxConstant::EMPTY_STRING);
@@ -84,8 +81,7 @@ class CaptchaAdminController extends ApiController
 
     public function editForm(string $driver): JsonResponse
     {
-        $class = resolve(DriverRepositoryInterface::class)
-            ->getDriver('form-captcha', $driver, 'admin');
+        $class = $this->driverRepository->getDriver('form-captcha', $driver, 'admin');
 
         $form = resolve($class);
 
@@ -100,10 +96,10 @@ class CaptchaAdminController extends ApiController
         return $this->success($form);
     }
 
-    public function updateSettings(Request $request, string $driver): JsonResponse
+    public function updateSettings(string $driver): JsonResponse
     {
-        $class = resolve(DriverRepositoryInterface::class)
-            ->getDriver('form-captcha', $driver, 'admin');
+        $class = $this->driverRepository->getDriver('form-captcha', $driver, 'admin');
+
 
         $form = resolve($class);
 

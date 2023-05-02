@@ -39,6 +39,7 @@ class PrivacyScope extends BaseScope
      * @var array|null
      */
     protected ?array $moderationUserRoles = null;
+    protected bool $hasUserBlock          = true;
 
     public function setPrivacyColumn(string $column): void
     {
@@ -114,6 +115,18 @@ class PrivacyScope extends BaseScope
     public function getModerationUserRoles(): ?array
     {
         return $this->moderationUserRoles;
+    }
+
+    public function setHasUserBlock(bool $hasUserBlock): self
+    {
+        $this->hasUserBlock = $hasUserBlock;
+
+        return $this;
+    }
+
+    public function getHasUserBlock(): bool
+    {
+        return $this->hasUserBlock;
     }
 
     /**
@@ -267,17 +280,19 @@ class PrivacyScope extends BaseScope
 
         $resourceOwnerColumn = $model->getTable() . '.owner_id';
 
-        // Resources post by blocked users.
-        $builder->leftJoin('user_blocked as blocked_owner', function (JoinClause $join) use ($resourceUserColumn) {
-            $join->on('blocked_owner.owner_id', '=', $resourceUserColumn)
-                ->where('blocked_owner.user_id', '=', $this->getUserId());
-        })->whereNull('blocked_owner.owner_id');
+        if ($this->getHasUserBlock()) {
+            // Resources post by blocked users.
+            $builder->leftJoin('user_blocked as blocked_owner', function (JoinClause $join) use ($resourceUserColumn) {
+                $join->on('blocked_owner.owner_id', '=', $resourceUserColumn)
+                    ->where('blocked_owner.user_id', '=', $this->getUserId());
+            })->whereNull('blocked_owner.owner_id');
 
-        // Resources post by users blocked you.
-        $builder->leftJoin('user_blocked as blocked_user', function (JoinClause $join) use ($resourceUserColumn) {
-            $join->on('blocked_user.user_id', '=', $resourceUserColumn)
-                ->where('blocked_user.owner_id', '=', $this->getUserId());
-        })->whereNull('blocked_user.user_id');
+            // Resources post by users blocked you.
+            $builder->leftJoin('user_blocked as blocked_user', function (JoinClause $join) use ($resourceUserColumn) {
+                $join->on('blocked_user.user_id', '=', $resourceUserColumn)
+                    ->where('blocked_user.owner_id', '=', $this->getUserId());
+            })->whereNull('blocked_user.user_id');
+        }
 
         if (Schema::hasColumn($model->getTable(), 'owner_id')) {
             // Resources post on users blocked you.

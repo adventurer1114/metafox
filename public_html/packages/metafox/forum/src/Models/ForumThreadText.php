@@ -20,6 +20,7 @@ class ForumThreadText extends Model implements ResourceText
     protected $table = 'forum_thread_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

@@ -34,8 +34,10 @@ class UpdateAlbumMobileForm extends StoreAlbumMobileForm
      */
     public function boot(CreateFormRequest $request, AlbumRepositoryInterface $repository, ?int $id = null): void
     {
-        $context = user();
+        $context        = user();
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
+
         policy_authorize(AlbumPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -44,9 +46,8 @@ class UpdateAlbumMobileForm extends StoreAlbumMobileForm
      */
     protected function prepare(): void
     {
-        $context = user();
         $albumInfo = $this->resource->albumInfo;
-        $privacy = $this->resource->privacy;
+        $privacy   = $this->resource->privacy;
 
         if ($privacy == MetaFoxPrivacy::CUSTOM) {
             $lists = PrivacyPolicy::getPrivacyItem($this->resource);
@@ -73,11 +74,10 @@ class UpdateAlbumMobileForm extends StoreAlbumMobileForm
             ->action(url_utility()->makeApiUrl("photo-album/{$this->resource->entityId()}"))
             ->asPut()
             ->setValue([
-                'name'          => $name,
-                'owner_id'      => $this->resource->owner_id,
-                'text'          => $description,
-                'privacy'       => $privacy,
-                'canSetPrivacy' => $context->hasPermissionTo('photo_album.set_privacy'),
+                'name'     => $name,
+                'owner_id' => $this->resource->owner_id,
+                'text'     => $description,
+                'privacy'  => $privacy,
             ]);
     }
 }

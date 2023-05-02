@@ -17,13 +17,14 @@ use MetaFox\ActivityPoint\Repositories\PointStatisticRepositoryInterface;
 use MetaFox\ActivityPoint\Repositories\PointTransactionRepositoryInterface;
 use MetaFox\Authorization\Repositories\Contracts\RoleRepositoryInterface;
 use MetaFox\Core\Constants;
+use MetaFox\Payment\Contracts\IsBillable;
 use MetaFox\Payment\Models\Order;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\User;
-use MetaFox\User\Models\User as UserModel;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\ModuleManager;
 use MetaFox\Platform\PackageManager;
+use MetaFox\User\Models\User as UserModel;
 use MetaFox\User\Support\Facades\UserValue;
 
 /**
@@ -277,8 +278,12 @@ class ActivityPoint implements \MetaFox\ActivityPoint\Contracts\Support\Activity
             abort(403, $message ?? '');
         }
 
-        [,,, $packageId]   = app('core.drivers')->loadDriver(Constants::DRIVER_TYPE_ENTITY, Arr::get($data, 'item_type'));
-        $extra             = [
+        [, , , $packageId] = app('core.drivers')->loadDriver(
+            Constants::DRIVER_TYPE_ENTITY,
+            Arr::get($data, 'item_type')
+        );
+
+        $extra = [
             'module_id'  => PackageManager::getAlias($packageId),
             'package_id' => $packageId,
             'action'     => 'activitypoint::phrase.spent_activity_point_action',
@@ -286,7 +291,38 @@ class ActivityPoint implements \MetaFox\ActivityPoint\Contracts\Support\Activity
 
         $this->addPoints($user, $user, 0 - $amount, self::TYPE_SPENT, $extra);
 
+        $item = $order->item;
+        if ($item instanceof IsBillable) {
+            $owner = $item->payee();
+
+            if ($owner instanceof User) {
+                $this->addPointForOwnerItem($user, $owner, $packageId, $amount);
+            }
+        }
+
         return true;
+    }
+
+    protected function addPointForOwnerItem(User $user, User $owner, string $packageId, int $amount): void
+    {
+        if ($owner->hasSuperAdminRole()) {
+            return;
+        }
+
+        //owner received
+        $receivedActionParams = [
+            'user' => $user instanceof UserModel ? $user->full_name : '',
+            'url'  => $user instanceof UserModel ? $user->toLink() : '',
+        ];
+
+        $receivedExtra = [
+            'action'        => 'activitypoint::phrase.users_used_points_to_purchase_your_item',
+            'module_id'     => PackageManager::getAlias($packageId),
+            'package_id'    => $packageId,
+            'action_params' => $receivedActionParams,
+        ];
+
+        $this->addPoints($owner, $owner, $amount, self::TYPE_RECEIVED, $receivedExtra);
     }
 
     /**
@@ -337,9 +373,12 @@ class ActivityPoint implements \MetaFox\ActivityPoint\Contracts\Support\Activity
                 foreach ($config as $settings) {
                     foreach ($settings as $setting) {
                         $setting['role_id'] = $role;
-                        $description        = sprintf('activitypoint::phrase.%s_description', str_replace('.', '_', $setting['name']));
-                        $setting            = Arr::add($setting, 'description_phrase', $description);
-                        $params             = array_merge($default, $setting);
+                        $description        = sprintf(
+                            'activitypoint::phrase.%s_description',
+                            str_replace('.', '_', $setting['name'])
+                        );
+                        $setting = Arr::add($setting, 'description_phrase', $description);
+                        $params  = array_merge($default, $setting);
 
                         PointSetting::query()->firstOrCreate([
                             'role_id' => $role,
@@ -383,7 +422,7 @@ class ActivityPoint implements \MetaFox\ActivityPoint\Contracts\Support\Activity
         //context send
         $sentActionParams = [
             'user'   => $owner instanceof UserModel ? $owner->full_name : '',
-            'url'    => $owner instanceof UserModel ? $owner->toUrl() : '',
+            'url'    => $owner instanceof UserModel ? $owner->toLink() : '',
             'points' => $points,
         ];
 
@@ -397,7 +436,7 @@ class ActivityPoint implements \MetaFox\ActivityPoint\Contracts\Support\Activity
         //owner received
         $receivedActionParams = [
             'user'   => $context instanceof UserModel ? $context->full_name : '',
-            'url'    => $context instanceof UserModel ? $context->toUrl() : '',
+            'url'    => $context instanceof UserModel ? $context->toLink() : '',
             'points' => $points,
         ];
 

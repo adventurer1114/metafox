@@ -6,8 +6,7 @@ import {
   useGlobal
 } from '@metafox/framework';
 import { Page } from '@metafox/layout';
-import { get } from 'lodash';
-import React, { createElement, useCallback, useEffect, useState } from 'react';
+import { createElement, useCallback, useEffect, useState } from 'react';
 import { fetchDetail } from '../actions';
 import { useResourceAction } from '../hooks';
 interface Params extends PageParams {
@@ -28,8 +27,10 @@ export default function createViewItemPage<T extends Params = Params>({
   paramCreator
 }: Config<T>) {
   function ViewItemDetail(props: any) {
-    const { dispatch, createPageParams, jsxBackend } = useGlobal();
-    const [loading, setLoading] = useState<boolean>(true);
+    const { dispatch, createErrorPage, createPageParams, jsxBackend } =
+      useGlobal();
+    const [loadingDetail, setLoadingDetail] = useState<boolean>(true);
+    const [loadingStatics, setLoadingStatics] = useState<boolean>(true);
     const [err, setErr] = useState<number>(0);
     const abortId = useAbortControl();
 
@@ -56,10 +57,12 @@ export default function createViewItemPage<T extends Params = Params>({
       setErr(error);
     }, []);
 
-    const onSuccess = useCallback(() => {
-      dispatch({ type: GET_STATICS, payload: { pageParams } });
+    const onSuccessStatics = useCallback(() => {
+      setLoadingStatics(false);
+    }, []);
 
-      setLoading(false);
+    const onSuccessDetail = useCallback(() => {
+      setLoadingDetail(false);
     }, []);
 
     useEffect(() => {
@@ -68,11 +71,16 @@ export default function createViewItemPage<T extends Params = Params>({
     }, [pageParams]);
 
     useEffect(() => {
+      dispatch({
+        type: GET_STATICS,
+        payload: { pageParams },
+        meta: { onSuccessStatics }
+      });
       dispatch(
         fetchDetail(
           config.apiUrl,
           { apiParams: config.apiParams, pageParams },
-          onSuccess,
+          onSuccessDetail,
           onFailure,
           abortId
         )
@@ -82,22 +90,10 @@ export default function createViewItemPage<T extends Params = Params>({
     }, [pageParams.identity, pageParams]);
 
     if (err) {
-      const message =
-        get(err, 'response.data.error') || get(err, 'response.data.message');
-
-      const pageName =
-        get(err, 'response.status') === 403 ? 'core.error403' : 'core.error404';
-
-      return (
-        <Page
-          pageName={pageName}
-          loginRequired={loginRequired}
-          pageParams={{ title: message, variant: 'h2' }}
-        />
-      );
+      return createErrorPage(err, { loginRequired });
     }
 
-    if (loading) return jsxBackend.render({ component: 'Loading' });
+    if (loadingDetail || loadingStatics) return jsxBackend.render({ component: 'Loading' });
 
     return createElement(Page, {
       pageName,

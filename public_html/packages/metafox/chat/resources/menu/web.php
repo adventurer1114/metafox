@@ -18,6 +18,7 @@ return [
             'and',
             ['truthy', 'setting.broadcast.connections.pusher.key'],
             ['falsy', 'setting.chatplus.server'],
+            ['neq', 'params.appName', 'chat'],
         ],
     ],
     [

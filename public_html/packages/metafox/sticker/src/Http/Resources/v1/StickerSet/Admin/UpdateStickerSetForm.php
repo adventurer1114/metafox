@@ -2,6 +2,7 @@
 
 namespace MetaFox\Sticker\Http\Resources\v1\StickerSet\Admin;
 
+use Illuminate\Support\Arr;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
 use MetaFox\Platform\Facades\ResourceGate;
@@ -33,18 +34,15 @@ class UpdateStickerSetForm extends AbstractForm
 
     protected function prepare(): void
     {
-        $items = $this->resource->stickers->map(function (Sticker $item) {
-            return ResourceGate::asResource($item, 'item', false);
-        });
-
+        $values = [
+            'title'     => $this->resource->title,
+            'is_active' => $this->resource->is_active,
+        ];
+        $values = $this->prepareAttachedStickers($values);
         $this->title(__p('sticker::phrase.update_sticker_set'))
             ->action('admincp/sticker/sticker-set/' . $this->resource->id)
             ->asPut()
-            ->setValue([
-                'title'     => $this->resource->title,
-                'is_active' => $this->resource->is_active,
-                'stickers'  => $items,
-            ]);
+            ->setValue($values);
     }
 
     protected function initialize(): void
@@ -58,10 +56,33 @@ class UpdateStickerSetForm extends AbstractForm
                 ->yup(Yup::string()
                     ->minLength(MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH)
                     ->maxLength(MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH)),
-            Builder::switch('is_active')
+            Builder::uploadMultiMedia('file')
+                ->required()
+                ->label(__p('sticker::phrase.add_stickers'))
+                ->accepts('.gif')
+                ->itemType('sticker')
+                ->uploadUrl('file'),
+            Builder::checkbox('is_active')
                 ->label(__p('core::phrase.is_active')),
         );
 
         $this->addDefaultFooter(true);
+    }
+
+    protected function prepareAttachedStickers(array $values): array
+    {
+        $items = [];
+
+        $stickers = $this->resource->stickers
+            ->where('is_deleted', '!=', Sticker::IS_DELETED);
+        if ($stickers->count()) {
+            $items = $stickers->map(function ($sticker) {
+                return ResourceGate::asItem($sticker, null);
+            });
+        }
+
+        Arr::set($values, 'file', $items->values());
+
+        return $values;
     }
 }

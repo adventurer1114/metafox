@@ -1,14 +1,15 @@
 <?php
+
 namespace MetaFox\Quiz\Http\Resources\v1\Quiz;
 
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
+use MetaFox\Quiz\Http\Requests\v1\Quiz\CreateFormRequest;
 use MetaFox\Quiz\Models\Answer;
 use MetaFox\Quiz\Models\Question;
 use MetaFox\Quiz\Models\Quiz as Model;
 use MetaFox\Quiz\Policies\QuizPolicy;
 use MetaFox\Quiz\Repositories\QuizRepositoryInterface;
-use MetaFox\Quiz\Http\Requests\v1\Quiz\CreateFormRequest;
 
 /**
  * @property Model $resource
@@ -21,6 +22,7 @@ class EditQuizMobileForm extends CreateQuizMobileForm
     {
         $context        = user();
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
         policy_authorize(QuizPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -43,7 +45,7 @@ class EditQuizMobileForm extends CreateQuizMobileForm
         });
 
         $quizText = $this->resource->quizText;
-        $privacy = $this->resource->privacy;
+        $privacy  = $this->resource->privacy;
         if ($privacy == MetaFoxPrivacy::CUSTOM) {
             $lists = PrivacyPolicy::getPrivacyItem($this->resource);
 
@@ -60,11 +62,11 @@ class EditQuizMobileForm extends CreateQuizMobileForm
             ->action(url_utility()->makeApiUrl('/quiz/' . $this->resource->entityId()))
             ->asPut()
             ->setValue([
-                'title'       => $this->resource->title ?? '',
-                'text'        => $quizText != null ? parse_output()->parse($quizText->text_parsed) : '',
-                'questions'   => $questions,
-                'privacy'     => $privacy,
-                'owner_id'    => $this->resource->owner_id,
+                'title'     => $this->resource->title ?? '',
+                'text'      => $quizText != null ? parse_output()->parse($quizText->text_parsed) : '',
+                'questions' => $questions,
+                'privacy'   => $privacy,
+                'owner_id'  => $this->resource->owner_id,
             ]);
     }
 }

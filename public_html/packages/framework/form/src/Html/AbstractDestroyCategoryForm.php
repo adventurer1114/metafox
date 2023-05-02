@@ -14,7 +14,11 @@ use MetaFox\Yup\Yup;
  */
 abstract class AbstractDestroyCategoryForm extends AbstractForm
 {
-    protected CategoryRepositoryInterface $repository;
+    /**
+     * @var CategoryRepositoryInterface
+     *                                  warn: unitest might not assign mock there.
+     */
+    protected $repository;
 
     protected function prepare(): void
     {

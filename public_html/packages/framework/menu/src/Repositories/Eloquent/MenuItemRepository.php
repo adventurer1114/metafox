@@ -98,7 +98,7 @@ class MenuItemRepository extends AbstractRepository implements MenuItemRepositor
             array_push($keys, $key);
         }
 
-        $allows = $resolution === 'admin' ? null : ['package_id', 'as', 'extra'];
+        $allows = $resolution === 'admin' ? null : ['package_id', 'as', 'extra', 'value'];
         MenuItem::query()->upsert(
             $inserts,
             ['menu', 'resolution', 'parent_name', 'name'],
@@ -220,7 +220,6 @@ class MenuItemRepository extends AbstractRepository implements MenuItemRepositor
 
         $fields = $this->getModel()->getFillable();
         $data   = Arr::only($params, $fields);
-        // $data['extra'] = Arr::except($params, $fields);
         $menuItem->update($data);
 
         return $menuItem->refresh();
@@ -308,5 +307,17 @@ class MenuItemRepository extends AbstractRepository implements MenuItemRepositor
         Artisan::call('cache:reset');
 
         return true;
+    }
+
+    public function getMenuItemByName(string $menu, string $name, string $resolution, ?string $parentName = null): ?MenuItem
+    {
+        return $this->getModel()->newQuery()
+            ->where([
+                'menu'        => $menu,
+                'name'        => $name,
+                'resolution'  => $resolution,
+                'parent_name' => $parentName,
+            ])
+            ->first();
     }
 }

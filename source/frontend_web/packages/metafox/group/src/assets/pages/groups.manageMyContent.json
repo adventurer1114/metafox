@@ -16,6 +16,7 @@
           "blockId": "n4e",
           "component": "core.block.sidebarAppMenu",
           "slotName": "side",
+          "displayViewMore": false,
           "blockProps": {
             "variant": "plained",
             "titleComponent": "h2",
@@ -143,6 +144,36 @@
           },
           "title": "",
           "blockLayout": null
+        }
+      ]
+    },
+    "small": {
+      "templateName": "mobile",
+      "blocks": [
+        {
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "blockProps": {
+            "variant": "plained",
+            "marginBottom": 2
+          },
+          "title": "",
+          "contents": [
+            {
+              "name": "core.block.sidebarAppMenu",
+              "props": {
+                "menuName": "creatorContentMenu"
+              }
+            }
+          ],
+          "blockId": "z8yi"
+        },
+        {
+          "blockId": "rgmt",
+          "component": "core.block.mainBlock",
+          "slotName": "main",
+          "title": "",
+          "blockLayout": "App List - Mobile"
         }
       ]
     },

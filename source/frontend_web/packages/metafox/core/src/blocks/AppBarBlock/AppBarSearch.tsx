@@ -25,7 +25,8 @@ interface State {
 export default function AppBarSearch({
   openSearch,
   minimize: isMinimized,
-  closeSearch
+  closeSearch,
+  menuRef
 }: Props) {
   const classes = useStyles();
   const {
@@ -213,7 +214,7 @@ export default function AppBarSearch({
   if (!appSearchSetting) return null;
 
   return (
-    <ClickOutsideListener onClickAway={handleClickAway}>
+    <ClickOutsideListener onClickAway={handleClickAway} excludeRef={menuRef}>
       <div
         ref={containerRef}
         data-testid="formSearch"

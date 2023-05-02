@@ -29,7 +29,9 @@ class EventText extends Model implements ResourceText
      * @var string[]
      */
     protected $fillable = [
-        'text', 'text_parsed',
+        'id',
+        'text',
+        'text_parsed',
     ];
 
     public function resource(): BelongsTo

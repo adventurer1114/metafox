@@ -64,7 +64,9 @@ const MessageFilter: React.FC<MessageFilterProps> = ({
 
   if (isEmpty(items))
     return (
-      <NoItemFound>{i18n.formatMessage({ id: 'no_items_found' })} </NoItemFound>
+      <NoItemFound>
+        {i18n.formatMessage({ id: 'no_results_found' })}{' '}
+      </NoItemFound>
     );
 
   return (

@@ -34,7 +34,7 @@ const PendingPostCard = ({ identity, wrapAs: WrapAs, wrapProps, actions }) => {
     ? withItemView({}, () => {})(FeedContent)
     : null;
 
-  const content = ContentWrapper({ identity });
+  const content = ContentWrapper({ identity, isItemAction: false });
 
   return (
     <ItemView
@@ -69,7 +69,7 @@ const PendingPostCard = ({ identity, wrapAs: WrapAs, wrapProps, actions }) => {
           color="error"
           onClick={actions.declinePendingPost}
         >
-          {i18n.formatMessage({ id: 'decline' })}
+          {i18n.formatMessage({ id: 'delete' })}
         </Button>
       </CardActions>
     </ItemView>

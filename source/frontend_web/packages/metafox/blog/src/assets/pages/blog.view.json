@@ -5,20 +5,8 @@
         {
           "component": "blog.block.blogView",
           "slotName": "main",
-          "blockProps": {
-            "blockStyle": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "mb": 2,
-              "sx": {
-                "borderBottomLeftRadius": "8px",
-                "borderBottomRightRadius": "8px"
-              }
-            }
-          },
-          "blockId": "t3a3m"
+          "blockId": "t3a3m",
+          "blockLayout": "Detail - Paper - Radius Bottom"
         },
         {
           "blockId": "ia",

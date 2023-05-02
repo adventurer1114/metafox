@@ -2,14 +2,12 @@
 
 namespace MetaFox\Platform\Contracts\Policy;
 
-use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\User;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  * Interface ResourcePolicyInterface
- * @package MetaFox\Platform\Contracts\Policy
  */
 interface ResourcePolicyInterface
 {
@@ -17,7 +15,7 @@ interface ResourcePolicyInterface
 
     public function view(User $user, Entity $resource): bool;
 
-    public function viewOwner(User $user, User $owner): bool;
+    public function viewOwner(User $user, ?User $owner = null): bool;
 
     public function create(User $user, ?User $owner = null): bool;
 

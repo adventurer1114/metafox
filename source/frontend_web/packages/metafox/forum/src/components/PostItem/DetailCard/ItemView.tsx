@@ -8,7 +8,8 @@ import {
   ItemUserShape,
   UserAvatar,
   ItemView,
-  ItemAction
+  ItemAction,
+  HtmlViewerWrapper
 } from '@metafox/ui';
 import { styled, Box } from '@mui/material';
 import LoadingSkeleton from './LoadingSkeleton';
@@ -18,11 +19,7 @@ const name = 'PostItemDetailCard';
 const PostContent = styled('div', { name, slot: 'postContent' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(15),
-    lineHeight: 1.33,
-    marginTop: theme.spacing(3),
-    '& p + p': {
-      marginBottom: theme.spacing(2.5)
-    }
+    lineHeight: 1.33
   })
 );
 const AvatarWrapper = styled('div', { name, slot: 'AvatarWrapper' })(
@@ -33,7 +30,7 @@ const AvatarWrapper = styled('div', { name, slot: 'AvatarWrapper' })(
 const AttachmentTitle = styled('div', { name, slot: 'attachmentTitle' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(18),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightBold
   })
@@ -42,7 +39,6 @@ const Attachment = styled('div', { name, slot: 'attachment' })(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: theme.spacing(2),
   justifyContent: 'space-between'
 }));
 const AttachmentItemWrapper = styled('div', {
@@ -154,7 +150,9 @@ export default function PostItemDetailCard({
           </Box>
         ) : null}
         <PostContent>
-          <HtmlViewer html={description || ''} />
+          <HtmlViewerWrapper>
+            <HtmlViewer html={description || ''} />
+          </HtmlViewerWrapper>
         </PostContent>
         {attachments?.length > 0 && (
           <>
@@ -181,6 +179,8 @@ export default function PostItemDetailCard({
           identity={identity}
           state={state}
           handleAction={handleAction}
+          forceHideCommentList
+          borderTop={false}
         />
       </Box>
     </ItemView>

@@ -28,7 +28,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['file', 'required'],
+            'file'      => ['file', 'required'],
+            'chat_type' => ['required'],
         ];
     }
 }

@@ -14,7 +14,7 @@ import { isPhoto } from '@metafox/photo/utils';
 import { TruncateText, UserAvatar } from '@metafox/ui';
 import PrivacyView from '@metafox/ui/PrivacyView';
 import { editorStateToText } from '@metafox/utils';
-import { useMediaQuery, CircularProgress } from '@mui/material';
+import { useMediaQuery, CircularProgress, Box } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import clsx from 'clsx';
 import { EditorState, SelectionState } from 'draft-js';
@@ -99,11 +99,6 @@ const ComposerContent = ({
   );
 
   useEffect(() => {
-    setImmediate(() => focusToEndText());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dialogProps.open]);
-
-  useEffect(() => {
     if (composerState.attachmentType === 'backgroundStatus') {
       const length = editorStateToText(editorState).length;
       const lines = editorStateToText(editorState)?.split(/\r\n|\r|\n/).length;
@@ -173,14 +168,28 @@ const ComposerContent = ({
   };
 
   const focusToEndText = () => {
-    setEditorState(
-      EditorState.forceSelection(editorState, moveSelectionToEnd(editorState))
-    );
-    editorRef.current.focus();
+    if (editorState?.getCurrentContent()?.getPlainText()) {
+      setEditorState(
+        EditorState.acceptSelection(
+          editorState,
+          moveSelectionToEnd(editorState)
+        )
+      );
+    }
+
+    editorRef.current?.focus();
   };
 
+  useEffect(() => {
+    // setImmediate(() => focusToEndText());
+    setTimeout(() => {
+      focusToEndText();
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogProps.open]);
+
   const focusEditor = () => {
-    editorRef.current.focus();
+    editorRef.current?.focus();
   };
 
   const setPrivacyValue = useCallback(
@@ -225,7 +234,7 @@ const ComposerContent = ({
         onSuccess: (data: LinkShape) => {
           composerRef.current.setAttachments('link', 'link', {
             as: 'StatusComposerControlPreviewLink',
-            value: data
+            value: { ...data, is_preview_hidden: false }
           });
           setErrorLink(undefined);
           setLoading(false);
@@ -272,6 +281,7 @@ const ComposerContent = ({
   };
 
   const scrollProps = isSmallScreen ? { autoHeightMax: 'none' } : {};
+  const scrollRef = React.useRef<HTMLDivElement>();
 
   return (
     <DialogContent className={classes.root}>
@@ -330,72 +340,75 @@ const ComposerContent = ({
           </>
         )}
       </div>
-      <ScrollContainer autoHide autoHeight {...scrollProps}>
-        <div className={clsx(classes.contentWrapper, composerState.className)}>
-          <ComposerWrapper>
-            <div className={classes.composeInner}>
-              <div
-                className={clsx(classes.composer, composerState.className)}
-                style={composerState.editorStyle}
-                onClick={focusEditor}
-                data-testid="fieldStatus"
-              >
-                <Editor
-                  handlePastedFiles={handlePastedFiles}
-                  ref={editorRef}
-                  textAlignment={composerState.textAlignment}
-                  editorState={editorState}
-                  plugins={editorPlugins}
-                  placeholder={placeholder}
-                  onChange={handleChangeCompose}
-                />
+      <Box pb={3} onClickCapture={focusEditor}>
+        <ScrollContainer autoHide autoHeight ref={scrollRef} {...scrollProps}>
+          <div
+            className={clsx(classes.contentWrapper, composerState.className)}
+          >
+            <ComposerWrapper>
+              <div className={classes.composeInner}>
+                <div
+                  className={clsx(classes.composer, composerState.className)}
+                  style={composerState.editorStyle}
+                  onClick={focusEditor}
+                  data-testid="fieldStatus"
+                >
+                  <Editor
+                    handlePastedFiles={handlePastedFiles}
+                    ref={editorRef}
+                    textAlignment={composerState.textAlignment}
+                    editorState={editorState}
+                    plugins={editorPlugins}
+                    placeholder={placeholder}
+                    onChange={handleChangeCompose}
+                  />
+                </div>
               </div>
-            </div>
-          </ComposerWrapper>
-          <div className={classes.attachIconsWrapper}>
-            {editorControls.map(item =>
-              jsxBackend.render({
-                component: item.as,
-                props: {
-                  disabled: item.disabled,
-                  key: item.as,
-                  strategy,
-                  classes,
-                  editorRef,
-                  composerRef,
-                  value: editor
-                }
-              })
-            )}
-          </div>
-        </div>
-        <div className={classes.editorComponentsWrapper}>
-          {jsxBackend.render(editorComponents)}
-        </div>
-        <div className={classes.attachmentStage}>
-          {isObject(composerState.attachments) &&
-            Object.values(composerState.attachments).map(
-              (attachment: any) =>
-                attachment &&
+            </ComposerWrapper>
+            <div className={classes.attachIconsWrapper}>
+              {editorControls.map(item =>
                 jsxBackend.render({
-                  component: attachment.as,
+                  component: item.as,
                   props: {
-                    key: attachment.as,
-                    value: attachment.value,
-                    composerRef,
+                    disabled: item.disabled,
+                    key: item.as,
+                    strategy,
+                    classes,
                     editorRef,
-                    hideRemove: isEdit && !!initData.attachmentType,
-                    isEdit
+                    composerRef,
+                    value: editor
                   }
                 })
-            )}
-          {loading === true ? (
-            <div className={classes.loading}>
-              <CircularProgress size={30} />
+              )}
             </div>
-          ) : null}
-        </div>
-      </ScrollContainer>
+          </div>
+          <div className={classes.editorComponentsWrapper}>
+            {jsxBackend.render(editorComponents)}
+          </div>
+          <div className={classes.attachmentStage}>
+            {isObject(composerState.attachments) &&
+              Object.values(composerState.attachments).map(
+                (attachment: any) =>
+                  attachment &&
+                  jsxBackend.render({
+                    component: attachment.as,
+                    props: {
+                      key: attachment.as,
+                      value: attachment.value,
+                      composerRef,
+                      editorRef,
+                      isEdit
+                    }
+                  })
+              )}
+            {loading === true ? (
+              <div className={classes.loading}>
+                <CircularProgress size={30} />
+              </div>
+            ) : null}
+          </div>
+        </ScrollContainer>
+      </Box>
       <div className={classes.tagsStage}>
         {orderBy(Object.values(composerState.tags), 'priority').map(
           (data: any) =>

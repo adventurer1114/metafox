@@ -2,16 +2,16 @@
 
 /* this is auto generated file */
 return [
-    'birthday_is_required'               => 'Birthday is required.',
-    'cannot update_item_privacy_setting' => 'Cannot update item privacy setting.',
-    'cannot_find_this_user'              => 'Sorry, we could not find your account.',
-    'cannot_update_profile_menu_setting' => 'Cannot update profile menu setting.',
-    'cannot_update_profile_setting'      => 'Cannot update profile setting.',
-    'country_is_required'                => 'Country is required.',
-    'custom_gender_field_is_required'    => 'Custom gender is required field.',
-    'custom_gender_is_required'          => 'Custom Gender is required.',
-    'gender_is_required'                 => 'Gender is required.',
-    'id'                                 => [
+    'birthday_is_a_required_field'            => 'Birthday is a required field.',
+    'cannot_find_this_user'                   => 'Sorry, we could not find your account.',
+    'cannot update_item_privacy_setting'      => 'Cannot update item privacy setting.',
+    'cannot_update_profile_menu_setting'      => 'Cannot update profile menu setting.',
+    'cannot_update_profile_setting'           => 'Cannot update profile setting.',
+    'country_is_a_required_field'             => 'Country is a required field.',
+    'custom_gender_field_is_a_required_field' => 'Custom gender is required field.',
+    'custom_gender_is_a_required_field'       => 'Custom Gender is a required field.',
+    'gender_is_a_required_field'              => 'Gender is a required field.',
+    'id'                                      => [
         'exists' => 'The user does not exist.',
     ],
     'insufficient_permission_to_update_role' => 'Insufficient permission to assign user to the selected role.',

@@ -9,9 +9,10 @@ namespace MetaFox\Photo\Http\Resources\v1\Photo;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Mobile\Builder;
-use MetaFox\Form\Mobile\PrivacyField;
+use MetaFox\Form\PrivacyFieldMobileTrait;
 use MetaFox\Photo\Models\Photo as Model;
 use MetaFox\Photo\Policies\PhotoPolicy;
 use MetaFox\Photo\Repositories\AlbumRepositoryInterface;
@@ -35,6 +36,8 @@ use MetaFox\Yup\Yup;
  */
 class UpdatePhotoMobileForm extends AbstractForm
 {
+    use PrivacyFieldMobileTrait;
+
     /**
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -43,6 +46,8 @@ class UpdatePhotoMobileForm extends AbstractForm
     {
         $context        = user();
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
+
         policy_authorize(PhotoPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -102,7 +107,7 @@ class UpdatePhotoMobileForm extends AbstractForm
                         ['length' => MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH]
                     ))
                     ->yup(
-                        Yup::string()->required(__p('validation.this_field_is_required'))
+                        Yup::string()->required(__p('validation.this_field_is_a_required_field'))
                     ),
             );
 
@@ -120,34 +125,28 @@ class UpdatePhotoMobileForm extends AbstractForm
                 ->required(false)
                 ->returnKeyType('default')
                 ->label(__p('core::phrase.description')),
-            $this->addPrivacyField(),
+            $this->buildPrivacyFieldForPhoto(),
             Builder::hidden('owner_id'),
         );
     }
 
-    protected function addPrivacyField(): PrivacyField
+    protected function buildPrivacyFieldForPhoto(): AbstractField
     {
         $defaultAlbums = resolve(AlbumRepositoryInterface::class)->getDefaultUserAlbums($this->resource->ownerId());
+        $albumId       = $this->resource->album_id;
 
-        $showWhen = [
-            'and',
-            ['eq', 'owner_id', $this->resource->userId()],
-            ['falsy', 'album'],
-        ];
-
-        if ($defaultAlbums->count()) {
-            $showWhen[2] = [
-                'or',
-                ['falsy', 'album'],
-                ['oneOf', 'album', $defaultAlbums->pluck('id')->toArray()],
-            ];
+        if (in_array($albumId, $defaultAlbums->pluck('id')->toArray())) {
+            return Builder::hidden('privacy');
         }
 
-        return Builder::privacy()
+        if ($albumId != 0) {
+            return Builder::hidden('privacy');
+        }
+
+        return $this->buildPrivacyField()
             ->fullWidth(false)
             ->label(__p('photo::phrase.photo_privacy'))
-            ->description(__p('photo::phrase.photo_privacy_description'))
-            ->showWhen($showWhen);
+            ->description(__p('photo::phrase.photo_privacy_description'));
     }
 
     protected function getDescription(): string

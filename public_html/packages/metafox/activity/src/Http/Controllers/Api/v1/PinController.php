@@ -64,7 +64,7 @@ class PinController extends ApiController
 
         $this->repository->pin($user, $owner, $id);
 
-        $pins = $this->repository->getPinOwnwerIds($user, $id);
+        $pins = $this->repository->getPinOwnerIds($user, $id);
 
         return $this->success($pins);
     }
@@ -92,7 +92,7 @@ class PinController extends ApiController
 
         $this->repository->unpin($user, $owner, $id);
 
-        $pins = $this->repository->getPinOwnwerIds($user, $id);
+        $pins = $this->repository->getPinOwnerIds($user, $id);
 
         return $this->success($pins);
     }
@@ -115,7 +115,7 @@ class PinController extends ApiController
 
         $this->repository->pinHome($user, $id);
 
-        $pins = $this->repository->getPinOwnwerIds($user, $id);
+        $pins = $this->repository->getPinOwnerIds($user, $id);
 
         return $this->success($pins);
     }
@@ -136,7 +136,7 @@ class PinController extends ApiController
 
         $this->repository->unpinHome($user, $id);
 
-        $pins = $this->repository->getPinOwnwerIds($user, $id);
+        $pins = $this->repository->getPinOwnerIds($user, $id);
 
         return $this->success($pins);
     }

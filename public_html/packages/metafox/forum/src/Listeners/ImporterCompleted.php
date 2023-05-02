@@ -2,6 +2,7 @@
 
 namespace MetaFox\Forum\Listeners;
 
+use MetaFox\Forum\Jobs\MigrateActivityLike;
 use MetaFox\Forum\Jobs\MigratePostId;
 use MetaFox\Forum\Jobs\MigrateStatistic;
 
@@ -11,5 +12,6 @@ class ImporterCompleted
     {
         MigrateStatistic::dispatch(true);
         MigratePostId::dispatch();
+        MigrateActivityLike::dispatch();
     }
 }

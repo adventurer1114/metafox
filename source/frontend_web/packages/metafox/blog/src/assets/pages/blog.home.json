@@ -58,7 +58,7 @@
             "apiParams": "view=feature&limit=3",
             "apiUrl": "/blog"
           },
-          "blockLayout": "Forum Slider",
+          "blockLayout": "App List",
           "blockId": "i11",
           "itemView": "blog.itemView.mainCard",
           "contentType": "blog",
@@ -89,7 +89,7 @@
             "apiUrl": "/blog",
             "apiParams": "sort=most_viewed"
           },
-          "blockLayout": "Forum Slider",
+          "blockLayout": "App List",
           "itemView": "blog.itemView.mainCard",
           "gridLayout": "Blog - Main Card",
           "itemLayout": "Blog - Main Card",
@@ -131,12 +131,12 @@
             "apiUrl": "/blog",
             "apiParams": "sort=most_viewed&limit=10"
           },
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "canLoadMore": true,
           "canLoadSmooth": true,
           "itemView": "blog.itemView.mainCard",
-          "gridLayout": "Blog - Mobile Main Card",
-          "itemLayout": "Blog - Mobile Main Card"
+          "gridLayout": "Blog - Main Card - Mobile",
+          "itemLayout": "Blog - Main Card - Mobile"
         }
       ],
       "containers": {},

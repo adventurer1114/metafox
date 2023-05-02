@@ -16,7 +16,7 @@ export default createBlock<any>({
   overrides: {
     title: 'removed',
     itemView: 'group.itemView.myRemovedPost',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - PendingPost - Main Card',
     itemLayout: 'Group - PendingPost - Main Card',
     contentType: 'group'

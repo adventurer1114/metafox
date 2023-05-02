@@ -40,7 +40,6 @@ export default function ClearSearchField({
       },
       { replace: true }
     );
-    formik.resetForm();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultRelatedValues, disableReset, keepParams]);

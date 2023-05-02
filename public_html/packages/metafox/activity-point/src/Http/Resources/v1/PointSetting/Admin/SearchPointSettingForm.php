@@ -2,9 +2,9 @@
 
 namespace MetaFox\ActivityPoint\Http\Resources\v1\PointSetting\Admin;
 
+use MetaFox\ActivityPoint\Support\Facade\PointSetting;
 use MetaFox\ActivityPoint\Models\PointSetting as Model;
 use MetaFox\ActivityPoint\Repositories\PointSettingRepositoryInterface;
-use MetaFox\Authorization\Repositories\Contracts\RoleRepositoryInterface;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder as Builder;
 use MetaFox\Platform\UserRole;
@@ -46,18 +46,10 @@ class SearchPointSettingForm extends AbstractForm
                 ->forAdminSearchForm()
                 ->label(__p('authorization::phrase.role'))
                 ->disableClearable()
-                ->options($this->getRoleOptions()),
+                ->options(PointSetting::getAllowedRoleOptions()),
             Builder::submit()
                 ->forAdminSearchForm()
         );
-    }
-
-    /**
-     * @return array<int, mixed>
-     */
-    protected function getRoleOptions(): array
-    {
-        return resolve(RoleRepositoryInterface::class)->getRoleOptions();
     }
 
     /**

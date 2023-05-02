@@ -2,10 +2,11 @@
  * @type: service
  * name: ShareActButton
  */
-import { GlobalState, HandleAction, useGlobal } from '@metafox/framework';
+import { HandleAction, useGlobal } from '@metafox/framework';
 import { ActButton } from '@metafox/ui';
+import { filterShowWhen } from '@metafox/utils';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { APP_FEED } from '../constants';
 
 export interface ShareActButtonProps {
   identity: string;
@@ -18,16 +19,20 @@ export default function ShareActButton({
   onlyIcon,
   handleAction
 }: ShareActButtonProps) {
-  const { ItemActionMenu, i18n } = useGlobal();
+  const { ItemActionMenu, i18n, useGetItem, useAppMenu } = useGlobal();
 
-  const shareMenu = useSelector(
-    (state: GlobalState) => state.share.shareOptions || []
-  );
+  const item = useGetItem(identity);
+
+  const menu = useAppMenu(APP_FEED, 'itemShareActionsMenu');
+
+  if (!menu || !menu.items) return null;
+
+  const filteredItems = filterShowWhen(menu.items, { item });
 
   return (
     <ItemActionMenu
       icon="ico-share-o"
-      items={shareMenu}
+      items={filteredItems}
       testid="menuShare"
       identity={identity}
       handleAction={handleAction}

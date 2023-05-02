@@ -14,7 +14,7 @@ const ImageGalleryWrapper = styled(Box, { name, slot: 'root' })(
   ({ theme }) => ({
     position: 'relative',
     background: theme.palette.background.paper,
-    width: 400,
+    width: '100%',
     '& .image-gallery .image-gallery-thumbnail': {
       width: 73,
       height: 73,
@@ -171,7 +171,7 @@ function ListingImages({ images: idsImages, alt }) {
     return (
       <ImageThumb>
         <ThumbBg
-          style={{ backgroundImage: `url(${image.original})` }}
+          style={{ backgroundImage: `url(${image.thumbnail})` }}
         ></ThumbBg>
         <ThumbBgOverplay />
       </ImageThumb>
@@ -203,7 +203,7 @@ function ListingImages({ images: idsImages, alt }) {
         (result, image) => {
           const newItem = {
             original: getImageSrc(image?.image, '400'),
-            thumbnail: getImageSrc(image?.image, '75'),
+            thumbnail: getImageSrc(image?.image, '240'),
             renderItem,
             renderThumbInner,
             originalAlt: alt
@@ -222,7 +222,7 @@ function ListingImages({ images: idsImages, alt }) {
   const handleClick = () => {
     dialogBackend.present({
       component: 'ui.dialog.photoViewer',
-      props: { src: renderImages[currentIndex].original }
+      props: { src: renderImages[currentIndex].original, preventZoom: true }
     });
   };
 

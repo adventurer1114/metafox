@@ -4,12 +4,14 @@ namespace MetaFox\Video\Http\Resources\v1\Video;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
-use MetaFox\Form\Section;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
+use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
 use MetaFox\Video\Http\Requests\v1\Video\CreateFormRequest;
 use MetaFox\Video\Models\Video as Model;
@@ -32,6 +34,8 @@ use MetaFox\Yup\Yup;
  */
 class CreateVideoForm extends AbstractForm
 {
+    use PrivacyFieldTrait;
+
     /**
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -41,7 +45,13 @@ class CreateVideoForm extends AbstractForm
     {
         $context = user();
         $params  = $request->validated();
-        policy_authorize(VideoPolicy::class, 'create', $context);
+
+        if ($params['owner_id'] != 0) {
+            $userEntity = UserEntity::getById($params['owner_id']);
+            $this->setOwner($userEntity->detail);
+        }
+
+        policy_authorize(VideoPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -90,11 +100,11 @@ class CreateVideoForm extends AbstractForm
                     ->description(__p('video::phrase.select_video_field_description'))
                     ->yup(
                         Yup::object()
-                            ->required(__p('video::validation.video_file_is_required'))
+                            ->required(__p('video::validation.video_file_is_a_required_field'))
                             ->addProperty(
                                 'id',
                                 Yup::number()
-                                    ->required(__p('video::validation.video_file_is_required'))
+                                    ->required(__p('video::validation.video_file_is_a_required_field'))
                             )
                     ),
             );
@@ -107,11 +117,13 @@ class CreateVideoForm extends AbstractForm
                 ->maxLength($maxVideoNameLength)
                 ->description(__p('core::phrase.maximum_length_of_characters', ['length' => $maxVideoNameLength]))
                 ->yup(
-                    Yup::string()->required(__p('validation.this_field_is_required'))
+                    Yup::string()->required(__p('validation.this_field_is_a_required_field'))
                         ->minLength($minVideoNameLength)
                         ->maxLength($maxVideoNameLength)
                 ),
             Builder::singlePhoto('thumbnail')
+                ->widthPhoto('33%')
+                ->aspectRatio('16:9')
                 ->required(false)
                 ->itemType('photo')
                 ->previewUrl($this->resource?->thumbnail_file_id ? $this->resource?->image : '')
@@ -135,9 +147,8 @@ class CreateVideoForm extends AbstractForm
             Builder::hidden('module_id')
                 ->setValue('video'),
             Builder::hidden('owner_id'),
+            $this->buildPrivacyFieldForVideo()
         );
-
-        $this->addPrivacyField($basic);
 
         $submitLabel = __p('core::phrase.upload');
 
@@ -152,40 +163,29 @@ class CreateVideoForm extends AbstractForm
             );
     }
 
-    protected function addPrivacyField(Section $basic): Section
+    protected function buildPrivacyFieldForVideo(): AbstractField
     {
-        $context  = user();
-        $showWhen = [
-            'and',
-            ['falsy', 'album'],
-            [
-                'or',
-                ['falsy', 'owner_id'],
-                ['eq', 'owner_id', $context->entityId()],
-            ],
-        ];
+        $owner  =  $this->resource?->ownerId();
+        if (!$owner) {
+            $owner = 0;
+        }
+        $defaultAlbums = app('events')->dispatch('photo.album.get_default', [$owner], true);
+        $albumId       = $this->resource?->album_id;
 
         if ($this->isEdit()) {
-            $defaultAlbums = app('events')->dispatch('photo.album.get_default', [$this->resource->ownerId()], true);
+            if (in_array($albumId, $defaultAlbums->pluck('id')->toArray())) {
+                return Builder::hidden('privacy');
+            }
 
-            if (null !== $defaultAlbums && $defaultAlbums->count()) {
-                $showWhen[1] = [
-                    'or',
-                    ['falsy', 'album'],
-                    ['oneOf', 'album', $defaultAlbums->pluck('id')->toArray()],
-                ];
+            if ($albumId != 0) {
+                return Builder::hidden('privacy');
             }
         }
 
-        $basic->addField(
-            Builder::privacy()
-                ->description(__p('video::phrase.control_who_can_see_this_video'))
-                ->fullWidth(false)
-                ->minWidth(275)
-                ->showWhen($showWhen)
-        );
-
-        return $basic;
+        return $this->buildPrivacyField()
+            ->description(__p('video::phrase.control_who_can_see_this_video'))
+            ->fullWidth(false)
+            ->minWidth(275);
     }
 
     public function isEdit(): bool

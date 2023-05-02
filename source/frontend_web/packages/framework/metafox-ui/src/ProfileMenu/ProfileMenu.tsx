@@ -67,7 +67,7 @@ function ProfileMenu({ items, activeTab, maxDisplayTab }: ProfileMenuProps) {
     });
   }, [maxDisplayTab]);
 
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     onResize();
   }, [onResize, items]);
 

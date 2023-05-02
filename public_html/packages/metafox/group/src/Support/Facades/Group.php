@@ -10,14 +10,15 @@ use MetaFox\Platform\Contracts\User;
 
 /**
  * Class Group.
- * @method static int getMaximumNumberMembershipQuestionOption()
- * @method static int getMaximumNumberGroupRule()
- * @method static int getMaximumMembershipQuestion()
- * @method static array getPrivacyList()
- * @method static array getMentions(string $content)
+ * @method static int        getMaximumNumberMembershipQuestionOption()
+ * @method static int        getMaximumNumberGroupRule()
+ * @method static int        getMaximumMembershipQuestion()
+ * @method static array      getPrivacyList()
+ * @method static array      getMentions(string $content)
  * @method static Collection getGroupsForMention(array $ids)
- * @method static Builder getGroupBuilder(User $user)
- * @method static array getListTypes()
+ * @method static Builder    getGroupBuilder(User $user)
+ * @method static array      getListTypes()
+ * @method static bool       isFollowing(User $context, User $user)
  */
 class Group extends Facade
 {

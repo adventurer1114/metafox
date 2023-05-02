@@ -56,7 +56,7 @@ class UpdatePointSettingForm extends AbstractForm
                 ->label(__p('activitypoint::phrase.earn_point'))
                 ->yup(
                     Yup::number()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->min(0)
                         ->when(
                             Yup::when('max_earned')
@@ -70,7 +70,7 @@ class UpdatePointSettingForm extends AbstractForm
                 ->disabled(in_array('max_earned', $this->resource->disabledFields))
                 ->yup(
                     Yup::number()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->min(0)
                         ->setError('typeError', __p('validation.numeric', ['attribute' => '${path}']))
                 ),
@@ -80,7 +80,7 @@ class UpdatePointSettingForm extends AbstractForm
                 ->disabled(in_array('period', $this->resource->disabledFields))
                 ->yup(
                     Yup::number()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->min(0)
                         ->setError('typeError', __p('validation.numeric', ['attribute' => '${path}']))
                 ),

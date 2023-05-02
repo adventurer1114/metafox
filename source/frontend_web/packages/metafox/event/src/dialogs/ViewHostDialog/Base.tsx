@@ -4,7 +4,7 @@
  */
 import { Dialog, DialogTitle } from '@metafox/dialog';
 import { APP_EVENT, EventItemProps } from '@metafox/event';
-import { useGlobal, useResourceAction } from '@metafox/framework';
+import { useGlobal, useResourceAction, useGetItem } from '@metafox/framework';
 import { ScrollProvider } from '@metafox/layout';
 import { compactData } from '@metafox/utils';
 import { Tab, Tabs } from '@mui/material';
@@ -39,7 +39,8 @@ const useCustomTabs = item => {
         apiUrl: dataSourceHost?.apiUrl,
         apiParams: mappingHost
       },
-      emptyPage: 'core.block.no_content'
+      emptyPage: 'core.block.no_content',
+      total: 'total_host'
     },
     invited: {
       id: 'invited',
@@ -58,7 +59,8 @@ const useCustomTabs = item => {
           component: 'event.invitedButton',
           props: { item, type: 'event/inviteToComeHost' }
         }
-      }
+      },
+      total: 'total_pending_host_invite'
     }
   };
 
@@ -80,6 +82,8 @@ export default function ViewHostDialog({
   const pagingId = `event_host/${resource_name}/${item_id}/${value}`;
   const gridContainerProps = { spacing: 0 };
 
+  const itemEvent = useGetItem(item._identity);
+
   const handleChange = (_: React.ChangeEvent<{}>, newValue: string) => {
     setValue(newValue);
   };
@@ -100,7 +104,9 @@ export default function ViewHostDialog({
             <Tab
               key={tabs[tab].id}
               disableRipple
-              label={i18n.formatMessage({ id: tabs[tab].id })}
+              label={`${i18n.formatMessage({ id: tabs[tab].id })} (${
+                itemEvent.statistic[tabs[tab]?.total] || 0
+              })`}
               value={tabs[tab].value}
               aria-label={tabs[tab].value}
             />

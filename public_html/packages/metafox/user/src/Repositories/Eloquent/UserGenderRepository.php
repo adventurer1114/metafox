@@ -6,6 +6,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\ValidationException;
 use MetaFox\Core\Support\Facades\Language;
@@ -207,5 +208,31 @@ class UserGenderRepository extends AbstractRepository implements UserGenderRepos
     public function getPhraseRepository(): PhraseRepositoryInterface
     {
         return resolve(PhraseRepositoryInterface::class);
+    }
+
+    public function getGenderOptions(): array
+    {
+        return Model::query()
+            ->get()
+            ->map(function ($gender) {
+                return ['value' => $gender->entityId(), 'label' => $gender->name];
+            })
+            ->toArray();
+    }
+
+    public function viewAllGenders(array $ids = []): Collection
+    {
+        $query = Model::query();
+
+        if (count($ids)) {
+            $query->whereIn('id', $ids);
+        }
+
+        return $query->get()
+            ->map(function ($gender) {
+                $gender->phrase = __p($gender->phrase);
+
+                return $gender;
+            });
     }
 }

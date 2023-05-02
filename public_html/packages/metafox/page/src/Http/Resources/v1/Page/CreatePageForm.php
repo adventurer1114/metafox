@@ -104,11 +104,7 @@ class CreatePageForm extends AbstractForm
                     ->endpoint(url_utility()->makeApiUrl('friend'))
             );
         }
-        $this->addFooter()
-            ->addFields(
-                Builder::submit()
-                    ->label(__p('page::phrase.create_page')),
-                new CancelButton([])
-            );
+
+        $this->addDefaultFooter();
     }
 }

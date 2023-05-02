@@ -11,9 +11,9 @@ class CreateChatRoomForm extends AbstractForm
     {
         $user = user();
 
-        $friends =  app('events')->dispatch('friend.simple_friends',[
-            $user, $user, []
-        ],true);
+        $friends =  app('events')->dispatch('friend.simple_friends', [
+            $user, $user, ['q' => ''],
+        ], true);
 
         $this->asPost()->title(__p('chat::phrase.new_conversation'))
             ->submitAction('@chat/addConversation')

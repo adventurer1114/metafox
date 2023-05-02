@@ -17,7 +17,7 @@ return [
     'can_feature_poll_desc'                  => '',
     'can_feature_poll_label'                 => 'Can feature polls?',
     'can_flood_control_poll_desc'            => 'Setting it to "0" (without quotes) is default and users will not have to wait.',
-    'can_flood_control_poll_label'           => 'How often can members of this user group post new polls (in minutes).',
+    'can_flood_control_poll_label'           => 'How many minutes this user group should wait before they can post a new poll',
     'can_like_poll_desc'                     => '',
     'can_like_poll_label'                    => 'Can like polls?',
     'can_maximum_answers_count_poll_desc'    => 'A poll must have at least 2 answers. If the value is less then 2, 2 will be applied.',
@@ -52,4 +52,6 @@ return [
     'can_view_result_before_vote_poll_label' => 'Can view poll results before voting on a poll?',
     'can_vote_own_poll_desc'                 => '',
     'can_vote_own_poll_label'                => 'Can vote on their own polls?',
+    'can_purchase_sponsor_price_poll_desc'   => '',
+    'can_purchase_sponsor_price_poll_label'  => 'How much is the sponsor space worth for polls? This works in a CPM basis.',
 ];

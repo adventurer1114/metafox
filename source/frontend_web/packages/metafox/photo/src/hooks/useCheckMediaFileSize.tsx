@@ -8,6 +8,24 @@ type Props = {
   maxSizeLimit: Record<string, any>;
   isAcceptVideo?: boolean;
   messageAcceptFail?: string;
+  accept?: any;
+  inputRef?: React.MutableRefObject<HTMLInputElement>;
+};
+
+const checkFileAcceptNoPass = (typeFile: any, accept: any) => {
+  let result = true;
+
+  if (isEmpty(typeFile)) return true;
+
+  if (isEmpty(accept)) return false;
+
+  const acceptData = accept.split(',');
+
+  if (acceptData.some(item => typeFile.match(item))) {
+    result = false;
+  }
+
+  return result;
 };
 
 export default function useCheckFileSize({
@@ -15,7 +33,9 @@ export default function useCheckFileSize({
   upload_url = '',
   maxSizeLimit,
   isAcceptVideo = true,
-  messageAcceptFail
+  messageAcceptFail,
+  accept,
+  inputRef
 }: Props) {
   const { dialogBackend, i18n } = useGlobal();
   const mounted = React.useRef<boolean>(true);
@@ -50,10 +70,19 @@ export default function useCheckFileSize({
         status: 'create'
       };
 
-      if (fileItem.type === 'video' && !isAcceptVideo) {
+      if (
+        (fileItem.type === 'video' && !isAcceptVideo) ||
+        checkFileAcceptNoPass(file?.type, accept)
+      ) {
         dialogBackend.alert({
-          message: messageAcceptFail
+          message:
+            messageAcceptFail ||
+            i18n.formatMessage({ id: 'photo_accept_type_fail' })
         });
+
+        if (inputRef?.current) {
+          inputRef.current.value = null;
+        }
 
         break;
       }

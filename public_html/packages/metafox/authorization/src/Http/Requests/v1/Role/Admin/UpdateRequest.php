@@ -32,7 +32,7 @@ class UpdateRequest extends FormRequest
 
         return [
             'name' => [
-                'sometimes',
+                'required',
                 'string',
                 'between:3,255',
                 new CaseInsensitiveUnique('auth_roles', 'name', $roleId),

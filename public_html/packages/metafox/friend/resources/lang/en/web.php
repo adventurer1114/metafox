@@ -5,7 +5,7 @@ return [
     'add_friends_to_list'                                  => 'Add Friends to List',
     'all_friend_list'                                      => 'All friend list',
     'all_friends'                                          => 'All Friends',
-    'friend_list_title'                                    => 'Friend List: <bold>{title}</bold>',
+    'friend_list_title'                                    => '{title}',
     'is_now_friend_with'                                   => 'is now friends with <friend_add>friend_add</friend_add>',
     'make_your_custom_friends_list_by_adding_some_friends' => 'Make your custom friends list by adding some friends',
     'no_friend_lists'                                      => 'No friend lists',

@@ -89,7 +89,7 @@ class AssetRepository extends AbstractRepository implements AssetRepositoryInter
                 'name'       => $name,
             ])->first();
 
-            if($exists){
+            if ($exists) {
                 continue;
             }
 
@@ -99,8 +99,6 @@ class AssetRepository extends AbstractRepository implements AssetRepositoryInter
                 ]);
 
             $storageFile->refresh();
-
-            Log::channel('dev')->info('saved to ' . $storageFile->url);
 
             if ($name) {
                 $this->getModel()->newQuery()->create([

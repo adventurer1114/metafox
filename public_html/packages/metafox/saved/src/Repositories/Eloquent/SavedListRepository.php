@@ -9,10 +9,13 @@ namespace MetaFox\Saved\Repositories\Eloquent;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Arr;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Repositories\AbstractRepository;
+use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Saved\Models\SavedList;
 use MetaFox\Saved\Models\SavedListData;
 use MetaFox\Saved\Models\SavedListMember;
@@ -123,10 +126,11 @@ class SavedListRepository extends AbstractRepository implements SavedListReposit
     public function getSavedListByUser(User $user): Collection
     {
         $query = $this->getModel()->newQuery();
-        $query = $query->where('user_id', $user->entityId());
+        $query = $query->select('saved_lists.*')
+            ->join('saved_list_members as lm', 'lm.list_id', '=', 'saved_lists.id')
+            ->where('lm.user_id', $user->entityId());
 
-        return $query->select('saved_lists.*')
-            ->orderByDesc('saved_lists.id')
+        return $query->orderByDesc('saved_lists.id')
             ->get();
     }
 
@@ -145,12 +149,10 @@ class SavedListRepository extends AbstractRepository implements SavedListReposit
             ->whereIn('id', $friendIds)
             ->get();
 
-        $collection = SavedList::query()->getModel()
+        $savedList = SavedList::query()->getModel()
             ->find($listId);
 
-        if ($collection->privacy == MetaFoxPrivacy::ONLY_ME) {
-            return;
-        }
+        policy_authorize(SavedListPolicy::class, 'addFriend', $context, $savedList);
 
         foreach ($userEntities as $userEntity) {
             $friend = $userEntity->detail;
@@ -200,7 +202,7 @@ class SavedListRepository extends AbstractRepository implements SavedListReposit
         $savedList = $this->find($listId);
         policy_authorize(SavedListPolicy::class, 'removeMember', $context, $savedList);
 
-        if ($context->entityId() == $userId) {
+        if ($context->entityId() == $userId && $context->entityId() == $savedList->userId()) {
             return false;
         }
 
@@ -243,5 +245,33 @@ class SavedListRepository extends AbstractRepository implements SavedListReposit
             ->get()
             ->pluck('user_id')
             ->toArray();
+    }
+
+    /**
+     * @inheritDoc
+     * @param  User                   $user
+     * @param  array                  $attributes
+     * @return Collection
+     * @throws AuthorizationException
+     */
+    public function viewItemCollection(User $user, array $attributes): Collection
+    {
+        $type      = Arr::get($attributes, 'type', Browse::VIEW_ALL);
+        $id        = Arr::get($attributes, 'id');
+        $savedList = $this->find($id);
+
+        $relations = [
+            'savedItems',
+            'savedLists',
+        ];
+
+        if ($type !== Browse::VIEW_ALL) {
+            $relations['savedItems'] = fn (BelongsTo $query) => $query->where('saved_items.item_type', $type);
+        }
+
+        $query = SavedListData::query()->where('list_id', $id);
+        policy_authorize(SavedListPolicy::class, 'view', $user, $savedList);
+
+        return $query->with($relations)->get();
     }
 }

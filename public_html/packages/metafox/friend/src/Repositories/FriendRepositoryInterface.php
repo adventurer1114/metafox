@@ -7,11 +7,13 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\Helper\Pagination;
+use MetaFox\User\Traits\UserMorphTrait;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Illuminate\Support\Collection as BaseCollection;
 
 /**
  * Interface FriendRepositoryInterface.
+ * @mixin UserMorphTrait
  */
 interface FriendRepositoryInterface
 {
@@ -148,12 +150,6 @@ interface FriendRepositoryInterface
      * @return Paginator|null
      */
     public function getMentions(User $context, array $attributes): ?Paginator;
-
-    /**
-     * @param  int  $userId
-     * @return void
-     */
-    public function deleteUserData(int $userId): void;
 
     /**
      * @param  int  $userId

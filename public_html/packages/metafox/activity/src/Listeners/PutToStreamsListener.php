@@ -8,14 +8,14 @@ use MetaFox\Platform\Contracts\User;
 class PutToStreamsListener
 {
     /**
-     * @param  User   $context
-     * @param  User   $friend
-     * @param  int    $itemId
-     * @param  string $itemType
-     * @param  string $typeId
+     * @param  User|null $context
+     * @param  User      $friend
+     * @param  int       $itemId
+     * @param  string    $itemType
+     * @param  string    $typeId
      * @return void
      */
-    public function handle(User $context, User $friend, int $itemId, string $itemType, string $typeId): void
+    public function handle(?User $context, User $friend, int $itemId, string $itemType, string $typeId): void
     {
         resolve(FeedRepositoryInterface::class)->handlePutToTagStream($context, $friend, $itemId, $itemType, $typeId);
     }

@@ -6,6 +6,6 @@ return [
         'name'           => 'admin.health-check.wizard',
         'phrase_title'   => 'health-check::phrase.health_check',
         'phrase_heading' => 'health-check::phrase.health_check',
-        'url'            => '/admincp/health-check/wizard',
+        'url'            => 'admincp/health-check/wizard',
     ],
 ];

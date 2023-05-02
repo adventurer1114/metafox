@@ -53,7 +53,7 @@ class ShareImporter extends JsonImporter
                 'location_latitude'  => $entry['location_latitude'] ?? null,
                 'location_longitude' => $entry['location_longitude'] ?? null,
                 'location_name'      => isset($entry['location_name']) ? html_entity_decode($entry['location_name']) : null,
-                'content'            => html_entity_decode($entry['content']) ?? null,
+                'content'            => $this->parseText($entry['content'] ?? '', false, true),
                 'parent_feed_id'     => $entry['parentFeed_id'] ?? 0,
                 'parent_module_id'   => $entry['parentModule_id'] ?? null,
                 'created_at'         => $entry['created_at'] ?? null,

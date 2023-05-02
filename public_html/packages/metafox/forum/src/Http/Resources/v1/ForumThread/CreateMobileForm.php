@@ -9,6 +9,7 @@ use MetaFox\Form\Mobile\Builder;
 use MetaFox\Form\Mobile\MobileForm as AbstractForm;
 use MetaFox\Form\Section;
 use MetaFox\Forum\Http\Requests\v1\ForumThread\CreateFormRequest;
+use MetaFox\Forum\Models\ForumThread;
 use MetaFox\Forum\Models\ForumThread as Model;
 use MetaFox\Forum\Policies\ForumThreadPolicy;
 use MetaFox\Forum\Repositories\ForumRepositoryInterface;
@@ -46,11 +47,9 @@ class CreateMobileForm extends AbstractForm
      */
     public function boot(CreateFormRequest $request, ForumThreadRepositoryInterface $repository, ?int $id = null): void
     {
-        $data = $request->validated();
-
+        $data        = $request->validated();
         $this->owner = $context = user();
-
-        $ownerId = Arr::get($data, 'owner_id', 0);
+        $ownerId     = Arr::get($data, 'owner_id', 0);
 
         if ($ownerId > 0) {
             $this->owner = UserEntity::getById($ownerId)->detail;
@@ -73,7 +72,7 @@ class CreateMobileForm extends AbstractForm
             ->asPost()
             ->setBackProps(__p('forum::phrase.forums'))
             ->setValue([
-                'is_subscribed' => (int) $context->hasPermissionTo('forum_thread.subscribe'),
+                'is_subscribed' => (int) $this->canSubscribe(),
                 'is_wiki'       => 0,
                 'tags'          => [],
                 'owner_id'      => $this->ownerId ?? 0,
@@ -156,7 +155,7 @@ class CreateMobileForm extends AbstractForm
 
         $this->attachItem($basic);
 
-        $canSubscribe = $context->hasPermissionTo('forum_thread.subscribe');
+        $canSubscribe = $this->canSubscribe();
 
         $subscribeField = match ($canSubscribe) {
             true => Builder::switch('is_subscribed')
@@ -185,6 +184,17 @@ class CreateMobileForm extends AbstractForm
                 );
                 break;
         }
+    }
+
+    protected function canSubscribe(): bool
+    {
+        $context = user();
+
+        if ($this->resource instanceof ForumThread && $this->resource?->id) {
+            return policy_check(ForumThreadPolicy::class, 'subscribe', $context, $this->resource);
+        }
+
+        return $context->hasPermissionTo('forum_thread.auto_approved') && $context->hasPermissionTo('forum_thread.subscribe');
     }
 
     protected function attachItem(Section $basic): void
@@ -254,10 +264,6 @@ class CreateMobileForm extends AbstractForm
                 ->setValue($item['item_type'])
         );
 
-        if ($this->resource instanceof Model) {
-            return;
-        }
-
         $value = $this->getValue();
 
         if (!is_array($value)) {
@@ -266,8 +272,10 @@ class CreateMobileForm extends AbstractForm
 
         $value = array_merge($value, ['item_type' => $item['item_type']]);
 
-        if (Arr::has($item, 'values')) {
-            $value = array_merge($value, $item['values']);
+        if (!$this->resource->id) {
+            if (Arr::has($item, 'values')) {
+                $value = array_merge($value, $item['values']);
+            }
         }
 
         $this->setValue($value);

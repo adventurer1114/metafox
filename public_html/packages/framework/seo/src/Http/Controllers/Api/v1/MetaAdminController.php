@@ -197,7 +197,7 @@ class MetaAdminController extends ApiController
         $url  = $request->get('url');
         $path = 'sharing/' . trim($url, '/');
 
-        define('MFOX_SHARING_RETRY_ARRAY', true);
+        defined('MFOX_SHARING_RETRY_ARRAY') or define('MFOX_SHARING_RETRY_ARRAY', true);
 
         $response =   Route::dispatch(Request::create($path, 'GET', []));
 
@@ -205,7 +205,7 @@ class MetaAdminController extends ApiController
 
         $name = Arr::get($result, 'data.meta:name');
 
-        if(!$name){
+        if (!$name) {
             $name = normalize_seo_meta_name($url);
             $this->repository->createSampleMeta($name);
         }
@@ -214,7 +214,6 @@ class MetaAdminController extends ApiController
             ->newQuery()
             ->where('name', '=', $name)
             ->first();
-
 
         if (!$resource) {
             $resource = $this->repository->createSampleMeta($name);

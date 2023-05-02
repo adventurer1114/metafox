@@ -3,22 +3,24 @@
 namespace MetaFox\Activity\Listeners;
 
 use MetaFox\Activity\Models\Post;
-use MetaFox\Activity\Repositories\FeedRepositoryInterface;
 use MetaFox\Activity\Repositories\PostRepositoryInterface;
 use MetaFox\Platform\Contracts\User;
-use MetaFox\Platform\MetaFoxPrivacy;
 
 class FeedComposerListener
 {
     /**
-     * @param  User             $user
-     * @param  User             $owner
-     * @param  string           $postType
-     * @param  array            $params
-     * @return array|int[]|null
+     * @param  User|null  $user
+     * @param  User|null  $owner
+     * @param  string     $postType
+     * @param  array      $params
+     * @return array|null
      */
-    public function handle(User $user, User $owner, string $postType, array $params): ?array
+    public function handle(?User $user, ?User $owner, string $postType, array $params): ?array
     {
+        if (!$user) {
+            return null;
+        }
+
         if ($postType != Post::FEED_POST_TYPE) {
             return null;
         }

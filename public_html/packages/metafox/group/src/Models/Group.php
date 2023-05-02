@@ -619,6 +619,10 @@ class Group extends Model implements
             return false;
         }
 
+        if ($user->hasPermissionTo('feed.moderate')) {
+            return true;
+        }
+
         $isAdmin = $this->isAdmin($user);
 
         if ($this->isAdmin($content->user)) {

@@ -70,6 +70,16 @@ const composerConfig = {
       testid: 'StatusUploadPhotoButton'
     },
     {
+      as: 'statusComposer.control.LiveStreamingButton',
+      showWhen: [
+        'and',
+        ['eq', 'strategy', 'block'],
+        ['truthy', 'acl.livestreaming.live_video.create'],
+        ['truthy', 'setting.livestreaming.streaming_service_enable']
+      ],
+      testid: 'LiveStreamingButton'
+    },
+    {
       as: 'statusComposer.control.CheckInButton',
       showWhen: [
         'and',

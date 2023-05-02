@@ -4,10 +4,12 @@ namespace MetaFox\BackgroundStatus\Repositories\Eloquent;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use MetaFox\BackgroundStatus\Models\BgsBackground;
 use MetaFox\BackgroundStatus\Models\BgsCollection;
 use MetaFox\BackgroundStatus\Policies\BgsCollectionPolicy;
+use MetaFox\BackgroundStatus\Repositories\BgsBackgroundRepositoryInterface;
 use MetaFox\BackgroundStatus\Repositories\BgsCollectionRepositoryInterface;
 use MetaFox\BackgroundStatus\Support\Browse\Scopes\NotDeleteScope;
 use MetaFox\Platform\Contracts\User;
@@ -28,15 +30,20 @@ class BgsCollectionRepository extends AbstractRepository implements BgsCollectio
         return BgsCollection::class;
     }
 
+    protected function bgRepository(): BgsBackgroundRepositoryInterface
+    {
+        return resolve(BgsBackgroundRepositoryInterface::class);
+    }
+
     public function viewBgsCollectionsForAdmin(User $context, array $attributes): Paginator
     {
         policy_authorize(BgsCollectionPolicy::class, 'viewAny', $context);
 
         return $this->getModel()->newQuery()
-            ->where('is_deleted', 0)
+            ->whereNot('is_deleted', BgsCollection::IS_DELETED)
             ->orderByDesc('is_default')
             ->orderBy('id')
-            ->simplePaginate($attributes['limit']);
+            ->simplePaginate($attributes['limit'] ?? 12);
     }
 
     public function viewBgsCollectionsForFE(User $context, array $attributes): Paginator
@@ -94,27 +101,16 @@ class BgsCollectionRepository extends AbstractRepository implements BgsCollectio
     {
         policy_authorize(BgsCollectionPolicy::class, 'create', $context);
 
-        if (isset($attributes['background_temp_file'])) {
-            foreach ($attributes['background_temp_file'] as $tempFileId) {
-                $tempFile = upload()->getFile($tempFileId);
-                $backgrounds = [
-                    'image_file_id' => $tempFile->id,
-                ];
-
-                if (isset($attributes['view_only'])) {
-                    $backgrounds = array_merge($backgrounds, ['view_only' => $attributes['view_only']]);
-                }
-
-                $attributes['backgrounds'][] = $backgrounds;
-
-                upload()->rollUp($tempFileId);
-            }
-        }
+        $backgroundTempFile = Arr::get($attributes, 'background_temp_file', []);
+        unset($attributes['background_temp_file']);
 
         /** @var BgsCollection $bgsCollection */
         $bgsCollection = parent::create($attributes);
 
-        return $bgsCollection->refresh();
+        $bgsCollection->refresh();
+        $this->bgRepository()->uploadBackgrounds($context, $bgsCollection, $backgroundTempFile);
+
+        return $bgsCollection;
     }
 
     public function updateBgsCollection(User $context, int $id, array $attributes): BgsCollection
@@ -123,21 +119,10 @@ class BgsCollectionRepository extends AbstractRepository implements BgsCollectio
         $bgsCollection = $this->find($id);
 
         $this->checkCanUpdate($bgsCollection);
+        $backgroundTempFile = Arr::get($attributes, 'background_temp_file', []);
+        unset($attributes['background_temp_file']);
 
-        if ($bgsCollection->is_default) {
-            unset($attributes['is_default'], $attributes['is_active']);
-        }
-
-        if (isset($attributes['background_temp_file'])) {
-            foreach ($attributes['background_temp_file'] as $tempFileId) {
-                $tempFile = upload()->getFile($tempFileId);
-                $attributes['backgrounds'][] = [
-                    'image_file_id' => $tempFile->id,
-                ];
-
-                upload()->rollUp($tempFileId);
-            }
-        }
+        $this->bgRepository()->uploadBackgrounds($context, $bgsCollection, $backgroundTempFile);
 
         $bgsCollection->update($attributes);
 
@@ -179,19 +164,27 @@ class BgsCollectionRepository extends AbstractRepository implements BgsCollectio
         /** @var BgsBackground $bgsBackground */
         $bgsBackground = BgsBackground::query()->findOrFail($id);
 
-        $this->checkCanUpdate($bgsBackground->bgsCollection);
+        $bgsCollection = $bgsBackground->bgsCollection;
+
+        if ($bgsCollection) {
+            $this->checkCanUpdate($bgsCollection);
+        }
 
         return $bgsBackground->update(['is_deleted' => BgsBackground::IS_DELETED]);
     }
 
     /**
-     * @param BgsCollection $bgsCollection
-     * @param string        $action
+     * @param ?BgsCollection $bgsCollection
+     * @param string         $action
      *
      * @throws ValidationException
      */
-    private function checkCanUpdate(BgsCollection $bgsCollection, string $action = 'update'): void
+    private function checkCanUpdate(?BgsCollection $bgsCollection, string $action = 'update'): void
     {
+        if (!$bgsCollection) {
+            return;
+        }
+
         $this->checkIsDeleted($bgsCollection);
 
         if ($bgsCollection->view_only) {
@@ -203,7 +196,10 @@ class BgsCollectionRepository extends AbstractRepository implements BgsCollectio
         if ($action == 'delete') {
             if ($bgsCollection->is_default) {
                 throw ValidationException::withMessages([
-                    __p('backgroundstatus::validation.cant_action_default_background_collection', ['action' => $action]),
+                    __p(
+                        'backgroundstatus::validation.cant_action_default_background_collection',
+                        ['action' => $action]
+                    ),
                 ]);
             }
         }

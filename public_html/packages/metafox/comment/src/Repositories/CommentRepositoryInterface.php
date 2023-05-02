@@ -10,6 +10,7 @@ use MetaFox\Comment\Http\Requests\v1\Comment\StoreRequest;
 use MetaFox\Comment\Http\Requests\v1\Comment\UpdateRequest;
 use MetaFox\Comment\Models\Comment;
 use MetaFox\Platform\Contracts\Content;
+use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasTotalComment;
 use MetaFox\Platform\Contracts\User;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -101,7 +102,12 @@ interface CommentRepositoryInterface
      * @param  int        $itemId
      * @return Collection
      */
-    public function getRelatedCommentsByType(User $context, string $itemType, int $itemId, array $attributes = []): Collection;
+    public function getRelatedCommentsByType(
+        User $context,
+        string $itemType,
+        int $itemId,
+        array $attributes = []
+    ): Collection;
 
     /**
      * @param User            $context
@@ -134,10 +140,10 @@ interface CommentRepositoryInterface
     /**
      * @param  User            $context
      * @param  int             $id
-     * @param  Content|null    $content
+     * @param  Entity|null     $content
      * @return Collection|null
      */
-    public function getRelevantCommentsById(User $context, int $id, ?Content $content = null): ?Collection;
+    public function getRelevantCommentsById(User $context, int $id, ?Entity $content = null): ?Collection;
 
     /**
      * @param  User            $context
@@ -145,4 +151,10 @@ interface CommentRepositoryInterface
      * @return int
      */
     public function getTotalHidden(User $context, HasTotalComment $item): int;
+
+    /**
+     * @param  Comment $comment
+     * @return bool
+     */
+    public function removeLinkPreview(Comment $comment): bool;
 }

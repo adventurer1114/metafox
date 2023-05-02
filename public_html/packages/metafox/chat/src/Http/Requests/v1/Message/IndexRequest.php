@@ -1,4 +1,5 @@
 <?php
+
 namespace MetaFox\Chat\Http\Requests\v1\Message;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -12,10 +13,11 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'q'         => ['sometimes', 'nullable', 'string'],
-            'room_id'   => ['sometimes', 'numeric', 'exists:chat_rooms,id'],
-            'page'      => ['sometimes', 'nullable', 'integer', 'min:1'],
-            'limit'     => ['sometimes', 'nullable', 'integer', new PaginationLimitRule()],
+            'q'               => ['sometimes', 'nullable', 'string'],
+            'room_id'         => ['sometimes', 'numeric', 'exists:chat_rooms,id'],
+            'last_message_id' => ['sometimes', 'numeric'],
+            'page'            => ['sometimes', 'nullable', 'integer', 'min:1'],
+            'limit'           => ['sometimes', 'nullable', 'integer', new PaginationLimitRule()],
         ];
     }
 
@@ -36,7 +38,11 @@ class IndexRequest extends FormRequest
 
         if (Str::startsWith($data['q'], '#')) {
             $data['tag'] = Str::of($data['q'])->replace('#', '')->trim();
-            $data['q'] = MetaFoxConstant::EMPTY_STRING;
+            $data['q']   = MetaFoxConstant::EMPTY_STRING;
+        }
+
+        if (!isset($data['last_message_id'])) {
+            $data['last_message_id'] = null;
         }
 
         return $data;

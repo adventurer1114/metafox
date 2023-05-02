@@ -42,6 +42,8 @@ export default makeStyles(
         borderColor: theme.palette.background.paper,
         borderRadius: '100%',
         lineHeight: 0,
+        width: '100%',
+        height: '100%',
         '& img': {
           width: '100%',
           height: '100%',

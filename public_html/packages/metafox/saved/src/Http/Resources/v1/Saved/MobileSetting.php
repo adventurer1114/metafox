@@ -85,6 +85,10 @@ class MobileSetting extends Setting
             ])
             ->placeholder(__p('saved::phrase.search_saved_items'));
 
+        $this->add('removeCollectionItem')
+            ->apiUrl('saveditems/collection/:list_id/save/:saved_id')
+            ->asDelete();
+
         $this->add('saveItemDetail')
             ->apiUrl('saveditems/save')
             ->asPost();

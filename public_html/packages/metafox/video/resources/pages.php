@@ -34,11 +34,6 @@ return [
         'url'          => 'admincp/video/setting/ffmpeg',
     ],
     [
-        'name'         => 'admin.video.mux_setting',
-        'phrase_title' => 'video::phrase.mux_setting',
-        'url'          => 'admincp/video/setting/mux',
-    ],
-    [
         'name'         => 'admin.video.permissions',
         'phrase_title' => 'core::phrase.permissions',
         'url'          => 'admincp/video/permission',
@@ -126,7 +121,7 @@ return [
         'phrase_description' => 'video::seo.video_create_description',
         'phrase_keywords'    => 'video::seo.video_create_keywords',
         'phrase_heading'     => 'video::seo.video_create_heading',
-        'url'                => 'video/add',
+        'url'                => 'video/share',
         'item_type'          => 'video',
     ],
     [

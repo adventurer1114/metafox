@@ -69,7 +69,7 @@ class BlogController extends ApiController
             $owner = UserEntity::getById($params['user_id'])->detail;
 
             if (!policy_check(BlogPolicy::class, 'viewOnProfilePage', $context, $owner)) {
-                return $this->success([]);
+                throw new AuthorizationException();
             }
 
             if (!UserPrivacy::hasAccess($context, $owner, 'blog.profile_menu')) {
@@ -96,7 +96,7 @@ class BlogController extends ApiController
     {
         $context = $owner = user();
 
-        $params  = $request->validated();
+        $params = $request->validated();
 
         app('flood')->checkFloodControlWhenCreateItem(user(), Blog::ENTITY_TYPE);
 
@@ -304,11 +304,11 @@ class BlogController extends ApiController
     /**
      * @param CreateFormRequest $request
      *
-     * @return JsonResponse
+     * @return AbstractForm
      * @throws AuthenticationException
      * @throws AuthorizationException
      */
-    public function formStore(CreateFormRequest $request): JsonResponse
+    public function formStore(CreateFormRequest $request): AbstractForm
     {
         $blog    = new Blog();
         $context = user();
@@ -318,7 +318,7 @@ class BlogController extends ApiController
 
         policy_authorize(BlogPolicy::class, 'create', $context);
 
-        return $this->success(new StoreBlogForm($blog), [], '');
+        return new StoreBlogForm($blog);
     }
 
     /**

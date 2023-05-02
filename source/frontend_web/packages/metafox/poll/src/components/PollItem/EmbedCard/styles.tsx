@@ -6,14 +6,14 @@ export default makeStyles(
     createStyles({
       root: {
         position: 'relative',
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         width: '100%'
       },
       title: {
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(1)
       },
       description: {
-        marginTop: theme.spacing(1)
+        marginBottom: theme.spacing(1)
       },
       answerWrapper: {
         marginTop: theme.spacing(1)

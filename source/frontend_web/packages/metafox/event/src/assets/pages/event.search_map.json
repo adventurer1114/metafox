@@ -26,23 +26,7 @@
           "freeze": true,
           "blockLayout": "sidebar app header"
         },
-        {
-          "blockId": "028tt",
-          "component": "core.block.sidebarQuickFilter",
-          "resourceNameAction": "viewEventsMap",
-          "formName": "search_map",
-          "slotName": "side",
-          "title": "Filters",
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle1",
-            "titleColor": "textPrimary",
-            "noFooter": true,
-            "noHeader": false
-          },
-          "blockLayout": "sidebar app filter"
-        },
+      
         {
           "component": "core.block.mainListing",
           "slotName": "side",
@@ -51,7 +35,7 @@
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "image": "ico-calendar-o",
-            "title": "No events found",
+            "title": "no_events_found",
             "description": "lets_create_a_new_event_to_connect_with_people"
           },
           "itemProps": {
@@ -69,7 +53,7 @@
           "component": "core.block.listingMap",
           "slotName": "main",
           "gridLayout": "Subscription - List",
-          "blockLayout": "Block Full Main",
+          "blockLayout": "Block Map",
           "itemProps": {
             "showActionMenu": true
           },
@@ -80,7 +64,7 @@
       ],
       "containers": {},
       "pageName": "event.search_map",
-      "templateName": "master-child"
+      "templateName": "two-column-fixed"
     },
     "small": {
       "blocks": [

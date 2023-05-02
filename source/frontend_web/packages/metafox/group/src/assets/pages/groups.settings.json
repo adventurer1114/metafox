@@ -23,20 +23,12 @@
           "blockId": "xm5el"
         },
         {
-          "component": "core.block.sidebarAppMenu",
+          "component": "core.block.sidebarAppMenuSetting",
           "slotName": "side",
           "title": "Group Settings",
           "menuName": "groupManagerSettings",
           "blockId": "u0duz",
-          "blockLayout": "sidebar app menu",
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle1",
-            "titleColor": "text",
-            "noFooter": true,
-            "noHeader": true
-          }
+          "blockLayout": "sidebar app menu"
         },
         {
           "component": "core.block.mainBlock",

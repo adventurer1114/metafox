@@ -183,7 +183,15 @@ class Feed extends Model implements
 
     public function toTitle(): string
     {
-        return $this->content ?? '';
+        if ($this->content) {
+            return $this->content;
+        }
+
+        if ($this->item instanceof Content) {
+            return $this->item->toTitle();
+        }
+
+        return '';
     }
 
     /**
@@ -270,9 +278,11 @@ class Feed extends Model implements
             return null;
         }
 
-        if (!Auth::guest() && ($toLinkPending = $this->toPendingPreview())) {
+        $toLinkPending = $this->toPendingPreview();
+        if ($toLinkPending) {
             return $toLinkPending;
         }
+
         $item = $this->item;
 
         if ($item instanceof HasUrl) {
@@ -283,9 +293,6 @@ class Feed extends Model implements
 
         $link = url_utility()->makeApiResourceUrl($this->entityType(), $this->entityId());
 
-        if (MetaFox::isMobile()) {
-            return $link;
-        }
         $owner = $this->owner;
 
         if (!$owner instanceof PostBy) {
@@ -312,7 +319,24 @@ class Feed extends Model implements
      */
     public function toRouter(): ?string
     {
-        return $this->toLink();
+        if (!$this->isApproved()) {
+            return null;
+        }
+
+        $toLinkPending = $this->toPendingPreview();
+        if ($toLinkPending) {
+            return $toLinkPending;
+        }
+
+        $item = $this->item;
+
+        if ($item instanceof HasUrl) {
+            if (resolve(TypeManager::class)->hasFeature($this->type_id, Type::CAN_REDIRECT_TO_DETAIL_TYPE)) {
+                return $item->toRouter();
+            }
+        }
+
+        return url_utility()->makeApiResourceUrl($this->entityType(), $this->entityId());
     }
 
     /**
@@ -324,9 +348,11 @@ class Feed extends Model implements
             return null;
         }
 
-        if (!Auth::guest() && ($toLinkPending = $this->toPendingPreview())) {
-            return $toLinkPending;
+        $toLinkPending = $this->toPendingPreview();
+        if ($toLinkPending) {
+            return url_utility()->makeApiFullUrl($toLinkPending);
         }
+
         $item = $this->item;
 
         if ($item instanceof HasUrl) {
@@ -341,18 +367,19 @@ class Feed extends Model implements
     }
 
     /**
+     * @return string|null
      * @throws AuthenticationException
      */
-    protected function toPendingPreview()
+    protected function toPendingPreview(): ?string
     {
-        $context = user();
-
         /** @var Stream $stream */
-        $stream = $this->stream()->where('owner_id', $context->entityId())->first();
+        $stream = $this->stream()->first();
 
         if ($stream?->status == Stream::STATUS_ALLOW) {
             return self::TO_LINK_REVIEW;
         }
+
+        return null;
     }
 
     public function getOwnerPendingMessage(): ?string

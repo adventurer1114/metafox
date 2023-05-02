@@ -69,7 +69,7 @@
             "apiParams": "view=feature&limit=6"
           },
           "displayLimit": "6",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Photo - Main Card",
           "emptyPage": "hide",
           "itemLayout": "Photo - Main Card"
@@ -87,7 +87,7 @@
             "apiUrl": "/photo-album",
             "apiParams": "view=feature&limit=6"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Photo_album - Main Card",
           "emptyPage": "hide",
           "displayLimit": "6",
@@ -104,17 +104,17 @@
             "apiUrl": "/photo",
             "apiParams": "sort=most_liked"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Photo - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
-          "displayLimit": "",
           "emptyPageProps": {
             "noBlock": 1,
             "title": "no_photos_found",
             "image": "ico-photo"
           },
           "itemLayout": "Photo - Main Card",
-          "canLoadMore": true,
+          "canLoadSmooth": 1,
+          "canLoadMore": 1,
           "maxPageNumber": 2,
           "numberOfItemsPerPage": 10
         }
@@ -269,7 +269,7 @@
             "apiParams": "view=feature"
           },
           "displayLimit": "3",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Photo - Main Card",
           "emptyPage": "hide",
           "itemLayout": "Photo - Main Card"
@@ -287,7 +287,7 @@
             "apiUrl": "/photo-album",
             "apiParams": "view=feature"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Photo_album - Main Card",
           "displayLimit": "3",
           "emptyPage": "hide",
@@ -304,8 +304,10 @@
             "apiUrl": "/photo",
             "apiParams": "sort=most_viewed"
           },
-          "canLoadMore": 0,
-          "blockLayout": "App Lists",
+          "canLoadMore": 1,
+          "canLoadSmooth": 1,
+          "maxPageNumber": 2,
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Photo - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {

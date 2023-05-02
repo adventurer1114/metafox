@@ -6,7 +6,7 @@ return [
         'description' => 'Write something...',
         'post_type'   => 'activity_post',
         'icon_color'  => '#0f81d8',
-        'showWhen'    => [],
+        'showWhen'    => ['and', ['truthy', 'isHomeScreen']],
         'menu'        => 'event.event.feedComposerMenu',
         'name'        => 'compose_status',
         'label'       => 'activity::phrase.status',
@@ -20,7 +20,12 @@ return [
         'icon_color'  => '#2681d5',
         'showWhen'    => [
             'and',
+            ['neq', 'attachmentType', 'photo'],
+            ['neq', 'attachmentType', 'photo_set'],
+            ['neq', 'attachmentType', 'link'],
+            ['falsy', 'hasShareValue'],
             ['falsy', 'isHomeScreen'],
+            ['falsy', 'hasPoll'],
         ],
         'menu'     => 'event.event.feedComposerMenu',
         'name'     => 'compose_status_background',
@@ -36,6 +41,7 @@ return [
         'showWhen'    => [
             'and',
             ['falsy', 'isHomeScreen'],
+            ['truthy', 'setting.activity.feed.enable_tag_friends'],
         ],
         'menu'     => 'event.event.feedComposerMenu',
         'name'     => 'compose_tag_friends',
@@ -48,35 +54,52 @@ return [
     [
         'post_type'  => 'activity_post',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'event.event.feedComposerMenu',
-        'name'       => 'compose_checkin',
-        'label'      => 'activity::phrase.check_in',
-        'ordering'   => 6,
-        'as'         => 'post.checkin',
-        'value'      => 'location',
-        'icon'       => 'checkin',
-        'to'         => '4',
+        'showWhen'   => [
+            'and',
+            ['truthy', 'setting.activity.feed.enable_check_in'],
+        ],
+        'menu'     => 'event.event.feedComposerMenu',
+        'name'     => 'compose_checkin',
+        'label'    => 'activity::phrase.check_in',
+        'ordering' => 6,
+        'as'       => 'post.checkin',
+        'value'    => 'location',
+        'icon'     => 'checkin',
+        'to'       => '4',
     ],
     [
         'post_type'  => 'poll',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'event.event.feedComposerMenu',
-        'name'       => 'compose_poll',
-        'label'      => 'activity::phrase.poll',
-        'ordering'   => 7,
-        'as'         => 'post.poll',
-        'value'      => 'poll',
-        'icon'       => 'barchart',
-        'is_active'  => 0,
-        'is_delete'  => 1,
+        'showWhen'   => [
+            'or',
+            [
+                'and',
+                ['eq', 'attachmentType', 'poll'],
+                ['falsy', 'isEdit'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasMediaFile'],
+                ['neq', 'attachmentType', 'link'],
+                ['neq', 'module_name', 'event'],
+            ],
+        ],
+        'menu'      => 'event.event.feedComposerMenu',
+        'name'      => 'compose_poll',
+        'label'     => 'activity::phrase.poll',
+        'ordering'  => 7,
+        'as'        => 'post.poll',
+        'value'     => 'poll',
+        'icon'      => 'barchart',
+        'is_active' => 0,
+        'is_delete' => 1,
     ],
     [
         'description' => 'Write something...',
         'post_type'   => 'activity_post',
         'icon_color'  => '#0f81d8',
-        'showWhen'    => [],
         'menu'        => 'feed.feed.feedComposerMenu',
         'name'        => 'compose_status',
         'label'       => 'activity::phrase.status',
@@ -84,21 +107,27 @@ return [
         'as'          => 'post.status',
         'value'       => 'activity_post',
         'icon'        => 'quotes-right',
+        'showWhen'    => ['and', ['truthy', 'isHomeScreen']],
     ],
     [
         'description' => '',
         'icon_color'  => '#2681d5',
+        'menu'        => 'feed.feed.feedComposerMenu',
+        'name'        => 'compose_status_background',
+        'label'       => 'activity::phrase.status_background',
+        'ordering'    => 2,
+        'as'          => 'status_background',
+        'value'       => 'status_background',
+        'icon'        => 'color-palette',
         'showWhen'    => [
             'and',
+            ['neq', 'attachmentType', 'photo'],
+            ['neq', 'attachmentType', 'photo_set'],
+            ['neq', 'attachmentType', 'link'],
+            ['falsy', 'hasShareValue'],
             ['falsy', 'isHomeScreen'],
+            ['falsy', 'hasPoll'],
         ],
-        'menu'     => 'feed.feed.feedComposerMenu',
-        'name'     => 'compose_status_background',
-        'label'    => 'activity::phrase.status_background',
-        'ordering' => 2,
-        'as'       => 'status_background',
-        'value'    => 'status_background',
-        'icon'     => 'color-palette',
     ],
     [
         'description' => '',
@@ -106,6 +135,7 @@ return [
         'showWhen'    => [
             'and',
             ['falsy', 'isHomeScreen'],
+            ['truthy', 'setting.activity.feed.enable_tag_friends'],
         ],
         'menu'     => 'feed.feed.feedComposerMenu',
         'name'     => 'compose_tag_friends',
@@ -118,15 +148,18 @@ return [
     [
         'post_type'  => 'activity_post',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'feed.feed.feedComposerMenu',
-        'name'       => 'compose_checkin',
-        'label'      => 'activity::phrase.check_in',
-        'ordering'   => 6,
-        'as'         => 'post.checkin',
-        'value'      => 'location',
-        'icon'       => 'checkin',
-        'to'         => '4',
+        'showWhen'   => [
+            'and',
+            ['truthy', 'setting.activity.feed.enable_check_in'],
+        ],
+        'menu'     => 'feed.feed.feedComposerMenu',
+        'name'     => 'compose_checkin',
+        'label'    => 'activity::phrase.check_in',
+        'ordering' => 6,
+        'as'       => 'post.checkin',
+        'value'    => 'location',
+        'icon'     => 'checkin',
+        'to'       => '4',
     ],
     [
         'showWhen' => [
@@ -138,7 +171,6 @@ return [
         'label'    => 'activity::phrase.view_edit_history',
         'ordering' => 16,
         'value'    => 'feed_history/viewHistories',
-        'icon'     => 'ico-eye-alt',
     ],
     [
         'showWhen' => [
@@ -151,7 +183,6 @@ return [
         'label'    => 'activity::phrase.edit_post',
         'ordering' => 1,
         'value'    => 'updateFeed',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -160,8 +191,8 @@ return [
             ['truthy', 'item.extra.can_pin_item'],
             ['falsy', 'item.extra.can_review_feed'],
             ['truthy', 'profile_id'],
-            ['truthy', 'subject.is_owner'],
             ['or', ['eqeqeq', 'params._identity', '$.item.user'], ['eqeqeq', 'params._identity', '$.item.parent_user']],
+            ['eq', 'profile_type', 'user'],
             ['noneOf', 'item.pins', '$.profile_id'],
         ],
         'menu'     => 'feed.feed.itemActionMenu',
@@ -169,7 +200,6 @@ return [
         'label'    => 'activity::phrase.pin_post',
         'ordering' => 2,
         'value'    => 'pinItem',
-        'icon'     => 'ico-thumb-tack',
     ],
     [
         'showWhen' => [
@@ -177,15 +207,14 @@ return [
             ['eq', 'item.is_pending', 0],
             ['truthy', 'item.extra.can_pin_item'],
             ['truthy', 'profile_id'],
-            ['truthy', 'subject.is_owner'],
             ['or', ['eqeqeq', 'params._identity', '$.item.user'], ['eqeqeq', 'params._identity', '$.item.parent_user']],
+            ['eq', 'profile_type', 'user'],
             ['oneOf', 'item.pins', '$.profile_id'],
         ],
         'menu'     => 'feed.feed.itemActionMenu',
         'name'     => 'unpinItem',
         'label'    => 'activity::phrase.unpin_post',
         'ordering' => 3, 'value' => 'unpinItem',
-        'icon'     => 'ico-thumb-tack-o',
     ],
     [
         'showWhen' => [
@@ -200,7 +229,6 @@ return [
         'label'    => 'activity::phrase.pin_post_on_homepage',
         'ordering' => 2,
         'value'    => 'pinHome',
-        'icon'     => 'ico-thumb-tack',
     ],
     [
         'showWhen' => [
@@ -215,7 +243,6 @@ return [
         'label'    => 'activity::phrase.unpin_post_on_homepage',
         'ordering' => 3,
         'value'    => 'unpinHome',
-        'icon'     => 'ico-thumb-tack-o',
     ],
     [
         'showWhen' => [
@@ -230,7 +257,6 @@ return [
         'label'    => 'activity::phrase.hide_this_post',
         'ordering' => 4,
         'value'    => 'hideItem',
-        'icon'     => 'ico-eye-off',
     ],
     [
         'showWhen' => [
@@ -244,7 +270,6 @@ return [
         'label'    => 'activity::phrase.hide_all_from_user_full_name',
         'ordering' => 5,
         'value'    => 'unfollowPoster',
-        'icon'     => 'ico-eye-off',
     ],
     [
         'showWhen' => [
@@ -256,7 +281,6 @@ return [
         'label'    => 'activity::phrase.snooze_user_full_name_for_30_days',
         'ordering' => 6,
         'value'    => 'snoozePoster',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'showWhen' => [
@@ -269,7 +293,6 @@ return [
         'label'    => 'activity::phrase.hide_all_from_owner_full_name',
         'ordering' => 7,
         'value'    => 'unfollowOwner',
-        'icon'     => 'ico-eye-off',
     ],
     [
         'showWhen' => [
@@ -281,7 +304,6 @@ return [
         'label'    => 'activity::phrase.snooze_owner_full_name_for_30_days',
         'ordering' => 8,
         'value'    => 'snoozeOwner',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'showWhen' => [
@@ -294,7 +316,6 @@ return [
         'label'    => 'activity::phrase.hide_all_from_shared_user_full_name',
         'ordering' => 9,
         'value'    => 'unfollowSharedPoster',
-        'icon'     => 'ico-eye-off',
     ],
     [
         'showWhen' => ['truthy', 'item.extra.can_snooze_shared_user'],
@@ -303,7 +324,6 @@ return [
         'label'    => 'activity::phrase.snooze_shared_user_full_name_for_30_days',
         'ordering' => 10,
         'value'    => 'snoozeSharedPoster',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'showWhen' => [
@@ -316,7 +336,6 @@ return [
         'label'    => 'activity::phrase.hide_all_from_shared_owner_full_name',
         'ordering' => 11,
         'value'    => 'unfollowSharedOwner',
-        'icon'     => 'ico-eye-off',
     ],
     [
         'showWhen' => ['truthy', 'item.extra.can_snooze_shared_owner'],
@@ -325,7 +344,6 @@ return [
         'label'    => 'activity::phrase.snooze_shared_owner_full_name_for_30_days',
         'ordering' => 12,
         'value'    => 'snoozeSharedOwner',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'showWhen' => [
@@ -338,7 +356,6 @@ return [
         'label'    => 'activity::phrase.sponsor_in_feed',
         'ordering' => 15,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -351,7 +368,6 @@ return [
         'label'    => 'activity::phrase.unsponsor_in_feed',
         'ordering' => 16,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -363,7 +379,6 @@ return [
         'label'    => 'activity::phrase.remove_tag',
         'ordering' => 19,
         'value'    => 'removeTaggedFriend',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -377,7 +392,6 @@ return [
         'label'    => 'activity::phrase.remove_post',
         'ordering' => 20,
         'value'    => 'feed/removeItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -391,7 +405,6 @@ return [
         'label'     => 'activity::phrase.delete_post',
         'ordering'  => 21,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen' => ['truthy', 'item.is_pending'],
@@ -400,7 +413,6 @@ return [
         'label'    => 'activity::phrase.decline_post_and_block_author',
         'ordering' => 1,
         'value'    => 'feed/declinePendingAndBlockAuthor',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => ['truthy', 'item.extra.can_delete'],
@@ -409,7 +421,6 @@ return [
         'label'    => 'activity::phrase.delete_post',
         'ordering' => 3,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -421,7 +432,6 @@ return [
         'label'    => 'activity::phrase.share_now',
         'ordering' => 1,
         'value'    => 'shareNow',
-        'icon'     => 'ico-share-alt-o',
     ],
     [
         'showWhen' => [
@@ -433,43 +443,42 @@ return [
         'label'    => 'activity::phrase.share_to_news_feed',
         'ordering' => 2,
         'value'    => 'shareToNewsFeed',
-        'icon'     => 'ico-compose',
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_share'],
         ],
-        'menu'     => 'feed.itemShareActionsMenu',
-        'name'     => 'share_on_friends',
-        'label'    => 'activity::phrase.share_on_friends',
-        'ordering' => 3,
-        'value'    => 'shareOnFriendProfile',
-        'icon'     => 'ico-user1-two',
+        'menu'       => 'feed.itemShareActionsMenu',
+        'name'       => 'share_on_friends',
+        'label'      => 'activity::phrase.share_on_friends',
+        'ordering'   => 3,
+        'value'      => 'shareOnFriendProfile',
+        'is_deleted' => true,
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_share'],
         ],
-        'menu'     => 'feed.itemShareActionsMenu',
-        'name'     => 'share_on_page',
-        'label'    => 'activity::phrase.share_on_page',
-        'ordering' => 4,
-        'value'    => 'shareOnPageProfile',
-        'icon'     => 'ico-flag-waving',
+        'menu'       => 'feed.itemShareActionsMenu',
+        'name'       => 'share_on_page',
+        'label'      => 'activity::phrase.share_on_page',
+        'ordering'   => 4,
+        'value'      => 'shareOnPageProfile',
+        'is_deleted' => true,
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_share'],
         ],
-        'menu'     => 'feed.itemShareActionsMenu',
-        'name'     => 'share_on_group',
-        'label'    => 'activity::phrase.share_on_group',
-        'ordering' => 5,
-        'value'    => 'shareOnGroupProfile',
-        'icon'     => 'ico-user3-three',
+        'menu'       => 'feed.itemShareActionsMenu',
+        'name'       => 'share_on_group',
+        'label'      => 'activity::phrase.share_on_group',
+        'ordering'   => 5,
+        'value'      => 'shareOnGroupProfile',
+        'is_deleted' => true,
     ],
     [
         'showWhen' => [
@@ -481,13 +490,12 @@ return [
         'label'    => 'activity::phrase.copy_link',
         'ordering' => 6,
         'value'    => 'copyLink',
-        'icon'     => 'ico-link',
     ],
     [
         'description' => 'Write something...',
         'post_type'   => 'activity_post',
         'icon_color'  => '#0f81d8',
-        'showWhen'    => [],
+        'showWhen'    => ['and', ['truthy', 'isHomeScreen']],
         'menu'        => 'group.group.feedComposerMenu',
         'name'        => 'compose_status',
         'label'       => 'activity::phrase.status',
@@ -501,7 +509,12 @@ return [
         'icon_color'  => '#2681d5',
         'showWhen'    => [
             'and',
+            ['neq', 'attachmentType', 'photo'],
+            ['neq', 'attachmentType', 'photo_set'],
+            ['neq', 'attachmentType', 'link'],
+            ['falsy', 'hasShareValue'],
             ['falsy', 'isHomeScreen'],
+            ['falsy', 'hasPoll'],
         ],
         'menu'     => 'group.group.feedComposerMenu',
         'name'     => 'compose_status_background',
@@ -517,6 +530,7 @@ return [
         'showWhen'    => [
             'and',
             ['falsy', 'isHomeScreen'],
+            ['truthy', 'setting.activity.feed.enable_tag_friends'],
         ],
         'menu'     => 'group.group.feedComposerMenu',
         'name'     => 'compose_tag_friends',
@@ -529,33 +543,51 @@ return [
     [
         'post_type'  => 'activity_post',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'group.group.feedComposerMenu',
-        'name'       => 'compose_checkin',
-        'label'      => 'activity::phrase.check_in',
-        'ordering'   => 6,
-        'as'         => 'post.checkin',
-        'value'      => 'location',
-        'icon'       => 'checkin',
-        'to'         => '4',
+        'showWhen'   => [
+            'and',
+            ['truthy', 'setting.activity.feed.enable_check_in'],
+        ],
+        'menu'     => 'group.group.feedComposerMenu',
+        'name'     => 'compose_checkin',
+        'label'    => 'activity::phrase.check_in',
+        'ordering' => 6,
+        'as'       => 'post.checkin',
+        'value'    => 'location',
+        'icon'     => 'checkin',
+        'to'       => '4',
     ],
     [
         'post_type'  => 'poll',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'group.group.feedComposerMenu',
-        'name'       => 'compose_poll',
-        'label'      => 'activity::phrase.poll',
-        'ordering'   => 7,
-        'as'         => 'post.poll',
-        'value'      => 'poll',
-        'icon'       => 'barchart',
+        'showWhen'   => [
+            'or',
+            [
+                'and',
+                ['eq', 'attachmentType', 'poll'],
+                ['falsy', 'isEdit'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasMediaFile'],
+                ['neq', 'attachmentType', 'link'],
+                ['neq', 'module_name', 'event'],
+            ],
+        ],
+        'menu'     => 'group.group.feedComposerMenu',
+        'name'     => 'compose_poll',
+        'label'    => 'activity::phrase.poll',
+        'ordering' => 7,
+        'as'       => 'post.poll',
+        'value'    => 'poll',
+        'icon'     => 'barchart',
     ],
     [
         'description' => 'Write something...',
         'post_type'   => 'activity_post',
         'icon_color'  => '#0f81d8',
-        'showWhen'    => [],
+        'showWhen'    => ['and', ['truthy', 'isHomeScreen']],
         'menu'        => 'page.page.feedComposerMenu',
         'name'        => 'compose_status',
         'label'       => 'activity::phrase.status',
@@ -569,7 +601,12 @@ return [
         'icon_color'  => '#2681d5',
         'showWhen'    => [
             'and',
+            ['neq', 'attachmentType', 'photo'],
+            ['neq', 'attachmentType', 'photo_set'],
+            ['neq', 'attachmentType', 'link'],
+            ['falsy', 'hasShareValue'],
             ['falsy', 'isHomeScreen'],
+            ['falsy', 'hasPoll'],
         ],
         'menu'     => 'page.page.feedComposerMenu',
         'name'     => 'compose_status_background',
@@ -585,6 +622,7 @@ return [
         'showWhen'    => [
             'and',
             ['falsy', 'isHomeScreen'],
+            ['truthy', 'setting.activity.feed.enable_tag_friends'],
         ],
         'menu'     => 'page.page.feedComposerMenu',
         'name'     => 'compose_tag_friends',
@@ -597,27 +635,45 @@ return [
     [
         'post_type'  => 'activity_post',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'page.page.feedComposerMenu',
-        'name'       => 'compose_checkin',
-        'label'      => 'activity::phrase.check_in',
-        'ordering'   => 6,
-        'as'         => 'post.checkin',
-        'value'      => 'location',
-        'icon'       => 'checkin',
-        'to'         => '4',
+        'showWhen'   => [
+            'and',
+            ['truthy', 'setting.activity.feed.enable_check_in'],
+        ],
+        'menu'     => 'page.page.feedComposerMenu',
+        'name'     => 'compose_checkin',
+        'label'    => 'activity::phrase.check_in',
+        'ordering' => 6,
+        'as'       => 'post.checkin',
+        'value'    => 'location',
+        'icon'     => 'checkin',
+        'to'       => '4',
     ],
     [
         'post_type'  => 'poll',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'page.page.feedComposerMenu',
-        'name'       => 'compose_poll',
-        'label'      => 'activity::phrase.poll',
-        'ordering'   => 7,
-        'as'         => 'post.poll',
-        'value'      => 'poll',
-        'icon'       => 'barchart',
+        'showWhen'   => [
+            'or',
+            [
+                'and',
+                ['eq', 'attachmentType', 'poll'],
+                ['falsy', 'isEdit'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasMediaFile'],
+                ['neq', 'attachmentType', 'link'],
+                ['neq', 'module_name', 'event'],
+            ],
+        ],
+        'menu'     => 'page.page.feedComposerMenu',
+        'name'     => 'compose_poll',
+        'label'    => 'activity::phrase.poll',
+        'ordering' => 7,
+        'as'       => 'post.poll',
+        'value'    => 'poll',
+        'icon'     => 'barchart',
     ],
     [
         'showWhen' => [
@@ -630,7 +686,6 @@ return [
         'label'    => 'page::phrase.share',
         'ordering' => 13,
         'value'    => 'shareToNewsFeed',
-        'icon'     => 'ico-share-o',
     ],
     [
         'showWhen' => [
@@ -649,7 +704,7 @@ return [
         'description' => 'Write something...',
         'post_type'   => 'activity_post',
         'icon_color'  => '#0f81d8',
-        'showWhen'    => [],
+        'showWhen'    => ['and', ['truthy', 'isHomeScreen']],
         'menu'        => 'user.user.feedComposerMenu',
         'name'        => 'compose_status',
         'label'       => 'activity::phrase.status',
@@ -663,7 +718,12 @@ return [
         'icon_color'  => '#2681d5',
         'showWhen'    => [
             'and',
+            ['neq', 'attachmentType', 'photo'],
+            ['neq', 'attachmentType', 'photo_set'],
+            ['neq', 'attachmentType', 'link'],
+            ['falsy', 'hasShareValue'],
             ['falsy', 'isHomeScreen'],
+            ['falsy', 'hasPoll'],
         ],
         'menu'     => 'user.user.feedComposerMenu',
         'name'     => 'compose_status_background',
@@ -679,6 +739,7 @@ return [
         'showWhen'    => [
             'and',
             ['falsy', 'isHomeScreen'],
+            ['truthy', 'setting.activity.feed.enable_tag_friends'],
         ],
         'menu'     => 'user.user.feedComposerMenu',
         'name'     => 'compose_tag_friends',
@@ -691,27 +752,45 @@ return [
     [
         'post_type'  => 'activity_post',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'user.user.feedComposerMenu',
-        'name'       => 'compose_checkin',
-        'label'      => 'activity::phrase.check_in',
-        'ordering'   => 6,
-        'as'         => 'post.checkin',
-        'value'      => 'location',
-        'icon'       => 'checkin',
-        'to'         => '4',
+        'showWhen'   => [
+            'and',
+            ['truthy', 'setting.activity.feed.enable_check_in'],
+        ],
+        'menu'     => 'user.user.feedComposerMenu',
+        'name'     => 'compose_checkin',
+        'label'    => 'activity::phrase.check_in',
+        'ordering' => 6,
+        'as'       => 'post.checkin',
+        'value'    => 'location',
+        'icon'     => 'checkin',
+        'to'       => '4',
     ],
     [
         'post_type'  => 'poll',
         'icon_color' => '#f05d28',
-        'showWhen'   => [],
-        'menu'       => 'user.user.feedComposerMenu',
-        'name'       => 'compose_poll',
-        'label'      => 'activity::phrase.poll',
-        'ordering'   => 7,
-        'as'         => 'post.poll',
-        'value'      => 'poll',
-        'icon'       => 'barchart',
+        'showWhen'   => [
+            'or',
+            [
+                'and',
+                ['eq', 'attachmentType', 'poll'],
+                ['falsy', 'isEdit'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasMediaFile'],
+                ['neq', 'attachmentType', 'link'],
+                ['neq', 'module_name', 'event'],
+            ],
+        ],
+        'menu'     => 'user.user.feedComposerMenu',
+        'name'     => 'compose_poll',
+        'label'    => 'activity::phrase.poll',
+        'ordering' => 7,
+        'as'       => 'post.poll',
+        'value'    => 'poll',
+        'icon'     => 'barchart',
     ],
     [
         'showWhen' => [
@@ -736,7 +815,6 @@ return [
         'label'    => 'activity::phrase.edit_post',
         'ordering' => 1,
         'value'    => 'updateFeed',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -749,7 +827,6 @@ return [
         'label'    => 'activity::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -762,7 +839,6 @@ return [
         'label'    => 'activity::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -775,7 +851,6 @@ return [
         'label'     => 'activity::phrase.delete_post',
         'ordering'  => 7,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -799,5 +874,27 @@ return [
         'name'     => 'feed',
         'label'    => 'activity::phrase.feed_global_search_label',
         'ordering' => 1,
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_share'],
+        ],
+        'menu'     => 'page.page.profileShareActionMenu',
+        'name'     => 'share_to_news_feed',
+        'label'    => 'activity::phrase.share_to_news_feed',
+        'ordering' => 1,
+        'value'    => 'shareToNewsFeed',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_share'],
+        ],
+        'menu'     => 'page.page.profileShareActionMenu',
+        'name'     => 'copy_link',
+        'label'    => 'activity::phrase.copy_link',
+        'ordering' => 2,
+        'value'    => 'copyLink',
     ],
 ];

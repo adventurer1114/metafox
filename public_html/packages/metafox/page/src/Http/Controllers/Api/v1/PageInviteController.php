@@ -8,7 +8,6 @@ use MetaFox\Page\Http\Requests\v1\PageInvite\DeleteRequest;
 use MetaFox\Page\Http\Requests\v1\PageInvite\IndexRequest;
 use MetaFox\Page\Http\Requests\v1\PageInvite\StoreRequest;
 use MetaFox\Page\Http\Requests\v1\PageInvite\UpdateRequest;
-use MetaFox\Page\Http\Resources\v1\PageInvite\PageInviteDetail as Detail;
 use MetaFox\Page\Http\Resources\v1\PageInvite\PageInviteItemCollection as ItemCollection;
 use MetaFox\Page\Models\Page;
 use MetaFox\Page\Models\PageInvite;
@@ -79,31 +78,18 @@ class PageInviteController extends ApiController
     }
 
     /**
-     * Display the specified resource.
-     * @param int $id
-     *
-     * @return Detail
-     * @todo: Not use => remove?
-     */
-    public function show($id)
-    {
-        $data = $this->inviteRepository()->find($id);
-
-        return new Detail($data);
-    }
-
-    /**
      * Used to accept/decline a request to like a page.
      *
      * @param  UpdateRequest           $request
+     * @param  int                     $id
      * @return JsonResponse
      * @throws AuthenticationException
      * @throws ValidatorException
      */
-    public function update(UpdateRequest $request): JsonResponse
+    public function update(UpdateRequest $request, int $id): JsonResponse
     {
         $params   = $request->validated();
-        $page     = $this->pageRepository()->find($params['page_id']);
+        $page     = $this->pageRepository()->find($id);
         $context  = user();
         $isAccept = (bool) $params['accept'];
         if ($isAccept) {
@@ -117,13 +103,14 @@ class PageInviteController extends ApiController
      * Remove the specified resource from storage.
      *
      * @param  DeleteRequest           $request
+     * @param  int                     $id
      * @return JsonResponse
      * @throws AuthenticationException
      */
-    public function destroy(DeleteRequest $request): JsonResponse
+    public function destroy(DeleteRequest $request, int $id): JsonResponse
     {
         $params = $request->validated();
-        $this->inviteRepository()->deleteInvite(user(), $params['page_id'], $params['user_id']);
+        $this->inviteRepository()->deleteInvite(user(), $id, $params['user_id']);
         $user = UserEntity::getById($params['user_id'])->detail;
 
         return $this->success([

@@ -10,7 +10,7 @@
           "title": "",
           "itemView": "marketplace.itemView.mainCard",
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Marketplace - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "canLoadSmooth": 1,
@@ -71,10 +71,7 @@
           },
           "contents": [
             {
-              "name": "core.block.searchBox"
-            },
-            {
-              "name": "core.block.sidebarAppMenu"
+              "name": "core.block.sidebarQuickFilter"
             },
             {
               "name": "core.dividerBlock"
@@ -91,7 +88,7 @@
           "title": "",
           "itemView": "marketplace.itemView.mainCard",
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Marketplace - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "canLoadSmooth": 1,

@@ -548,8 +548,6 @@
           "justifyContent": "",
           "bgcolor": "background.paper",
           "borderRadius": 1,
-          "borderColor": "transparent",
-          "borderStyle": "solid",
           "borderLeftWidth": 1,
           "borderRightWidth": 1,
           "borderTopWidth": 1,
@@ -659,6 +657,116 @@
           "borderLeftWidth": 1,
           "borderColor": "border.secondary",
           "borderStyle": "solid"
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "minHeight": "160"
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2
+        }
+      }
+    }
+  },
+  "Music - Main Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "showActionMenu": 1,
+      "media": {
+        "width": 160,
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "margin": {
+            "mt": 2,
+            "mb": 1,
+            "mr": 3
+          },
+          "mb": 1,
+          "mr": 2.875
+        }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "minHeight": "160"
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pb": 2,
+          "pl": 2,
+          "pr": 2
+        }
+      }
+    }
+  },
+  "Music - Profile - Main Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "showActionMenu": 1,
+      "media": {
+        "width": 160,
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "margin": {
+            "mt": 2,
+            "mb": 1,
+            "mr": 3
+          },
+          "mb": 1,
+          "mr": 2.875
+        }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
         },
         "selectedVariant": "",
         "dividerVariant": "",
@@ -831,14 +939,11 @@
       "showActionMenu": 1,
       "content": {
         "sx": {
-          "pt": 0,
-          "pl": 0,
-          "pb": 2,
-          "pr": 0,
+          "p": 2,
+          "borderRadius": 1,
           "alignItems": "center",
           "justifyContent": "",
           "bgcolor": "background.paper",
-          "borderRadius": "",
           "borderColor": "transparent",
           "borderStyle": "solid",
           "borderLeftWidth": 0,
@@ -900,7 +1005,7 @@
           "borderLeftWidth": 0,
           "borderColor": "border.secondary",
           "borderStyle": "solid",
-          "mb": 2.5
+          "mb": 2
         }
       },
       "title": {
@@ -1301,7 +1406,6 @@
         "lines": 1,
         "fixHeight": 1,
         "sx": {
-          "mt": 0.5,
           "color": "textSecondary"
         }
       },
@@ -1391,7 +1495,7 @@
           "mt": 1.5,
           "mb": 1.5
         },
-        "fixHeight": 1
+        "fixHeight": 0
       },
       "summary": {
         "component": "span",
@@ -1399,8 +1503,8 @@
         "lines": 1,
         "fixHeight": 1,
         "sx": {
-          "mb": 1.5,
-          "color": "textSecondary"
+          "mb": 1,
+          "color": "text.secondary"
         }
       },
       "media": {
@@ -1762,17 +1866,72 @@
       }
     }
   },
-  "Blog - Mobile Main Card": {
+  "Blog - Main Card - Mobile": {
     "itemProps": {
-      "variant": "containedCard",
-      "showActionMenu": 1,
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "height": "100%"
+        },
+        "minHeight": "250"
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 1.5
+        }
+      },
       "title": {
         "variant": "h4",
         "lines": 2,
-        "fixHeight": 2,
+        "fixHeight": 1
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
         "sx": {
-          "mt": 0.5,
-          "mb": 0.5
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 0,
+          "pb": 0,
+          "pr": 2,
+          "pl": 2,
+          "mb": 2
+        }
+      }
+    }
+  },
+  "Poll - Main Card - Mobile": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "height": "100%"
         }
       },
       "media": {
@@ -1780,19 +1939,36 @@
         "aspectRatio": "169",
         "width": "100%",
         "sx": {
-          "mb": 2
+          "mb": 0
         }
       },
-      "content": {
-        "dividerVariant": "bottom",
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "fixHeight": 1
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
         "sx": {
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 2,
           "pb": 2,
-          "bgcolor": "background.paper"
+          "pr": 2,
+          "pl": 2
         }
       }
     }
   },
-  "Poll - Main Card - Mobile": {
+  "Music - Main Card - Mobile": {
     "itemProps": {
       "variant": "containedCard",
       "media": {
@@ -1803,19 +1979,65 @@
       "content": {
         "sx": {
           "pt": 0,
-          "pb": 2
+          "pb": 2,
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "height": "100%"
         },
         "dividerVariant": "bottom"
       },
       "text": {
         "sx": {
-          "pt": 2
+          "pl": 2,
+          "pr": 2
         }
       },
       "showActionMenu": 1,
       "title": {
         "variant": "h4",
-        "lines": 1,
+        "lines": 2,
+        "fixHeight": 1,
+        "sx": {
+          "mb": 2.875,
+          "mr": 2.875
+        }
+      }
+    }
+  },
+  "Music - Profile - Main Card - Mobile": {
+    "itemProps": {
+      "variant": "containedCard",
+      "media": {
+        "aspectRatio": "169",
+        "width": "100%",
+        "placement": "top"
+      },
+      "content": {
+        "sx": {
+          "pt": 0,
+          "pb": 2,
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "height": "100%",
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
+        },
+        "dividerVariant": "bottom"
+      },
+      "text": {
+        "sx": {
+          "pl": 2,
+          "pr": 2
+        }
+      },
+      "showActionMenu": 1,
+      "title": {
+        "variant": "h4",
+        "lines": 2,
         "fixHeight": 1,
         "sx": {
           "mb": 2.875,
@@ -1827,83 +2049,107 @@
   "Quiz - Main Card - Mobile": {
     "itemProps": {
       "variant": "containedCard",
+      "showActionMenu": 1,
       "media": {
-        "aspectRatio": "169",
-        "width": "100%",
-        "placement": "top"
+        "width": 160,
+        "aspectRatio": "11",
+        "placement": "start"
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h4",
+        "sx": {
+          "mb": 1,
+          "mr": 2.875
+        }
       },
       "content": {
         "sx": {
-          "pt": 0,
-          "pb": 2
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid"
         },
-        "dividerVariant": "bottom"
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": "",
+        "minHeight": "160"
+      },
+      "summary": {
+        "component": "div",
+        "variant": "h3",
+        "lines": 0,
+        "sx": {
+          "color": "text.primary"
+        }
       },
       "text": {
         "sx": {
-          "pt": 2
-        }
-      },
-      "showActionMenu": 1,
-      "title": {
-        "variant": "h4",
-        "lines": 1,
-        "fixHeight": 1,
-        "sx": {
-          "mb": 2.875,
-          "mr": 2.875
+          "pt": 2,
+          "pb": 2,
+          "pr": 2,
+          "pl": 2
         }
       }
     }
   },
   "Marketplace - MainCard - Mobile": {
     "itemProps": {
-      "variant": "flatted",
-      "content": {
-        "sx": {
-          "borderColor": "transparent",
-          "borderStyle": "solid",
-          "borderLeftWidth": 0,
-          "borderBottomWidth": 0,
-          "borderRightWidth": 0,
-          "borderTopWidth": 0,
-          "borderRadius": "",
-          "mb": 2
-        }
-      },
+      "variant": "containedCard",
+      "showActionMenu": 1,
       "media": {
-        "placement": "top",
+        "width": "auto",
         "aspectRatio": "11",
-        "width": "100%"
+        "placement": "top"
       },
       "title": {
-        "fixHeight": 0,
-        "variant": "h4",
         "lines": 2,
+        "variant": "h4",
         "sx": {
           "mb": 1
+        },
+        "fixHeight": 0
+      },
+      "summary": {
+        "lines": 1,
+        "component": "div",
+        "variant": "body2",
+        "sx": {
+          "mt": 1,
+          "ml": 0,
+          "mr": 0,
+          "pr": 2,
+          "color": "text.hint"
         }
+      },
+      "content": {
+        "sx": {
+          "alignItems": "",
+          "justifyContent": "",
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderColor": "transparent",
+          "borderStyle": "solid",
+          "borderLeftWidth": 1,
+          "borderRightWidth": 1,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1
+        },
+        "selectedVariant": "",
+        "dividerVariant": "",
+        "hoverVariant": ""
       },
       "text": {
         "sx": {
-          "pt": 0,
-          "pr": 0,
-          "pb": 0,
-          "pl": 0,
-          "mt": 2
+          "pr": 2,
+          "pl": 2,
+          "pt": 2,
+          "pb": 2
         }
-      },
-      "summary": {
-        "sx": {
-          "mt": 1
-        },
-        "component": "span",
-        "variant": "body2",
-        "color": "textSecondary",
-        "lines": 1,
-        "fixHeight": 1
-      },
-      "showActionMenu": 1
+      }
     }
   },
   "Group - MemberQuestion - Main Card": {
@@ -2179,16 +2425,19 @@
       "title": {
         "variant": "h4",
         "lines": 2,
-        "fixHeight": 1
+        "fixHeight": 0,
+        "sx": {
+          "mb": 1.5
+        }
       },
       "summary": {
-        "component": "div",
+        "component": "span",
         "variant": "body2",
-        "color": "textHint",
         "lines": 1,
         "fixHeight": 1,
         "sx": {
-          "mt": 1
+          "mb": 1,
+          "color": "text.secondary"
         }
       },
       "showActionMenu": 1,
@@ -2291,6 +2540,185 @@
       }
     }
   },
+  "Live_video - Main Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "height": "100%"
+        },
+        "minHeight": "250"
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mb": 0.5
+        }
+      },
+      "subInfo": {
+        "color": "text.hint",
+        "sx": {
+          "mb": 0.5
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Livestream - Live Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderBottomRightRadius": 1,
+          "borderBottomLeftRadius": 1,
+          "borderTopWidth": 1,
+          "borderRightWidth": 1,
+          "borderBottomWidth": 1,
+          "borderLeftWidth": 1,
+          "borderColor": "border.secondary",
+          "borderStyle": "solid",
+          "height": "100%"
+        },
+        "minHeight": "250"
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "body1",
+        "lines": 2
+      },
+      "showActionMenu": 0,
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
+  "Livestream - Flat View": {
+    "itemProps": {
+      "variant": "flatted",
+      "content": {
+        "sx": {
+          "pb": 2,
+          "bgcolor": "background.paper",
+          "borderRadius": ""
+        },
+        "dividerVariant": "bottom"
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 0,
+          "pr": 0,
+          "pb": 0,
+          "pl": 0
+        }
+      }
+    }
+  },
+  "Livestream - Small Card": {
+    "itemProps": {
+      "variant": "flattedCard",
+      "content": {
+        "sx": {
+          "bgcolor": "background.paper",
+          "borderRadius": 1
+        }
+      },
+      "media": {
+        "placement": "top",
+        "aspectRatio": "169",
+        "width": "100%",
+        "sx": {
+          "mb": 0
+        }
+      },
+      "title": {
+        "variant": "h4",
+        "lines": 2
+      },
+      "summary": {
+        "component": "div",
+        "variant": "body2",
+        "color": "textHint",
+        "lines": 1,
+        "fixHeight": 1,
+        "sx": {
+          "mt": 1
+        }
+      },
+      "showActionMenu": 1,
+      "text": {
+        "sx": {
+          "pt": 2,
+          "pr": 2,
+          "pb": 2,
+          "pl": 2
+        }
+      }
+    }
+  },
   "Saved Lists": {
     "itemProps": {
       "variant": "containedCard",
@@ -2347,6 +2775,8 @@
       },
       "content": {
         "sx": {
+          "borderRadius": 1,
+          "bgcolor": "background.paper",
           "pt": 0,
           "pb": 2
         },
@@ -2354,7 +2784,7 @@
       },
       "text": {
         "sx": {
-          "pt": 0
+          "pl": 2
         }
       },
       "showActionMenu": 1,
@@ -2428,6 +2858,8 @@
       },
       "content": {
         "sx": {
+          "borderRadius": 1,
+          "bgcolor": "background.paper",
           "pt": 0,
           "pb": 2
         },
@@ -2435,7 +2867,7 @@
       },
       "text": {
         "sx": {
-          "pt": 0
+          "pl": 2
         }
       },
       "showActionMenu": 1,
@@ -2489,6 +2921,57 @@
       }
     }
   },
+  "Forum_Post - Detail Card": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "pt": 2,
+          "pl": 2,
+          "pr": 2,
+          "alignItems": "center",
+          "justifyContent": "",
+          "ml": 0,
+          "bgcolor": "background.paper"
+        },
+        "selectedVariant": "",
+        "dividerVariant": "bottom",
+        "hoverVariant": "",
+        "backgroundColor": "paper"
+      },
+      "media": {
+        "width": 60,
+        "aspectRatio": "11",
+        "placement": "start",
+        "sx": {
+          "mr": 2
+        }
+      },
+      "title": {
+        "lines": 2,
+        "variant": "h5",
+        "fontWeight": 500,
+        "sx": {
+          "mb": 0.5
+        }
+      },
+      "summary": {
+        "lines": 3,
+        "component": "div",
+        "variant": "body1",
+        "sx": {
+          "mt": 1,
+          "color": "text.primary"
+        }
+      },
+      "text": {
+        "sx": {
+          "pl": 0
+        }
+      }
+    }
+  },
   "Forum_thread - Main Card": {
     "itemProps": {
       "showActionMenu": 1,
@@ -2502,7 +2985,8 @@
           "alignItems": "center",
           "justifyContent": "",
           "ml": 0,
-          "borderRadius": ""
+          "bgcolor": "background.paper",
+          "borderRadius": 1
         },
         "selectedVariant": "",
         "dividerVariant": "bottom",
@@ -2963,6 +3447,24 @@
         "sx": {
           "mb": 0.5,
           "color": "text.secondary"
+        }
+      }
+    }
+  },
+  "Record Item - Table": {
+    "itemProps": {
+      "showActionMenu": 1,
+      "variant": "containedCard",
+      "content": {
+        "sx": {
+          "width": "100%",
+          "bgcolor": "background.default",
+          "color": "text.secondary",
+          "borderRadius": 1,
+          "fontSize": 15,
+          "display": "flex",
+          "alignItems": "center",
+          "p": 2
         }
       }
     }

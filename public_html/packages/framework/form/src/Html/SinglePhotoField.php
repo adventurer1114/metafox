@@ -20,10 +20,12 @@ class SinglePhotoField extends File
         $this->component(MetaFoxForm::SINGLE_PHOTO)
             ->name('file')
             ->label(__p('photo::phrase.photo'))
+            ->description(__p('photo::phrase.select_photo_field_description'))
             ->fileTypes('photo')
             ->thumbnailSizes(ResizeImage::SIZE)
             ->maxUploadSize(file_type()->getFilesizePerType('photo'))
-            ->uploadUrl('/file');
+            ->uploadUrl('/file')
+            ->setAttribute('isDropFile', true);
 
         $this->validation = [
             'type'       => 'object',
@@ -41,5 +43,15 @@ class SinglePhotoField extends File
     public function returnBase64(bool $value = false): self
     {
         return $this->setAttribute('returnBase64', $value);
+    }
+
+    public function aspectRatio(string $ratio): self
+    {
+        return $this->setAttribute('aspectRatio', $ratio);
+    }
+
+    public function widthPhoto(string $width): self
+    {
+        return $this->setAttribute('widthPhoto', $width);
     }
 }

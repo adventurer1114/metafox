@@ -330,6 +330,41 @@ export function* loginAuthentication({
   }
 }
 
+export function* callbackLogin({
+  payload
+}: LocalAction<{ accessToken: string; provider: string }>) {
+  const { accessToken, provider } = payload;
+  const { apiClient, compactUrl } = yield* getGlobalContext();
+
+  const config = yield* getResourceAction(
+    'socialite',
+    'socialite_auth',
+    'callback'
+  );
+
+  try {
+    const response = yield apiClient.request({
+      method: config.apiMethod,
+      url: compactUrl(config.apiUrl, { provider }),
+      params: { token: accessToken }
+    });
+
+    const token = get(response, 'data.data.access_token');
+
+    if (token) {
+      yield put({
+        type: ACTION_LOGIN_BY_TOKEN,
+        payload: {
+          token,
+          returnUrl: '/'
+        }
+      });
+    }
+  } catch (err) {
+    yield* handleActionError(err);
+  }
+}
+
 const sagaEffect = [
   takeLatest(['@login', '@loginFromDialog'], loginSaga),
   takeLatest('user/addMoreAccount', addMoreAccount),
@@ -339,7 +374,8 @@ const sagaEffect = [
   takeEvery(APP_BOOTSTRAP, bootstrap),
   takeEvery(REFRESH_TOKEN, refreshToken),
   takeEvery('verify', verifyEmail),
-  takeEvery('@loginAuthentication', loginAuthentication)
+  takeEvery('@loginAuthentication', loginAuthentication),
+  takeEvery('login/callback', callbackLogin)
 ];
 
 export default sagaEffect;

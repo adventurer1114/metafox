@@ -41,6 +41,7 @@ export default function ProfilePopup({
 
   const { loggedIn, userAuth } = useSession();
   const menus = getMenuAction('profilePopoverMenu');
+  const [isHovering, setIsHovering] = React.useState(false);
 
   if (!loggedIn || !item) return null;
 
@@ -120,6 +121,7 @@ export default function ProfilePopup({
           <ButtonList variant="fillWidth" spacing="medium">
             {item.extra?.can_message && (
               <Button
+                sx={{ flex: 1 }}
                 size="medium"
                 variant="contained"
                 color="primary"
@@ -130,13 +132,20 @@ export default function ProfilePopup({
               </Button>
             )}
             <Button
+              sx={{ flex: 1 }}
               size="medium"
               variant="outlined"
               color="primary"
-              startIcon={<LineIcon icon={'ico-user3-minus-o'} />}
+              startIcon={
+                <LineIcon
+                  icon={isHovering ? 'ico-user3-minus-o' : 'ico-user3-check-o'}
+                />
+              }
               onClick={actions.unfriend}
+              onMouseOver={() => setIsHovering(true)}
+              onMouseOut={() => setIsHovering(false)}
             >
-              {i18n.formatMessage({ id: 'unfriend' })}
+              {i18n.formatMessage({ id: isHovering ? 'unfriend' : 'friend' })}
             </Button>
             <ItemActionMenu
               items={menuIsFriend}

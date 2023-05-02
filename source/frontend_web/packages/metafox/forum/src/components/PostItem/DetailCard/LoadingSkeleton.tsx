@@ -23,7 +23,7 @@ export default function LoadingSkeleton({ wrapAs, wrapProps }) {
             </div>
           </ItemText>
         </Box>
-        <Box mt={1}>
+        <Box mt={1} mb={1}>
           <Skeleton width={'100%'} />
         </Box>
       </Box>

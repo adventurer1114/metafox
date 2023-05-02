@@ -107,7 +107,7 @@ class Forum extends Model implements
 
     public function toUrl(): ?string
     {
-        return url_utility()->makeApiFullUrl('forum/' . $this->entityId() . $this->toSlug());
+        return url_utility()->makeApiFullUrl('forum/' . $this->entityId() . '/' . $this->toSlug());
     }
 
     public function toRouter(): ?string

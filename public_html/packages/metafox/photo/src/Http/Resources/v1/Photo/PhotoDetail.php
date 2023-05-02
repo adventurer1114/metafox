@@ -26,7 +26,7 @@ use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
  * Class PhotoDetail.
  * @property Model $resource
  */
-class PhotoDetail extends JsonResource
+class  PhotoDetail extends JsonResource
 {
     use PhotoHasExtra;
     use HasStatistic;

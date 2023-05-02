@@ -77,7 +77,7 @@ class AlbumImporter extends JsonImporter
             AlbumInfo::class,
             [
                 'id'          => $oid,
-                'description' => html_entity_decode($entry['description'] ?? ''),
+                'description' => $this->parseText($entry['description'] ?? '', false),
             ]
         );
     }

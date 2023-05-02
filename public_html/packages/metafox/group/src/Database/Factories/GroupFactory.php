@@ -5,6 +5,7 @@ namespace MetaFox\Group\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use MetaFox\Group\Models\Group;
+use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\Factory\HasSetState;
 
 /**
@@ -30,8 +31,8 @@ class GroupFactory extends Factory
      */
     public function definition(): array
     {
-        $text = $this->faker->text;
-        $profileName =  uniqid('group');;
+        $text        = $this->faker->text;
+        $profileName =  uniqid('group');
 
         return [
             'category_id'        => 1,
@@ -40,7 +41,6 @@ class GroupFactory extends Factory
             'privacy'            => 0,
             'name'               => $this->faker->name,
             'text'               => $text,
-            'text_parsed'        => $text,
             'is_featured'        => 0,
             'is_sponsor'         => 0,
             'total_member'       => 0,
@@ -48,7 +48,13 @@ class GroupFactory extends Factory
             'location_longitude' => 1,
             'is_approved'        => 1,
             'profile_name'       => $profileName,
+            'privacy_type'       => 0,
         ];
+    }
+
+    public function setOwner(User $user): static
+    {
+        return $this;
     }
 
     /**

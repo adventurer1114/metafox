@@ -76,7 +76,7 @@ export default function EditBlock(props: EditLayoutBlockEditorProps) {
     const formSchema: FormSchemaShape = {
       component: 'Form',
       dialog: true,
-      title: 'edit_layout_block',
+      title: i18n.formatMessage({ id: 'edit_layout_block' }),
       elements: {
         content: {
           component: 'Container',

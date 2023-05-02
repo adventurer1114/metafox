@@ -2,7 +2,7 @@
 
 namespace MetaFox\Friend\Listeners;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use MetaFox\Friend\Repositories\TagFriendRepositoryInterface;
 use MetaFox\Platform\Contracts\HasTaggedFriend;
 
@@ -17,9 +17,9 @@ class GetTagFriendsListener
      * @param HasTaggedFriend $item
      * @param int             $limit
      *
-     * @return LengthAwarePaginator
+     * @return Builder
      */
-    public function handle(HasTaggedFriend $item, int $limit): LengthAwarePaginator
+    public function handle(HasTaggedFriend $item, int $limit): Builder
     {
         return resolve(TagFriendRepositoryInterface::class)->getTagFriends($item, $limit);
     }

@@ -19,7 +19,7 @@ use $PACKAGE_NAMESPACE$\Http\Requests\$VERSION$\$NAME$$ADMIN_SLASH$\$ACTION$Requ
 /**
  * Class $ACTION$RequestTest
  */
-class $ACTION$RequestTest extends TestCase
+class $ACTION$extends TestFormRequest
 {
     public function testExample()
     {

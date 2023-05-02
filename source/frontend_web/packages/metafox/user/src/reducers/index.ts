@@ -19,6 +19,7 @@ import verifyEmail from './verifyEmail';
 import paymentSettings from './payment';
 import notificationSettings from './notificationSetting';
 import multiFactorAuthSettings from './multiFactorAuth';
+import smsNotificationSettings from './smsNotificationSettings';
 
 const appName = 'user';
 
@@ -34,5 +35,6 @@ export default combineReducers({
   profilePrivacy,
   profileMenu,
   verifyEmail,
-  notificationSettings
+  notificationSettings,
+  smsNotificationSettings
 });

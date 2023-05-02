@@ -16,7 +16,7 @@ const initialState: AppUIConfig = {
   },
   sidebarCategory: {
     dataSource: { apiUrl: '/page-type' },
-    title: '',
+    title: 'categories',
     href: '/page/type'
   },
   sidebarSearch: {

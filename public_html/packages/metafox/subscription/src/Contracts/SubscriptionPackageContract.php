@@ -10,10 +10,10 @@ use MetaFox\Subscription\Support\Helper;
 interface SubscriptionPackageContract
 {
     /**
-     * @param  int  $id
+     * @param  ?int $id
      * @return bool
      */
-    public function hasDisableFields(int $id): bool;
+    public function hasDisableFields(?int $id): bool;
 
     /**
      * @param  Model $package

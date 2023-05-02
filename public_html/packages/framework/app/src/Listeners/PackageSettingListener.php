@@ -55,4 +55,13 @@ class PackageSettingListener extends BasePackageSettingListener
             ->hourlyAt(2)
             ->withoutOverlapping();
     }
+
+    public function getEvents(): array
+    {
+        return [
+            'package.is_active' => [
+                PackageActiveListener::class,
+            ],
+        ];
+    }
 }

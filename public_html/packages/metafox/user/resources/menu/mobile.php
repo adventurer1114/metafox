@@ -35,16 +35,14 @@ return [
         'label'        => 'user::phrase.sort_automatically',
         'ordering'     => 1,
         'value'        => 'user/shortcut/sortAutomatically',
-        'icon'         => 'ico-star-o',
     ],
     [
         'selectedWhen' => ['eq', 'item.sort_type', 0],
         'menu'         => 'user.shortcut.itemActionMenu',
         'name'         => 'hide',
         'label'        => 'user::phrase.hide',
-        'ordering'     => 1,
+        'ordering'     => 3,
         'value'        => 'user/shortcut/hide',
-        'icon'         => 'ico-eye-alt',
     ],
     [
         'selectedWhen' => ['eq', 'item.sort_type', 2],
@@ -53,7 +51,6 @@ return [
         'label'        => 'user::phrase.pin_to_top',
         'ordering'     => 2,
         'value'        => 'user/shortcut/pinToTop',
-        'icon'         => 'ico-link',
     ],
     [
         'tab'      => 'all',
@@ -88,7 +85,6 @@ return [
         'label'    => 'user::phrase.members_you_may_know',
         'ordering' => 2,
         'value'    => 'viewRecommendUsers',
-        'icon'     => 'ico-user2-three-o',
         'to'       => '/user/recommend',
     ],
     [
@@ -102,7 +98,6 @@ return [
         'label'    => 'user::phrase.recent_active',
         'ordering' => 3,
         'value'    => 'viewRecentUsers',
-        'icon'     => 'ico-user2-clock-o',
         'to'       => '/user/recent',
     ],
     [
@@ -116,7 +111,6 @@ return [
         'label'    => 'user::phrase.featured_members',
         'ordering' => 4,
         'value'    => 'viewFeaturedUsers',
-        'icon'     => 'ico-diamond-o',
         'to'       => '/user/featured',
     ],
     [
@@ -144,7 +138,6 @@ return [
         'label'    => 'user::phrase.add_friend',
         'ordering' => 1,
         'value'    => 'user/addFriend',
-        'icon'     => 'ico-user3-plus-o',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 3],
@@ -153,7 +146,6 @@ return [
         'label'    => 'user::phrase.cancel_request',
         'ordering' => 2,
         'value'    => 'user/cancelRequest',
-        'icon'     => 'ico-user2-del-o',
     ],
     [
         'color'    => 'primary',
@@ -166,16 +158,14 @@ return [
         'label'    => 'user::phrase.accept',
         'ordering' => 4,
         'value'    => 'user/acceptFriendRequest',
-        'icon'     => 'ico-check',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 1],
         'menu'     => 'user.user.itemActionMenu',
         'name'     => 'edit_list',
-        'label'    => 'user::phrase.edit_list',
+        'label'    => 'user::phrase.move_to_friends_list',
         'ordering' => 4,
         'value'    => 'friend/assignFriendList',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'color'    => 'primary',
@@ -188,7 +178,6 @@ return [
         'label'    => 'user::phrase.delete',
         'ordering' => 5,
         'value'    => 'user/denyFriendRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -201,7 +190,6 @@ return [
         'label'    => 'user::phrase.sponsor_in_feed',
         'ordering' => 6,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'color'    => 'primary',
@@ -227,7 +215,6 @@ return [
         'label'    => 'user::phrase.unsponsor_in_feed',
         'ordering' => 7,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -240,7 +227,6 @@ return [
         'label'    => 'user::phrase.sponsor_this_item',
         'ordering' => 8,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -253,7 +239,6 @@ return [
         'label'    => 'user::phrase.unsponsor_this_item',
         'ordering' => 9,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -266,7 +251,6 @@ return [
         'label'    => 'user::phrase.feature',
         'ordering' => 10,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 1],
@@ -276,7 +260,6 @@ return [
         'label'    => 'user::phrase.unfriend',
         'ordering' => 11,
         'value'    => 'user/unFriend',
-        'icon'     => 'ico-user3-minus-o',
     ],
     [
         'showWhen' => [
@@ -289,7 +272,6 @@ return [
         'label'    => 'user::phrase.un_feature',
         'ordering' => 11,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'style'    => 'danger',
@@ -303,7 +285,6 @@ return [
         'label'    => 'user::phrase.block_this_user',
         'ordering' => 12,
         'value'    => 'blockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'showWhen' => [
@@ -358,7 +339,6 @@ return [
         'label'    => 'user::phrase.add_friend',
         'ordering' => 2,
         'value'    => 'user/addFriend',
-        'icon'     => 'ico-user3-plus-o',
     ],
     [
         'showWhen' => [
@@ -370,7 +350,6 @@ return [
         'label'    => 'user::phrase.cancel_request',
         'ordering' => 3,
         'value'    => 'user/cancelRequest',
-        'icon'     => 'ico-user2-del-o',
     ],
     [
         'color'    => 'primary',
@@ -381,9 +360,8 @@ return [
         'menu'     => 'user.user.profileActionMenu',
         'name'     => 'confirm_request',
         'label'    => 'user::phrase.accept',
-        'ordering' => 4,
+        'ordering' => 5,
         'value'    => 'user/acceptFriendRequest',
-        'icon'     => 'ico-check',
     ],
     [
         'color'    => 'primary',
@@ -394,9 +372,8 @@ return [
         'menu'     => 'user.user.profileActionMenu',
         'name'     => 'delete_request',
         'label'    => 'user::phrase.delete',
-        'ordering' => 5,
+        'ordering' => 6,
         'value'    => 'user/denyFriendRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'color'    => 'primary',
@@ -407,9 +384,8 @@ return [
         'menu'     => 'user.user.profileActionMenu',
         'name'     => 'edit_profile',
         'label'    => 'user::phrase.edit_profile',
-        'ordering' => 6,
+        'ordering' => 7,
         'value'    => 'user/editProfile',
-        'icon'     => 'ico-pencil',
     ],
     [
         'color'    => 'primary',
@@ -420,9 +396,8 @@ return [
         'menu'       => 'user.user.profileActionMenu',
         'name'       => 'message',
         'label'      => 'user::phrase.message',
-        'ordering'   => 7,
+        'ordering'   => 8,
         'value'      => 'chat/room/openChatRoom',
-        'icon'       => 'ico-comment-o',
         'is_active'  => 0,
         'is_deleted' => 1,
     ],
@@ -438,7 +413,6 @@ return [
         'label'     => 'user::phrase.poke',
         'ordering'  => 8,
         'value'     => 'pokeItem',
-        'icon'      => 'ico-smile-o',
         'is_active' => 0,
         'is_delete' => 1,
     ],
@@ -452,9 +426,8 @@ return [
         'menu'     => 'user.user.profileActionMenu',
         'name'     => 'feature',
         'label'    => 'user::phrase.featured_this_user',
-        'ordering' => 9,
+        'ordering' => 10,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'style'    => 'danger',
@@ -465,9 +438,8 @@ return [
         'menu'     => 'user.user.profileActionMenu',
         'name'     => 'un_friend',
         'label'    => 'user::phrase.un_friend',
-        'ordering' => 10,
+        'ordering' => 11,
         'value'    => 'user/unFriend',
-        'icon'     => 'ico-user3-minus-o',
     ],
     [
         'color'    => 'primary',
@@ -481,7 +453,6 @@ return [
         'label'    => 'user::phrase.un_featured_this_user',
         'ordering' => 10,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'style'    => 'danger',
@@ -494,9 +465,8 @@ return [
         'menu'     => 'user.user.profileActionMenu',
         'name'     => 'block',
         'label'    => 'user::phrase.block_this_user',
-        'ordering' => 11,
+        'ordering' => 12,
         'value'    => 'blockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'style'    => 'primary',
@@ -510,7 +480,6 @@ return [
         'label'    => 'user::phrase.un_block_this_user',
         'ordering' => 12,
         'value'    => 'unblockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'active'   => true,
@@ -540,16 +509,14 @@ return [
         'label'    => 'user::phrase.cancel_request',
         'ordering' => 1,
         'value'    => 'user/cancelRequest',
-        'icon'     => 'ico-user2-del-o',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 1],
         'menu'     => 'user.user.profilePopoverMenu',
         'name'     => 'edit_list',
-        'label'    => 'user::phrase.edit_list',
+        'label'    => 'user::phrase.move_to_friends_list',
         'ordering' => 2,
         'value'    => 'friend/assignFriendList',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 1],
@@ -573,7 +540,6 @@ return [
         'label'    => 'user::phrase.block_this_user',
         'ordering' => 4,
         'value'    => 'blockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'menu'     => 'user.user.sort_menu',
@@ -611,7 +577,6 @@ return [
         'label'    => 'user::phrase.add_friend',
         'ordering' => 1,
         'value'    => 'user/addFriend',
-        'icon'     => 'ico-user3-plus-o',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 3],
@@ -620,7 +585,34 @@ return [
         'label'    => 'user::phrase.cancel_request',
         'ordering' => 2,
         'value'    => 'user/cancelRequest',
-        'icon'     => 'ico-user2-del-o',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_follow'],
+            ['falsy', 'item.is_following'],
+        ],
+        'menu'       => 'user.user.detailActionMenu',
+        'name'       => 'follow',
+        'label'      => 'user::phrase.follow_user',
+        'ordering'   => 3,
+        'value'      => 'user/follow',
+        'is-active'  => 0,
+        'is_deleted' => 1,
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['falsy', 'item.extra.can_follow'],
+            ['truthy', 'item.is_following'],
+        ],
+        'menu'       => 'user.user.detailActionMenu',
+        'name'       => 'unfollow',
+        'label'      => 'user::phrase.unfollow_user',
+        'ordering'   => 3,
+        'value'      => 'user/unfollow',
+        'is-active'  => 0,
+        'is_deleted' => 1,
     ],
     [
         'color'    => 'primary',
@@ -633,16 +625,14 @@ return [
         'label'    => 'user::phrase.accept',
         'ordering' => 4,
         'value'    => 'user/acceptFriendRequest',
-        'icon'     => 'ico-check',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 1],
         'menu'     => 'user.user.detailActionMenu',
         'name'     => 'edit_list',
-        'label'    => 'user::phrase.edit_list',
+        'label'    => 'user::phrase.move_to_friends_list',
         'ordering' => 4,
         'value'    => 'friend/assignFriendList',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'color'    => 'primary',
@@ -655,7 +645,6 @@ return [
         'label'    => 'user::phrase.delete',
         'ordering' => 5,
         'value'    => 'user/denyFriendRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -668,7 +657,6 @@ return [
         'label'    => 'user::phrase.sponsor_in_feed',
         'ordering' => 6,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'color'    => 'primary',
@@ -694,7 +682,6 @@ return [
         'label'    => 'user::phrase.unsponsor_in_feed',
         'ordering' => 7,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -707,7 +694,6 @@ return [
         'label'    => 'user::phrase.sponsor_this_item',
         'ordering' => 8,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -720,7 +706,6 @@ return [
         'label'    => 'user::phrase.unsponsor_this_item',
         'ordering' => 9,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -733,7 +718,6 @@ return [
         'label'    => 'user::phrase.feature',
         'ordering' => 10,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => ['eq', 'item.friendship', 1],
@@ -743,7 +727,6 @@ return [
         'label'    => 'user::phrase.unfriend',
         'ordering' => 11,
         'value'    => 'user/unFriend',
-        'icon'     => 'ico-user3-minus-o',
     ],
     [
         'showWhen' => [
@@ -756,7 +739,6 @@ return [
         'label'    => 'user::phrase.un_feature',
         'ordering' => 11,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'style'    => 'danger',
@@ -770,7 +752,6 @@ return [
         'label'    => 'user::phrase.block_this_user',
         'ordering' => 12,
         'value'    => 'blockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'showWhen' => [

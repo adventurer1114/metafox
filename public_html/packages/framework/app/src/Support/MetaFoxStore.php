@@ -47,8 +47,8 @@ class MetaFoxStore
 
     public function __construct()
     {
-        $this->licenseId         = config('app.mfox_license_id');
-        $this->licenseKey        = config('app.mfox_license_key');
+        $this->licenseId         = Settings::get('core.license.id');
+        $this->licenseKey        = Settings::get('core.license.key');
         $this->packageRepository = resolve('core.packages');
     }
 
@@ -279,8 +279,8 @@ class MetaFoxStore
         // migration.
         register_shutdown_function(function () use ($filename, $temporary) {
             if (file_exists($temporary)) {
-                copy($temporary, $filename);
-                unlink($temporary);
+                @copy($temporary, $filename);
+                @unlink($temporary);
             }
             Log::channel('dev')->debug('downloadFramework');
         });
@@ -429,6 +429,11 @@ class MetaFoxStore
     public function verifyMetaFoxInfo()
     {
         try {
+            // if installation for testing without info.
+            if (!$this->licenseId || !$this->licenseKey || !$this->baseUrl) {
+                return;
+            }
+
             $response = Http::asJson()
                 ->timeout(self::TIMEOUT)
                 ->withBasicAuth($this->licenseId, $this->licenseKey)

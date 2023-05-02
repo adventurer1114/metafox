@@ -28,10 +28,10 @@ export default function overridesGlobalStyles(theme: Theme) {
         opacity: '1 !important'
       },
       '.MuiDialog-root.notLastDialog .MuiBackdrop-root': {
-        opacity: '0 !important'
+        opacity: '1 !important'
       },
       '.MuiDialog-root.notLastDialog ~ .MuiDialog-root .MuiBackdrop-root': {
-        opacity: '1 !important'
+        opacity: '0 !important'
       },
       '.public-DraftEditorPlaceholder-root': {},
       // !important fix bug FOXSOCIAL5-1895

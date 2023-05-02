@@ -2,6 +2,8 @@
 
 namespace MetaFox\Search\Repositories\Eloquent;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
@@ -17,6 +19,7 @@ use MetaFox\Platform\Contracts\HasHashTag;
 use MetaFox\Platform\Contracts\HasPrivacy;
 use MetaFox\Platform\Contracts\ResourcePostOnOwner;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Facades\PolicyGate;
 use MetaFox\Platform\MetaFox;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
@@ -29,6 +32,7 @@ use MetaFox\Platform\Support\Helper\Pagination;
 use MetaFox\Platform\UserRole;
 use MetaFox\Search\Models\PrivacyStream;
 use MetaFox\Search\Models\Search;
+use MetaFox\Search\Policies\TypePolicy;
 use MetaFox\Search\Repositories\SearchRepositoryInterface;
 use MetaFox\Search\Support\StreamManager;
 use MetaFox\Search\Support\Support;
@@ -260,7 +264,14 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
             'owner_type' => $item->ownerType(),
         ];
 
-        $this->deleteWhere($coreData);
+        $model = $this->where($coreData)
+            ->first();
+
+        if (!$model instanceof Search) {
+            return;
+        }
+
+        $model->delete();
     }
 
     public function privacyMemberRepository(): PrivacyMemberRepositoryInterface
@@ -272,11 +283,17 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
      * @inheritdoc
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws AuthorizationException
      */
     public function searchItems(User $context, array $params): array
     {
         $limit = $params['limit'] ?? Pagination::DEFAULT_ITEM_PER_PAGE;
 
+        $ownerId = Arr::get($params, 'owner_id', 0);
+        if ($ownerId > 0) {
+            $owner = UserEntityFacade::getById($ownerId)->detail;
+            policy_authorize(TypePolicy::class, 'viewOnProfilePage', $context, $owner);
+        }
         $streamManager = $this->getStreamManager();
 
         $streamManager
@@ -353,16 +370,22 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
         $resourceOwnerColumn = $model->getTable() . '.owner_id';
 
         // Resources post by blocked users.
-        $builder->leftJoin('user_blocked as blocked_owner', function (JoinClause $join) use ($resourceUserColumn, $context) {
-            $join->on('blocked_owner.owner_id', '=', $resourceUserColumn)
-                ->where('blocked_owner.user_id', '=', $context->entityId());
-        })->whereNull('blocked_owner.owner_id');
+        $builder->leftJoin(
+            'user_blocked as blocked_owner',
+            function (JoinClause $join) use ($resourceUserColumn, $context) {
+                $join->on('blocked_owner.owner_id', '=', $resourceUserColumn)
+                    ->where('blocked_owner.user_id', '=', $context->entityId());
+            }
+        )->whereNull('blocked_owner.owner_id');
 
         // Resources post by users blocked you.
-        $builder->leftJoin('user_blocked as blocked_user', function (JoinClause $join) use ($resourceUserColumn, $context) {
-            $join->on('blocked_user.user_id', '=', $resourceUserColumn)
-                ->where('blocked_user.owner_id', '=', $context->entityId());
-        })->whereNull('blocked_user.user_id');
+        $builder->leftJoin(
+            'user_blocked as blocked_user',
+            function (JoinClause $join) use ($resourceUserColumn, $context) {
+                $join->on('blocked_user.user_id', '=', $resourceUserColumn)
+                    ->where('blocked_user.owner_id', '=', $context->entityId());
+            }
+        )->whereNull('blocked_user.user_id');
 
         // Resources post on users blocked you.
         $builder->leftJoin(
@@ -383,8 +406,17 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
             ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function getGroups(User $context, array $attributes = []): Collection
     {
+        $ownerId = Arr::get($attributes, 'owner_id', 0);
+        if ($ownerId > 0) {
+            $owner = UserEntityFacade::getById($ownerId)->detail;
+            policy_authorize(TypePolicy::class, 'viewOnProfilePage', $context, $owner);
+        }
+
         Arr::set($attributes, 'limit', null);
 
         $query = $this->buildQuery($context, $attributes);
@@ -592,20 +624,26 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
     protected function buildQueryForPrivacy(User $context, Builder $query, int $ownerId, bool $friendOnly): void
     {
         match ($friendOnly) {
-            true  => $this->handleFriendPrivacy($query, $context),
+            true  => $this->handleFriendPrivacy($query, $context, $ownerId),
             false => $this->handlePrivacy($query, $context, $ownerId),
         };
-    }
 
-    protected function handlePrivacy(Builder $builder, User $context, int $ownerId = 0): void
-    {
         // Browse by item's privacy
         $scope = new PrivacyScope();
 
         $scope->setUserId($context->entityId());
+        $scope->setHasUserBlock(!$friendOnly);
 
         $scope->setModerationUserRoles([UserRole::SUPER_ADMIN_USER]);
+        if ($ownerId > 0) {
+            $scope->setOwnerId($ownerId);
+        }
 
+        $query->addScope($scope);
+    }
+
+    protected function handlePrivacy(Builder $builder, User $context, int $ownerId = 0): void
+    {
         if ($ownerId > 0) {
             $userEntity = UserEntityFacade::getById($ownerId);
 
@@ -616,14 +654,10 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
                         ->orWhere('search_items.item_id', '<>', $userEntity->entityId());
                 });
             }
-
-            $scope->setOwnerId($ownerId);
         }
-
-        $builder->addScope($scope);
     }
 
-    protected function handleFriendPrivacy(Builder $builder, User $context): void
+    protected function handleFriendPrivacy(Builder $builder, User $context, int $ownerId = 0): void
     {
         if (!app_active('metafox/friend')) {
             return;
@@ -633,6 +667,10 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
             $join->on('search_items.user_id', '=', 'friends.owner_id');
             $join->where('friends.user_id', $context->entityId());
         });
+
+        if ($ownerId > 0) {
+            $builder->where('search_items.owner_id', $ownerId);
+        }
     }
 
     protected function handleSearchText(Builder $builder, string $q): void
@@ -695,5 +733,25 @@ class SearchRepository extends AbstractRepository implements SearchRepositoryInt
         $model->delete();
 
         return true;
+    }
+
+    public function getTrendingHashtags(array $attributes = []): Paginator
+    {
+        $model = resolve(TagRepositoryInterface::class)->getModel()->newModelInstance();
+        $limit = Arr::get($attributes, 'limit', 10);
+
+        /**
+         * @var Builder $query
+         */
+        $query = $model->newQuery();
+        $table = $model->getTable();
+
+        return $query->join('search_tag_data', function (JoinClause $joinClause) use ($model, $table) {
+            $joinClause->on('search_tag_data.tag_id', '=', sprintf('%s.%s', $table, $model->getKeyName()));
+        })
+            ->select(sprintf('%s.*', $table))
+            ->distinct()
+            ->orderBy(sprintf('%s.%s', $table, 'total_item'))
+            ->simplePaginate($limit);
     }
 }

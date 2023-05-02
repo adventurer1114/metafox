@@ -15,23 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-    'prefix'     => 'admincp',
-], function () {
-    Route::resource('reaction', 'ReactionController')->except(['delete']);
+Route::controller(ReactionController::class)->group(function () {
+    Route::get('reaction', 'viewReactionsForFE');
+    Route::get('preaction', 'viewReactionsForFE');
 });
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    Route::get('reaction', 'ReactionController@viewReactionsForFE');
-    Route::resource('like', 'LikeController')->except(['show', 'update', 'delete']);
-    Route::delete('like', 'LikeController@deleteByUserAndItem');
-    Route::get('like-tabs', 'LikeController@viewLikeTabs');
-    Route::get('preaction', 'ReactionController@viewReactionsForFE');
-    Route::get('preaction/get-reacted-lists', 'LikeController@index');
-    Route::get('preaction/reaction-tabs', 'LikeController@viewLikeTabs');
+Route::controller(LikeController::class)->group(function () {
+    Route::delete('like', 'deleteByUserAndItem');
+    Route::get('like-tabs', 'viewLikeTabs');
+    Route::get('preaction/get-reacted-lists', 'index');
+    Route::get('preaction/reaction-tabs', 'viewLikeTabs');
 });
+
+Route::resource('like', LikeController::class)->except(['show', 'update', 'delete']);

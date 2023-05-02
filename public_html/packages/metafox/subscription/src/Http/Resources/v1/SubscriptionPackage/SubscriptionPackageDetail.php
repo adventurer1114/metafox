@@ -77,13 +77,23 @@ class SubscriptionPackageDetail extends JsonResource
         }
 
         if (null === $price && null === $recurringPrice) {
-            $price = app('currency')->getPriceFormatByCurrencyId($userCurrency, Arr::get($prices, $userCurrency));
+            $price = null;
+
+            if (Arr::has($prices, $userCurrency)) {
+                $price = app('currency')->getPriceFormatByCurrencyId($userCurrency, Arr::get($prices, $userCurrency));
+            }
 
             $recurringPrice = __p('subscription::phrase.one_time');
 
             if ($resource->is_recurring && is_array($recurringPrices)) {
-                $value          = app('currency')->getPriceFormatByCurrencyId($userCurrency, Arr::get($recurringPrices, $userCurrency));
+                $value = null;
+
+                if (Arr::has($recurringPrices, $userCurrency)) {
+                    $value = app('currency')->getPriceFormatByCurrencyId($userCurrency, Arr::get($recurringPrices, $userCurrency));
+                }
+
                 $period         = Helper::getPeriodLabel($resource->recurring_period);
+
                 $recurringPrice = __p('subscription::phrase.recurring_price_info', [
                     'price'  => $value,
                     'period' => $period,

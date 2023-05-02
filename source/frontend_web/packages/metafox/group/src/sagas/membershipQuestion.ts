@@ -26,6 +26,7 @@ import {
   UPDATE
 } from '../components/GroupManager/MembershipQuestion/types';
 import { APP_GROUP } from '../constant';
+import { TypeQuestion } from '../types';
 
 export function* updateMembershipQuestionForm(action: ItemLocalAction) {
   const {
@@ -138,21 +139,25 @@ function* updateGroupMembershipQuestion(
 
     const { options: optionsInit } = payload.initialValues;
 
-    const optionsIds = options.map(item => item.id);
+    let rsOptions = undefined;
 
-    const newList = options
-      ?.filter(opt => opt.type === NEW)
-      .map(item => ({ title: item.title, status: 'new' }));
+    if (type_id !== TypeQuestion.FreeAnswer) {
+      const optionsIds = options.map(item => item.id);
 
-    const updateList = options
-      ?.filter(opt => opt.type === UPDATE || !opt.type)
-      .map(item => ({ id: item.id, title: item.title, status: 'update' }));
+      const newList = options
+        ?.filter(opt => opt.type === NEW)
+        .map(item => ({ title: item.title, status: 'new' }));
 
-    const removeList = optionsInit
-      ?.filter(opt => !optionsIds.includes(opt.id))
-      .map(item => ({ id: item.id, status: 'remove' }));
+      const updateList = options
+        ?.filter(opt => opt.type === UPDATE || !opt.type)
+        .map(item => ({ id: item.id, title: item.title, status: 'update' }));
 
-    const rsOptions = [...newList, ...updateList, ...removeList];
+      const removeList = optionsInit
+        ?.filter(opt => !optionsIds.includes(opt.id))
+        .map(item => ({ id: item.id, status: 'remove' }));
+
+      rsOptions = [...newList, ...updateList, ...removeList];
+    }
 
     const newValue = {
       group_id,

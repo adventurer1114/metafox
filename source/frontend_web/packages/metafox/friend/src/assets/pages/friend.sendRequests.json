@@ -25,7 +25,7 @@
             "icon": "ico-user-circle-o",
             "noBlock": 1
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Friend - Request Lists",
           "noContentLayout": "No Content With Icon & Note",
           "itemLayout": "Friend - Request Lists"
@@ -113,7 +113,34 @@
               "name": "core.dividerBlock"
             },
             {
-              "name": "friend.block.FriendListListing"
+              "name": "friend.block.FriendListListing",
+              "props": {
+                "pageName": "friend.sendRequests",
+                "pageSize": "large",
+                "title": "friend_list",
+                "gridItemProps": {
+                  "xs": 12,
+                  "md": 12
+                },
+                "itemView": "friend_list.itemView.mainCard",
+                "emptyPage": "core.block.no_content_with_icon",
+                "contentType": "friend_list",
+                "dataSource": {
+                  "apiUrl": "/friend/list"
+                },
+                "emptyPageProps": {
+                  "variant": "side",
+                  "title": "no_friend_lists",
+                  "description": "no_friend_lists_found",
+                  "color": "inherit",
+                  "noBlock": 1
+                },
+                "canLoadMore": 1,
+                "blockLayout": "Friend List Side Block",
+                "gridLayout": "Friend List - Small List",
+                "noContentLayout": "Side with description",
+                "itemLayout": "Friend List - Small List"
+              }
             }
           ]
         },
@@ -138,7 +165,7 @@
             "icon": "ico-user-circle-o",
             "noBlock": 1
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Friend - Request Lists",
           "noContentLayout": "No Content With Icon & Note",
           "itemLayout": "Friend - Request Lists"

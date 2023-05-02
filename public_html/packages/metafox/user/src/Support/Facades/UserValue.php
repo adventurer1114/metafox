@@ -7,10 +7,10 @@ use MetaFox\Platform\Contracts\User;
 
 /**
  * Class UserValue.
- * @method static array getUserValueSettings(User $user)
- * @method static bool checkUserValueSettingByName(User $user, string $settingName)
+ * @method static array    getUserValueSettings(User $user)
+ * @method static bool     checkUserValueSettingByName(User $user, string $settingName)
  * @method static int|null getUserValueSettingByName(User $user, string $settingName)
- * @method static bool updateUserValueSetting(User $user, array $params)
+ * @method static bool     updateUserValueSetting(User $user, array $params)
  * @mixin \MetaFox\User\Support\UserValue
  */
 class UserValue extends Facade

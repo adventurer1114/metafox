@@ -62,18 +62,25 @@ class DeviceRepository extends AbstractRepository implements DeviceRepositoryInt
     /**
      * @inheritDoc
      */
-    public function deleteDeviceById(User $context, string $deviceId): bool
+    public function deleteDeviceById(User $context, string $deviceId): ?array
     {
-        $device = $this->getModel()->newModelQuery()
+        $devices = $this->getModel()->newModelQuery()
             ->where('user_id', '=', $context->entityId())
-            ->where('device_id', '=', $deviceId)
-            ->first();
+            ->where('device_uid', '=', $deviceId)
+            ->get()
+            ->collect();
 
-        if (!$device instanceof UserDevice) {
-            return true;
+        if ($devices->isEmpty()) {
+            return null;
         }
 
-        return (bool) $device->delete();
+        $tokens = $devices->pluck('device_token')->toArray();
+
+        $devices->each(function (UserDevice $device) {
+            $device->delete();
+        });
+
+        return $tokens;
     }
 
     /**

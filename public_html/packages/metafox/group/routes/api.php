@@ -15,103 +15,109 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//For admincp
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    Route::group([
-        'prefix'     => 'admincp',
-        'middleware' => 'auth.admin',
-    ], function () {
-        Route::resource('group-category', 'CategoryAdminController');
-        Route::patch('group-rule-example/active/{id}', 'ExampleRuleAdminController@active');
-        Route::resource('group-rule-example/order', 'ExampleRuleAdminController@order');
-        Route::resource('group-rule-example', 'ExampleRuleAdminController')->except(['show']);
+Route::group(['prefix' => 'group'], function () {
+    Route::controller(GroupController::class)->group(function () {
+        Route::post('avatar/{id}', 'updateAvatar');
+        Route::post('cover/{id}', 'updateCover');
+        Route::delete('cover/{id}', 'removeCover');
+        Route::patch('sponsor/{id}', 'sponsor');
+        Route::patch('feature/{id}', 'feature');
+        Route::patch('approve/{id}', 'approve');
+        Route::patch('pending-mode/{id}', 'updatePendingMode');
     });
+
+    Route::controller(GroupController::class)->group(function () {
+        Route::get('/moderation-right/{id}', 'getModerationRights');
+        Route::put('/moderation-right/{id}', 'updateModerationRights');
+        Route::put('confirm-rule', 'confirmRule');
+        Route::get('suggestion', 'suggestion');
+        Route::get('mention', 'getGroupForMention');
+        Route::get('form', 'form');
+        Route::put('confirm-answer-question', 'confirmAnswerMembershipQuestion');
+    });
+
+    Route::controller(GroupController::class)
+        ->prefix('privacy')
+        ->group(function () {
+            Route::get('/{id}', 'getPrivacySettings');
+            Route::put('/{id}', 'updatePrivacySettings');
+            Route::put('change-request/{id}', 'cancelRequestChangePrivacy');
+        });
 });
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    Route::group(['prefix' => 'group'], function () {
-        Route::post('avatar/{id}', 'GroupController@updateAvatar');
-        Route::post('cover/{id}', 'GroupController@updateCover');
-        Route::delete('cover/{id}', 'GroupController@removeCover');
-        Route::patch('sponsor/{id}', 'GroupController@sponsor');
-        Route::patch('feature/{id}', 'GroupController@feature');
-        Route::patch('approve/{id}', 'GroupController@approve');
-        Route::patch('pending-mode/{id}', 'GroupController@updatePendingMode');
+Route::controller(InviteController::class)->group(function () {
+    Route::get('/group-invite', 'index');
+    Route::post('/group-invite', 'store');
+    Route::put('/group-invite', 'update');
+    Route::delete('/group-invite', 'deleteGroupInvite');
+});
 
-        Route::get('/moderation-right/{id}', 'GroupController@getModerationRights');
-        Route::put('/moderation-right/{id}', 'GroupController@updateModerationRights');
+Route::controller(GroupController::class)->group(function () {
+    Route::get('group-info/form/{id}', 'infoForm');
+    Route::get('group-info/{id}', 'groupInfo');
+    Route::get('group-about/form/{id}', 'aboutForm');
+});
 
-        Route::get('suggestion', 'GroupController@suggestion');
-        Route::get('mention', 'GroupController@getGroupForMention');
-        Route::get('form', 'GroupController@form');
+Route::controller(RequestController::class)->group(function () {
+    Route::get('group-request', 'index');
+    Route::put('group-request/accept-request', 'acceptMemberRequest');
+    Route::delete('group-request/deny-request', 'denyMemberRequest');
+    Route::delete('group-request/cancel-request/{id}', 'cancelRequest');
+});
 
-        Route::get('/category', 'CategoryController@index');
-        Route::group(['prefix' => 'privacy'], function () {
-            Route::get('/{id}', 'GroupController@getPrivacySettings');
-            Route::put('/{id}', 'GroupController@updatePrivacySettings');
-            Route::put('change-request/{id}', 'GroupController@cancelRequestChangePrivacy');
-        });
+Route::controller(MemberController::class)->prefix('group-member')->group(function () {
+    Route::put('change-to-moderator', 'changeToModerator');
+    Route::delete('remove-group-admin', 'removeGroupAdmin');
+    Route::delete('remove-group-moderator', 'removeGroupModerator');
+    Route::delete('remove-group-member', 'deleteGroupMember');
+    Route::post('add-group-admin', 'addGroupAdmins');
+    Route::post('add-group-moderator', 'addGroupModerators');
+    Route::put('reassign-owner', 'reassignOwner');
+    Route::delete('cancel-invite', 'cancelInvitePermission');
+});
 
-        Route::put('confirm-rule', 'GroupController@confirmRule');
-        Route::put('confirm-answer-question', 'GroupController@confirmAnswerMembershipQuestion');
+Route::prefix('group-question')
+    ->controller(QuestionController::class)
+    ->group(function () {
+        Route::get('/form/{id?}', 'form');
+        Route::get('/answer-form/{id}', 'answerForm');
+        Route::post('/answer', 'createAnswer')->middleware(['array_normalize']);
     });
 
-    Route::get('/group-invite', 'InviteController@index');
-    Route::post('/group-invite', 'InviteController@store');
-    Route::put('/group-invite', 'InviteController@update');
-    Route::delete('/group-invite', 'InviteController@deleteGroupInvite');
-    Route::get('group-info/form/{id}', 'GroupController@infoForm');
-    Route::get('group-info/{id}', 'GroupController@groupInfo');
-    Route::get('group-about/form/{id}', 'GroupController@aboutForm');
-    Route::resource('group', 'GroupController');
+Route::controller(RuleController::class)->group(function () {
+    Route::put('group-rule/order', 'orderRules');
+    Route::get('group-rule/form', 'createForm');
+    Route::get('group-rule/form/{id}', 'editForm');
+});
 
-    Route::get('group-request', 'RequestController@index');
-    Route::put('group-request/accept-request', 'RequestController@acceptMemberRequest');
-    Route::delete('group-request/deny-request', 'RequestController@denyMemberRequest');
-    Route::delete('group-request/cancel-request/{id}', 'RequestController@cancelRequest');
+Route::controller(BlockController::class)->group(function () {
+    Route::delete('group-unblock', 'unblock');
+});
 
-    Route::resource('group-mute', 'MuteController');
-    Route::delete('group-mute', 'MuteController@destroy');
+Route::prefix('invite-code')->controller(GroupInviteCodeController::class)->group(function () {
+    Route::post('/', 'store');
+    Route::get('/verify/{code}', 'verify');
+    Route::post('/accept/{code}', 'accept');
+});
 
-    Route::put('group-member/change-to-moderator', 'MemberController@changeToModerator');
-    Route::delete('group-member/remove-group-admin', 'MemberController@removeGroupAdmin');
-    Route::delete('group-member/remove-group-moderator', 'MemberController@removeGroupModerator');
-    Route::delete('group-member/remove-group-member', 'MemberController@deleteGroupMember');
-    Route::post('group-member/add-group-admin', 'MemberController@addGroupAdmins');
-    Route::post('group-member/add-group-moderator', 'MemberController@addGroupModerators');
-    Route::put('group-member/reassign-owner', 'MemberController@reassignOwner');
-    Route::delete('group-member/cancel-invite', 'MemberController@cancelInvitePermission');
-    Route::resource('group-member', 'MemberController')->except(['update', 'show']);
+Route::controller(AnnouncementController::class)->group(function () {
+    Route::get('group-announcement', 'index');
+    Route::post('group-announcement', 'store');
+    Route::delete('group-announcement', 'removeAnnouncement');
+    Route::post('group-announcement/hide', 'hide');
+});
 
-    Route::group(['prefix' => 'group-question'], function () {
-        Route::get('/form/{id?}', 'QuestionController@form');
-        Route::get('/answer-form/{id}', 'QuestionController@answerForm');
-        Route::post('/answer', 'QuestionController@createAnswer')->middleware(['array_normalize']);
-    });
+Route::controller(MuteController::class)->group(function () {
+    Route::delete('group-mute', 'destroy');
+});
 
-    Route::resource('group-question', 'QuestionController')->except(['show']);
-    Route::put('group-rule/order', 'RuleController@orderRules');
-    Route::get('group-rule/form', 'RuleController@createForm');
-    Route::get('group-rule/form/{id}', 'RuleController@editForm');
-    Route::resource('group-rule', 'RuleController')->except(['show']);
-    Route::get('group-rule-example', 'ExampleRuleController@index');
-
-    Route::resource('group-block', 'BlockController');
-    Route::delete('group-unblock', 'BlockController@unblock');
-    Route::group(['prefix' => 'invite-code'], function () {
-        Route::post('/', 'GroupInviteCodeController@store');
-        Route::get('/verify/{code}', 'GroupInviteCodeController@verify');
-        Route::post('/accept/{code}', 'GroupInviteCodeController@accept');
-    });
-
-    Route::get('group-announcement', 'AnnouncementController@index');
-    Route::post('group-announcement', 'AnnouncementController@store');
-    Route::delete('group-announcement', 'AnnouncementController@removeAnnouncement');
-    Route::post('group-announcement/hide', 'AnnouncementController@hide');
+Route::as('group.')->group(function () {
+    Route::resource('group/category', CategoryController::class)->only('index');
+    Route::resource('group', GroupController::class)->names('.');
+    Route::resource('group-mute', MuteController::class);
+    Route::resource('group-member', MemberController::class)->except(['update', 'show']);
+    Route::resource('group-question', QuestionController::class)->except(['show']);
+    Route::resource('group-rule', RuleController::class)->except(['show']);
+    Route::resource('group-rule-example', ExampleRuleController::class)->only('index');
+    Route::resource('group-block', BlockController::class);
 });

@@ -3,6 +3,7 @@
 namespace MetaFox\Quiz\Http\Requests\v1\Result;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use MetaFox\Platform\Rules\PaginationLimitRule;
 use MetaFox\Platform\Support\Helper\Pagination;
 use MetaFox\Quiz\Models\Quiz;
@@ -31,7 +32,7 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'quiz_id' => ['required', 'numeric', 'min:1', sprintf('exists:%s,id', Quiz::class)],
+            'quiz_id' => ['required', 'numeric', 'min:1', 'exists:quizzes,id'],
             'page'    => ['sometimes', 'numeric', 'min:1'],
             'limit'   => ['sometimes', 'numeric', new PaginationLimitRule()],
         ];

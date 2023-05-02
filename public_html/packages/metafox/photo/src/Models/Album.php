@@ -26,7 +26,6 @@ use MetaFox\Platform\Contracts\HasPrivacyMember;
 use MetaFox\Platform\Contracts\HasResourceStream;
 use MetaFox\Platform\Contracts\HasSavedItem;
 use MetaFox\Platform\Contracts\HasSponsor;
-use MetaFox\Platform\Contracts\HasSponsorInFeed;
 use MetaFox\Platform\Contracts\HasThumbnail;
 use MetaFox\Platform\Contracts\HasTotalCommentWithReply;
 use MetaFox\Platform\Contracts\HasTotalItem;
@@ -55,6 +54,7 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
  * @property        string         $name
  * @property        int            $total_photo
  * @property        int            $total_item
+ * @property        int            $total_video
  * @property        int            $total_comment
  * @property        int            $total_share
  * @property        int            $total_like
@@ -73,16 +73,16 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
  * @property        Collection     $ungroupedItems
  * @property        string         $album_link
  * @method   static AlbumFactory   factory()
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Album extends Model implements
     Content,
     AppendPrivacyList,
     ActivityFeedSource,
     HasResourceStream,
-    HasApprove,
     HasFeature,
     HasSponsor,
-    HasSponsorInFeed,
+    HasApprove,
     HasPrivacy,
     HasTotalLike,
     HasTotalShare,
@@ -243,6 +243,8 @@ class Album extends Model implements
             'total_photo'    => $image ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
@@ -340,6 +342,13 @@ class Album extends Model implements
     {
         return Attribute::make(
             get: fn () => FacadesAlbum::isDefaultAlbum($this->album_type),
+        );
+    }
+
+    protected function isTimeline(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->album_type == self::TIMELINE_ALBUM,
         );
     }
 

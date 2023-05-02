@@ -39,7 +39,7 @@ const name = 'EventDetail';
 const AttachmentTitle = styled('div', { name, slot: 'attachmentTitle' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(18),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightBold
   })
@@ -111,6 +111,32 @@ const LinkStyled = styled(Box, { name: 'LinkStyled' })(({ theme }) => ({
   fontSize: theme.mixins.pxToRem(13),
   color: theme.palette.primary.main,
   margin: theme.spacing(0, 0.5)
+}));
+
+const ActionGroupStyled = styled(Box, {
+  name: 'ActionGroup',
+  shouldForwardProp: props => props !== 'isEnd'
+})<{ isEnd?: boolean }>(({ theme, isEnd }) => ({
+  height: theme.spacing(5),
+  display: isEnd ? 'flex' : 'inline-flex',
+  marginTop: theme.spacing(2),
+  [theme.breakpoints.down('xs')]: {
+    display: 'flex'
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 'calc(100% - 56px)',
+    '& > .MuiButtonBase-root': {
+      justifyContent: 'inherit',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      '& .ico-caret-down': {
+        marginLeft: 'auto'
+      }
+    }
+  },
+  '& >*': {
+    marginRight: `${theme.spacing(1)} !important`
+  }
 }));
 
 export default function EventDetail({
@@ -298,7 +324,7 @@ export default function EventDetail({
               )}
             </div>
             {loggedIn ? (
-              <div className={classes.actionGroup}>
+              <ActionGroupStyled isEnd={isEnd}>
                 {!isEnd ? (
                   rsvpButton
                 ) : (
@@ -308,7 +334,9 @@ export default function EventDetail({
                     disabled
                     sx={{
                       backgroundColor: `${theme.palette.background.default} !important`,
-                      color: `${theme.palette.text.hint} !important`
+                      color: `${theme.palette.text.hint} !important`,
+                      flex: 1,
+                      minWidth: 0
                     }}
                   >
                     {i18n.formatMessage({ id: 'event_is_end' })}
@@ -354,7 +382,7 @@ export default function EventDetail({
                     }
                   />
                 </Box>
-              </div>
+              </ActionGroupStyled>
             ) : null}
             <Box component="div" mt={3} className={classes.itemContent}>
               <HtmlViewer html={description} />
@@ -380,17 +408,13 @@ export default function EventDetail({
                 </Attachment>
               </>
             )}
-            {item.extra?.can_comment ||
-            item.extra?.can_like ||
-            item.extra?.can_share ? (
-              <ItemDetailInteraction
-                identity={identity}
-                state={state}
-                handleAction={handleAction}
-                hideListComment
-                hideComposerInListComment
-              />
-            ) : null}
+            <ItemDetailInteraction
+              identity={identity}
+              state={state}
+              handleAction={handleAction}
+              hideListComment
+              hideComposerInListComment
+            />
           </div>
         </div>
       </BlockContent>

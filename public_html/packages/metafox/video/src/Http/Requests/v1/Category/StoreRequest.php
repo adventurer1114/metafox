@@ -19,8 +19,8 @@ class StoreRequest extends FormRequest
         return [
             'name'      => ['required', 'string', 'between:3,255'],
             'name_url'  => ['sometimes', 'string', 'between:3,255'],
-            'is_active' => ['sometimes', 'numeric'],
-            'ordering'  => ['sometimes', 'numeric'],
+            'is_active' => ['sometimes', 'numeric', 'between:0,1'],
+            'ordering'  => ['sometimes', 'numeric', 'min:0'],
             'parent_id' => ['nullable', 'numeric', 'exists:video_categories,id'],
         ];
     }

@@ -63,7 +63,13 @@ class AnnouncementController extends ApiController
 
         $responseData = $resources->toResponse($request)->getData(true);
 
-        return $this->success($resources, Arr::get($responseData, 'meta', []));
+        $count = $this->repository->getTotalUnread(user());
+
+        $meta = Arr::get($responseData, 'meta', []);
+
+        Arr::set($meta, 'total_unread', $count);
+
+        return $this->success($resources, $meta);
     }
 
     /**
@@ -99,5 +105,15 @@ class AnnouncementController extends ApiController
         return $this->success([
             'id' => $params['announcement_id'],
         ]);
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    public function close(): JsonResponse
+    {
+        $this->repository->closeAnnouncement(user());
+
+        return $this->success();
     }
 }

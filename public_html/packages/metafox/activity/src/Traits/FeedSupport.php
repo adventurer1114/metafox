@@ -2,6 +2,7 @@
 
 namespace MetaFox\Activity\Traits;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use MetaFox\Activity\Contracts\ActivityHiddenManager;
 use MetaFox\Activity\Contracts\ActivitySnoozeManager;
 use MetaFox\Activity\Contracts\TypeManager;
@@ -136,12 +137,21 @@ trait FeedSupport
 
         $item = $this->getActionResource();
 
-        if ($item instanceof Entity) {
-            $taggedFriendsData = $this->getTaggedFriendsTrait($item, $limit);
-            if (!empty($taggedFriendsData)) {
-                $taggedFriends      = $taggedFriendsData->items();
-                $totalFriendsTagged = $taggedFriendsData->total();
-            }
+        if (!$item instanceof Entity) {
+            return [$taggedFriends, $totalFriendsTagged];
+        }
+
+        $taggedFriendsQuery = $this->getTaggedFriendsTrait($item, $limit);
+
+        if (!$taggedFriendsQuery instanceof Builder) {
+            return[$taggedFriends, $totalFriendsTagged];
+        }
+
+        $taggedFriendsData = $taggedFriendsQuery->paginate($limit, ['user_entities.*'], 'tag_friend_page');
+
+        if (!empty($taggedFriendsData)) {
+            $taggedFriends      = $taggedFriendsData->items();
+            $totalFriendsTagged = $taggedFriendsData->total();
         }
 
         return [$taggedFriends, $totalFriendsTagged];

@@ -74,6 +74,7 @@ export type StatusComposerPostConfig = {
     link_description?: string;
     link_title?: string;
     link_url?: string;
+    is_preview_hidden?: number | boolean;
     poll_question?: string;
     poll_answers?: Record<string, any>[];
     poll_caption?: string;
@@ -455,6 +456,7 @@ export function* onSubmit(action: SubmitAction) {
     postConfig.data.post_type = 'link';
     postConfig.data.link_title = link.title;
     postConfig.data.link_url = link.link;
+    postConfig.data.is_preview_hidden = link.is_preview_hidden;
   } else if (shareValue) {
     postConfig.action = '/feed/share';
 

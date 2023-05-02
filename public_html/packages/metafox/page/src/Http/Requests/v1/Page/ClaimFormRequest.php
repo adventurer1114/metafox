@@ -11,7 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *
  * This class is used by automatic dependency injection:
  *
- * @link \MetaFox\Page\Http\Controllers\Api\v1\PageController::claimForm;
+ * @link \MetaFox\Page\Http\Controllers\Api\v1\PageController::claimPage;
  * stub: /packages/requests/api_action_request.stub
  */
 

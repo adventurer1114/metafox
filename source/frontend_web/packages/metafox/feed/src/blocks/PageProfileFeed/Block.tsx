@@ -20,8 +20,7 @@ const ProfileFeedListingBlock = createBlock<ListViewBlockProps>({
     blockProps: { variant: 'plained', noHeader: true },
     itemView: 'feed.itemView.mainCard',
     itemProps: {
-      showActionMenu: true,
-      menuName: 'itemActionMenuForProfile'
+      showActionMenu: true
     },
     gridContainerProps: { spacing: 2 },
     canLoadMore: true,

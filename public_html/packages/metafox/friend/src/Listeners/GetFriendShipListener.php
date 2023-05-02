@@ -13,13 +13,17 @@ use MetaFox\Platform\Contracts\User;
 class GetFriendShipListener
 {
     /**
-     * @param User $context
-     * @param User $user
+     * @param User|null $context
+     * @param User      $user
      *
      * @return int
      */
-    public function handle(User $context, User $user): int
+    public function handle(?User $context, User $user): int
     {
+        if (!$context) {
+            return 4;
+        }
+
         return Friend::getFriendship($context, $user);
     }
 }

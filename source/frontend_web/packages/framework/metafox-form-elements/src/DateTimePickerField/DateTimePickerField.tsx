@@ -62,7 +62,7 @@ function DateTimePickerField({
   } = config;
   const [field, meta, { setValue, setTouched }] = useField(name ?? 'datetime');
   const [selectedDate, setDate] = React.useState(
-    nullable && !field.value ? null : new Date(field.value)
+    nullable && !field.value ? null : new Date(field.value ?? undefined)
   );
   const [selectedTime, setTime] = React.useState(
     nullable && !field.value ? null : new Date(field.value)

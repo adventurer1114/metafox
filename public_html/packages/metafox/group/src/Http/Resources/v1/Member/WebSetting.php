@@ -94,7 +94,7 @@ class WebSetting extends Setting
             ]);
 
         $this->add('blockFromGroup')
-            ->apiUrl('core/form/group.group_member.block')
+            ->apiUrl('core/form/group.group_block.block_member')
             ->asGet()
             ->apiParams(['group_id' => ':group_id', 'user_id' => ':user_id']);
     }

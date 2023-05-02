@@ -101,7 +101,7 @@ class UserSettingForm extends AdminSettingForm
                 ->label(__p('user::admin.date_of_birth_start'))
                 ->description(__p('user::admin.date_of_birth_start_description'))
                 ->yup(Yup::number()
-                    ->min(1000)
+                    ->min(1900)
                     ->max([
                         'ref' => 'date_of_birth_end',
                     ])),
@@ -199,7 +199,7 @@ class UserSettingForm extends AdminSettingForm
                     Yup::number()
                         ->required()
                         ->unint()
-                        ->min(1)
+                        ->min(4)
                         ->setError('typeError', __p('validation.numeric', ['attribute' => '${path}']))
                 ),
             Builder::text('user.maximum_length_for_password')

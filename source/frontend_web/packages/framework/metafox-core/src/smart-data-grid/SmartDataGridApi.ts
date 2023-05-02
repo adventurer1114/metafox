@@ -62,4 +62,11 @@ export default class SmartDataGridApi implements SmartGridApi {
   refresh = (): void => {
     this.dispatch({ type: 'refresh', payload: {} });
   };
+
+  /**
+   * refresh selection
+   */
+  refreshSelection = (): void => {
+    this.dispatch({ type: 'refreshSelection', payload: {} });
+  };
 }

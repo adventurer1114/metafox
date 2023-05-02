@@ -25,7 +25,6 @@ const useStyles = makeStyles(
       hasBgCover: {},
       viewContainer: {
         width: '100%',
-        backgroundColor: theme.mixins.backgroundColor('paper'),
         padding: theme.spacing(2),
         position: 'relative'
       },
@@ -113,12 +112,15 @@ const useStyles = makeStyles(
       itemContent: {
         fontSize: 15,
         lineHeight: 1.33,
-        marginTop: theme.spacing(3),
         '& p + p': {
           marginBottom: theme.spacing(2.5)
+        },
+        '& p:last-child': {
+          marginBottom: 0
         }
       },
       voteForm: {
+        marginTop: theme.spacing(2),
         [theme.breakpoints.up('sm')]: {
           maxWidth: 320
         }

@@ -4,20 +4,22 @@
  */
 
 import { ImageSkeleton, ItemMedia, ItemText, ItemView } from '@metafox/ui';
-import { Skeleton } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import React from 'react';
 
 export default function LoadingSkeleton({ wrapAs, wrapProps }) {
   return (
     <ItemView wrapAs={wrapAs} wrapProps={wrapProps} testid="">
       <ItemMedia>
-        <ImageSkeleton ratio="169" />
+        <ImageSkeleton ratio="169" borderRadius={0} />
       </ItemMedia>
       <ItemText>
-        <Skeleton width={'100%'} />
-        <Skeleton width={'100%'} />
-        <Skeleton width={160} />
-        <Skeleton width={160} />
+        <Box sx={{ pt: 1.5 }}>
+          <Skeleton width={'100%'} />
+          <Skeleton width={'100%'} />
+          <Skeleton width={160} />
+          <Skeleton width={160} />
+        </Box>
       </ItemText>
     </ItemView>
   );

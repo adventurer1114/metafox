@@ -30,9 +30,10 @@ class UserReactedListener
      *
      * @return array<mixed>|ReactionDetail
      */
-    public function handle(User $context, HasTotalLike $content)
+    public function handle(?User $context, HasTotalLike $content)
     {
-        $key  = sprintf(CacheManager::USER_REACTED_CACHE, $content->entityId(), $content->entityType());
+        $key  = sprintf(CacheManager::USER_REACTED_CACHE, $content->entityId(), $content->entityType(), $context->entityId());
+
         $time = CacheManager::USER_REACTED_CACHE_TIME;
 
         return Cache::remember($key, $time, function () use ($context, $content) {

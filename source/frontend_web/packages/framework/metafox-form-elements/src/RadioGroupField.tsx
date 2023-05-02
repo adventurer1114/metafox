@@ -95,7 +95,7 @@ const RadioGroupField = ({
       data-testid={camelCase(`field ${name}`)}
       required={required}
     >
-      {orderLabel && label ? (
+      {label || orderLabel ? (
         <Title mb={1} {...titleConfig} styleGroup={styleGroup}>
           {orderLabel}
           {label}

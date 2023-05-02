@@ -22,8 +22,8 @@ use MetaFox\Forum\Http\Resources\v1\ForumThread\CopyForm;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\CreateForm;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\EditForm;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\ForumThreadCollection as ItemCollection;
-use MetaFox\Forum\Http\Resources\v1\ForumThread\ForumThreadDetail as Detail;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\ForumThreadDetail;
+use MetaFox\Forum\Http\Resources\v1\ForumThread\ForumThreadDetail as Detail;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\ForumThreadLastPostCollection;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\MergeForm;
 use MetaFox\Forum\Http\Resources\v1\ForumThread\MoveForm;
@@ -33,7 +33,6 @@ use MetaFox\Forum\Models\ForumThread;
 use MetaFox\Forum\Policies\ForumThreadPolicy;
 use MetaFox\Forum\Repositories\ForumRepositoryInterface;
 use MetaFox\Forum\Repositories\ForumThreadRepositoryInterface;
-use MetaFox\Forum\Support\Browse\Scopes\ThreadViewScope;
 use MetaFox\Platform\Exceptions\PermissionDeniedException;
 use MetaFox\Platform\Facades\ResourceGate;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
@@ -85,8 +84,8 @@ class ForumThreadController extends ApiController
             }
 
             // If viewed on profile, but you don't have permission to view their profile, should see empty feed listing.
-            if (policy_check(ForumThreadPolicy::class, 'viewOnProfilePage', $context, $owner) == false) {
-                return $this->success();
+            if (!policy_check(ForumThreadPolicy::class, 'viewOnProfilePage', $context, $owner)) {
+                throw new AuthorizationException();
             }
         }
 
@@ -124,6 +123,7 @@ class ForumThreadController extends ApiController
         app('flood')->checkFloodControlWhenCreateItem($context, ForumThread::ENTITY_TYPE);
 
         $message = __p('quota::phrase.quota_control_invalid', ['entity_type' => __p('forum::phrase.forum_thread')]);
+
         app('quota')->checkQuotaControlWhenCreateItem($context, ForumThread::ENTITY_TYPE, 1, ['message' => $message]);
 
         if ($params['owner_id'] > 0) {

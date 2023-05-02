@@ -22,14 +22,14 @@ interface PrivacyPolicy
      *
      * Example group has privacy.
      *
-     * @param User $user
-     * @param User $owner
-     * @param bool $cache
+     * @param User  $user
+     * @param ?User $owner
+     * @param bool  $cache
      *
      * @return bool
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    public function checkPermissionOwner(User $user, User $owner, bool $cache = true): bool;
+    public function checkPermissionOwner(User $user, ?User $owner, bool $cache = true): bool;
 
     /**
      * Check user has ability on owner.

@@ -135,7 +135,7 @@
           "contentType": "post",
           "canLoadMore": true,
           "freeze": false,
-          "blockLayout": "Large Main Lists",
+          "blockLayout": "Large Main Lists Mobile",
           "gridLayout": "Forum Post Lists",
           "emptyPageProps": {
             "noHeader": true,

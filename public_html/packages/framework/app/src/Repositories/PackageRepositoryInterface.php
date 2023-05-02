@@ -25,6 +25,11 @@ interface PackageRepositoryInterface
     public function getPackageOptions(bool $alias = true): array;
 
     /**
+     * @return array
+     */
+    public function getPackageHasPermissionOptions(): array;
+
+    /**
      * @return array<string,string>
      */
     public function getPackageIdOptions(): array;
@@ -124,4 +129,10 @@ interface PackageRepositoryInterface
      * @return Collection<Package>
      */
     public function getPackageByNames(array $names): Collection;
+
+    /**
+     * @param  string $name
+     * @return bool
+     */
+    public function isAppActive(string $name): bool;
 }

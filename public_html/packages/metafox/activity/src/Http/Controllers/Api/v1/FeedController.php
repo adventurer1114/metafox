@@ -239,7 +239,7 @@ class FeedController extends ApiController
             return $this->success(['id' => 0], [], $message);
         }
 
-        if (policy_check(FeedPolicy::class, 'view', $user, $feed)) {
+        if (policy_check(FeedPolicy::class, 'view', $context, $feed)) {
             $data = new Detail($feed);
         }
 
@@ -692,5 +692,14 @@ class FeedController extends ApiController
         return $this->success([
             'reload' => $reload,
         ]);
+    }
+
+    /**
+     * hot fix because of /api/v1/feed/create crashed.
+     * @return JsonResponse
+     */
+    public function create()
+    {
+        return $this->success([]);
     }
 }

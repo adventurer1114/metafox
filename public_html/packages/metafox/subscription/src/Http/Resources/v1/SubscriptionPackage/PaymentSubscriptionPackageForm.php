@@ -109,16 +109,16 @@ class PaymentSubscriptionPackageForm extends GatewayForm
                 );
                 break;
             default:
-                $submitLabel = __p('core::phrase.submit');
+                $submitLabel = __p('subscription::phrase.purchase');
 
                 if ($this->resource->is_recurring) {
                     $submitLabel = __p('subscription::phrase.next');
                 }
 
                 $footer->addFields(
-                    Builder::cancelButton(),
                     Builder::submit()
-                        ->label($submitLabel)
+                        ->label($submitLabel),
+                    Builder::cancelButton(),
                 );
 
                 break;

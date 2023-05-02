@@ -1,5 +1,5 @@
 import { createReducer, Draft } from '@reduxjs/toolkit';
-import { findLastIndex } from 'lodash';
+import { findLastIndex, uniqBy } from 'lodash';
 import {
   AppState,
   ChatRoomShape,
@@ -42,7 +42,8 @@ const createEmptyChatRoom = (): ChatRoomShape => {
     hasMore: true,
     searching: false,
     searchText: '',
-    messageFilter: {}
+    messageFilter: {},
+    preFetchingMsg: []
   };
 };
 
@@ -79,6 +80,29 @@ export default createReducer<State>({}, builder => {
     });
   });
 
+  builder.addCase(
+    'chat/chatroom/preFetchingMsg',
+    (state: Draft<State>, action: { rid?: string; message?: any }) => {
+      const {
+        payload: { rid, message }
+      } = action;
+
+      if (message.idNewMsg) {
+        const msgIndex = state[rid].preFetchingMsg.findIndex(
+          item => item.idNewMsg === message.idNewMsg
+        );
+
+        console.log('msgIndex', msgIndex, state[rid].preFetchingMsg[msgIndex]);
+
+        if (msgIndex !== -1) {
+          state[rid].preFetchingMsg[msgIndex].isLoading = message.isLoading;
+        } else {
+          state[rid].preFetchingMsg = [...state[rid].preFetchingMsg, message];
+        }
+      }
+    }
+  );
+
   builder.addCase('chat/chatroom/add', (state: Draft<State>, action: any) => {
     const rid: string = action.payload?.rid;
 
@@ -95,12 +119,19 @@ export default createReducer<State>({}, builder => {
     'chat/chatroom/messages',
     (state: Draft<State>, action: UpdateMessageAction) => {
       const {
-        payload: { rid, messages: messagesData }
+        payload: { rid, messages: messagesDataPayload }
       } = action;
 
       if (!state[rid]) {
         state[rid] = createEmptyChatRoom();
       }
+
+      state[rid].groupIds = [];
+      state[rid].groups = {};
+      const messagesData = uniqBy(
+        [...(state[rid].messages || []), ...messagesDataPayload],
+        'id'
+      );
 
       const messages = messagesData.sort((a, b) => {
         const time_a = new Date(a.created_at).getTime();
@@ -109,11 +140,12 @@ export default createReducer<State>({}, builder => {
         return time_a - time_b;
       });
 
-      const newest = messages[messages.length - 1]?.created_at || 0;
-      const oldest = messages[0]?.created_at || 0;
+      const newest =
+        new Date(messages[messages.length - 1]?.created_at).getTime() || 0;
+      const oldest = new Date(messages[0]?.created_at).getTime() || 0;
       const hasMore = state[rid] ? state[rid]?.hasMore : true;
-      const msgNewest =
-        state[messages.map(ms => ms.id)[messages.length - 1]]?.message;
+      const msgNewest = messages.map(ms => ms.id)[messages.length - 1];
+      const lastMsgId = messages.map(ms => ms.id)[0];
 
       let prevUnixGid: number = state[rid].groupIds?.length
         ? parseInt(state[rid].groupIds[state[rid].groupIds.length - 1], 10)
@@ -146,6 +178,8 @@ export default createReducer<State>({}, builder => {
           state[rid].oldest = oldest;
           state[rid].hasMore = hasMore;
           state[rid].msgNewest = msgNewest;
+          state[rid].lastMsgId = lastMsgId;
+          state[rid].messages = messages;
 
           return;
         }
@@ -213,6 +247,8 @@ export default createReducer<State>({}, builder => {
         state[rid].oldest = oldest;
         state[rid].hasMore = hasMore;
         state[rid].msgNewest = msgNewest;
+        state[rid].messages = messages;
+        state[rid].lastMsgId = lastMsgId;
       });
     }
   );
@@ -292,6 +328,15 @@ export default createReducer<State>({}, builder => {
       if (!state[rid].roomProgress && !state[rid].roomProgress[key]) return;
 
       delete state[rid].roomProgress[key];
+    }
+  );
+
+  builder.addCase(
+    'chat/room/endLoadmoreMessage',
+    (state: State, action: any) => {
+      const { rid } = action.payload;
+
+      state[rid].endLoadmoreMessage = true;
     }
   );
 });

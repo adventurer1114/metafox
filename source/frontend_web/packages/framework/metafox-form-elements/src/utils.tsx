@@ -4,6 +4,8 @@ import {
   isEmpty,
   isFunction,
   isInteger,
+  isNaN,
+  isNumber,
   isString,
   join,
   reduce
@@ -19,7 +21,7 @@ export const joinNames = (...args) =>
   );
 
 export const getName = (type, name, ...args) =>
-  ('field' === type && !name ? null : joinNames(...args, name));
+  'field' === type && !name ? null : joinNames(...args, name);
 
 /**
  * Handle Change and trigger callback if provided
@@ -108,10 +110,11 @@ export function toSlugifyLowerNonAccent(str, separator = '-') {
 
   const convert = { '&': 'and' };
 
-  str = str.trim().replaceAll(/\s+/g, separator);
   str = str.replace(/[&]/g, (char: any) => convert[char]);
   str = toLowerCaseNonAccentVietnamese(str);
   str = str.normalize('NFKD').replace(/\p{Diacritic}/gu, '');
+  str = str.replace(/[^a-zA-Z0-9 ]/g, '');
+  str = str.trim().replaceAll(/\s+/g, separator);
   str = encodeURIComponent(str);
 
   return str;
@@ -136,4 +139,28 @@ export function toFindReplaceSlugify(
   str = str.replaceAll(rexFind, separator);
 
   return str;
+}
+
+export function formatNumberSeparator({
+  number,
+  thousand_separator = ',',
+  decimal_separator = '.',
+  precision
+}: any) {
+  if (isNaN(number) || !isNumber(number)) {
+    number = 0;
+  }
+
+  number = precision ? number.toFixed(precision) : number;
+
+  const parts = number.toString().split('.');
+
+  const numberPart = parts[0];
+  const decimalPart = parts[1];
+  const thousands = /\B(?=(\d{3})+(?!\d))/g;
+
+  return (
+    numberPart.replace(thousands, thousand_separator) +
+    (decimalPart ? `${decimal_separator}${decimalPart}` : '')
+  );
 }

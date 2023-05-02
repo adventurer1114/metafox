@@ -19,4 +19,9 @@ class StaticPageRepository extends AbstractRepository implements StaticPageRepos
     {
         return StaticPage::class;
     }
+
+    public function deleteStaticPage(int $id): bool
+    {
+        return $this->delete($id);
+    }
 }

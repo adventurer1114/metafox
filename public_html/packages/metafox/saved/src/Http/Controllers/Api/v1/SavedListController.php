@@ -5,12 +5,14 @@ namespace MetaFox\Saved\Http\Controllers\Api\v1;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Saved\Http\Requests\v1\SavedList\IndexRequest;
 use MetaFox\Saved\Http\Requests\v1\SavedList\ManageFriendListRequest;
 use MetaFox\Saved\Http\Requests\v1\SavedList\StoreRequest;
 use MetaFox\Saved\Http\Requests\v1\SavedList\UpdateRequest;
 use MetaFox\Saved\Http\Requests\v1\SavedListMember\RemoveMemberRequest;
+use MetaFox\Saved\Http\Resources\v1\SavedList\SavedListDataItemCollection;
 use MetaFox\Saved\Http\Resources\v1\SavedList\SavedListDetail as Detail;
 use MetaFox\Saved\Http\Resources\v1\SavedList\SavedListItemCollection as ItemCollection;
 use MetaFox\Saved\Http\Resources\v1\SavedList\StoreSavedListForm;
@@ -82,7 +84,8 @@ class SavedListController extends ApiController
     /**
      * View list.
      *
-     * @param int $id
+     * @param IndexRequest $request
+     * @param int          $id
      *
      * @return JsonResponse
      * @throws AuthenticationException
@@ -110,7 +113,7 @@ class SavedListController extends ApiController
         $params = $request->validated();
         $data   = $this->repository->updateSavedList(user(), $id, $params);
 
-        return $this->success(new Detail($data), [], __p('core::phrase.updated_successfully'));
+        return $this->success(new Detail($data), [], __p('saved::phrase.collection_successfully_updated'));
     }
 
     /**
@@ -138,6 +141,10 @@ class SavedListController extends ApiController
      */
     public function formStore(): JsonResponse
     {
+        $context = user();
+
+        policy_authorize(SavedListPolicy::class, 'create', $context, null);
+
         return $this->success(new StoreSavedListForm(), []);
     }
 
@@ -200,5 +207,20 @@ class SavedListController extends ApiController
         }
 
         return $this->error(__p('saved::phrase.action_cannot_be_done'));
+    }
+
+    /**
+     * @param  IndexRequest            $request
+     * @param  int                     $id
+     * @return JsonResponse
+     * @throws AuthenticationException
+     */
+    public function viewItemCollection(IndexRequest $request, int $id): JsonResponse
+    {
+        $params = $request->validated();
+        Arr::set($params, 'id', $id);
+        $data = $this->repository->viewItemCollection(user(), $params);
+
+        return $this->success(new SavedListDataItemCollection($data));
     }
 }

@@ -16,6 +16,7 @@ use MetaFox\Friend\Support\Friend as FriendSupport;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\Support\Browse\Browse;
+use MetaFox\User\Traits\UserMorphTrait;
 use stdClass;
 
 /**
@@ -27,6 +28,7 @@ use stdClass;
  */
 class FriendRequestRepository extends AbstractRepository implements FriendRequestRepositoryInterface
 {
+    use UserMorphTrait;
     public function model(): string
     {
         return FriendRequest::class;
@@ -235,31 +237,5 @@ class FriendRequestRepository extends AbstractRepository implements FriendReques
         return $this->getModel()->newQuery()
             ->addScope($viewScope)
             ->count('id');
-    }
-
-    public function deleteUserData(int $userId): void
-    {
-        $requests = $this->getModel()->newModelQuery()
-            ->where([
-                'user_id' => $userId,
-            ])
-            ->get();
-
-        foreach ($requests as $request) {
-            $request->delete();
-        }
-    }
-
-    public function deleteOwnerData(int $ownerId): void
-    {
-        $requests = $this->getModel()->newModelQuery()
-            ->where([
-                'owner_id' => $ownerId,
-            ])
-            ->get();
-
-        foreach ($requests as $request) {
-            $request->delete();
-        }
     }
 }

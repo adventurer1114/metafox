@@ -117,4 +117,11 @@ interface SavedListRepositoryInterface
      * @return array
      */
     public function getInvitedUserIds(int $collectionId): array;
+
+    /**
+     * @param  User       $user
+     * @param  array      $attributes
+     * @return Collection
+     */
+    public function viewItemCollection(User $user, array $attributes): Collection;
 }

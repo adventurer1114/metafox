@@ -122,6 +122,7 @@ class PhotoGroup extends Model implements
     protected $appends = [
         'album_name',
         'album_link',
+        'privacy_list',
     ];
 
     protected static function newFactory(): PhotoGroupFactory
@@ -207,6 +208,8 @@ class PhotoGroup extends Model implements
             'total_photo'    => $photos->count(),
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
@@ -238,9 +241,9 @@ class PhotoGroup extends Model implements
 
     protected function toSaveItemTypeName(): string
     {
-        $photoStatistic           = $this->statistic()->getResults();
-        $totalPhoto               = $photoStatistic->total_photo;
-        $totalVideo               = $photoStatistic->total_video;
+        $photoStatistic = $this->statistic()->getResults();
+        $totalPhoto     = $photoStatistic->total_photo;
+        $totalVideo     = $photoStatistic->total_video;
 
         if ($totalPhoto == 0 && $totalVideo >= 1) {
             return __p('video::phrase.video_label_saved');
@@ -266,7 +269,7 @@ class PhotoGroup extends Model implements
 
     public function toTitle(): string
     {
-        return $this->content ?? '';
+        return $this->toSavedItemTitle();
     }
 
     public function toUrl(): ?string

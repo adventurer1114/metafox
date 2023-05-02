@@ -46,7 +46,7 @@ trait FeedExtra
         $isProfileFeed = request()->get('is_profile_feed', null);
 
         $permissions = [
-            'can_pin_item'                 => $user->hasPermissionTo('feed.pin'),
+            'can_pin_item'                 => $feedPolicy->pinItem($context, $feed),
             'can_hide_item'                => $feedPolicy->hideFeed($context, $feed),
             'can_hide_all_user'            => $feedPolicy->hideAll($context, $user, $isProfileFeed),
             'can_snooze_user'              => $feedPolicy->snooze($context, $user, $isProfileFeed),

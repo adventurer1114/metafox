@@ -12,4 +12,9 @@ use Prettus\Repository\Eloquent\BaseRepository;
  */
 interface StaticPageRepositoryInterface
 {
+    /**
+     * @param  int  $id
+     * @return bool
+     */
+    public function deleteStaticPage(int $id): bool;
 }

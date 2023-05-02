@@ -20,10 +20,14 @@ Route::controller(ReportItemController::class)
         Route::post('report', 'store');
         Route::get('report/form', 'form');
         Route::get('report/form/mobile', 'mobileForm');
-        Route::get('report/reason', 'index');
     });
 
+Route::controller(ReportReasonController::class)->group(function () {
+    Route::get('report/reason', 'index');
+});
+
 Route::resource('report-owner', ReportOwnerController::class);
+
 Route::prefix('report-owner')
     ->as('report-owner.')
     ->controller(ReportOwnerController::class)

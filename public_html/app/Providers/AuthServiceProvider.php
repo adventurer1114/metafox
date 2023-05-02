@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use MetaFox\Core\Constants;
 use MetaFox\Core\Repositories\DriverRepositoryInterface;
 use MetaFox\Platform\Facades\PolicyGate;
-use MetaFox\Platform\ModuleManager;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use MetaFox\Platform\PackageManager;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,6 +18,11 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [];
 
     /**
+     * @var array
+     */
+    protected array $rules = [];
+
+    /**
      * Register any authentication/authorization services.
      *
      * @return void
@@ -26,21 +30,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // Implicitly grant "Super Admin" role all permissions
-        // This works in the app by using gate-related functions like auth()->user->can() and @can()
-//        Gate::before(function ($user) {
-//            if ($user->hasRole(UserRole::SUPER_ADMIN_USER)) {
-//                return true;
-//            }
-
-            //Todo: TBD.
-//            if ($user->hasRole(UserRole::BANNED_USER)) {
-//                return false;
-//            }
-
-//            return null;
-//        });
     }
 
     public function register()
@@ -54,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         try {
             $repository = resolve(DriverRepositoryInterface::class);
-            $policies = $repository->loadDrivers(Constants::DRIVER_TYPE_POLICY_RESOURCE, null, true, null);
+            $policies   = $repository->loadDrivers(Constants::DRIVER_TYPE_POLICY_RESOURCE, null, true, null);
 
             $rules = $repository->loadDrivers(Constants::DRIVER_TYPE_POLICY_RULE, null, true, null);
 
@@ -64,6 +53,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             foreach ($rules as $rule) {
+                Gate::define($rule[0], "{$rule[1]}@check");
                 PolicyGate::addRule($rule[0], $rule[1]);
             }
         } catch (\Exception) {

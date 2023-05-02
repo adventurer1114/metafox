@@ -20,6 +20,7 @@ import ComposerAction from './ComposerAction';
 import ComposerContent from './ComposerContent';
 import ComposerHeader from './ComposerHeader';
 import useStyles from './styles';
+import editorStateToHtml from './editorStateToHtml';
 
 export const ComposerContext = React.createContext(undefined);
 
@@ -37,6 +38,7 @@ export type StatusComposerDialogProps = {
   viewTypePrivacy?: boolean;
   hidePrivacy?: boolean;
   disabledPrivacy?: boolean;
+  enableLeaveConfirm?: boolean;
 };
 
 const strategy = 'dialog';
@@ -52,7 +54,8 @@ const StatusComposerDialog = ({
   hidePrivacy,
   disabledPrivacy,
   title = 'create_post',
-  pageParams
+  pageParams,
+  enableLeaveConfirm = true
 }: StatusComposerDialogProps) => {
   const classes = useStyles();
   const location = useLocation();
@@ -144,12 +147,18 @@ const StatusComposerDialog = ({
   }, [dispatch, forceClose]);
 
   useEffect(() => {
-    setNavigationConfirm(!disabledSubmit, leaveConfirm, () => {
-      setEditorState(
-        EditorState.createWithContent(convertFromRaw(textToRaw(htmlToText(''))))
-      );
-      handleAfterForceClose();
-    });
+    setNavigationConfirm(
+      !disabledSubmit && enableLeaveConfirm,
+      leaveConfirm,
+      () => {
+        setEditorState(
+          EditorState.createWithContent(
+            convertFromRaw(textToRaw(htmlToText('')))
+          )
+        );
+        handleAfterForceClose();
+      }
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabledSubmit]);
@@ -235,14 +244,18 @@ const StatusComposerDialog = ({
   });
 
   const handleClose = (e, reason) => {
-    // update form value to reducers
+    const contentState =
+      editorRef.current?.props?.editorState?.getCurrentContent();
 
+    // update form value to reducers
     !isEdit &&
       dispatch({
         type: 'formValues/onChange',
         payload: {
           formName: 'dialogStatusComposer',
-          data: editorStateToText(editorRef.current.props.editorState)
+          data: contentState.hasText()
+            ? editorStateToHtml(editorRef.current?.props?.editorState)
+            : ''
         }
       });
 

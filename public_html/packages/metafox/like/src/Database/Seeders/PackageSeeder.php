@@ -46,8 +46,7 @@ class PackageSeeder extends Seeder
      */
     public function importReactions()
     {
-
-        if($this->reactionRepository->getModel()->newQuery()->exists()){
+        if ($this->reactionRepository->getModel()->newQuery()->exists()) {
             return;
         }
 
@@ -56,7 +55,7 @@ class PackageSeeder extends Seeder
         $reactions = $config['reactions'];
 
         foreach ($reactions as $reaction) {
-            $this->reactionRepository->updateOrCreate(['id' => $reaction['id']], $reaction);
+            $this->reactionRepository->create($reaction);
         }
     }
 }

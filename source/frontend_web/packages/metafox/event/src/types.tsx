@@ -43,7 +43,7 @@ export interface Location {
   address: string;
   lat: number;
   lng: number;
-  short_name?: string
+  short_name?: string;
 }
 
 export interface InviteItemShape {

@@ -19,19 +19,25 @@ class MobileSetting extends Setting
             ->apiUrl('core/mobile/form/page.invite.store/:id');
 
         $this->add('acceptInvite')
-            ->apiUrl('page-invite')
+            ->apiUrl('page-invite/:id')
             ->asPut()
-            ->apiParams(['page_id' => ':id', 'accept' => 1]);
+            ->apiParams(['accept' => 1]);
 
         $this->add('declineInvite')
-            ->apiUrl('page-invite')
+            ->apiUrl('page-invite/:id')
             ->asPut()
-            ->apiParams(['page_id' => ':id', 'accept' => 0]);
+            ->apiParams(['accept' => 0]);
 
         $this->add('cancelInvite')
-            ->apiUrl('page-invite')
+            ->apiUrl('page-invite/:page_id')
             ->asDelete()
-            ->apiParams(['page_id' => ':page_id', 'user_id' => ':user_id']);
-
+            ->apiParams(['user_id' => ':user_id'])
+            ->confirm([
+                'title'        => __p('page::phrase.confirm_cancel_invite_title'),
+                'message'      => 'confirm_cancel_page_invite_desc',
+                'phraseParams' => [
+                    'userName' => ':user.full_name',
+                ],
+            ]);
     }
 }

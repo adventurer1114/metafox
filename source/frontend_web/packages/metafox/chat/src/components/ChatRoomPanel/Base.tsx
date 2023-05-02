@@ -1,6 +1,6 @@
 import { PanelFooter } from '@metafox/chat/components/DockPanel';
 import { MsgItemShape, ReactMode } from '@metafox/chat/types';
-import { BlockViewProps, useGlobal } from '@metafox/framework';
+import { BlockViewProps, useGetItem, useGlobal } from '@metafox/framework';
 import { ScrollContainer } from '@metafox/layout';
 import { LineIcon, TruncateText } from '@metafox/ui';
 import { styled, useTheme, Box, CircularProgress } from '@mui/material';
@@ -159,11 +159,50 @@ export default function Block(props: Props) {
   const [data, setData] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
+  const userSelectedMsg = useGetItem(selectedMsg?.user);
+  const [loadingMsgs, setLoadingMsgs] = React.useState(false);
+
   const theme = useTheme();
 
   const isSearching = chatRoom?.searching;
 
   const ChatSimpleComposer = jsxBackend.get('ChatSimpleComposer');
+
+  const oldScrollOffset = React.useRef();
+
+  const handleScroll = evt => {
+    if (evt.target.scrollTop < 100 && !loadingMsgs) {
+      const { lastMsgId, endLoadmoreMessage } = chatRoom;
+
+      if (!lastMsgId || endLoadmoreMessage) return;
+
+      oldScrollOffset.current =
+        evt.target.scrollHeight - evt.target.clientHeight;
+      setLoadingMsgs(true);
+      dispatch({
+        type: 'chat/room/loadHistory',
+        payload: { rid, lastMsgId },
+        meta: {
+          onSuccess: () => {
+            setLoadingMsgs(false);
+          }
+        }
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    // check when some msg pushed
+    if (!chatRoom?.lastMsgId || !oldScrollOffset.current) return;
+
+    const curScrollPos = 0;
+    const newScroll =
+      scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
+
+    scrollRef.current.scrollTop =
+      curScrollPos + (newScroll - oldScrollOffset.current);
+    oldScrollOffset.current = 0;
+  }, [chatRoom?.lastMsgId]);
 
   const handleCloseReactNode = () => {
     setReactMode('no_react');
@@ -270,8 +309,11 @@ export default function Block(props: Props) {
                 autoHeightMax={'100%'}
                 ref={scrollRef}
                 style={styleScroll}
+                onScroll={handleScroll}
               >
-                {isSearching || loading ? null : (
+                {isSearching ||
+                loading ||
+                !chatRoom?.endLoadmoreMessage ? null : (
                   <UIChatMsgStart>
                     {i18n.formatMessage({ id: 'start_of_conversation' })}
                   </UIChatMsgStart>
@@ -297,6 +339,7 @@ export default function Block(props: Props) {
                     groups={chatRoom?.groups}
                     groupIds={chatRoom?.groupIds}
                     newest={chatRoom?.newest}
+                    preFetchingMsg={chatRoom?.preFetchingMsg}
                     room={data}
                     containerRef={scrollRef}
                     disableReact={disableReact}
@@ -317,7 +360,7 @@ export default function Block(props: Props) {
                       ? i18n.formatMessage(
                           { id: 'reply_to_user_at_timestamp' },
                           {
-                            user: selectedMsg?.user?.full_name,
+                            user: userSelectedMsg?.full_name,
                             time: new Date(
                               selectedMsg.created_at
                             ).toLocaleTimeString([], {

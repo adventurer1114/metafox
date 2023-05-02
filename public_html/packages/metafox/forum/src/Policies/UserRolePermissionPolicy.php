@@ -5,10 +5,9 @@ namespace MetaFox\Forum\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
+use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
-use MetaFox\User\Support\Facades\UserPrivacy;
-use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 
 /**
  * stub: /packages/policies/model_policy.stub.
@@ -40,8 +39,12 @@ class UserRolePermissionPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;

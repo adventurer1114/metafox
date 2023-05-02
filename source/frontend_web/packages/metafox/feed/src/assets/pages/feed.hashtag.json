@@ -34,10 +34,8 @@
           "blockLayout": "Profile - Side Contained (no gutter)",
           "gridLayout": "Hashtag - Trending",
           "contentType": "hashtag",
-          "dataSource": {
-            "apiUrl": "/hashtag/trending"
-          },
           "errorPage": "hide",
+          "emptyPage": "hide",
           "itemLayout": "Hashtag - Trending"
         },
         {

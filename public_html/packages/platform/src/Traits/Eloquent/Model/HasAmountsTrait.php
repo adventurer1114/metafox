@@ -7,6 +7,7 @@
 
 namespace MetaFox\Platform\Traits\Eloquent\Model;
 
+use Illuminate\Support\Arr;
 use MetaFox\Platform\Contracts\HasAmounts;
 use MetaFox\Platform\Contracts\HasTotalItem;
 use MetaFox\Platform\Contracts\HasTotalView;
@@ -31,7 +32,13 @@ trait HasAmountsTrait
             $this->timestamps = false;
         }
 
-        $result = $this->incrementQuietly($column, $amount, []);
+        $current = (int) Arr::get($this->attributes, $column);
+
+        if ($current < 0) {
+            $this->handleNegativeNumber($column);
+        }
+
+        $result = $this->incrementQuietly($column, $amount);
 
         if ($hasTimestamps) {
             $this->timestamps = true;
@@ -50,7 +57,32 @@ trait HasAmountsTrait
      */
     public function decrementAmount(string $column, int $amount = 1): int
     {
+        $hasTimestamps = $this->timestamps == true;
+
+        if ($hasTimestamps) {
+            $this->timestamps = false;
+        }
+
+        $current = (int) Arr::get($this->attributes, $column);
+
+        if ($current < 0) {
+            $this->handleNegativeNumber($column);
+            $current = 0;
+        }
+
+        if ($current < $amount) {
+            if ($current > 0) {
+                $this->handleNegativeNumber($column);
+            }
+
+            return 0;
+        }
+
         $result = $this->decrementQuietly($column, $amount, []);
+
+        if ($hasTimestamps) {
+            $this->timestamps = true;
+        }
 
         app('events')->dispatch("core.{$column}_updated", [$this, 'decrement']);
 
@@ -76,5 +108,11 @@ trait HasAmountsTrait
         if ($this instanceof HasTotalItem) {
             $this->decrementAmount('total_item');
         }
+    }
+
+    protected function handleNegativeNumber(string $column): void
+    {
+        $this->fill([$column => 0]);
+        $this->saveQuietly();
     }
 }

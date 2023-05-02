@@ -10,9 +10,9 @@ namespace MetaFox\Poll\Http\Resources\v1\Poll;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use MetaFox\Form\AbstractField;
 use MetaFox\Form\Builder;
-use MetaFox\Form\Html\Privacy;
 use MetaFox\Form\Section;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
@@ -41,6 +41,9 @@ class UpdatePollForm extends StorePollForm
         $this->resource = $repository->with([
             'answers' => fn (HasMany $query) => $query->orderBy('ordering'),
         ])->find($id);
+
+        $this->setOwner($this->resource->owner);
+
         policy_authorize(PollPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -83,37 +86,29 @@ class UpdatePollForm extends StorePollForm
             ];
         }
 
+        $data = [
+            'question'     => $this->resource->question,
+            'text'         => null != $pollText ? parse_output()->parse($pollText->text_parsed) : '',
+            'answers'      => $currentAnswers,
+            'public_vote'  => $this->resource->public_vote ? 1 : 0,
+            'enable_close' => (int) (null != $this->resource->closed_at),
+            'is_multiple'  => $this->resource->is_multiple ? 1 : 0,
+            'owner_id'     => $this->resource->owner_id,
+            'privacy'      => $privacy,
+            'attachments'  => $this->resource->attachmentsForForm(),
+            'has_banner'   => $hasBanner,
+            'file'         => $file,
+        ];
+
+        if ($this->resource->closed_at !== null) {
+            Arr::set($data, 'close_time', $this->resource->closed_at);
+        }
+
         $this->title(__p('poll::phrase.edit_poll_title'))
             ->action(url_utility()->makeApiUrl('/poll/' . $this->resource->entityId()))
             ->asPut()
             ->setBackProps(__p('core::web.polls'))
-            ->setValue([
-                'question'     => $this->resource->question,
-                'text'         => null != $pollText ? parse_output()->parse($pollText->text_parsed) : '',
-                'answers'      => $currentAnswers,
-                'close_time'   => $this->resource->closed_at,
-                'public_vote'  => $this->resource->public_vote ? 1 : 0,
-                'enable_close' => (int) (null != $this->resource->closed_at),
-                'is_multiple'  => $this->resource->is_multiple ? 1 : 0,
-                'owner_id'     => $this->resource->owner_id,
-                'privacy'      => $privacy,
-                'attachments'  => $this->resource->attachmentsForForm(),
-                'has_banner'   => $hasBanner,
-                'file'         => $file,
-            ]);
-    }
-
-    protected function buildPrivacyField(): Privacy
-    {
-        return new Privacy([
-            'name'        => 'privacy',
-            'description' => __p('poll::phrase.control_who_can_see_this_poll'),
-            'fullWidth'   => false,
-            'minWidth'    => 275,
-            'maxHeight'   => 40,
-            // show when edit a blog not belong to any owners like pages, groups, events
-            'showWhen' => ['eq', 'owner_id', $this->resource->userId()],
-        ]);
+            ->setValue($data);
     }
 
     protected function setButtonFields(Section $footer): void

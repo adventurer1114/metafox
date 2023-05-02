@@ -68,13 +68,21 @@ class UpdateRequest extends FormRequest
             'new_password_confirmation' => [
                 'required_with:new_password', 'same:new_password',
             ],
-            'language_id'         => ['sometimes', 'string', 'nullable', 'exists:core_languages,language_code'],
-            'currency_id'         => ['sometimes', 'string', 'nullable', 'exists:core_currencies,code'],
-            'profile.language_id' => ['sometimes', 'string', 'nullable', 'exists:core_languages,language_code'],
-            'profile.currency_id' => ['sometimes', 'string', 'nullable', 'exists:core_currencies,code'],
+            'language_id'          => ['sometimes', 'string', 'nullable', 'exists:core_languages,language_code'],
+            'currency_id'          => ['sometimes', 'string', 'nullable', 'exists:core_currencies,code'],
+            'phone_number'         => ['sometimes', 'string', 'nullable', 'regex:/' . MetaFoxConstant::PHONE_NUMBER_REGEX . '/'],
+            'profile.language_id'  => ['sometimes', 'string', 'nullable', 'exists:core_languages,language_code'],
+            'profile.currency_id'  => ['sometimes', 'string', 'nullable', 'exists:core_currencies,code'],
+            'profile.phone_number' => ['sometimes', 'string', 'nullable', 'regex:/' . MetaFoxConstant::PHONE_NUMBER_REGEX . '/'],
         ];
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $default
+     *
+     * @return array<mixed>
+     */
     public function validated($key = null, $default = null)
     {
         $data = parent::validated($key, $default);
@@ -90,6 +98,10 @@ class UpdateRequest extends FormRequest
 
         if (isset($data['currency_id'])) {
             $data['profile']['currency_id'] = $data['currency_id'];
+        }
+
+        if (isset($data['phone_number'])) {
+            $data['profile']['phone_number'] = $data['phone_number'];
         }
 
         return $data;

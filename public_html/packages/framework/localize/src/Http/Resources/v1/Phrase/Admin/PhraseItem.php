@@ -39,7 +39,7 @@ class PhraseItem extends JsonResource
             'package_id'    => $this->resource->package_id,
             'namespace'     => $this->resource->namespace,
             'app_name'      => $this->getAppName($this->resource->package_id),
-            'text'          => htmlspecialchars($this->resource->text),
+            'text'          => strip_tags($this->resource->text),
         ];
     }
 
@@ -49,8 +49,8 @@ class PhraseItem extends JsonResource
             return __p('core::phrase.system');
         }
 
-        $package = resolve(PackageRepositoryInterface::class)->getPackageByName($packageId);
+        $package = resolve(PackageRepositoryInterface::class)->findByName($packageId);
 
-        return $package->title;
+        return $package ? $package->title : 'Unknown';
     }
 }

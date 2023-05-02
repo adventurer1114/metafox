@@ -37,6 +37,7 @@ class UploadFileRequest extends FormRequest
             'thumbnail_sizes'   => ['sometimes', 'array'],
             'thumbnail_sizes.*' => ['string'],
             'base64'            => ['sometimes', 'string'],
+            'storage_id'        => ['sometimes', 'nullable', 'string', 'exists:storage_disks,name'],
         ];
     }
 

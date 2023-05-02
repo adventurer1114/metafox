@@ -46,7 +46,7 @@ class WebSetting extends Setting
                 'q'       => ['truthy', 'q'],
                 'sort'    => ['includes', 'sort', ['recent', 'most_viewed', 'most_member', 'most_discussed']],
                 'type_id' => ['truthy', 'type_id'], 'category_id' => ['truthy', 'category_id'],
-                'when'    => ['includes', 'when', ['this_month', 'this_week', 'today']],
+                'when'    => ['includes', 'when', ['all', 'this_month', 'this_week', 'today']],
                 'view'    => [
                     'includes', 'view',
                     [
@@ -211,17 +211,20 @@ class WebSetting extends Setting
                 ],
             ]);
 
-        $this->add('acceptInvite')
-            ->apiUrl('page-invite')
-            ->asPut()
-            ->apiParams(['page_id' => ':id', 'accept' => 1]);
-
-        $this->add('declineInvite')
-            ->apiUrl('page-invite')
-            ->asPut()
-            ->apiParams(['page_id' => ':id', 'accept' => 0]);
-
         $this->add('claimDialog')
             ->apiUrl('core/form/page.page.claim/:id');
+
+        $this->add('follow')
+            ->apiUrl('follow')
+            ->asPost()
+            ->apiParams([
+                'user_id' => ':id',
+            ]);
+
+        $this->add('unfollow')
+            ->apiUrl('follow/:id')
+            ->asDelete();
+
+        $this->add('shareOnPageProfile');
     }
 }

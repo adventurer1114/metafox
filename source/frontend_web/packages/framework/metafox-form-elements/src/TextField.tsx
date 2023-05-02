@@ -98,7 +98,7 @@ const TextFormField = ({
     if (field.value === undefined && formik.submitCount) {
       setValue('');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.submitCount]);
 
   const handleBlur = e => {

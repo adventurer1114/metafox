@@ -116,9 +116,10 @@ export default function SimpleUploadPhotos({
 
   React.useEffect(() => {
     if (haveError) {
-      dialogBackend.alert({
+       dialogBackend.alert({
         message: meta.error
       });
+      setValue([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [haveError, meta?.error, fileItems]);

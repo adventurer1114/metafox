@@ -180,4 +180,17 @@ class MenuRepository extends AbstractRepository implements MenuRepositoryInterfa
 
         return $result;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isExists(string $menuName, string $resolution): bool
+    {
+        return $this->getModel()
+            ->newQuery()
+            ->where([
+                'name'       => $menuName,
+                'resolution' => $resolution,
+            ])->exists();
+    }
 }

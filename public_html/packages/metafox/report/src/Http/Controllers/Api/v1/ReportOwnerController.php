@@ -129,7 +129,7 @@ class ReportOwnerController extends ApiController
             return $this->error(__p('validation.something_went_wrong_please_try_again'), 403);
         }
 
-        gate_authorize($context, 'reportToOwner', $owner, $item);
+        gate_authorize($context, 'reportToOwner', $item, $item);
 
         $data = new StoreReportItemReportOwnerForm($report);
 

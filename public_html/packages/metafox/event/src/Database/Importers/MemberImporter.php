@@ -31,7 +31,6 @@ class MemberImporter extends JsonImporter
 
         $this->upsertBatchEntriesInChunked(Model::class, ['id']);
         $this->transformPrivacyMember([MetaFoxPrivacy::FRIENDS], '$event', '$user');
-        $this->transformActivitySubscription('$user', '$event');
     }
 
     public function processImportEntry(array &$entry): void

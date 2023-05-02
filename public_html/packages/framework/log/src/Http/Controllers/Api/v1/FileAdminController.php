@@ -5,6 +5,7 @@ namespace MetaFox\Log\Http\Controllers\Api\v1;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use MetaFox\Log\Support\FileLogReader;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use SplFileInfo;
@@ -42,11 +43,16 @@ class FileAdminController extends ApiController
             return $a->getFilename() < $b->getFilename();
         });
 
-        foreach ($files as $index => $file) {
+        // todo filter out none standard log file.
+        $re = '/-\d{4}-\d{2}-\d{2}\.log/m';
+        $files = Arr::where($files, fn($file)=>preg_match($re, $file->getFilename()));
+
+        $index = 0;
+        foreach ($files as $file) {
             $name   = $file->getFilename();
             $key    = base64_encode($name);
             $data[] = [
-                'id'          => $index + 1,
+                'id'          => ++$index,
                 'filename'    => $name,
                 'modified_at' => Carbon::createFromTimestamp($file->getMTime())->toAtomString(),
                 'filesize'    => $file->getSize(),
@@ -74,6 +80,10 @@ class FileAdminController extends ApiController
         $filename = base64_decode($base);
 
         $filename = storage_path('logs/' . $filename);
+
+        if (!file_exists($filename)) {
+            return $this->error('file not found', 404);
+        }
 
         $logs = (new FileLogReader())->get($filename);
 

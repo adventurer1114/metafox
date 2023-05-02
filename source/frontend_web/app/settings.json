@@ -55,6 +55,9 @@
     "@metafox/emoji": "local",
     "@metafox/activity-point": "local",
     "@metafox/subscription": "local",
-    "@metafox/video": "local"
+    "@metafox/video": "local",
+    "@metafox/music": "local",
+    "@metafox/advertise": "local",
+    "@metafox/livestreaming": "local"
   }
 }

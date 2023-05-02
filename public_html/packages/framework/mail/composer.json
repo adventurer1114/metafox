@@ -1,6 +1,6 @@
 {
     "name": "metafox/mail",
-    "version": "5.0.2",
+    "version": "5.0.3",
     "description": "Mail Sender",
     "keyword": "",
     "authors": [
@@ -30,6 +30,10 @@
             "store_id": 0,
             "store_url": null
         }
+    },
+    "require": {
+        "symfony/mailgun-mailer": "^6.2",
+        "symfony/http-client": "^6.2"
     },
     "autoload": {
         "psr-4": {

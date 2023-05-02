@@ -18,8 +18,12 @@ class AttachmentRepository extends AbstractRepository implements AttachmentRepos
         return Attachment::class;
     }
 
-    public function updateItemId(array $attachments, HasTotalAttachment $item): bool
+    public function updateItemId(?array $attachments, HasTotalAttachment $item): bool
     {
+        if (empty($attachments)) {
+            return true;
+        }
+
         $attachments = collect($attachments)->groupBy('status');
 
         // Getting new attachments by 'create' status

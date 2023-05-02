@@ -12,10 +12,9 @@ return [
         'label'    => 'forum::phrase.edit_forum',
         'ordering' => 10,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
-        'showWhen'  => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
@@ -26,7 +25,6 @@ return [
         'label'     => 'core::phrase.delete',
         'ordering'  => 11,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -38,7 +36,6 @@ return [
         'label'    => 'forum::phrase.edit_post',
         'ordering' => 1,
         'value'    => 'forum_post/editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -51,7 +48,6 @@ return [
         'label'    => 'core::phrase.approve',
         'ordering' => 2,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -63,20 +59,19 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_quote',
         'ordering' => 3,
         'value'    => 'forum/quoteItem',
-        'icon'     => 'ico-comment-square-quote-o',
     ],
     [
-        'showWhen'  => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
         'className' => 'itemDelete',
+        'style'     => 'danger',
         'menu'      => 'forum.forum_post.detailActionMenu',
         'name'      => 'delete',
         'label'     => 'core::phrase.delete',
         'ordering'  => 7,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -88,7 +83,6 @@ return [
         'label'    => 'forum::phrase.edit_post',
         'ordering' => 1,
         'value'    => 'forum_post/editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -101,7 +95,6 @@ return [
         'label'    => 'core::phrase.approve',
         'ordering' => 2,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -113,10 +106,9 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_quote',
         'ordering' => 3,
         'value'    => 'forum/quoteItem',
-        'icon'     => 'ico-comment-square-quote-o',
     ],
     [
-        'showWhen'  => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
@@ -127,7 +119,6 @@ return [
         'label'     => 'core::phrase.delete',
         'ordering'  => 7,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -139,7 +130,6 @@ return [
         'label'    => 'forum::phrase.edit_thread',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -152,7 +142,6 @@ return [
         'label'    => 'forum::phrase.approve_thread',
         'ordering' => 3,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -164,7 +153,6 @@ return [
         'label'    => 'forum::phrase.move_thread',
         'ordering' => 4,
         'value'    => 'forum/moveItem',
-        'icon'     => 'ico-move-up',
     ],
     [
         'showWhen' => [
@@ -176,7 +164,6 @@ return [
         'label'    => 'forum::phrase.copy_thread',
         'ordering' => 5,
         'value'    => 'forum/copyItem',
-        'icon'     => 'ico-copy-o',
     ],
     [
         'showWhen' => [
@@ -188,7 +175,6 @@ return [
         'label'    => 'forum::phrase.merge_thread',
         'ordering' => 6,
         'value'    => 'forum/mergeItem',
-        'icon'     => 'ico-merge-file-o',
     ],
     [
         'showWhen' => [
@@ -201,7 +187,6 @@ return [
         'label'    => 'forum::phrase.stick_thread',
         'ordering' => 7,
         'value'    => 'forum/stickItem',
-        'icon'     => 'ico-thumb-tack-o',
     ],
     [
         'showWhen' => [
@@ -214,7 +199,6 @@ return [
         'label'    => 'forum::phrase.unstick_thread',
         'ordering' => 8,
         'value'    => 'forum/stickItem',
-        'icon'     => 'ico-list-down',
     ],
     [
         'showWhen' => [
@@ -227,7 +211,6 @@ return [
         'label'    => 'forum::phrase.close_thread',
         'ordering' => 9,
         'value'    => 'forum/closeItem',
-        'icon'     => 'ico-text-file-lock',
     ],
     [
         'showWhen' => [
@@ -240,7 +223,6 @@ return [
         'label'    => 'forum::phrase.reopen_thread',
         'ordering' => 10,
         'value'    => 'forum/reopenItem',
-        'icon'     => 'ico-rotate-right-alt',
     ],
     [
         'showWhen' => [
@@ -253,7 +235,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_subscribe',
         'ordering' => 12,
         'value'    => 'forum/subscribeItem',
-        'icon'     => 'ico-bell2-o',
     ],
     [
         'showWhen' => [
@@ -266,7 +247,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_unsubscribe',
         'ordering' => 13,
         'value'    => 'forum/subscribeItem',
-        'icon'     => 'ico-bell2-off-o',
     ],
     [
         'showWhen' => [
@@ -279,7 +259,6 @@ return [
         'label'    => 'core::phrase.sponsor_in_feed',
         'ordering' => 14,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -292,7 +271,6 @@ return [
         'label'    => 'core::phrase.remove_sponsor_in_feed',
         'ordering' => 15,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -305,7 +283,6 @@ return [
         'label'    => 'forum::phrase.sponsor_this_item',
         'ordering' => 16,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -318,19 +295,18 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_un_sponsor',
         'ordering' => 17,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
+        'style'    => 'danger',
         'menu'     => 'forum.forum_thread.detailActionMenu',
         'name'     => 'delete',
         'label'    => 'forum::phrase.delete_thread',
         'ordering' => 22,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'menu'     => 'forum.forum_thread.filter_menu',
@@ -398,7 +374,6 @@ return [
         'label'    => 'forum::phrase.edit_thread',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -411,7 +386,6 @@ return [
         'label'    => 'forum::phrase.approve_thread',
         'ordering' => 3,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -423,7 +397,6 @@ return [
         'label'    => 'forum::phrase.move_thread',
         'ordering' => 4,
         'value'    => 'forum/moveItem',
-        'icon'     => 'ico-move-up',
     ],
     [
         'showWhen' => [
@@ -435,7 +408,6 @@ return [
         'label'    => 'forum::phrase.copy_thread',
         'ordering' => 5,
         'value'    => 'forum/copyItem',
-        'icon'     => 'ico-copy-o',
     ],
     [
         'showWhen' => [
@@ -447,7 +419,6 @@ return [
         'label'    => 'forum::phrase.merge_thread',
         'ordering' => 6,
         'value'    => 'forum/mergeItem',
-        'icon'     => 'ico-merge-file-o',
     ],
     [
         'showWhen' => [
@@ -460,7 +431,6 @@ return [
         'label'    => 'forum::phrase.stick_thread',
         'ordering' => 7,
         'value'    => 'forum/stickItem',
-        'icon'     => 'ico-thumb-tack-o',
     ],
     [
         'showWhen' => [
@@ -473,7 +443,6 @@ return [
         'label'    => 'forum::phrase.unstick_thread',
         'ordering' => 8,
         'value'    => 'forum/stickItem',
-        'icon'     => 'ico-list-down',
     ],
     [
         'showWhen' => [
@@ -486,7 +455,6 @@ return [
         'label'    => 'forum::phrase.close_thread',
         'ordering' => 9,
         'value'    => 'forum/closeItem',
-        'icon'     => 'ico-text-file-lock',
     ],
     [
         'showWhen' => [
@@ -499,7 +467,6 @@ return [
         'label'    => 'forum::phrase.reopen_thread',
         'ordering' => 10,
         'value'    => 'forum/reopenItem',
-        'icon'     => 'ico-rotate-right-alt',
     ],
     [
         'showWhen' => [
@@ -512,7 +479,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_subscribe',
         'ordering' => 12,
         'value'    => 'forum/subscribeItem',
-        'icon'     => 'ico-bell2-o',
     ],
     [
         'showWhen' => [
@@ -525,7 +491,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_unsubscribe',
         'ordering' => 13,
         'value'    => 'forum/subscribeItem',
-        'icon'     => 'ico-bell2-off-o',
     ],
     [
         'showWhen' => [
@@ -538,7 +503,6 @@ return [
         'label'    => 'core::phrase.sponsor_in_feed',
         'ordering' => 14,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -551,7 +515,6 @@ return [
         'label'    => 'core::phrase.remove_sponsor_in_feed',
         'ordering' => 15,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -564,7 +527,6 @@ return [
         'label'    => 'forum::phrase.sponsor_this_item',
         'ordering' => 16,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -577,7 +539,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_un_sponsor',
         'ordering' => 17,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -590,7 +551,6 @@ return [
         'label'    => 'forum::phrase.delete_thread',
         'ordering' => 22,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'menu'     => 'forum.forum_thread.sort_menu',
@@ -633,6 +593,20 @@ return [
         'label'    => 'core::phrase.sort.most_discussed',
         'ordering' => 3,
         'value'    => 'most_discussed',
+    ],
+    [
+        'tab'      => 'all',
+        'showWhen' => [],
+        'params'   => [
+            'module_name'   => 'forum',
+            'resource_name' => 'forum_thread',
+        ],
+        'menu'     => 'forum.sidebarMenu',
+        'name'     => 'all',
+        'label'    => 'forum::phrase.all_threads',
+        'ordering' => 1,
+        'value'    => 'viewAll',
+        'to'       => '/forum/all',
     ],
     [
         'tab'      => 'my_thread',
@@ -646,7 +620,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_my_threads',
         'ordering' => 2,
         'value'    => 'viewMyThread',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/forum/my-thread',
     ],
     [
@@ -661,7 +634,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_my_pending_threads',
         'ordering' => 3,
         'value'    => 'viewMyPendingThread',
-        'icon'     => 'ico-sandclock-start-o',
         'to'       => '/forum/my-pending-thread',
     ],
     [
@@ -676,7 +648,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_subscribed_threads',
         'ordering' => 4,
         'value'    => 'viewSubscribedThread',
-        'icon'     => 'ico-bell2-o',
         'to'       => '/forum/subscribed-thread',
     ],
     [
@@ -691,7 +662,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_history',
         'ordering' => 5,
         'value'    => 'viewHistoryThread',
-        'icon'     => 'ico-clock-o',
         'to'       => '/forum/history-thread',
     ],
     [
@@ -700,7 +670,7 @@ return [
             'and',
             ['truthy', 'acl.forum.forum_thread.approve'],
         ],
-        'params'   => [
+        'params' => [
             'module_name'   => 'forum',
             'resource_name' => 'forum_thread',
         ],
@@ -709,12 +679,11 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_pending_threads',
         'ordering' => 6,
         'value'    => 'viewPendingThread',
-        'icon'     => 'ico-sandclock-start-o',
         'to'       => '/forum/pending-thread',
     ],
     [
-        'tab'      => 'wiki_thread',
-        'params'   => [
+        'tab'    => 'wiki_thread',
+        'params' => [
             'module_name'   => 'forum',
             'resource_name' => 'forum_thread',
         ],
@@ -723,7 +692,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_wiki',
         'ordering' => 7,
         'value'    => 'viewWikiThread',
-        'icon'     => 'ico-file-word-o',
         'to'       => '/forum/wiki-thread',
     ],
     [
@@ -738,7 +706,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_my_pending_posts',
         'ordering' => 8,
         'value'    => 'viewMyPendingPost',
-        'icon'     => 'ico-sandclock-start-o',
         'to'       => '/forum/my-pending-post',
     ],
     [
@@ -747,7 +714,7 @@ return [
             'and',
             ['truthy', 'acl.forum.forum_post.approve'],
         ],
-        'params'   => [
+        'params' => [
             'module_name'   => 'forum',
             'resource_name' => 'forum_post',
         ],
@@ -756,11 +723,10 @@ return [
         'label'    => 'forum::phrase.forum_phrase_menu_pending_posts',
         'ordering' => 9,
         'value'    => 'viewPendingPost',
-        'icon'     => 'ico-sandclock-start-o',
         'to'       => '/forum/pending-post',
     ],
     [
-        'showWhen'      => [
+        'showWhen' => [
             'and',
             ['truthy', 'acl.forum.forum.view'],
         ],
@@ -787,20 +753,26 @@ return [
             'and',
             ['truthy', 'acl.forum.forum.view'],
         ],
-        'menu'     => 'group.mobileCategoryMenu',
-        'name'     => 'forum_thread',
-        'label'    => 'forum::phrase.forum_thread_global_search_label',
-        'ordering' => 5,
+        'menu'          => 'group.mobileCategoryMenu',
+        'name'          => 'forum_thread',
+        'module_name'   => 'forum',
+        'resource_name' => 'forum_thread',
+        'label'         => 'forum::phrase.forum_thread_global_search_label',
+        'ordering'      => 5,
+        'value'         => 'searchGlobalThread',
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'acl.forum.forum.view'],
         ],
-        'menu'     => 'page.mobileCategoryMenu',
-        'name'     => 'forum',
-        'label'    => 'forum::phrase.forum_thread_global_search_label',
-        'ordering' => 5,
+        'menu'          => 'page.mobileCategoryMenu',
+        'name'          => 'forum_thread',
+        'module_name'   => 'forum',
+        'resource_name' => 'forum_thread',
+        'label'         => 'forum::phrase.forum_thread_global_search_label',
+        'ordering'      => 5,
+        'value'         => 'searchGlobalThread',
     ],
     [
         'showWhen' => [

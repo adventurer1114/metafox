@@ -115,7 +115,7 @@ class SearchPermissionForm extends AbstractForm
     {
         $groupOptions = array_merge(
             [['value' => '', 'label' => __p('core::phrase.all')]],
-            resolve('core.packages')->getPackageOptions()
+            resolve('core.packages')->getPackageHasPermissionOptions()
         );
 
         return Builder::choice('module_id')

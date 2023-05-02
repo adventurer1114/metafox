@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use MetaFox\Platform\Contracts\Entity;
+use MetaFox\Platform\Contracts\HasSubCategory;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 
 /**
@@ -24,6 +26,7 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
  * @property int      $id
  * @property string   $name
  * @property string   $name_url
+ * @property bool     $is_default
  * @property bool     $is_active
  * @property int      $ordering
  * @property int      $parent_id
@@ -33,7 +36,7 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
  * @property string   $created_at
  * @property string   $updated_at
  */
-class Category extends Model implements Entity
+class Category extends Model implements Entity, HasSubCategory
 {
     use HasEntity;
     use HasFactory;
@@ -50,26 +53,34 @@ class Category extends Model implements Entity
         'ordering',
         'parent_id',
         'name_url',
+        'level',
+        'ordering',
     ];
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo($this, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toUrl(): ?string
     {
-        return config('app.url') . "/contact/search?category_id={$this->id}";
+        return url_utility()->makeApiFullUrl("/contact/search?category_id={$this->id}");
     }
 
     public function toLink(): ?string
     {
-        return config('app.url') . "/contact/search?category_id={$this->id}";
+        return url_utility()->makeApiUrl("/contact/search?category_id={$this->id}");
     }
 
     public function toSubCategoriesLink(): string
@@ -89,5 +100,17 @@ class Category extends Model implements Entity
         }
 
         return sprintf('/admincp/contact/category/%s/category/browse?parent_id=%s', $this->parent_id, $this->parent_id);
+    }
+
+    public function getTitleAttribute()
+    {
+        return $this->name;
+    }
+
+    public function getIsDefaultAttribute(): bool
+    {
+        $categoryDefault = Settings::get('contact.default_category');
+
+        return $this->entityId() == $categoryDefault;
     }
 }

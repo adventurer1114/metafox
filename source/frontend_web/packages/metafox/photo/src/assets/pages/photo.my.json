@@ -52,7 +52,7 @@
           },
           "canLoadMore": true,
           "canLoadSmooth": 1,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Photo - Main Card",
           "itemLayout": "Photo - Main Card",
           "displayLimit": 6,
@@ -214,7 +214,7 @@
             "apiUrl": "/photo",
             "apiParams": "view=my"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Photo - Main Card",
           "itemLayout": "Photo - Main Card",
           "displayLimit": 6,

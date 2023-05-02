@@ -66,7 +66,7 @@ class PackageExporter
         $tmp     = tempnam(sys_get_temp_dir(), 'bundle'); // good
 
         if (file_exists($tmp)) {
-            unlink($tmp);
+            @unlink($tmp);
         }
 
         if (!$archive->open($tmp, ZipArchive::CREATE)) {
@@ -82,7 +82,7 @@ class PackageExporter
         $this->addDirectory($archive, $dir, $root, MetaFoxConstant::BACKEND_WRAP_NAME);
 
         if (file_exists($tmp)) {
-            unlink($tmp);
+            @unlink($tmp);
         }
 
         if ($frontendRoot && !is_dir($frontendRoot)) {

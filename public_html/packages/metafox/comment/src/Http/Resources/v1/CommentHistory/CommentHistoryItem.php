@@ -4,6 +4,7 @@ namespace MetaFox\Comment\Http\Resources\v1\CommentHistory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use MetaFox\Comment\Models\CommentHistory as Model;
+use MetaFox\Comment\Traits\HasTransformContent;
 use MetaFox\Platform\Traits\Http\Resources\HasStatistic;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
 
@@ -14,6 +15,7 @@ use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
  */
 class CommentHistoryItem extends JsonResource
 {
+    use HasTransformContent;
     use HasStatistic;
 
     /**
@@ -32,7 +34,7 @@ class CommentHistoryItem extends JsonResource
             'item_id'           => $this->resource->itemId(),
             'item_type'         => $this->resource->itemType(),
             'user'              => new UserEntityDetail($this->resource->userEntity),
-            'content'           => $this->resource->content,
+            'content'           => $this->getTransformContent(),
             'creation_date'     => $this->resource->created_at,
             'modification_date' => $this->resource->updated_at,
             'params'            => $params,

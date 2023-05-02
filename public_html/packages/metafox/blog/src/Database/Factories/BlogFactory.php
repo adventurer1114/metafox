@@ -41,7 +41,6 @@ class BlogFactory extends Factory
             'owner_id'         => 1,
             'owner_type'       => 'user',
             'text'             => $text,
-            'text_parsed'      => $text,
             'categories'       => [1, 2],
             'is_approved'      => 1,
             'is_draft'         => 0,

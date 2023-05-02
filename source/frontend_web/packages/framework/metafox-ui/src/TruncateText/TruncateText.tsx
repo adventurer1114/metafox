@@ -19,9 +19,14 @@ const TruncateText = styled(Typography, {
   name: 'MuiTruncateText',
   slot: 'Content',
   shouldForwardProp(prop: string) {
-    return prop !== 'lines' && prop !== 'fixHeight' && prop !== 'showFull';
+    return (
+      prop !== 'lines' &&
+      prop !== 'fixHeight' &&
+      prop !== 'showFull' &&
+      prop !== 'isIE'
+    );
   }
-})<TruncateTextProps>(({ theme, lines, variant, fixHeight }) => ({
+})<TruncateTextProps>(({ theme, lines, variant, fixHeight, isIE }) => ({
   display: 'block',
   ...(lines > 1 && {
     display: '-webkit-box',
@@ -40,16 +45,17 @@ const TruncateText = styled(Typography, {
     maxWidth: '100%'
   }),
   ...(lines > 1 &&
-    theme.typography[variant] &&
-    !fixHeight && {
-      WebkitLineClamp: lines,
-      maxHeight: `calc(${theme.typography[variant].lineHeight} * ${theme.typography[variant].fontSize} * ${lines})`
+    theme.typography[variant] && {
+      WebkitLineClamp: lines
     }),
   ...(lines > 1 &&
     theme.typography[variant] &&
     fixHeight && {
-      WebkitLineClamp: lines,
-      height: `calc(${theme.typography[variant].lineHeight} * ${theme.typography[variant].fontSize} * ${lines})`,
+      height: `calc(${theme.typography[variant].lineHeight} * ${theme.typography[variant].fontSize} * ${lines})`
+    }),
+  ...(lines > 1 &&
+    theme.typography[variant] &&
+    isIE !== -1 && {
       maxHeight: `calc(${theme.typography[variant].lineHeight} * ${theme.typography[variant].fontSize} * ${lines})`
     })
 }));
@@ -68,6 +74,8 @@ export default React.forwardRef<HTMLElement, TruncateTextProps>(
     }: TruncateTextProps,
     ref: RefOf<HTMLElement>
   ) => {
+    const isIE = window.navigator.userAgent.indexOf('MSIE');
+
     return (
       <TruncateTextRoot className={className} sx={sx}>
         <TruncateText
@@ -76,6 +84,7 @@ export default React.forwardRef<HTMLElement, TruncateTextProps>(
           showFull={showFull}
           ref={ref}
           fixHeight={fixHeight}
+          isIE={isIE}
           {...rest}
         >
           {children}

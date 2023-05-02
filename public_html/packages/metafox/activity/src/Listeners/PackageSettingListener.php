@@ -16,6 +16,7 @@ use MetaFox\Activity\Models\Snooze;
 use MetaFox\Activity\Models\Type;
 use MetaFox\Activity\Notifications\ApproveFeedNotification;
 use MetaFox\Activity\Notifications\PendingFeedNotification;
+use MetaFox\Activity\Notifications\ShareFeedNotification;
 use MetaFox\Activity\Policies\FeedPolicy;
 use MetaFox\Activity\Policies\Handlers\CanShare;
 use MetaFox\Activity\Policies\PostPolicy;
@@ -31,6 +32,7 @@ use MetaFox\Platform\UserRole;
  * Class PackageSettingListener.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class PackageSettingListener extends BasePackageSettingListener
 {
@@ -120,22 +122,38 @@ class PackageSettingListener extends BasePackageSettingListener
                 'channels'   => ['database', 'mail', 'sms', 'mobilepush', 'webpush'],
                 'ordering'   => 2,
             ],
+            [
+                'type'       => 'activity_share_notification',
+                'module_id'  => 'activity',
+                'title'      => 'activity::phrase.activity_share_notification_type',
+                'handler'    => ShareFeedNotification::class,
+                'is_request' => 0,
+                'is_system'  => 1,
+                'can_edit'   => 1,
+                'channels'   => ['database', 'mail', 'mobilepush', 'webpush'],
+                'ordering'   => 3,
+            ],
         ];
     }
 
     public function getUserPermissions(): array
     {
         return [
+            '*' => [
+                'share' => UserRole::LEVEL_REGISTERED,
+            ],
             Feed::ENTITY_TYPE => [
-                'view'     => UserRole::LEVEL_GUEST,
-                'create'   => UserRole::LEVEL_PAGE,
-                'update'   => UserRole::LEVEL_PAGE,
-                'delete'   => UserRole::LEVEL_PAGE,
-                'hide'     => UserRole::LEVEL_REGISTERED,
-                'pin'      => UserRole::LEVEL_REGISTERED,
-                'pin_home' => UserRole::LEVEL_STAFF,
-                'moderate' => UserRole::LEVEL_STAFF,
-                'report'   => UserRole::LEVEL_REGISTERED,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_PAGE,
+                'update'           => UserRole::LEVEL_PAGE,
+                'delete'           => UserRole::LEVEL_PAGE,
+                'hide'             => UserRole::LEVEL_REGISTERED,
+                'pin'              => UserRole::LEVEL_REGISTERED,
+                'pin_home'         => UserRole::LEVEL_STAFF,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
             ],
             Snooze::ENTITY_TYPE => [
                 'view'     => UserRole::LEVEL_REGISTERED,
@@ -156,7 +174,6 @@ class PackageSettingListener extends BasePackageSettingListener
                 'save'    => UserRole::LEVEL_REGISTERED,
                 'report'  => UserRole::LEVEL_REGISTERED,
                 'approve' => UserRole::LEVEL_STAFF,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
             ],
         ];
     }
@@ -304,6 +321,9 @@ class PackageSettingListener extends BasePackageSettingListener
             'importer.completed' => [
                 ImporterCompleted::class,
             ],
+            'activity.feed.mark_as_approved' => [
+                MarkAsApproveListener::class,
+            ],
         ];
     }
 
@@ -422,5 +442,18 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['feed'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/feed/:id',
+                'name' => 'activity::phrase.ad_mob_feed_detail_page',
+            ],
+        ];
     }
 }

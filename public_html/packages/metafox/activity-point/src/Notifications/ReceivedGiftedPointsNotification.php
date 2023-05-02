@@ -2,8 +2,8 @@
 
 namespace MetaFox\ActivityPoint\Notifications;
 
-use MetaFox\Notification\Messages\MailMessage;
 use Illuminate\Support\Arr;
+use MetaFox\Notification\Messages\MailMessage;
 use MetaFox\Platform\Contracts\IsNotifiable;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Notifications\Notification;
@@ -39,7 +39,7 @@ class ReceivedGiftedPointsNotification extends Notification
             ->locale($this->getLocale())
             ->subject($emailLine)
             ->line($emailLine)
-            ->action($this->localize('core::phrase.review_now'), $url);
+            ->action($this->localize('core::phrase.view_now'), $url);
     }
 
     /**
@@ -52,7 +52,11 @@ class ReceivedGiftedPointsNotification extends Notification
         $fullName = $this->model instanceof \MetaFox\User\Models\User ? $this->model->full_name : '';
 
         return [
-            'data' => array_merge($this->data, ['full_name' => $fullName]),
+            'data'      => array_merge($this->data, ['full_name' => $fullName]),
+            'item_id'   => $this->model->entityId(),
+            'item_type' => $this->model->entityType(),
+            'user_id'   => $this->model->userId(),
+            'user_type' => $this->model->userType(),
         ];
     }
 

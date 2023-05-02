@@ -5,9 +5,6 @@ namespace MetaFox\Blog\Http\Resources\v1\Blog;
 use MetaFox\Blog\Http\Requests\v1\Blog\CreateFormRequest;
 use MetaFox\Blog\Policies\BlogPolicy;
 use MetaFox\Blog\Repositories\BlogRepositoryInterface;
-use MetaFox\Form\FormField;
-use MetaFox\Form\Mobile\Builder;
-use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 
@@ -27,6 +24,7 @@ class UpdateBlogMobileForm extends StoreBlogMobileForm
     {
         $context        = user();
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
         policy_authorize(BlogPolicy::class, 'update', $context, $this->resource);
     }
 
@@ -61,12 +59,5 @@ class UpdateBlogMobileForm extends StoreBlogMobileForm
                 'attachments' => $this->resource->attachmentsForForm(),
                 'draft'       => 0,
             ]);
-    }
-
-    protected function buildPrivacyField(User $context): FormField
-    {
-        return Builder::privacy()
-            ->description(__p('blog::phrase.control_who_can_see_this_blog'))
-            ->showWhen(['eq', 'owner_id', $this->resource->userId()]);
     }
 }

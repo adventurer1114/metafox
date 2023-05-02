@@ -13,12 +13,16 @@ use MetaFox\Platform\Contracts\User;
 class LikeNotificationListener
 {
     /**
-     * @param User         $context
-     * @param Content|null $resource
+     * @param  User|null    $context
+     * @param  Content|null $resource
      * @return bool|null
      */
-    public function handle(User $context, ?Content $resource): ?bool
+    public function handle(?User $context, ?Content $resource): ?bool
     {
+        if (!$context) {
+            return null;
+        }
+
         if ($resource === null) {
             return null;
         }

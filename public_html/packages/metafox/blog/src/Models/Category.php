@@ -66,7 +66,10 @@ class Category extends Model implements
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function blogs(): BelongsToMany
@@ -82,17 +85,20 @@ class Category extends Model implements
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo($this, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toUrl(): ?string
     {
-        return config('app.url') . "/blog/search?category_id={$this->id}";
+        return url_utility()->makeApiFullUrl("/blog/search?category_id={$this->id}");
     }
 
     public function toLink(): ?string
     {
-        return config('app.url') . "/blog/search?category_id={$this->id}";
+        return url_utility()->makeApiUrl("/blog/search?category_id={$this->id}");
     }
 
     public function getIsDefaultAttribute(): bool

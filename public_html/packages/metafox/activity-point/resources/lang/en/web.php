@@ -25,8 +25,10 @@ return [
     'points'                           => '{amount, plural, =1{# Point} other{# Points}}',
     'there_are_no_ready_package'       => 'There are no point packages you can buy at this time. Please come back later.',
     'transaction_history'              => 'Transaction History',
+    'transactions_package'             => 'Transactions Package',
     'transactions_history'             => 'Transactions History',
     'type'                             => 'Type',
     'view_all_packages'                => 'View All Packages',
     'view_all_transactions'            => 'View All Transactions',
+    'activitypoint_statistics'         => 'Statistics',
 ];

@@ -41,7 +41,7 @@ class NewPostTimeline extends Notification
             ->locale($this->getLocale())
             ->subject($emailSubject)
             ->line($emailLine)
-            ->action($this->localize('core::phrase.review_now'), $url ?? '');
+            ->action($this->localize('core::phrase.view_now'), $url ?? '');
     }
 
     /**
@@ -70,10 +70,7 @@ class NewPostTimeline extends Notification
 
     public function callbackMessage(): ?string
     {
-        $name = '';
-        if (array_key_exists('user_entity', $this->data)) {
-            $name = $this->data['user_entity']['name'];
-        }
+        $name = $this->model->userEntity?->name ?? '';
 
         $itemType = 'activity_post';
         if (array_key_exists('item_type', $this->data)) {

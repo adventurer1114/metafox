@@ -20,7 +20,7 @@
             "title": "no_page_found",
             "image": "ico-flag-waving-o"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Page - Main Card",
           "itemLayout": "Page - Main Card",
           "canLoadMore": true
@@ -110,7 +110,7 @@
             "title": "no_pages_found",
             "image": "ico-flag-waving-o"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Page - Main Card",
           "itemLayout": "Page - Main Card",
           "canLoadMore": true

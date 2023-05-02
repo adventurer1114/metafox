@@ -91,11 +91,15 @@ function LoginContent({ limit = 4 }: LoginContentProps) {
                     {i18n.formatMessage({ id: 'login_slogan_message' })}
                   </Typography>
                 ) : null}
-                <Image
-                  aspectRatio={'11'}
-                  src={backgroundImage}
-                  backgroundImage
-                />
+                {backgroundImage ? (
+                  <Box py={1}>
+                    <Image
+                      aspectRatio={'11'}
+                      src={backgroundImage}
+                      backgroundImage
+                    />
+                  </Box>
+                ) : null}
               </div>
               {multipleAccess && !isIpad ? (
                 <div className={classes.signedIn}>

@@ -2,6 +2,7 @@
 
 namespace MetaFox\User\Traits;
 
+use Illuminate\Support\Facades\Gate;
 use MetaFox\Core\Support\Facades\Country;
 use MetaFox\Platform\Contracts\HasUserProfile;
 use MetaFox\Platform\Contracts\User as UserContract;
@@ -54,8 +55,8 @@ trait UserLocationTrait
         }
 
         $locationData = $this->getLocation($context, $resource);
-        $state = empty($locationData['country_state_name']);
-        $country = !empty($locationData['country_name']);
+        $state        = empty($locationData['country_state_name']);
+        $country      = !empty($locationData['country_name']);
 
         if (!empty($locationData['city_location'])) {
             return $locationData['city_location'];
@@ -66,8 +67,8 @@ trait UserLocationTrait
         }
 
         return match ($state) {
-            true => $locationData['country_name'],
-            default => $locationData['country_state_name'] . ", " . $locationData['country_name'],
+            true    => $locationData['country_name'],
+            default => $locationData['country_state_name'] . ', ' . $locationData['country_name'],
         };
     }
 }

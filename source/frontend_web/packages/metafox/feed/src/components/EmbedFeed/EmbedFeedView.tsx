@@ -139,8 +139,8 @@ export default function EmbedFeedInFeed({
           </div>
           <div className={classes.privacyBlock}>
             <span className={classes.separateSpans}>
-              <PrivacyIcon value={item.privacy} item={item.privacy_detail} />
               <FromNow value={item.creation_date} />
+              <PrivacyIcon value={item.privacy} item={item.privacy_detail} />
             </span>
           </div>
         </div>

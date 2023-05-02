@@ -53,14 +53,14 @@ class MediaUploadListener
 
         $albumId = Arr::get($params, 'album_id', 0);
 
-        if (!$albumId) {
-            return false;
-        }
-
         $album = app('events')->dispatch('photo.album.get_by_id', [$albumId], true);
 
         if (null == $album) {
-            return false;
+            return true;
+        }
+
+        if ($album?->is_timeline) {
+            return true;
         }
 
         if ($album->is_normal) {

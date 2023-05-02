@@ -4,17 +4,11 @@ namespace MetaFox\Forum\Http\Resources\v1\ForumThread;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
-use MetaFox\Form\Mobile\Builder;
+use Illuminate\Support\Arr;
 use MetaFox\Forum\Http\Requests\v1\ForumThread\CreateFormRequest;
-use MetaFox\Forum\Models\ForumThread;
 use MetaFox\Forum\Policies\ForumThreadPolicy;
 use MetaFox\Forum\Repositories\ForumThreadRepositoryInterface;
-use MetaFox\Forum\Support\Facades\ForumThread as ForumThreadFacade;
-use MetaFox\Platform\Facades\Settings;
-use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\User\Support\Facades\UserEntity;
-use MetaFox\Yup\Yup;
-use Illuminate\Support\Arr;
 
 class EditMobileForm extends CreateMobileForm
 {
@@ -25,7 +19,7 @@ class EditMobileForm extends CreateMobileForm
     public function boot(CreateFormRequest $request, ForumThreadRepositoryInterface $repository, ?int $id = null): void
     {
         $this->resource = $repository->find($id ?? 0);
-        $owner          = $context          = user();
+        $owner          = $context = user();
         $data           = $request->validated();
 
         if ($data['owner_id'] > 0 && $context->entityId() != $data['owner_id']) {
@@ -34,9 +28,8 @@ class EditMobileForm extends CreateMobileForm
 
         if ($id !== null) {
             policy_authorize(ForumThreadPolicy::class, 'update', $context, $this->resource);
-
-            $this->setOwner($owner)
-                ->setUser($context);
+            $this->owner   = $owner;
+            $this->ownerId = $owner->entityId();
         }
     }
 
@@ -72,7 +65,7 @@ class EditMobileForm extends CreateMobileForm
             'tags'          => $tags,
             'item_type'     => $itemType,
             'item_id'       => $itemId,
-            'is_subscribed' => $isSubscribed,
+            'is_subscribed' => (int) $isSubscribed,
             'is_wiki'       => (int) $resource->is_wiki,
             'id'            => $resource->entityId(),
         ];

@@ -60,6 +60,7 @@ class Saved extends Model implements ActionEntity, HasPolicy
         'user_type',
         'item_id',
         'item_type',
+        'is_opened',
     ];
 
     /**

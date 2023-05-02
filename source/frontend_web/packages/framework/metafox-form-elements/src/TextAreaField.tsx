@@ -12,6 +12,7 @@ import { FormFieldProps } from '@metafox/form';
 const TextAreaField = ({
   config,
   disabled: forceDisabled,
+  required: forceRequired,
   name,
   formik
 }: FormFieldProps) => {
@@ -41,7 +42,7 @@ const TextAreaField = ({
 
   return createElement(MuiTextField, {
     ...field,
-    required,
+    required: required || forceRequired,
     multiline: true,
     disabled: disabled || forceDisabled || formik.isSubmitting,
     variant,

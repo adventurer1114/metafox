@@ -18,31 +18,14 @@ use MetaFox\User\Models\UserEntity;
  */
 class PageRouteListener
 {
-
-    public function __construct()
-    {
-    }
-
     /**
-     * @param  string  $url
-     *
-     * @return array<string,mixed>|void
+     * @param  string                   $url
+     * @return array<string,mixed>|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function handle(string $url)
+    public function handle(string $url): ?array
     {
-        if (!Str::startsWith($url, 'page/')) {
-            return;
-        }
-        $code = Arr::last(explode('/', $url));
-        
-        /** @var UserEntity $user */
-        $user = UserEntity::query()->where('user_name', '=', $code)->firstOrFail();
-
-        $entityId = $user->entityId();
-        $prefix = $user->entityType();
-
-        return [
-            'path' => "/$prefix/$entityId",
-        ];
+        //@todo: Current business rule not using this. Shall update to use it later
+        return null;
     }
 }

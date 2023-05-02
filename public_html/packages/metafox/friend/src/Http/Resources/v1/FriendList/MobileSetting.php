@@ -64,6 +64,11 @@ class MobileSetting extends Setting
         $this->add('addFriendToList')
             ->asPost()
             ->apiUrl('friend/list/add-friend/:id');
+
+        $this->add('viewItem')
+            ->apiUrl('friend')
+            ->apiParams(['list_id' => ':id'])
+            ->asGet();
     }
 }
 //end

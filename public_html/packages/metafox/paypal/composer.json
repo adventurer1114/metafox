@@ -1,6 +1,6 @@
 {
     "name": "metafox/paypal",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "metafox/paypal",
     "keyword": "metafox/paypal",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/paypal": "5.0.1"
+                "@metafox/paypal": "*"
             },
             "frontendPaths": [
             ],

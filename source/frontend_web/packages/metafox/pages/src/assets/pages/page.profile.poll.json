@@ -73,7 +73,7 @@
             "apiParams": "user_id=:id&limit=6"
           },
           "blockLayout": "Profile - Contained",
-          "gridLayout": "Poll - Main Card",
+          "gridLayout": "Poll - Main Card - Mobile",
           "hasSearchBox": 1,
           "placeholderSearchBox": "search_polls",
           "emptyPage": "core.block.no_item_with_icon",
@@ -86,7 +86,7 @@
             "asModal": 1
           },
           "headerActionsResource": "poll.poll.headerItemActionOnPageProfileMenu",
-          "itemLayout": "Poll - Main Card"
+          "itemLayout": "Poll - Main Card - Mobile"
         }
       ]
     },

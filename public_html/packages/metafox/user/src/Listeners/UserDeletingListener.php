@@ -35,6 +35,7 @@ class UserDeletingListener
 
         $user->update($uniqueAttributes);
         $this->handleSocialAccounts($user);
+        $this->revokeAllTokens($user);
     }
 
     /**
@@ -45,5 +46,10 @@ class UserDeletingListener
     protected function handleSocialAccounts(User $user)
     {
         $this->socialAccountRepository->deleteSocialAccountsByUserId($user->entityId());
+    }
+
+    protected function revokeAllTokens(User $user): void
+    {
+        $user->revokeAllTokens();
     }
 }

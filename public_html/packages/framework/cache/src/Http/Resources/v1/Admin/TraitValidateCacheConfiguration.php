@@ -5,14 +5,15 @@ namespace MetaFox\Cache\Http\Resources\v1\Admin;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
+use Nette\Schema\ValidationException;
 use Psr\SimpleCache\InvalidArgumentException;
 
 trait TraitValidateCacheConfiguration
 {
     /**
-     * @param  array  $config
+     * @param  array                                        $config
      * @return void
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException|ValidationException
      */
     public function validateCacheConfiguration(array $config): void
     {
@@ -23,7 +24,7 @@ trait TraitValidateCacheConfiguration
 
             $store = Cache::store('verify_cache_store_config');
 
-            $key = __METHOD__;
+            $key   = __METHOD__;
             $value = Carbon::now();
             $store->set($key, $value);
             $store->get($key);

@@ -105,7 +105,10 @@ export default makeStyles(
         lineHeight: '37px',
         minHeight: '109px',
         fontWeight: 'bold',
-        color: '#fff'
+        color: '#fff',
+        '& a': {
+          color: '#fff !important'
+        }
       },
       actionButtonStaticsWrapper: {
         display: 'flex',

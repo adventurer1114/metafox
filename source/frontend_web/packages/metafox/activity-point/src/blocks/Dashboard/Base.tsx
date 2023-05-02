@@ -49,18 +49,19 @@ const Wrapper = styled(Box, { name: 'Wrapper' })(({ theme }) => ({
 }));
 
 const StatisticPoint = ({ data }: { data: ActivityPointItem }) => {
+  const { i18n } = useGlobal();
   const { label, value, hint } = data;
 
   return (
     <StatisticPointStyled>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>
         {label}
-        <Tooltip title={hint} sx={{ pl: 1 }}>
-          <LineIcon icon=" ico-question-circle-o" />
+        <Tooltip title={hint}>
+          <LineIcon sx={{ ml: 1 }} icon=" ico-question-circle-o" />
         </Tooltip>
       </Typography>
       <Typography variant="h1" sx={{ fontWeight: 'fontWeightRegular' }}>
-        {value}
+        {value ? i18n.formatNumber(value) : 0}
       </Typography>
     </StatisticPointStyled>
   );

@@ -16,9 +16,14 @@ class CountTotalFriendRequestListener
      * @param User $user
      *
      * @return int
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function handle(User $user): int
+    public function handle(?User $user): int
     {
+        if (!$user) {
+            return 0;
+        }
+
         return resolve(FriendRequestRepositoryInterface::class)->countTotalFriendRequest($user);
     }
 }

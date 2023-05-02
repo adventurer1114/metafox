@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Foundation\Console\ConfigCacheCommand as Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use MetaFox\Platform\Contracts\SiteSettingRepositoryInterface;
 
@@ -28,13 +29,26 @@ class ConfigCacheCommand extends Command
             $values = resolve(SiteSettingRepositoryInterface::class)
                 ->loadConfigValues();
 
-            Log::channel('dev')->info(var_export($values, true));
-
             app('config')->set($values);
+
+            $this->refreshApiKeys();
         } catch (\Exception $exception) {
             Log::channel('dev')->emergency($exception->getMessage());
         }
 
         return $app['config']->all();
+    }
+
+    public function refreshApiKeys()
+    {
+        $apiKey    = config('app.api_key');
+        $apiSecret = config('app.api_secret');
+        $secret    = DB::table('oauth_clients')->where('id', $apiKey)->value('secret');
+
+        if ($secret === $apiSecret) {
+            return;
+        }
+
+        DB::table('oauth_clients')->where('id', $apiKey)->update(['secret' => $apiSecret]);
     }
 }

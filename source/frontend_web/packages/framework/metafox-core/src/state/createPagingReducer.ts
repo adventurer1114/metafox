@@ -36,7 +36,6 @@ export default function createPagingReducer() {
               domainModified?.indexOf(draft[pageId]?.domains) >= 0)
           ) {
             draft[pageId].dirty = true;
-            draft[pageId].refreshing = true;
           }
         });
 
@@ -60,7 +59,10 @@ export default function createPagingReducer() {
         Object.keys(draft).forEach(pageId => {
           if (draft[pageId]?.ids.includes(identity)) {
             draft[pageId].ids = difference(draft[pageId].ids, [identity]);
-            draft[pageId].dirty = true;
+
+            if (!draft[pageId].ids.length) {
+              draft[pageId].dirty = true;
+            }
           }
         });
         break;

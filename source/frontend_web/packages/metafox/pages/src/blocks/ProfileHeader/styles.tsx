@@ -32,7 +32,7 @@ export default makeStyles(
         }
       },
       userContainer: {
-        padding: theme.spacing(2, 2, 3),
+        padding: theme.spacing(2),
         backgroundColor: theme.mixins.backgroundColor('paper'),
         [theme.breakpoints.down('sm')]: {
           paddingBottom: 0

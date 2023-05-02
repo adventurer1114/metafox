@@ -16,14 +16,14 @@ use MetaFox\Platform\Contracts\User;
 class SponsorInFeedListener
 {
     /**
-     * @param User     $context
-     * @param Content  $content
-     * @param int|null $newValue
+     * @param User|null $context
+     * @param Content   $content
+     * @param int|null  $newValue
      *
      * @return bool
      * @throws AuthorizationException
      */
-    public function handle(User $context, Content $content, ?int $newValue = null): bool
+    public function handle(?User $context, Content $content, ?int $newValue = null): bool
     {
         $service = resolve(FeedRepositoryInterface::class);
         $feed    = $service->getFeedByItem($context, $content);

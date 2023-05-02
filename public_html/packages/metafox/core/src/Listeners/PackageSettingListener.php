@@ -275,7 +275,7 @@ class PackageSettingListener extends BasePackageSettingListener
     {
         return [
             [
-                'label' => __p('core::phrase.links'),
+                'label' => __p('core::phrase.link_label_saved'),
                 'value' => 'link',
             ],
         ];

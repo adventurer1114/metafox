@@ -5,7 +5,12 @@ namespace MetaFox\Importer\Supports;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use InvalidArgumentException;
+use MetaFox\Chat\Database\Importers\RoomImporter;
+use MetaFox\Chat\Models\Room;
+use MetaFox\ChatPlus\Database\Importers\JobImporter;
+use MetaFox\ChatPlus\Models\Job;
 use MetaFox\Core\Models\SiteSetting;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Support\JsonImporter;
 use MetaFox\Storage\Database\Importers\FileSystemImporter;
 use MetaFox\Storage\Database\Importers\StorageFileImporter;
@@ -20,6 +25,13 @@ class JsonImport
         }
         if ($resourceName == 'core_storage') {
             return SiteSetting::class;
+        }
+        if (in_array($resourceName, ['message', 'instant_message'])) {
+            if (Settings::get('importer.importer_selected_chat_app', 'chat') == 'chat') {
+                return Room::class;
+            } else {
+                return Job::class;
+            }
         }
 
         $modelClass = Relation::getMorphedModel($resourceName);
@@ -43,6 +55,13 @@ class JsonImport
         }
         if ($resourceName == 'core_storage') {
             return new FileSystemImporter();
+        }
+        if (in_array($resourceName, ['message', 'instant_message'])) {
+            if (Settings::get('importer.importer_selected_chat_app', 'chat') == 'chat') {
+                return new RoomImporter();
+            } else {
+                return new JobImporter();
+            }
         }
 
         $modelClass = static::getMorphedModel($resourceName);

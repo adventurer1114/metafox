@@ -35,8 +35,37 @@ class SubscriptionPackageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title'                                         => $this->faker->words(2, true),
+            'status'                                        => 'active',
+            'price'                                         => '{"USD":10,"EUR":11,"GBP":12}',
+            'recurring_price'                               => null,
+            'recurring_period'                              => null,
+            'upgraded_role_id'                              => 4,
+            'image_path'                                    => null,
+            'image_server_id'                               => 'public',
+            'is_on_registration'                            => false,
+            'is_popular'                                    => false,
+            'is_free'                                       => false,
+            'allowed_renew_type'                            => null,
+            'days_notification_before_subscription_expired' => 3,
+            'background_color_for_comparison'               => '#ebf1f5',
+            'visible_roles'                                 => '',
+            'ordering'                                      => 1,
+            'total_success'                                 => 0,
+            'total_pending'                                 => 0,
+            'total_canceled'                                => 0,
+            'total_expired'                                 => 0,
         ];
+    }
+
+    public function setUser()
+    {
+        return $this;
+    }
+
+    public function setOwner($user)
+    {
+        return $this;
     }
 }
 

@@ -15,7 +15,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 interface BundleRepositoryInterface
 {
     /**
-     * @param  array<string, mixed>  $attributes
+     * @param array<string, mixed> $attributes
      *
      * @return Paginator
      */
@@ -24,17 +24,18 @@ interface BundleRepositoryInterface
     /**
      * Create schedule from json array.
      *
-     * @param  string  $scheduleFilename
-     * @param  array|null  $filter
+     * @param  string     $scheduleFilename
+     * @param  array|null $filter
      * @return void
      */
     public function importScheduleJson(string $scheduleFilename, ?array $filter): void;
 
     /**
-     * @param  string  $archiveFileName
+     * @param  string $archiveFileName
+     * @param  string $chatType
      * @return void
      */
-    public function importScheduleArchive(string $archiveFileName): void;
+    public function importScheduleArchive(string $archiveFileName, string $chatType = 'chat'): void;
 
     /**
      * Pick next running.
@@ -46,5 +47,11 @@ interface BundleRepositoryInterface
     /**
      * @return bool
      */
-    public function isLocking():bool;
+    public function isLocking(): bool;
+
+    /**
+     * @param  string $chatType
+     * @return void
+     */
+    public function selectChatApp(string $chatType): void;
 }

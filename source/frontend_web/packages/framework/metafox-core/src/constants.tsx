@@ -1,5 +1,7 @@
 export const FORM_SUBMIT = '@form/SUBMIT';
 
+export const IS_DEV = process.env.NODE_ENV === 'development';
+
 export const MFOX_LOCALE = process.env.MFOX_LOCALE;
 
 export const MFOX_BUILD_TYPE = process.env.MFOX_BUILD_TYPE || 'web';

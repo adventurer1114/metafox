@@ -232,4 +232,15 @@ class PhraseRepository extends AbstractRepository implements PhraseRepositoryInt
             ->where('locale', '=', $locale)
             ->delete();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPhrasesByKey(string $key): Phrase
+    {
+        return $this->getModel()
+            ->newQuery()
+            ->where('key', '=', $key)
+            ->first();
+    }
 }

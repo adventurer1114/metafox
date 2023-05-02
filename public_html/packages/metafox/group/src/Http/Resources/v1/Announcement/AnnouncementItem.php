@@ -42,11 +42,11 @@ class AnnouncementItem extends JsonResource
             'module_name'     => 'group',
             'resource_name'   => $this->entityType(),
             'user'            => new UserEntityDetail($this->resource->userEntity),
-            'item'            => ResourceGate::asEmbed($this->resource->item),
+            'item'            => ResourceGate::asEmbed($this->resource?->item),
             'creation_date'   => $this->resource->created_at,
             'moderation_date' => $this->resource->updated_at,
-            'link'            => $this->resource->item->toLink(),
-            'url'             => $this->resource->item->toUrl(),
+            'link'            => $this->resource?->item->toLink(),
+            'url'             => $this->resource?->item->toUrl(),
             'is_marked_read'  => $this->resource->isMarkedRead($context),
         ];
     }

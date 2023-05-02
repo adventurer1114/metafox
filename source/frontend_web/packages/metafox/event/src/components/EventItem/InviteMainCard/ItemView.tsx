@@ -137,7 +137,7 @@ export default function EventInviteItemMainCard({
         {is_online ? (
           <ItemSummary>{i18n.formatMessage({ id: 'online' })}</ItemSummary>
         ) : (
-          <ItemSummary>{location[0]}</ItemSummary>
+          <ItemSummary>{location?.address}</ItemSummary>
         )}
         <Box display="flex" mt={0.5}>
           <Box sx={{ flex: 1, minWidth: 0 }}>

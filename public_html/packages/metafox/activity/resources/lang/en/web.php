@@ -2,10 +2,10 @@
 
 /* this is auto generated file */
 return [
-    'a_preview_will_be_added_to_your_post'      => 'A preview will be added to your post after you share it.',
     'add_some_text_to_share'                    => 'Add some text to share.',
     'all_post_hidden'                           => 'All posts have been hidden.',
     'all_post_snoozed'                          => 'All posts have been snoozed.',
+    'a_preview_will_be_added_to_your_post'      => 'A preview will be added to your post after you share it.',
     'cant_add_attachment'                       => 'Cannot add this attachment.',
     'copy_link'                                 => 'Copy link',
     'edit_post'                                 => 'Edit Post',

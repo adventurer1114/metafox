@@ -9,7 +9,6 @@ import {
 } from '@metafox/framework';
 import { Page } from '@metafox/layout';
 import produce from 'immer';
-import { get } from 'lodash';
 import React, { createElement, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchDetail } from '../actions';
@@ -32,7 +31,8 @@ export default function createProfilePage<T extends Params = Params>({
   paramCreator
 }: Config<T>) {
   function ProfilePage(props: any) {
-    const { dispatch, createPageParams, jsxBackend } = useGlobal();
+    const { dispatch, createPageParams, createErrorPage, jsxBackend } =
+      useGlobal();
 
     const [err, setErr] = React.useState<number>(0);
     const [loading, setLoading] = React.useState(true);
@@ -108,18 +108,7 @@ export default function createProfilePage<T extends Params = Params>({
     }, [pageParams[idName]]);
 
     if (err) {
-      const message =
-        get(err, 'response.data.error') || get(err, 'response.data.message');
-
-      const pageName =
-        get(err, 'response.status') === 403 ? 'core.error403' : 'core.error404';
-
-      return (
-        <Page
-          pageName={pageName}
-          pageParams={{ title: message, variant: 'h2' }}
-        />
-      );
+      return createErrorPage(err);
     }
 
     if (loading) return jsxBackend.render({ component: 'Loading' });

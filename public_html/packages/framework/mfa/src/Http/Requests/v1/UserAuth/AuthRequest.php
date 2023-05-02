@@ -40,7 +40,7 @@ class AuthRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'verification_code.required' => __p('mfa::phrase.authenticator_code_is_required'),
+            'verification_code.required' => __p('mfa::phrase.authenticator_code_is_a_required_field'),
             'verification_code.regex'    => __p('mfa::phrase.authenticator_code_is_invalid'),
         ];
     }

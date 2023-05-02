@@ -5,6 +5,7 @@ namespace MetaFox\Contact\Http\Controllers\Api\v1;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Artisan;
 use MetaFox\Contact\Http\Requests\v1\Category\Admin\IndexRequest;
 use MetaFox\Contact\Http\Requests\v1\Category\Admin\StoreRequest;
 use MetaFox\Contact\Http\Requests\v1\Category\Admin\UpdateRequest;
@@ -13,6 +14,7 @@ use MetaFox\Contact\Http\Resources\v1\Category\Admin\CategoryItemCollection as I
 use MetaFox\Contact\Http\Resources\v1\Category\Admin\StoreCategoryForm;
 use MetaFox\Contact\Http\Resources\v1\Category\Admin\UpdateCategoryForm;
 use MetaFox\Contact\Repositories\CategoryRepositoryInterface;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Platform\Traits\Http\Controllers\OrderCategoryTrait;
 
@@ -109,8 +111,9 @@ class CategoryAdminController extends ApiController
      */
     public function destroy(int $id): JsonResponse
     {
-        $item = $this->repository->find($id);
-        $item->delete();
+        $category = $this->repository->find($id);
+
+        $this->repository->deleteCategory($category);
 
         return $this->success([], [], __p('group::phrase.successfully_deleted_the_category'));
     }
@@ -123,9 +126,7 @@ class CategoryAdminController extends ApiController
      */
     public function toggleActive(int $id): JsonResponse
     {
-        $item = $this->repository->find($id);
-
-        $item->update(['is_active' => $item->is_active ? 0 : 1]);
+        $item = $this->repository->toggleActive($id);
 
         return $this->success([new Detail($item)], [], __p('core::phrase.already_saved_changes'));
     }
@@ -151,5 +152,18 @@ class CategoryAdminController extends ApiController
         $item = $this->repository->find($id);
 
         return new UpdateCategoryForm($item);
+    }
+
+    public function default(int $id): JsonResponse
+    {
+        $item = $this->repository->find($id);
+        $data = [
+            'contact.default_category' => $id,
+        ];
+        Settings::save($data);
+
+        Artisan::call('cache:reset');
+
+        return $this->success([new Detail($item)], [], __p('core::phrase.updated_successfully'));
     }
 }

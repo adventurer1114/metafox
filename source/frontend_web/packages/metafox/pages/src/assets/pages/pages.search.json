@@ -9,7 +9,7 @@
           "title": "",
           "itemView": "page.itemView.mainCard",
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Page - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "canLoadSmooth": 1,

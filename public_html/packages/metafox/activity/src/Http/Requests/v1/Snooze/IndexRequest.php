@@ -34,7 +34,7 @@ class IndexRequest extends FormRequest
             'page'    => ['sometimes', 'numeric', 'min:1'],
             'limit'   => ['sometimes', 'numeric', new PaginationLimitRule()],
             'type'    => ['sometimes', 'in:' . implode(',', Snooze::getTypes())],
-            'q'       => ['sometimes'],
+            'q'       => ['sometimes', 'string'],
         ];
     }
 }

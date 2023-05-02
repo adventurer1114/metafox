@@ -5,6 +5,7 @@ namespace MetaFox\Sticker\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use MetaFox\Platform\Contracts\Entity;
@@ -15,6 +16,8 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 use MetaFox\Platform\Traits\Eloquent\Model\HasNestedAttributes;
 use MetaFox\Platform\Traits\Eloquent\Model\HasThumbnailTrait;
 use MetaFox\Sticker\Database\Factories\StickerSetFactory;
+use MetaFox\User\Models\User;
+use MetaFox\User\Models\UserEntity;
 
 /**
  * Class StickerSet.
@@ -39,11 +42,12 @@ class StickerSet extends Model implements Entity, HasAmounts, HasThumbnail
     use HasAmountsTrait;
     use HasThumbnailTrait;
 
-    public const IS_VIEW_ONLY = 1;
-    public const IS_DELETED   = 1;
-    public const IS_ACTIVE    = 1;
-    public const IS_DEFAULT   = 1;
-    public const MAX_DEFAULT  = 2;
+    public const IS_VIEW_ONLY          = 1;
+    public const IS_DELETED            = 1;
+    public const IS_ACTIVE             = 1;
+    public const IS_DEFAULT            = 1;
+    public const MAX_DEFAULT           = 2;
+    public const DEFAULT_ITEM_PER_PAGE = 5;
 
     public const ENTITY_TYPE = 'sticker_set';
 
@@ -83,6 +87,16 @@ class StickerSet extends Model implements Entity, HasAmounts, HasThumbnail
         return $this->hasMany(Sticker::class, 'set_id', 'id');
     }
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            UserEntity::class,
+            'sticker_user_values',
+            'set_id',
+            'user_id'
+        );
+    }
+
     public function thumbnail(): BelongsTo
     {
         return $this->belongsTo(Sticker::class, 'thumbnail_id', 'id');
@@ -102,6 +116,11 @@ class StickerSet extends Model implements Entity, HasAmounts, HasThumbnail
     public function getAdminEditUrlAttribute()
     {
         return sprintf('/admincp/sticker/sticker-set/edit/' . $this->id);
+    }
+
+    public function getAdminBrowseUrlAttribute()
+    {
+        return sprintf('/admincp/sticker/sticker-set/browse/');
     }
 
     public function getAvatarAttribute(): ?string

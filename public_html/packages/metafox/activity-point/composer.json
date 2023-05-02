@@ -1,6 +1,6 @@
 {
     "name": "metafox/activity-point",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -23,7 +23,9 @@
             "providers": [
                 "MetaFox\\ActivityPoint\\Providers\\PackageServiceProvider"
             ],
-            "frontend": {"@metafox/activity-point": "5.0.1"},
+            "frontend": {
+                "@metafox/activity-point": "*"
+            },
             "frontendPaths": [
                 "packages/metafox/activity-point"
             ],

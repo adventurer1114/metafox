@@ -28,8 +28,12 @@ class MemberPolicy
         return resolve(MemberRepositoryInterface::class);
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -67,7 +71,7 @@ class MemberPolicy
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      *
      * @return bool
      */
@@ -79,10 +83,10 @@ class MemberPolicy
 
         return true;
     }
-    
+
     /**
-     * @param  User  $user
-     * @param  Event  $resource
+     * @param User  $user
+     * @param Event $resource
      *
      * @return bool
      */
@@ -100,8 +104,8 @@ class MemberPolicy
     }
 
     /**
-     * @param  User  $user
-     * @param  Event  $resource
+     * @param User  $user
+     * @param Event $resource
      *
      * @return bool
      */

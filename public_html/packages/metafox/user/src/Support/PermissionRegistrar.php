@@ -44,7 +44,6 @@ class PermissionRegistrar extends \Spatie\Permission\PermissionRegistrar impleme
     {
         parent::__construct($cacheManager);
 
-        $this->setPermissionClass(Permission::class);
         $this->init();
     }
 

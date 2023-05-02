@@ -1,6 +1,6 @@
 {
     "name": "metafox/forum",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -23,7 +23,7 @@
                 "MetaFox\\Forum\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/forum": "5.0.1"
+                "@metafox/forum": "*"
             },
             "frontendPaths": [
                 "packages/metafox/forum"

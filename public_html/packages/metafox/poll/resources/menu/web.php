@@ -254,6 +254,7 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'poll.sidebarMenu',
         'name'     => 'my_pending',
@@ -278,7 +279,8 @@ return [
     [
         'tab'      => 'pending',
         'showWhen' => [
-            'or',
+            'and',
+            ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.poll.poll.approve'],
         ],
         'menu'     => 'poll.sidebarMenu',

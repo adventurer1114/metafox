@@ -57,7 +57,7 @@ class MuteInGroupMobileForm extends AbstractForm
             }
             $options[] = [
                 'value' => $value,
-                'label' => ucwords(CarbonInterval::make($value)->forHumans()),
+                'label' => ucwords(CarbonInterval::make($value)->locale(user()->preferredLocale())->forHumans()),
             ];
         }
 

@@ -239,7 +239,7 @@ return [
         'menu'     => 'event.event.itemActionMenu',
         'name'     => 'delete',
         'label'    => 'event::phrase.delete',
-        'ordering' => 13,
+        'ordering' => 14,
         'value'    => 'deleteItem',
         'icon'     => 'ico-trash',
     ],
@@ -347,6 +347,7 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'event.sidebarMenu',
         'name'     => 'my_pending',
@@ -398,6 +399,7 @@ return [
         'tab'      => 'pending',
         'showWhen' => [
             'and',
+            ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.event.event.approve'],
         ],
         'menu'     => 'event.sidebarMenu',

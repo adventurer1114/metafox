@@ -22,7 +22,7 @@ export default createBlock<any>({
   },
   defaults: {
     title: 'set_up_membership_questions',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - MemberQuestion - Main Card',
     itemLayout: 'Group - MemberQuestion - Main Card',
     itemView: 'group.itemView.membershipQuestionCard',

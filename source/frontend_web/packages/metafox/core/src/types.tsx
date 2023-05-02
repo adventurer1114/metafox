@@ -30,7 +30,10 @@ export type ItemDetailInteractionBaseProps = {
   state?: any;
   messageCommentStatistic?: string;
   forceHideCommentList?: boolean;
+  forceHideReactionGroup?: boolean;
   loading?: boolean;
+  borderBottom?: boolean;
+  borderTop?: boolean;
 };
 
 export type ItemDetailInteractionProps = {
@@ -41,7 +44,6 @@ export type ItemDetailInteractionProps = {
   user_reacted?: any;
   related_comments?: string[];
   hideListComment?: boolean;
-  borderBottomPhoto?: boolean;
   hideComposerInListComment?: boolean;
   dataSourceCommentStatistic?: RemoteDataSource;
   related_comments_statistic?: Record<string, any>;

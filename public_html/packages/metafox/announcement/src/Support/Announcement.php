@@ -31,7 +31,7 @@ class Announcement implements AnnouncementContract
     {
         $roles = $this->roleRepository->getRoleOptions();
 
-        $disallowedRoleIds = [UserRole::GUEST_USER, UserRole::BANNED_USER];
+        $disallowedRoleIds = [UserRole::SUPER_ADMIN_USER, UserRole::GUEST_USER, UserRole::BANNED_USER];
 
         return array_filter($roles, function ($role) use ($disallowedRoleIds) {
             return !in_array($role['value'], $disallowedRoleIds);

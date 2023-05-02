@@ -33,10 +33,8 @@ class CommentAttachmentFactory extends Factory
     {
         return [
             'comment_id' => 0, //set comment id
-            'server_id'  => 'public',
             'item_id'    => 0,
             'item_type'  => CommentAttachment::TYPE_FILE,
-            'image_path' => $this->faker->imageUrl,
         ];
     }
 

@@ -5,7 +5,6 @@ namespace MetaFox\User\Http\Resources\v1\User\Admin;
 use Illuminate\Http\Request;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
-use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\User\Models\User as Model;
 use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\Yup\Yup;
@@ -31,9 +30,7 @@ class DenyUserForm extends AbstractForm
     {
         $this->action("admincp/user/deny-user/{$this->userId}")
             ->asPatch()
-            ->setValue([
-                'approve_status' => MetaFoxConstant::STATUS_NOT_APPROVED,
-            ]);
+            ->setValue([]);
     }
 
     public function initialize(): void

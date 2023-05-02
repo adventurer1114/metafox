@@ -10,6 +10,7 @@ use MetaFox\Marketplace\Models\Listing;
 use MetaFox\Marketplace\Support\Browse\Scopes\Listing\ViewScope;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Resource\WebSetting as Setting;
+use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Platform\Support\Browse\Scopes\SortScope;
 use MetaFox\Platform\Support\Browse\Scopes\WhenScope;
 

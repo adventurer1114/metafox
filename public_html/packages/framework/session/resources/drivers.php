@@ -91,6 +91,7 @@ return [
         'title'       => 'core::phrase.settings',
         'url'         => '/admincp/session/setting',
         'description' => 'Session Settings',
+        'is_active'   => 0,
     ],
     [
         'driver'  => 'MetaFox\\Session\\Http\\Resources\\v1\\PackageSetting',

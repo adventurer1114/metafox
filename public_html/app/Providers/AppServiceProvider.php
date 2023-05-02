@@ -3,10 +3,14 @@
 namespace App\Providers;
 
 use App\Exceptions\Handler;
+use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -42,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
 
         // fix issue for laravel route() ...
         URL::forceScheme(config('app.force_protocol'));
+        URL::forceRootUrl(config('app.url'));
 
         if ($this->app->runningInConsole()
             && !$this->app->runningUnitTests()) {
@@ -97,6 +102,8 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
+        $this->registerSqlLog();
+
         /*
          * Some vendors has been integrated to Laravel via composer, so it will be run before AppServiceProvider run
          * So we need to register all package providers via booting callback of application
@@ -141,6 +148,34 @@ class AppServiceProvider extends ServiceProvider
             if (is_dir($viewPath = base_path($info['path'] . '/resources/views'))) {
                 View::addNamespace($info['alias'], $viewPath);
             }
+        });
+    }
+
+    public function registerSqlLog()
+    {
+        if (!config('database.enableSqlLog')) {
+            return;
+        }
+
+        $prefix = uniqid('request_');
+
+        DB::listen(function ($query) use ($prefix) {
+            $sql = $query->sql;
+            foreach ($query->bindings as $binding) {
+                if (is_string($binding)) {
+                    $binding = "'{$binding}'";
+                } elseif ($binding === null) {
+                    $binding = 'NULL';
+                } elseif ($binding instanceof Carbon) {
+                    $binding = "'{$binding->toDateTimeString()}'";
+                } elseif ($binding instanceof DateTime) {
+                    $binding = "'{$binding->format('Y-m-d H:i:s')}'";
+                }
+
+                $sql = preg_replace("/\?/", $binding, $sql, 1);
+            }
+
+            Log::channel('sql')->debug($prefix . ' ' . $sql);
         });
     }
 }

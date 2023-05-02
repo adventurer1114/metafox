@@ -38,6 +38,7 @@ export type ControlMenuProps = {
   preventDefault?: boolean;
   sx?: SxProps;
   zIndex?: number;
+  popperOptions?: any;
 };
 
 export default function ControlMenu({
@@ -60,7 +61,8 @@ export default function ControlMenu({
   fallbackName,
   preventDefault,
   sx,
-  zIndex
+  zIndex,
+  popperOptions
 }: ControlMenuProps) {
   const anchorRef = React.useRef<HTMLDivElement>();
   const paperRef = React.useRef();
@@ -142,6 +144,7 @@ export default function ControlMenu({
             disablePortal={disablePortal}
             placement={placement ?? 'bottom-end'}
             className={classes.popper}
+            popperOptions={popperOptions}
           >
             <Paper className={classes.menu} ref={paperRef}>
               <MenuItems

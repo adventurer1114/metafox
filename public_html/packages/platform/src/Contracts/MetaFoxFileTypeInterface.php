@@ -37,6 +37,13 @@ interface MetaFoxFileTypeInterface
     public function getTypeByMime(?string $mimeType): ?string;
 
     /**
+     * @param  string|null $mimeType
+     * @param  string      $fileType
+     * @return bool
+     */
+    public function verifyMimeTypeByType(?string $mimeType, string $fileType = 'photo'): bool;
+
+    /**
      * @param  string $fileType
      * @return string
      */

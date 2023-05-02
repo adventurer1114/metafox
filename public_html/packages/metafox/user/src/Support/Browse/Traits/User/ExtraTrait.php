@@ -12,6 +12,10 @@ trait ExtraTrait
 
     public function getExtra(): array
     {
+        if (empty($this->resource)) {
+            return [];
+        }
+
         $permissions      = $this->getMainExtra();
         $context          = user();
         $extraPermissions = app('events')->dispatch('user.permissions.extra', [$context, $this->resource]);

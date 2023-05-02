@@ -26,6 +26,7 @@ use MetaFox\Platform\Contracts\HasTaggedFriend;
 use MetaFox\Platform\Contracts\HasTotalComment;
 use MetaFox\Platform\Contracts\HasTotalLike;
 use MetaFox\Platform\Contracts\HasUrl;
+use MetaFox\Platform\Contracts\IsNotifiable;
 use MetaFox\Platform\Contracts\IsNotifyInterface;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\HasContent;
@@ -170,7 +171,9 @@ class Comment extends Model implements
             false => $this->toCommentNotifiables($context),
         };
 
-        $notifiables = array_unique($notifiables);
+        $notifiables = array_filter(array_unique($notifiables), function ($owner) {
+            return $owner instanceof IsNotifiable;
+        });
 
         if (!count($notifiables)) {
             return null;
@@ -210,6 +213,9 @@ class Comment extends Model implements
         if ($taggedFriends instanceof CollectionAbstract) {
             foreach ($taggedFriends as $taggedFriend) {
                 $taggedOwner = $taggedFriend->owner;
+                if (empty($taggedOwner)) {
+                    continue;
+                }
 
                 if ($context->entityId() == $taggedOwner->entityId()) {
                     continue;

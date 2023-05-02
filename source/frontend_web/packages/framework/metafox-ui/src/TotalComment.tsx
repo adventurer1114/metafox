@@ -3,7 +3,7 @@
  * name: TotalComment
  */
 import { useGlobal } from '@metafox/framework';
-import { styled, Tooltip } from '@mui/material';
+import { Box, styled, Tooltip } from '@mui/material';
 import React from 'react';
 
 const Wrapper = styled('div', { name: 'TotalComment' })(({ theme }) => ({
@@ -38,7 +38,7 @@ const ListUser = ({
     comment_type_id
   } = item || {};
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     let mounted = true;
     setLoading(true);
     dispatch({
@@ -71,10 +71,10 @@ const ListUser = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, itemIdentity]);
 
-  if (loading) return <span>{i18n.formatMessage({ id: 'loading_dots' })}</span>;
+  if (loading) return <Box>{i18n.formatMessage({ id: 'loading_dots' })}</Box>;
 
   return (
-    <div>
+    <Box>
       {!!itemList.length &&
         itemList.map((item, index) => (
           <div key={index.toString()}>{item?.full_name}</div>
@@ -87,7 +87,7 @@ const ListUser = ({
           )}
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 

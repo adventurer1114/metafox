@@ -17,11 +17,11 @@ return [
 {link}',
     'profile_updated_by_admin_subject'                => 'Your profile has been updated by an administrator.',
     'profile_updated_by_admin_text'                   => 'Your profile has been updated by an administrator.',
+    'send_email_description_when_deny_user'           => 'You are about to deny user <b>{username}</b> from the site. If you want to send an email to this user you may do it here',
+    'subject'                                         => 'Subject',
     'user_name_posted_on_your_timeline'               => '<b>:username</b> posted on your timeline.',
     'user_name_posted_on_your_timeline_activity_post' => '<b>:username</b> posted on your timeline.',
     'user_name_posted_on_your_timeline_link'          => '<b>:username</b> shared a link on your timeline.',
     'user_name_posted_on_your_timeline_photo_set'     => '<b>:username</b> posted on your timeline.',
     'user_name_posted_on_your_timeline_share'         => '<b>:username</b> shared a post on your timeline.',
-    'send_email_description_when_deny_user'           => 'You are about to deny user <b>{username}</b> from the site. If you want to send an email to this user you may do it here',
-    'subject'                                         => 'Subject',
 ];

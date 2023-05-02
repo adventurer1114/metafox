@@ -4,9 +4,10 @@ namespace MetaFox\Friend\Http\Requests\v1\Friend;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
-use MetaFox\Platform\Facades\Settings;
+use MetaFox\Friend\Support\Browse\Scopes\Friend\SortScope;
 use MetaFox\Platform\Rules\AllowInRule;
 use MetaFox\Platform\Rules\PaginationLimitRule;
+use MetaFox\Platform\Support\Browse\Scopes\WhenScope;
 use MetaFox\Platform\Support\Helper\Pagination;
 
 /**
@@ -23,7 +24,10 @@ class IndexRequest extends FormRequest
     {
         return [
             'q'                => ['sometimes', 'nullable', 'string'],
-            'view'             => ['sometimes', 'string', 'in:mutual,latest,friend,profile'],
+            'view'             => ['sometimes', 'string', 'in:mutual,latest,friend,profile,search'],
+            'sort'             => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSort())],
+            'sort_type'        => ['sometimes', 'string', new AllowInRule(SortScope::getAllowSortType())],
+            'when'             => ['sometimes', 'string', new AllowInRule(WhenScope::getAllowWhen())],
             'list_id'          => ['sometimes', 'numeric', 'exists:friend_lists,id'],
             'user_id'          => ['required_if:view,mutual,profile', 'numeric', 'exists:user_entities,id'],
             'page'             => ['sometimes', 'numeric', 'min:1'],

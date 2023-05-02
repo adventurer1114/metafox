@@ -15,7 +15,7 @@
           "itemView": "group.itemView.mainCard",
           "canLoadMore": 1,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Group - Main Card",
           "canLoadSmooth": 1,
           "itemLayout": "Group - Main Card"
@@ -118,7 +118,7 @@
           "itemView": "group.itemView.mainCard",
           "canLoadMore": 1,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Group - Main Card",
           "canLoadSmooth": 1,
           "itemLayout": "Group - Main Card"

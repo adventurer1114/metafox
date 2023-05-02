@@ -30,7 +30,7 @@ const PostContent = styled('div', { name, slot: 'postContent' })(
 const AttachmentTitle = styled('div', { name, slot: 'attachmentTitle' })(
   ({ theme }) => ({
     fontSize: theme.mixins.pxToRem(18),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     color: theme.palette.text.secondary,
     fontWeight: theme.typography.fontWeightBold
   })
@@ -39,7 +39,6 @@ const Attachment = styled('div', { name, slot: 'attachment' })(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  marginTop: theme.spacing(2),
   justifyContent: 'space-between'
 }));
 const AttachmentItemWrapper = styled('div', {
@@ -69,7 +68,7 @@ export default function QuotePostMain({ item }) {
     <Box
       sx={{
         width: '100%',
-        padding: '16px 24px',
+        padding: '16px',
         borderRadius: '4px',
         border: 'solid 1px rgba(85, 85, 85, 0.2)',
         backgroundColor:

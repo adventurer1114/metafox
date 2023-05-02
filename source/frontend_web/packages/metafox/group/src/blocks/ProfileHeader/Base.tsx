@@ -3,13 +3,14 @@ import {
   Link,
   MenuShape,
   useGlobal,
-  useSession
+  useSession,
+  GlobalState,
+  getResourceMenuSelector
 } from '@metafox/framework';
 import {
   MEMBERSHIP,
   MEMBERSHIP_CONFIRM_AWAIT,
-  NOT_MEMBERSHIP,
-  REG_METHOD_SECRET
+  NOT_MEMBERSHIP
 } from '@metafox/group';
 import { Block, BlockContent } from '@metafox/layout';
 import {
@@ -29,6 +30,7 @@ import InviteCard from './InviteCard';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import MutedCard from './MutedCard';
 import useStyles from './styles';
+import { useSelector } from 'react-redux';
 
 export interface Props extends BlockViewProps {
   item: GroupItemShape;
@@ -101,8 +103,7 @@ const StyledUserInfo = styled(Box)(({ theme }) => ({
 }));
 
 const StyledNotice = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  '> div + div': {
+  '> div': {
     marginTop: theme.spacing(2)
   }
 }));
@@ -141,9 +142,18 @@ export default function GroupProfileHeaderView({
   const { tab = 'home' } = usePageParams();
   const classes = useStyles();
   const { user: authorUser } = useSession();
+  const [isLoadingSubmit, setIsLoadingSubmit] = React.useState(false);
   const PendingPreview = jsxBackend.get('group.itemView.pendingReviewCard');
   const PendingGroupPreview = jsxBackend.get(
     'group.itemView.pendingReviewGroupCard'
+  );
+  const inviteMenu = useSelector((state: GlobalState) =>
+    getResourceMenuSelector(
+      state,
+      item?.module_name,
+      item?.resource_name,
+      'itemActionInviteMenu'
+    )
   );
 
   if (!item) {
@@ -157,8 +167,7 @@ export default function GroupProfileHeaderView({
     id,
     statistic,
     cover_photo_position,
-    membership,
-    reg_method
+    membership
   } = item;
   const avatar =
     getImageSrc(item.cover, '240') || getImageSrc(item.image, '240');
@@ -171,6 +180,7 @@ export default function GroupProfileHeaderView({
     acl,
     setting
   });
+  const inviteMenuItems = filterShowWhen(inviteMenu?.items, condition);
 
   const itemButtonMembership =
     nth(actionMenuItems, 0)?.name !== 'manage'
@@ -205,6 +215,18 @@ export default function GroupProfileHeaderView({
 
   const inviteFriends = () => {
     dispatch({ type: 'group/inviteFriends', payload: { identity } });
+  };
+
+  const onAction = value => {
+    setIsLoadingSubmit(true);
+
+    if (isEmpty(authorUser)) {
+      handleShowLoginDialog();
+    } else {
+      handleAction(membershipStatus?.value, {
+        onSuccess: () => setIsLoadingSubmit(false)
+      });
+    }
   };
 
   return (
@@ -256,20 +278,16 @@ export default function GroupProfileHeaderView({
                       <Button
                         size="small"
                         variant={membershipStatus?.variant}
-                        disabled={membershipStatus?.disabled}
+                        disabled={membershipStatus?.disabled || isLoadingSubmit}
                         startIcon={<LineIcon icon={membershipStatus?.icon} />}
                         color="primary"
-                        onClick={
-                          isEmpty(authorUser)
-                            ? handleShowLoginDialog
-                            : () => handleAction(membershipStatus?.value)
-                        }
+                        onClick={() => onAction(membershipStatus.value)}
                         className={classes.buttonJoin}
                       >
                         {membershipStatus?.label}
                       </Button>
                     )}
-                    {reg_method !== REG_METHOD_SECRET ? (
+                    {inviteMenuItems.length === 1 ? (
                       <Button
                         onClick={inviteFriends}
                         size="small"
@@ -285,9 +303,10 @@ export default function GroupProfileHeaderView({
                           {i18n.formatMessage({ id: 'invite_friends' })}
                         </span>
                       </Button>
-                    ) : (
+                    ) : null}
+                    {inviteMenuItems.length > 1 ? (
                       <ItemActionMenu
-                        menuName="itemActionInviteMenu"
+                        items={inviteMenuItems}
                         state={state}
                         handleAction={handleAction}
                         control={
@@ -305,7 +324,7 @@ export default function GroupProfileHeaderView({
                           </Button>
                         }
                       />
-                    )}
+                    ) : null}
                   </StyledReactButtonWrapper>
                 </StyledGroupInfo>
                 <StyledNotice>

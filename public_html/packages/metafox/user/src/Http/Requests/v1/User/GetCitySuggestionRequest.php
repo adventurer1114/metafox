@@ -18,9 +18,10 @@ class GetCitySuggestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'q'       => ['sometimes', 'string'],
+            'q'       => ['sometimes', 'nullable', 'string'],
             'country' => ['sometimes', 'string', 'min:2'],
             'state'   => ['sometimes', 'string'],
+            'limit'   => ['sometimes', 'integer', 'between:1,20'],
         ];
     }
 

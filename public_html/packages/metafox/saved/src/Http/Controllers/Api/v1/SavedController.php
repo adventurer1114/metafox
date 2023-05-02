@@ -55,7 +55,10 @@ class SavedController extends ApiController
         $context = user();
         $data    = $this->repository->viewSavedItems($context, $params);
 
-        return $this->success(new ItemCollection($data));
+        $itemCollection = new ItemCollection($data);
+        $itemCollection->setCollectionId($params['collection_id']);
+
+        return $this->success($itemCollection);
     }
 
     /**
@@ -110,7 +113,7 @@ class SavedController extends ApiController
         $params = $request->validated();
         $data   = $this->repository->updateSaved(user(), $id, $params);
 
-        return $this->success(new Detail($data), [], __p('core::phrase.updated_successfully'));
+        return $this->success(new Detail($data), [], __p('saved::phrase.saved_item_updated_successfully'));
     }
 
     /**
@@ -148,7 +151,7 @@ class SavedController extends ApiController
         $savedItem = $this->repository->findSavedItem(user(), $params);
 
         if (!$savedItem instanceof Saved) {
-            return $this->error(__p('core::phrase.content_is_not_available'), 403);
+            return $this->error(__p('saved::phrase.please_update_timestamp'), 403);
         }
 
         $this->repository->unSave(user(), $params);
@@ -195,10 +198,10 @@ class SavedController extends ApiController
      */
     public function markAsOpened(ViewRequest $request): JsonResponse
     {
-        $user         = user();
-        $params       = $request->validated();
-        $collectionId = Arr::get($params, 'collection_id');
-        $status       = Arr::get($params, 'status', 1);
+        $user   = user();
+        $params = $request->validated();
+        $status = Arr::get($params, 'status', 1);
+        $listId = Arr::get($params, 'collection_id');
 
         switch ($status) {
             case 1:
@@ -212,9 +215,8 @@ class SavedController extends ApiController
         }
 
         $resource = new Detail($data);
-        $resource->setCollectionId($collectionId);
 
-        return $this->success($resource, [], $message);
+        return $this->success($resource->setCollectionId($listId), [], $message);
     }
 
     public function removeCollectionItem(int $list_id, int $saved_id)

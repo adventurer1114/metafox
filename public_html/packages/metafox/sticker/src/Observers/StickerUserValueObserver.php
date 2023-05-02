@@ -12,13 +12,4 @@ use MetaFox\Sticker\Models\StickerUserValue;
  */
 class StickerUserValueObserver
 {
-    public function deleted(StickerUserValue $stickerUserValue): void
-    {
-        $stickerIds = $stickerUserValue->stickerSet->stickers()->get(['id'])->pluck('id')->toArray();
-
-        StickerRecent::query()
-            ->where('user_id', $stickerUserValue->userId())
-            ->whereIn('sticker_id', $stickerIds)
-            ->delete();
-    }
 }

@@ -85,7 +85,7 @@ class SavedPolicy implements ResourcePolicyInterface
      * @codeCoverageIgnore
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return false;
     }
@@ -103,13 +103,25 @@ class SavedPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function removeItemFromCollection(User $user, Content $resource = null): bool
+    public function removeItemFromCollection(User $user, ?Content $savedList = null, ?Entity $saved = null): bool
     {
-        if (!$resource instanceof SavedList) {
+        if (!$savedList instanceof SavedList) {
             return false;
         }
 
-        if ($user->entityId() != $resource->userId()) {
+        if ($user->hasSuperAdminRole()) {
+            return true;
+        }
+
+        if ($user->entityId() == $savedList->userId()) {
+            return true;
+        }
+
+        if (!$saved instanceof Saved) {
+            return false;
+        }
+
+        if ($user->entityId() != $saved->userId()) {
             return false;
         }
 

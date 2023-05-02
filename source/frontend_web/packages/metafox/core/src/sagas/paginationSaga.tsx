@@ -195,6 +195,10 @@ export function* fetchPaginationSaga({ type, payload, meta }: FetchAction) {
       ended = pagesOffset?.total > 0 ? undefined : true;
     }
 
+    if (maxPageNumber && page === maxPageNumber) {
+      ended = true;
+    }
+
     const paginationType = isLoadMorePagination ? 'pagination' : 'loadmore';
 
     const paging = {

@@ -24,6 +24,40 @@ import {
   removeRoomDock
 } from './helpers';
 
+function* handleRoomLoadHistory({
+  payload: { rid, lastMsgId },
+  meta
+}: LocalAction<
+  { rid: string; lastMsgId: NumberConstructor },
+  { onSuccess?: () => void; onFailure?: () => void }
+>) {
+  const { apiClient } = yield* getGlobalContext();
+
+  try {
+    const responseMessages = yield apiClient.request({
+      url: '/chat',
+      params: { room_id: rid, last_message_id: lastMsgId, limit: 20 }
+    });
+
+    const dataMessages = responseMessages?.data?.data;
+
+    if (!dataMessages.length) {
+      yield put({
+        type: 'chat/room/endLoadmoreMessage',
+        payload: { rid }
+      });
+
+      return;
+    }
+
+    yield* putRoomMessages(dataMessages);
+    typeof meta?.onSuccess === 'function' && meta?.onSuccess();
+  } catch (error) {
+    typeof meta?.onFailure === 'function' && meta?.onFailure();
+    // yield* handleActionError(error);
+  }
+}
+
 function* handleRoomActive(
   action: ItemLocalAction<
     { rid: string },
@@ -50,11 +84,10 @@ function* handleRoomActive(
 
     const responseMessages = yield apiClient.request({
       url: '/chat',
-      params: { room_id: rid, limit: 100 }
+      params: { room_id: rid, limit: 50 }
     });
 
     const dataMessages = responseMessages?.data?.data;
-    typeof onSuccess === 'function' && onSuccess(dataRoom);
 
     if (rid) {
       yield put({
@@ -64,6 +97,15 @@ function* handleRoomActive(
     }
 
     yield* putRoomMessages(dataMessages);
+
+    if (dataMessages.length < 50) {
+      yield put({
+        type: 'chat/room/endLoadmoreMessage',
+        payload: { rid }
+      });
+    }
+
+    typeof onSuccess === 'function' && onSuccess(dataRoom);
   } catch (error) {
     typeof onFailure === 'function' && onFailure();
     yield* handleActionError(error);
@@ -161,6 +203,7 @@ export function* updateRoom(
 }
 
 const sagas = [
+  takeEvery('chat/room/loadHistory', handleRoomLoadHistory),
   takeEvery('chat/room/active', handleRoomActive),
   takeEvery('chat/room/inactive', handleRoomInactive),
   takeEvery('chat/room/deleteRoom', deleteRoom),

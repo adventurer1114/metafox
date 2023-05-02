@@ -87,3 +87,4 @@ export { default as Hint } from './Hint';
 export { default as ImageCaptchaPopup } from './ImageCaptchaPopup';
 export { default as InvoiceStatusLabel } from './InvoiceStatusLabel';
 export { default as Tags } from './Tags';
+export { default as HtmlViewerWrapper } from './HtmlViewerWrapper';

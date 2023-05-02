@@ -4,7 +4,6 @@ namespace MetaFox\Forum\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use MetaFox\Forum\Models\Forum;
-use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
@@ -78,7 +77,7 @@ class ForumPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return true;
     }

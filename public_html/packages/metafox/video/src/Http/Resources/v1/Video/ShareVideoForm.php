@@ -83,7 +83,7 @@ class ShareVideoForm extends AbstractForm
                 ])
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->format('url', __p('video::phrase.this_field_must_be_valid_url'))
                 ),
             Builder::text('title')
@@ -96,7 +96,7 @@ class ShareVideoForm extends AbstractForm
                     Yup::string()
                         ->minLength($minVideoNameLength)
                         ->maxLength($maxVideoNameLength)
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::textArea('text')
                 ->required(false)

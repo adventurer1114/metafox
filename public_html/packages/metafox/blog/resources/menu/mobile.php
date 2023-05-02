@@ -12,7 +12,6 @@ return [
         'label'    => 'blog::phrase.edit_blog',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -25,7 +24,6 @@ return [
         'label'    => 'blog::phrase.publish',
         'ordering' => 3,
         'value'    => 'publishBlog',
-        'icon'     => 'ico-check',
     ],
     [
         'showWhen' => [
@@ -38,7 +36,6 @@ return [
         'label'    => 'blog::phrase.approve',
         'ordering' => 4,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -53,7 +50,6 @@ return [
         'label'    => 'blog::phrase.sponsor_in_feed',
         'ordering' => 5,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -68,7 +64,6 @@ return [
         'label'    => 'blog::phrase.un_sponsor_in_feed',
         'ordering' => 6,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -83,7 +78,6 @@ return [
         'label'    => 'blog::phrase.sponsor_this_item',
         'ordering' => 7,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -98,7 +92,6 @@ return [
         'label'    => 'blog::phrase.unsponsor_this_item',
         'ordering' => 8,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -113,7 +106,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 9,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -128,7 +120,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 10,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -136,12 +127,12 @@ return [
             ['truthy', 'item.extra.can_delete'],
         ],
         'className' => 'itemDelete',
+        'style'     => 'danger',
         'menu'      => 'blog.blog.detailActionMenu',
         'name'      => 'delete',
         'label'     => 'blog::phrase.delete',
         'ordering'  => 13,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'menu'     => 'blog.blog.filter_menu',
@@ -196,7 +187,6 @@ return [
         'label'    => 'blog::phrase.edit_blog',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -209,7 +199,6 @@ return [
         'label'    => 'blog::phrase.publish',
         'ordering' => 3,
         'value'    => 'publishBlog',
-        'icon'     => 'ico-check',
     ],
     [
         'showWhen' => [
@@ -222,7 +211,6 @@ return [
         'label'    => 'blog::phrase.approve',
         'ordering' => 4,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -237,7 +225,6 @@ return [
         'label'    => 'blog::phrase.sponsor_in_feed',
         'ordering' => 5,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -252,7 +239,6 @@ return [
         'label'    => 'blog::phrase.un_sponsor_in_feed',
         'ordering' => 6,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -267,7 +253,6 @@ return [
         'label'    => 'blog::phrase.sponsor_this_item',
         'ordering' => 7,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -282,7 +267,6 @@ return [
         'label'    => 'blog::phrase.unsponsor_this_item',
         'ordering' => 8,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -297,7 +281,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 9,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -312,7 +295,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 10,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -326,7 +308,6 @@ return [
         'label'     => 'blog::phrase.delete',
         'ordering'  => 13,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'menu'     => 'blog.blog.sort_menu',
@@ -367,7 +348,6 @@ return [
         'label'    => 'blog::phrase.all_blogs',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/blog/all',
     ],
     [
@@ -385,7 +365,6 @@ return [
         'label'    => 'blog::phrase.my_blogs',
         'ordering' => 2,
         'value'    => 'viewMyBlogs',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/blog/my',
     ],
     [
@@ -396,13 +375,13 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'acl.blog.blog.view'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'blog.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'blog::phrase.my_pending_blogs',
         'ordering' => 3,
         'value'    => 'viewMyPendingBlogs',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'tab'      => 'friend',
@@ -419,7 +398,6 @@ return [
         'label'    => 'blog::phrase.friends_blogs',
         'ordering' => 4,
         'value'    => 'viewFriendBlogs',
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/blog/friend',
     ],
     [
@@ -437,7 +415,6 @@ return [
         'label'    => 'blog::phrase.my_draft_blogs',
         'ordering' => 5,
         'value'    => 'viewDraftBlogs',
-        'icon'     => 'ico-pencilline-o',
         'to'       => '/blog/draft',
     ],
     [
@@ -455,7 +432,6 @@ return [
         'label'    => 'blog::phrase.pending_blogs',
         'ordering' => 6,
         'value'    => 'viewPendingBlogs',
-        'icon'     => 'ico-clock-o',
         'to'       => '/blog/pending',
     ],
     [

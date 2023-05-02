@@ -7,7 +7,6 @@ use MetaFox\Core\Traits\CheckModeratorSettingTrait;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasPrivacyMember;
-use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
@@ -19,7 +18,7 @@ use MetaFox\User\Support\Facades\UserPrivacy;
  * @ignore
  * @codeCoverageIgnore
  */
-class BlogPolicy implements ResourcePolicyInterface
+class BlogPolicy
 {
     use HasPolicyTrait;
     use CheckModeratorSettingTrait;
@@ -43,17 +42,17 @@ class BlogPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function view(User $user, Entity $resource): bool
+    public function view(?User $user, Entity $resource): bool
     {
         if (!$resource instanceof Resource) {
             return false;
         }
 
-        if ($user->hasPermissionTo('blog.moderate')) {
+        if ($user?->hasPermissionTo('blog.moderate')) {
             return true;
         }
 
-        if (!$user->hasPermissionTo('blog.view')) {
+        if (!$user?->hasPermissionTo('blog.view')) {
             return false;
         }
 
@@ -84,6 +83,10 @@ class BlogPolicy implements ResourcePolicyInterface
                 return true;
             }
 
+            if ($user->isGuest()) {
+                return false;
+            }
+
             if ($user->hasPermissionTo('blog.approve')) {
                 return true;
             }
@@ -98,8 +101,12 @@ class BlogPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -172,7 +179,7 @@ class BlogPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function delete(User $user, ?Entity $resource = null): bool
+    public function delete(?User $user, ?Entity $resource = null): bool
     {
         if ($user->hasPermissionTo('blog.moderate')) {
             return true;
@@ -187,7 +194,7 @@ class BlogPolicy implements ResourcePolicyInterface
         return $this->deleteOwn($user, $resource);
     }
 
-    public function deleteOwn(User $user, ?Entity $resource = null): bool
+    public function deleteOwn(?User $user, ?Entity $resource = null): bool
     {
         if (!$resource instanceof Resource) {
             return false;

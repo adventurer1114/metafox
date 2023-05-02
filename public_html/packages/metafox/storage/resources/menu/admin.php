@@ -46,4 +46,11 @@ return [
         'ordering' => 2,
         'to'       => '/admincp/storage/config/create',
     ],
+    [
+        'menu'     => 'storage.admin',
+        'name'     => 'configurations',
+        'label'    => 'storage::phrase.configurations',
+        'ordering' => 3,
+        'to'       => '/admincp/storage/config/browse',
+    ],
 ];

@@ -10,17 +10,21 @@ import { FromNow, LineIcon } from '@metafox/ui';
 import {
   Box,
   Button,
-  CircularProgress,
   Dialog,
   IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
+  styled,
   Tooltip
 } from '@mui/material';
 import { map } from 'lodash';
 import React from 'react';
+
+const LoadingStyled = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(3)
+}));
 
 // import ClearAllIcon from '@mui/icons-material/ClearAll';
 
@@ -32,7 +36,7 @@ export type Item = {
 };
 
 function Histories({ snippet, clearLabel }) {
-  const { useFetchItems, dispatch, i18n } = useGlobal();
+  const { useFetchItems, dispatch, i18n, jsxBackend } = useGlobal();
   const [selected, setSelected] = React.useState();
 
   const revert = React.useCallback((id: number) => {
@@ -58,7 +62,11 @@ function Histories({ snippet, clearLabel }) {
   };
 
   if (loading) {
-    return <CircularProgress variant="indeterminate" />;
+    return (
+      <LoadingStyled>
+        {jsxBackend.render({ component: 'form.DefaultLoading' })}
+      </LoadingStyled>
+    );
   }
 
   return (

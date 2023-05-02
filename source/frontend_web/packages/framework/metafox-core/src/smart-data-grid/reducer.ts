@@ -108,9 +108,17 @@ export default produce((draft: Draft<GridDataState>, action: any) => {
     }
     case 'refresh': {
       draft.loadRev = (draft.loadRev ?? 1) + 1;
+      draft.selection = [];
       break;
     }
 
+    case 'refreshSelection': {
+      draft.selection = [];
+
+      validateDraft(draft);
+
+      break;
+    }
     case 'search': {
       const query = action.payload;
 

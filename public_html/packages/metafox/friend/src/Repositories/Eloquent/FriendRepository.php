@@ -18,20 +18,24 @@ use MetaFox\Core\Models\Privacy;
 use MetaFox\Friend\Models\Friend;
 use MetaFox\Friend\Models\FriendSuggestionIgnore;
 use MetaFox\Friend\Notifications\FriendAccepted;
+use MetaFox\Friend\Policies\FriendListPolicy;
 use MetaFox\Friend\Policies\FriendPolicy;
 use MetaFox\Friend\Repositories\FriendListRepositoryInterface;
 use MetaFox\Friend\Repositories\FriendRepositoryInterface;
 use MetaFox\Friend\Repositories\FriendRequestRepositoryInterface;
+use MetaFox\Friend\Support\Browse\Scopes\Friend\SortScope;
 use MetaFox\Friend\Support\Browse\Scopes\Friend\TagScope;
 use MetaFox\Friend\Support\Browse\Scopes\Friend\ViewFriendsScope;
 use MetaFox\Friend\Support\Browse\Scopes\Friend\ViewMutualFriendsScope;
 use MetaFox\Friend\Support\Browse\Scopes\Friend\ViewProfileFriendsScope;
+use MetaFox\Friend\Support\Browse\Scopes\Friend\WhenScope;
 use MetaFox\Platform\Contracts\HasPrivacyMember;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Repositories\AbstractRepository;
+use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Platform\Support\Browse\Scopes\BaseScope;
 use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
 use MetaFox\Platform\Support\Helper\Pagination;
@@ -39,6 +43,7 @@ use MetaFox\User\Models\User as UserModel;
 use MetaFox\User\Models\UserEntity as UserEntityModel;
 use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
 use MetaFox\User\Support\Facades\UserEntity;
+use MetaFox\User\Traits\UserMorphTrait;
 
 /**
  * Class FriendRepository.
@@ -52,6 +57,7 @@ use MetaFox\User\Support\Facades\UserEntity;
  */
 class FriendRepository extends AbstractRepository implements FriendRepositoryInterface
 {
+    use UserMorphTrait;
     public function model(): string
     {
         return Friend::class;
@@ -207,10 +213,14 @@ class FriendRepository extends AbstractRepository implements FriendRepositoryInt
     {
         policy_authorize(FriendPolicy::class, 'viewAny', $context, $owner);
 
-        $view         = $attributes['view'];
-        $limit        = $attributes['limit'];
-        $listId       = $attributes['list_id'];
-        $search       = $attributes['q'];
+        $view     = Arr::get($attributes, 'view', Browse::VIEW_ALL);
+        $limit    = Arr::get($attributes, 'limit');
+        $listId   = Arr::get($attributes, 'list_id', 0);
+        $search   = Arr::get($attributes, 'q');
+        $sort     = Arr::get($attributes, 'sort', SortScope::SORT_DEFAULT);
+        $sortType = Arr::get($attributes, 'sort_type', SortScope::SORT_TYPE_DEFAULT);
+        $when     = Arr::get($attributes, 'when', Browse::WHEN_ALL);
+
         $isSuggestion = Arr::get($attributes, 'is_suggestion', false);
 
         if ($view == 'profile') {
@@ -227,10 +237,14 @@ class FriendRepository extends AbstractRepository implements FriendRepositoryInt
 
         if ($listId > 0) {
             $list = $this->getFriendListRepository()->find($listId);
-            if ($list->userId() != $context->entityId()) {
-                throw new AuthorizationException();
-            }
+            policy_authorize(FriendListPolicy::class, 'view', $context, $list);
         }
+
+        $sortScope = new SortScope();
+        $sortScope->setSort($sort)->setSortType($sortType);
+
+        $whenScope = new WhenScope();
+        $whenScope->setWhen($when);
 
         $viewFriendsScope = new ViewFriendsScope();
 
@@ -241,20 +255,30 @@ class FriendRepository extends AbstractRepository implements FriendRepositoryInt
 
         $query = match ($isSuggestion) {
             true  => $this->buildFriendsForSuggestion($context, $viewFriendsScope, $attributes),
-            false => $this->buildFriends($viewFriendsScope),
+            false => $this->buildFriends($viewFriendsScope, $sortScope, $whenScope),
         };
 
-        return $query
-            ->simplePaginate($limit);
+        return $query->simplePaginate($limit);
     }
 
-    protected function buildFriends(BaseScope $friendScope): Builder
+    protected function buildFriends(BaseScope $friendScope, ?BaseScope $sortScope = null, ?BaseScope $whenScope = null): Builder
     {
-        return $this->getUserRepository()
+        $query = $this->getUserRepository()
             ->getModel()
             ->newQuery()
-            ->with('profile')
-            ->addScope($friendScope);
+            ->with('profile');
+
+        $query->addScope($friendScope);
+
+        if ($whenScope instanceof BaseScope) {
+            $query->addScope($whenScope);
+        }
+
+        if ($sortScope instanceof BaseScope) {
+            $query->addScope($sortScope);
+        }
+
+        return $query;
     }
 
     protected function buildFriendsForSuggestion(User $context, BaseScope $friendScope, array $attributes = []): Builder
@@ -268,7 +292,7 @@ class FriendRepository extends AbstractRepository implements FriendRepositoryInt
                 $joinClause->on('user_entities.id', '=', 'users.id');
             });
 
-        $query->addScope($friendScope);
+        $query->addScope($friendScope)->orderByDesc('friends.id');
 
         if ($isShareOnProfile) {
             $query->leftJoin('user_privacy_values', function (JoinClause $joinClause) {
@@ -1185,19 +1209,6 @@ class FriendRepository extends AbstractRepository implements FriendRepositoryInt
             $join->where('can_be_tagged.privacy', '=', MetaFoxPrivacy::ONLY_ME);
         })
             ->whereNull('can_be_tagged.id');
-    }
-
-    public function deleteUserData(int $userId): void
-    {
-        $friends = $this->getModel()->newModelQuery()
-            ->where([
-                'user_id' => $userId,
-            ])
-            ->get();
-
-        foreach ($friends as $friend) {
-            $this->unFriend($userId, $friend->owner_id);
-        }
     }
 
     public function deleteUserSuggestionIgnoreData(int $userId): void

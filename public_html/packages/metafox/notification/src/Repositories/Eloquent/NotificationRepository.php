@@ -39,7 +39,9 @@ class NotificationRepository extends AbstractRepository implements NotificationR
     {
         policy_authorize(NotificationPolicy::class, 'viewAny', $context);
 
-        $paginator = $this->getModel()->newModelInstance()
+        $this->markAllAsNotified($context);
+
+        $paginator = $this->getModel()->newQuery()
             ->with(['notifiable'])
             ->where([
                 'notifiable_type' => $context->entityType(),
@@ -48,18 +50,6 @@ class NotificationRepository extends AbstractRepository implements NotificationR
             ->addScope(resolve(TypeScope::class))
             ->orderByDesc('notifications.id')
             ->simplePaginate($attributes['limit'], ['notifications.*']);
-
-        /** @var Collection $collection */
-        $collection = $paginator->getCollection();
-
-        $collection = $collection->map(function (Notification $notification) {
-            return tap($notification, function (Notification $item) {
-                $item->fill(['notified_at' => Carbon::now()]);
-                $item->save();
-            });
-        });
-
-        $paginator->setCollection($collection);
 
         return $paginator;
     }
@@ -111,6 +101,27 @@ class NotificationRepository extends AbstractRepository implements NotificationR
                 $notification->update(['read_at' => Carbon::now()]);
             }
         }
+
+        return true;
+    }
+
+    /**
+     * @param User $context
+     *
+     * @return bool
+     * @throws AuthorizationException
+     */
+    public function markAllAsNotified(User $context): bool
+    {
+        Notification::query()
+            ->where([
+                'notifiable_type' => $context->entityType(),
+                'notifiable_id'   => $context->entityId(),
+            ])
+            ->whereNull('notified_at')
+            ->update([
+                'notified_at' => Carbon::now(),
+            ]);
 
         return true;
     }

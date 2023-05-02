@@ -22,8 +22,8 @@ use MetaFox\Page\Http\Resources\v1\Page\AboutPageForm;
 use MetaFox\Page\Http\Resources\v1\Page\CreatePageForm;
 use MetaFox\Page\Http\Resources\v1\Page\EditPageForm;
 use MetaFox\Page\Http\Resources\v1\Page\InfoPageForm;
-use MetaFox\Page\Http\Resources\v1\Page\PageDetail as Detail;
 use MetaFox\Page\Http\Resources\v1\Page\PageDetail;
+use MetaFox\Page\Http\Resources\v1\Page\PageDetail as Detail;
 use MetaFox\Page\Http\Resources\v1\Page\PageInfo as InfoDetail;
 use MetaFox\Page\Http\Resources\v1\Page\PageItem;
 use MetaFox\Page\Http\Resources\v1\Page\PageItemCollection as ItemCollection;
@@ -73,7 +73,7 @@ class PageController extends ApiController
         if ($params['user_id'] > 0) {
             $owner = UserEntity::getById($params['user_id'])->detail;
             if (!policy_check(PagePolicy::class, 'viewOnProfilePage', $context, $owner)) {
-                return $this->success([]);
+                throw new AuthorizationException();
             }
 
             if (!UserPrivacy::hasAccess($context, $owner, 'page.profile_menu')) {

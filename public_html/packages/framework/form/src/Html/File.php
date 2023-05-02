@@ -96,4 +96,9 @@ class File extends AbstractField
     {
         return $this->setAttribute('isVideoUploadAllowed', $allowed);
     }
+
+    public function storageId(string $name): self
+    {
+        return $this->setAttribute('storage_id', $name);
+    }
 }

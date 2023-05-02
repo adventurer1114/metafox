@@ -50,7 +50,7 @@ class StickerSetDetail extends JsonResource
             'view_only'     => $this->resource->view_only,
             'is_deleted'    => $this->resource->is_deleted,
             'total_sticker' => $this->resource->total_sticker,
-            'stickers'      => new StickerItemCollection($this->resource->stickers),
+            'stickers'      => new StickerItemCollection($this->resource->stickers->take(20)),
         ];
     }
 }

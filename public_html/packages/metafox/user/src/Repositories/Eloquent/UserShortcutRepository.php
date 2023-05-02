@@ -63,7 +63,7 @@ class UserShortcutRepository extends AbstractRepository implements UserShortcutR
 
         $query->whereNot('user_shortcuts.sort_type', $hide);
 
-        $paginatorData = $query->paginate($attributes['limit']);
+        $paginatorData = $query->paginate($attributes['limit'] ?? 10);
         $data          = $paginatorData->items();
 
         return $this->toUserEntities($data);

@@ -7,6 +7,7 @@ use MetaFox\Form\Builder;
 use MetaFox\Page\Models\Page as Model;
 use MetaFox\Page\Repositories\PageClaimRepositoryInterface;
 use MetaFox\Page\Repositories\PageRepositoryInterface;
+use MetaFox\Yup\Yup;
 
 /**
  * --------------------------------------------------------------------------
@@ -21,8 +22,9 @@ use MetaFox\Page\Repositories\PageRepositoryInterface;
  */
 class ClaimPageForm extends AbstractForm
 {
-    protected bool $isEdit    = true;
-    protected bool $isPending = false;
+    protected bool $isEdit             = true;
+    protected bool $isPending          = false;
+    protected const MAX_LENGTH_MESSAGE = 500;
 
     public function boot(
         PageRepositoryInterface $repository,
@@ -53,8 +55,14 @@ class ClaimPageForm extends AbstractForm
         }
 
         $basic->addFields(
-            Builder::richTextEditor('message')
-                ->label(__p('core::phrase.message')),
+            Builder::textArea('message')
+                ->maxLength(self::MAX_LENGTH_MESSAGE)
+                ->label(__p('core::phrase.message'))
+                ->description(__p('page::phrase.claim_message_description'))
+                ->yup(
+                    Yup::string()
+                        ->maxLength(self::MAX_LENGTH_MESSAGE)
+                ),
             Builder::submit('submit')
                 ->label(__p('core::phrase.send_request')),
         );

@@ -89,7 +89,7 @@
           },
           "blockLayout": "Profile - Contained",
           "gridLayout": "Poll - Main Card - Mobile",
-          "itemLayout": "Blog - Profile - Main Card"
+          "itemLayout": "Poll - Main Card - Mobile"
         }
       ]
     },

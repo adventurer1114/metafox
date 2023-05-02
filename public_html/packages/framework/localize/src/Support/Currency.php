@@ -144,13 +144,39 @@ class Currency implements CurrencySupportContract
             return null;
         }
 
+        $params = $this->getFormatForPrice($currencyId, $precision);
+
+        $form = Arr::get($params, 'pattern');
+
+        $decimalPoint = Arr::get($params, 'decimal_separator');
+
+        $thousandSeparator = Arr::get($params, 'thousand_separator');
+
+        $precision = Arr::get($params, 'precision');
+
+        $currency = Arr::get($this->currencies, $currencyId);
+
+        $symbol            = html_entity_decode($currency->symbol);
+
+        return strtr($form, [
+            '{0}' => $symbol,
+            '{1}' => $currencyId,
+            '{3}' => number_format($price, $precision, $decimalPoint, $thousandSeparator),
+        ]);
+    }
+
+    public function getFormatForPrice(string $currencyId, ?string $precision = null, bool $replaceForCurrency = false): ?array
+    {
+        if (!Arr::has($this->currencies, $currencyId)) {
+            return null;
+        }
+
         $currency = Arr::get($this->currencies, $currencyId);
 
         $pattern           = $currency->format;
         $form              = '{0} {3}';
         $decimalPoint      = '.';
         $thousandSeparator = ',';
-        $symbol            = html_entity_decode($currency->symbol);
 
         if (preg_match(self::PREG_FORMATER, $pattern, $result)) {
             $decimalPoint = $result[3];
@@ -161,11 +187,21 @@ class Currency implements CurrencySupportContract
             $form              = str_replace($result[0], '{3}', $pattern);
         }
 
-        return strtr($form, [
-            '{0}' => $symbol,
-            '{1}' => $currencyId,
-            '{3}' => number_format($price, $precision, $decimalPoint, $thousandSeparator),
-        ]);
+        if ($replaceForCurrency) {
+            $symbol            = html_entity_decode($currency->symbol);
+
+            $form = strtr($form, [
+                '{0}' => $symbol,
+                '{1}' => $currencyId,
+            ]);
+        }
+
+        return [
+            'pattern'            => $form,
+            'decimal_separator'  => $decimalPoint,
+            'thousand_separator' => $thousandSeparator,
+            'precision'          => $precision,
+        ];
     }
 
     /**

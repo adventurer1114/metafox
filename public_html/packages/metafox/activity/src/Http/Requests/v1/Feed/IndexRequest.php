@@ -45,7 +45,7 @@ class IndexRequest extends FormRequest
             'q'                           => ['sometimes', 'string'],
             'page'                        => ['sometimes', 'numeric', 'min:1'],
             'limit'                       => ['sometimes', 'numeric', new PaginationLimitRule()],
-            'user_id'                     => ['sometimes', 'exists:user_entities,id'],
+            'user_id'                     => ['sometimes', 'integer', 'min:1', 'exists:user_entities,id'],
             'item_id'                     => ['sometimes', 'numeric'],
             'item_type'                   => ['sometimes', 'string'],
             'hashtag'                     => ['sometimes'],

@@ -20,4 +20,5 @@ return [
     'saved_items'                      => 'Saved Items',
     'saved_to'                         => 'Saved to',
     'value_more'                       => 'and {value} more',
+    'members_list'                     => 'Members List',
 ];

@@ -74,7 +74,7 @@ export default function EditItemLayout({ styleName }) {
       <FormBuilder
         dialog
         dialogItem={dialogItem}
-        submitAction="@layout/saveGridLayout"
+        submitAction="@layout/saveItemLayout"
         initialValues={initialValues}
         formSchema={formSchema}
       />

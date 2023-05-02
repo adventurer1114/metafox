@@ -118,7 +118,7 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'file.required_without' => __p('video::validation.video_file_is_required'),
+            'file.required_without' => __p('video::validation.video_file_is_a_required_field'),
         ];
     }
 }

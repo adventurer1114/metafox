@@ -1,6 +1,6 @@
 {
     "name": "metafox/contact",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Contact",
     "keyword": "Contact",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/contact": "5.0.1"
+                "@metafox/contact": "*"
             },
             "internalUrl": "/contact",
             "internalAdminUrl": "/admincp/contact/setting"

@@ -1,6 +1,6 @@
 {
     "name": "metafox/photo",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Photo\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/photo": "5.0.1"
+                "@metafox/photo": "*"
             },
             "frontendPaths": [
                 "packages/metafox/photo"

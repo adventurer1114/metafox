@@ -5,6 +5,7 @@ namespace MetaFox\User\Http\Resources\v1\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Carbon;
 use MetaFox\Core\Support\Facades\Country;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\GenderTrait;
 use MetaFox\Form\Mobile\Builder;
 use MetaFox\Form\Mobile\MobileForm as AbstractForm;
@@ -116,7 +117,7 @@ class UserRegisterMobileForm extends AbstractForm
                         ))
                         ->setError('required', __p('validation.user_name_is_a_required_field'))
                         ->setError('typeError', __p('validation.user_name_is_a_required_field'))
-                        ->setError('matches', __p('validation.user_name_is_a_required_field'))
+                        ->setError('matches', __p('validation.please_use_only_letters_numbers_and_periods'))
                         ->setError('minLength', '${path} must be at least ${min} characters'),
                 ),
             Builder::email('email')
@@ -133,7 +134,10 @@ class UserRegisterMobileForm extends AbstractForm
                         ->setError('required', __p('validation.email_is_a_required_field'))
                         ->setError('typeError', __p('validation.email_is_a_required_field'))
                         ->setError('format', __p('validation.invalid_email_address')),
-                ),
+                )
+        );
+        $this->addReenterEmailField($basic);
+        $basic->addField(
             Builder::password('password')
                 ->autoComplete('off')
                 ->marginNormal()
@@ -183,8 +187,8 @@ class UserRegisterMobileForm extends AbstractForm
                     ->yup(
                         Yup::string()
                             ->required()
-                            ->setError('required', __p('validation.agree_field_is_required'))
-                            ->setError('typeError', __p('validation.agree_field_is_required'))
+                            ->setError('required', __p('validation.agree_field_is_a_required_field'))
+                            ->setError('typeError', __p('validation.agree_field_is_a_required_field'))
                     )
             );
         }
@@ -257,7 +261,7 @@ class UserRegisterMobileForm extends AbstractForm
                 ->setAttribute('maxDate', $maxDateString)
                 ->yup(
                     $isBasicFieldRequired
-                        ? $validation->required(__p('user::validation.birthday_is_required'))
+                        ? $validation->required(__p('user::validation.birthday_is_a_required_field'))
                         : $validation
                 )
         );
@@ -282,7 +286,7 @@ class UserRegisterMobileForm extends AbstractForm
                 ->options($this->getDefaultGenders($context))
                 ->yup(
                     $isBasicFieldRequired
-                        ? $validation->required(__p('user::validation.gender_is_required'))
+                        ? $validation->required(__p('user::validation.gender_is_a_required_field'))
                         : $validation
                 ),
             Builder::choice('custom_gender')
@@ -294,7 +298,7 @@ class UserRegisterMobileForm extends AbstractForm
                         ->is(0)
                         ->then(
                             Yup::number()
-                                ->required(__p('user::validation.custom_gender_is_required'))
+                                ->required(__p('user::validation.custom_gender_is_a_required_field'))
                         )
                 )
         );
@@ -315,7 +319,7 @@ class UserRegisterMobileForm extends AbstractForm
                 ->required($isBasicFieldRequired)
                 ->yup(
                     $isBasicFieldRequired
-                        ? $validation->required(__p('user::validation.country_is_required'))
+                        ? $validation->required(__p('user::validation.country_is_a_required_field'))
                         : $validation
                 ),
             Builder::countryStatePicker('country_state')
@@ -346,5 +350,30 @@ class UserRegisterMobileForm extends AbstractForm
                     'state'   => ':country_state',
                 ])
         );
+    }
+
+    protected function addReenterEmailField(Section $basic): void
+    {
+        $isReenterEmail = (bool) Settings::get('user.force_user_to_reenter_email', false);
+
+        if (!$isReenterEmail) {
+            return;
+        }
+
+        $field = Builder::email('reenter_email')
+            ->autoComplete('off')
+            ->marginNormal()
+            ->label(__p('core::phrase.reenter_email_address'))
+            ->placeholder(__p('core::phrase.reenter_email_address'))
+            ->returnKeyType('next')
+            ->required()
+            ->yup(Yup::string()
+                ->required()
+                ->format('email')
+                ->setError('required', __p('validation.reenter_email_is_a_required_field'))
+                ->setError('typeError', __p('validation.reenter_email_is_a_required_field'))
+                ->setError('format', __p('validation.invalid_email_address')));
+
+        $basic->addField($field);
     }
 }

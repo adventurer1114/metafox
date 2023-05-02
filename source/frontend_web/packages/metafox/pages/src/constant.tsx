@@ -19,3 +19,5 @@ export const LIKED = 'liked';
 export const INVITE = 'invite';
 
 export const MANAGE = 'manage';
+
+export const RESOURCE_INVITE = 'page_invite';

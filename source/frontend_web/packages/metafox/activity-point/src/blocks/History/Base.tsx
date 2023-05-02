@@ -2,6 +2,7 @@ import { APP_ACTIVITY } from '@metafox/activity-point';
 import {
   BlockViewProps,
   useGlobal,
+  useIsMobile,
   useResourceAction,
   useResourceForm
 } from '@metafox/framework';
@@ -43,15 +44,22 @@ const gridTitle = [
 
 const TitleStyled = styled(Grid, { name: 'TitleStyled' })(({ theme }) => ({
   display: 'flex',
-  paddingTop: theme.spacing(3),
-  paddingBottom: theme.spacing(2),
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2)
+  padding: theme.spacing(3, 2, 2)
+}));
+
+const ContentWrapper = styled(Box, {
+  name: 'ContentWrapper'
+})(({ theme }) => ({
+  padding: theme.spacing(3, 2, 2),
+  [theme.breakpoints.down('md')]: {
+    padding: theme.spacing(0)
+  }
 }));
 
 export default function Base({ title, ...rest }: Props) {
   const { usePageParams, navigate, jsxBackend, i18n } = useGlobal();
   const pageParams = usePageParams();
+  const isMobile = useIsMobile();
 
   const dataSource = useResourceAction(
     APP_ACTIVITY,
@@ -80,13 +88,13 @@ export default function Base({ title, ...rest }: Props) {
     <Block testid="activityPointBlock" {...rest}>
       <BlockHeader title={title}></BlockHeader>
       <BlockContent {...rest}>
-        <Box sx={{ p: 2 }}>
-          <>
-            <FormBuilder
-              navigationConfirmWhenDirty={false}
-              formSchema={formSchema}
-              onSubmit={submitFilter}
-            />
+        <ContentWrapper>
+          <FormBuilder
+            navigationConfirmWhenDirty={false}
+            formSchema={formSchema}
+            onSubmit={submitFilter}
+          />
+          {!isMobile ? (
             <TitleStyled container>
               {gridTitle.map((title, index) => (
                 <Grid item key={index} xs={title.grid}>
@@ -96,16 +104,19 @@ export default function Base({ title, ...rest }: Props) {
                 </Grid>
               ))}
             </TitleStyled>
+          ) : null}
+          <Box sx={isMobile && { mt: 3 }}>
             {React.createElement(ListView, {
               itemView: 'activitypoint.itemView.transaction',
               dataSource,
               emptyPage: 'core.itemView.no_content_history_point',
-              blockLayout: 'Large Main Lists',
               pageParams,
-              gridContainerProps: { spacing: 0 }
+              blockLayout: 'App List - Record Table',
+              itemLayout: 'Record Item - Table',
+              gridLayout: 'Record Item - Table'
             })}
-          </>
-        </Box>
+          </Box>
+        </ContentWrapper>
       </BlockContent>
     </Block>
   );

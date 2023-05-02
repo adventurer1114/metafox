@@ -50,7 +50,8 @@ export function uploadFile(
     file_type: fileItem.file_type,
     file_name: fileItem.file_name,
     file_size: fileItem.file_size,
-    thumbnail_sizes: fileItem?.thumbnail_sizes
+    thumbnail_sizes: fileItem?.thumbnail_sizes,
+    storage_id: fileItem?.storage_id ?? null
   };
 
   // attached to file

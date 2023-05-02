@@ -48,12 +48,13 @@ class AlbumPolicy implements ResourcePolicyInterface, ActionPolicyInterface
 
     public function view(User $user, Entity $resource): bool
     {
+        if ($user->hasPermissionTo('photo_album.moderate')) {
+            return true;
+        }
+
         // check user role permission
         if (!$user->hasPermissionTo('photo_album.view')) {
             return false;
-        }
-        if ($user->hasPermissionTo('photo_album.moderate')) {
-            return true;
         }
 
         $owner = $resource->owner;
@@ -74,8 +75,12 @@ class AlbumPolicy implements ResourcePolicyInterface, ActionPolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('photo_album.moderate')) {
             return true;
         }

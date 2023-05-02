@@ -48,7 +48,7 @@ class InviteCodeController extends ApiController
         };
 
         return $this->success(
-            ResourceGate::asResource($code, 'item'),
+            ResourceGate::asResource($code, 'item', false),
             [],
             __p('event::phrase.linked_copied_to_clipboard')
         );

@@ -34,4 +34,10 @@ interface LanguageRepositoryInterface
      * @param int  $id
      */
     public function deleteLanguage(User $context, int $id): bool;
+
+    /**
+     * @param  array      $codes
+     * @return Collection
+     */
+    public function viewAllLanguages(array $codes = []): Collection;
 }

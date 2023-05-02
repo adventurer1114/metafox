@@ -4,8 +4,9 @@ namespace MetaFox\ActivityPoint\Http\Requests\v1\PointSetting\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
-use MetaFox\Authorization\Models\Role;
+use MetaFox\ActivityPoint\Support\Facade\PointSetting;
 use MetaFox\Platform\MetaFoxConstant;
+use MetaFox\Platform\Rules\AllowInRule;
 use MetaFox\Platform\Rules\PaginationLimitRule;
 use MetaFox\Platform\Support\Browse\Scopes\SortScope;
 use MetaFox\Platform\Support\Helper\Pagination;
@@ -39,7 +40,7 @@ class IndexRequest extends FormRequest
             'sort_type' => SortScope::sortTypes(),
             'page'      => ['sometimes', 'nullable', 'integer', 'min:1'],
             'limit'     => ['sometimes', 'nullable', 'integer', new PaginationLimitRule()],
-            'role_id'   => ['sometimes', 'integer', 'nullable', sprintf('exists:%s,id', Role::class)],
+            'role_id'   => ['sometimes', 'integer', 'nullable', new AllowInRule(PointSetting::getAllowedRole())],
             'module_id' => ['sometimes', 'string', 'nullable'],
         ];
     }

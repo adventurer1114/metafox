@@ -21,6 +21,7 @@ Route::controller(CategoryAdminController::class)
     ->group(function () {
         Route::prefix('category')
             ->group(function () {
+                Route::post('default/{id}', 'default')->name('category.default');
                 Route::post('order', 'order')->name('category.order');
             });
 

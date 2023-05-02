@@ -27,4 +27,16 @@ interface FieldRepositoryInterface
      * @return Collection
      */
     public function getActiveFields(): Collection;
+
+    /**
+     * @param  array<int> $orderIds
+     * @return bool
+     */
+    public function orderFields(array $orderIds): bool;
+
+    /**
+     * @param  array $attributes
+     * @return Field
+     */
+    public function createField(array $attributes): Field;
 }

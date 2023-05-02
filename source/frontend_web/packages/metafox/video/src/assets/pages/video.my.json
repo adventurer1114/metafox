@@ -73,7 +73,8 @@
             "apiParams": "view=my"
           },
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "canLoadSmooth": true,
+          "blockLayout": "App List",
           "gridLayout": "Video - Main Card",
           "itemLayout": "Video - Main Card"
         }
@@ -113,6 +114,7 @@
             "apiParams": "view=my"
           },
           "canLoadMore": true,
+          "canLoadSmooth": true,
           "blockView": "ui.block.default",
           "itemView": "video.itemView.mainCard",
           "gridItemProps": {
@@ -123,10 +125,10 @@
             "xl": 12
           },
           "blockId": "0gkn",
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Video - Flat View",
           "contentType": "video",
-          "itemLayout": "Video - Flat View"
+          "itemLayout": "Video - Main Card"
         }
       ],
       "containers": {},

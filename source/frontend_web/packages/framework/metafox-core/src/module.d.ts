@@ -1,5 +1,6 @@
 import '@metafox/framework/Manager';
 import { Theme } from '@mui/material';
+import { Breakpoint } from '@mui/material/styles';
 import * as H from 'history';
 import { Location, NavigateFunction } from 'react-router';
 import { MenuShape, PageMetaShape, SiteSettingShape, AclShape } from '.';
@@ -14,6 +15,8 @@ import {
   PagingState,
   UserPreferenceConfig
 } from './types';
+import React from 'react';
+import Firebase from './Firebase';
 
 export type Selector<T = any> = (state: any) => T;
 export type SelectFn = (selector: Selector<T>) => T;
@@ -48,6 +51,7 @@ declare module '@metafox/framework/Manager' {
     select?: SelectFn<T>;
     navigate?: NavigateFunction;
     useTheme?: () => Theme;
+    useWidthBreakpoint?: () => Breakpoint;
     useSession?: () => SessionState;
     location?: Location;
     useLimitAttachment?: () => number;
@@ -162,6 +166,15 @@ declare module '@metafox/framework/Manager' {
      * @param err
      */
     handleActionError(err: unknown): void;
+
+    createErrorPage: (
+      error: unknown,
+      params?: {
+        loginRequired?: boolean;
+      }
+    ) => React.FC<{}>;
+
+    firebaseBackend?: Firebase;
   }
 
   interface ManagerConfig {

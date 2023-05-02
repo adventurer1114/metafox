@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use MetaFox\Friend\Models\FriendList;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Repositories\AbstractRepository;
+use MetaFox\User\Traits\UserMorphTrait;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
@@ -14,6 +15,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
  *  * @mixin AbstractRepository
  * @method FriendList find($id, $columns = ['*'])
  * @method FriendList getModel()
+ * @mixin UserMorphTrait
  */
 interface FriendListRepositoryInterface
 {
@@ -94,21 +96,22 @@ interface FriendListRepositoryInterface
     public function getFriendListIds(int $userId): array;
 
     /**
-     * @param  int id
-     *
+     * @param  int   $userId
+     * @param  int   $friendUserId
      * @return int[]
      */
     public function getAssignedListIds(int $userId, int $friendUserId): array;
 
     /**
-     * @param  int  $id
+     * @param  int   $id
+     * @param  array $userId
      * @return bool
      */
     public function updateToFriendList(int $id, array $userId): bool;
 
     /**
-     * @param  int  $userId
+     * @param  User $user
      * @return void
      */
-    public function deleteUserData(int $userId): void;
+    public function deleteUserForListData(User $user): void;
 }

@@ -112,7 +112,8 @@ export default function Reply({
     ReplyActButton,
     RemovePreviewActButton,
     usePageParams,
-    getSetting
+    getSetting,
+    HistoryEditedCommentButton
   } = useGlobal();
   const isThreadDisplay = getSetting('comment.enable_thread');
   const { comment_id } = usePageParams();
@@ -130,11 +131,18 @@ export default function Reply({
 
   if (!item) return null;
 
-  const { text, editText, creation_date, most_reactions, statistic, link } =
-    item;
+  const {
+    text,
+    editText,
+    creation_date,
+    most_reactions,
+    statistic,
+    link,
+    is_edited
+  } = item;
 
   const showRemovePreviewButton =
-    extra_data?.extra_type === 'link' && !item?.is_hide;
+    extra_data?.extra_type === 'link' && item?.extra?.can_remove_link_preview;
 
   return (
     <div>
@@ -166,6 +174,15 @@ export default function Reply({
                     <Link color="inherit" to={link}>
                       <FromNowStyled value={creation_date} shorten />
                     </Link>
+                    {HistoryEditedCommentButton && is_edited ? (
+                      <HistoryEditedCommentButton
+                        data-testid="historyCommentButton"
+                        minimize
+                        sx={{ marginLeft: '8px', textTransform: 'capitalize' }}
+                        identity={identity}
+                        handleAction={handleAction}
+                      />
+                    ) : null}
                   </ItemName>
                   <Content
                     text={text}

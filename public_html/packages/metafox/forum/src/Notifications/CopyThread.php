@@ -56,7 +56,7 @@ class CopyThread extends Notification
             ->line($content);
 
         if ($hasModel) {
-            $service->action($this->localize('core::phrase.review_now'), $this->toUrl());
+            $service->action($this->localize('core::phrase.view_now'), $this->toUrl());
         }
 
         return $service;
@@ -81,5 +81,16 @@ class CopyThread extends Notification
     public function toLink(): ?string
     {
         return $this->model->toLink();
+    }
+
+    public function toRouter(): ?string
+    {
+        $model = $this->model;
+
+        if (null === $model) {
+            return null;
+        }
+
+        return $this->model->toRouter();
     }
 }

@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use MetaFox\Authorization\Models\Role;
 use MetaFox\Core\Support\Facades\Country;
-use MetaFox\Form\Constants as MetaFoxForm;
 use MetaFox\Localize\Repositories\TimezoneRepositoryInterface;
 use MetaFox\Platform\Contracts\HasUserProfile;
 use MetaFox\Platform\Contracts\User as ContractUser;
@@ -25,6 +24,7 @@ use MetaFox\User\Models\UserActivity;
 use MetaFox\User\Models\UserGender;
 use MetaFox\User\Models\UserProfile;
 use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
+use MetaFox\User\Repositories\UserRelationRepositoryInterface;
 use MetaFox\User\Traits\UserLocationTrait;
 
 /**
@@ -33,6 +33,7 @@ use MetaFox\User\Traits\UserLocationTrait;
  */
 class User implements UserContract
 {
+    // todo DO NOT MIX TRAIT HERE.
     use UserLocationTrait;
 
     public const MENTION_REGEX                 = '^\[user=(.*?)\]^';
@@ -46,8 +47,10 @@ class User implements UserContract
 
     private UserRepositoryInterface $repository;
 
-    public function __construct(UserRepositoryInterface $repository)
-    {
+    public function __construct(
+        UserRepositoryInterface $repository,
+        protected UserRelationRepositoryInterface $relationRepository
+    ) {
         $this->repository = $repository;
     }
 
@@ -78,17 +81,6 @@ class User implements UserContract
         }
 
         return $user;
-    }
-
-    public function getRelationship(int $key): ?string
-    {
-        $relationships = MetaFoxForm::getRelations();
-
-        if (array_key_exists($key, $relationships)) {
-            return $relationships[$key];
-        }
-
-        return null;
     }
 
     public function getGender(UserProfile $profile): ?string
@@ -122,6 +114,21 @@ class User implements UserContract
             self::DATE_OF_BIRTH_SHOW_ALL => $time->format(Settings::get('user.user_dob_month_day_year', 'F j, Y')),
             default                      => null,
         };
+    }
+
+    public function getUserAge(?string $birthday): ?int
+    {
+        if (!is_string($birthday)) {
+            return null;
+        }
+
+        $time = Carbon::createFromFormat('Y-m-d', $birthday);
+
+        if ($time === false) {
+            return null;
+        }
+
+        return $time->age;
     }
 
     public function getFullBirthdayFormat(): array
@@ -350,9 +357,9 @@ class User implements UserContract
 
     public function updateLastActivity(ContractUser $context): bool
     {
-        if ($context instanceof HasUserProfile && !$context->isGuest()) {
+        if ($context instanceof HasUserProfile && $context->id) {
             return UserActivity::query()
-                ->where('id', $context->entityId())
+                ->where('id', $context->id)
                 ->where('last_activity', '<=', Carbon::now()->subMinutes(5))
                 ->update([
                     'last_activity' => now(),
@@ -467,5 +474,17 @@ class User implements UserContract
         $locations = array_filter([$city, $state, $country]);
 
         return $locations ? 'Lives in ' . implode(', ', $locations) : null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isFollowing(ContractUser $context, ContractUser $user): bool
+    {
+        if (!app('events')->dispatch('follow.is_follow', [$context, $user], true)) {
+            return false;
+        }
+
+        return true;
     }
 }

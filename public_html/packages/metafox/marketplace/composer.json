@@ -1,7 +1,7 @@
 {
     "name": "metafox/marketplace",
     "description": "",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "authors": [
         {
             "name": "phpFox",
@@ -22,7 +22,7 @@
                 "MetaFox\\Marketplace\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/marketplace": "5.0.1"
+                "@metafox/marketplace": "*"
             },
             "frontendPaths": [
                 "packages/metafox/marketplace"

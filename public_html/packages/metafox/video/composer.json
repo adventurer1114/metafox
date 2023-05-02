@@ -1,6 +1,6 @@
 {
     "name": "metafox/video",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Video\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/video": "5.0.1"
+                "@metafox/video": "*"
             },
             "frontendPaths": [
                 "packages/metafox/video"
@@ -37,8 +37,7 @@
         }
     },
     "require": {
-        "php-ffmpeg/php-ffmpeg": "^1.0",
-        "muxinc/mux-php": "^3.2"
+        "php-ffmpeg/php-ffmpeg": "^1.0"
     },
     "autoload-dev": {
         "psr-4": {

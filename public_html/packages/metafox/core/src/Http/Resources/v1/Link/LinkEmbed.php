@@ -35,16 +35,17 @@ class LinkEmbed extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'            => $this->resource->entityId(),
-            'module_name'   => 'core',
-            'resource_name' => $this->resource->entityType(),
-            'title'         => $this->resource->title,
-            'description'   => $this->resource->description,
-            'image'         => $this->resource->image,
-            'user'          => new UserEntityDetail($this->resource->userEntity),
-            'link'          => $this->resource->link,
-            'has_embed'     => $this->resource->has_embed,
-            'host'          => $this->resource->host,
+            'id'                => $this->resource->entityId(),
+            'module_name'       => 'core',
+            'resource_name'     => $this->resource->entityType(),
+            'title'             => $this->resource->title,
+            'description'       => $this->resource->description,
+            'image'             => $this->resource->image,
+            'user'              => new UserEntityDetail($this->resource->userEntity),
+            'link'              => $this->resource->link,
+            'has_embed'         => $this->resource->has_embed,
+            'host'              => $this->resource->host,
+            'is_preview_hidden' => $this->resource->is_preview_hidden,
         ];
     }
 }

@@ -16,14 +16,18 @@ import { Editor } from 'react-draft-wysiwyg';
 import { FormFieldProps } from '@metafox/form';
 import ErrorMessage from '../ErrorMessage';
 import './react-draft-wysiwyg.css';
-import { useGlobal } from '@metafox/framework';
+import { useGlobal, useTraceUpdate } from '@metafox/framework';
+import ImagePickerControl from './ImagePicker/ImagePickerControl';
+
+const toolbarCustomButtons = [<ImagePickerControl key="imagePicker" />];
 
 const editorToolbar = {
-  options: ['inline', 'fontSize', 'list', 'link', 'image', 'history'],
+  options: ['inline', 'fontSize', 'list', 'link', 'history'],
   inline: {
     inDropdown: false
   }
 };
+
 const editorStyles = {
   minHeight: '100px'
 };
@@ -126,6 +130,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const regexImg = /<img([\w\W]+?)>/m;
+const regexStartRule = /.*?<p/m;
 
 const RichTextEditorField = ({
   config,
@@ -147,8 +152,11 @@ const RichTextEditorField = ({
   const classes = useStyles();
   const [focused, setFocused] = React.useState<boolean>(false);
   const [field, meta, { setValue }] = useField(name ?? 'RichTextEditorField');
+  const [stateValue, setStateValue] = React.useState(field?.value);
   const { useIsMobile } = useGlobal();
   const isMobile = useIsMobile();
+
+  const initialized = React.useRef(false);
 
   const initValue = React.useRef(
     EditorState.createWithContent(ContentState.createFromText(''))
@@ -157,24 +165,31 @@ const RichTextEditorField = ({
   const [editorState, setEditorState] = React.useState(initValue.current);
 
   React.useEffect(() => {
-    if (!focused) {
+    // field.value !== stateValue check when has change from outside component, ex: reset data form
+    if (!initialized.current || field.value !== stateValue) {
       const blocksFromHtml = htmlToDraft(field.value ? field.value : '');
       const { contentBlocks, entityMap } = blocksFromHtml;
       const contentState = ContentState.createFromBlockArray(
         contentBlocks,
         entityMap
       );
-
       initValue.current = EditorState.createWithContent(contentState);
-
       setEditorState(initValue.current);
     }
-  }, [field.value, focused]);
+
+    initialized.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field.value]);
+
+  const lastValue = React.useRef('');
 
   const handleChange = React.useCallback(
     (state: EditorState) => {
       setEditorState(state);
-      const value = draftToHtml(convertToRaw(state.getCurrentContent()));
+      let value = draftToHtml(convertToRaw(state.getCurrentContent()));
+      // hot fix https://github.com/jpuri/react-draft-wysiwyg/issues/609#issuecomment-1282192676
+      // crash site if start without tag <p>
+      value = value.replace(regexStartRule, '<p');
 
       let result = '';
 
@@ -182,11 +197,20 @@ const RichTextEditorField = ({
         result = value;
       }
 
-      setValue(result);
+      if (lastValue.current !== result) {
+        lastValue.current = value;
+        setStateValue(result);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  React.useEffect(() => {
+    // stateValue save local value for compare if has change field.value from outside
+    setValue(stateValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stateValue]);
 
   const handlePastedText = React.useCallback(props => {
     return false;
@@ -207,11 +231,14 @@ const RichTextEditorField = ({
 
   const editorRef = React.useRef<Editor>();
 
-  const handleControlClick = (evt: React.MouseEvent<HTMLDivElement>) => {
-    if (evt && editorRef.current) {
-      editorRef.current.focusEditor();
-    }
-  };
+  const handleControlClick = React.useCallback(
+    (evt: React.MouseEvent<HTMLDivElement>) => {
+      if (evt && editorRef.current) {
+        editorRef.current.focusEditor();
+      }
+    },
+    []
+  );
 
   const contentState = editorState.getCurrentContent();
   let forceHidePlaceholder = false;
@@ -271,6 +298,7 @@ const RichTextEditorField = ({
           data-testid={camelCase(`input ${name}`)}
           toolbarStyle={toolbarStyle}
           toolbar={editorToolbar}
+          toolbarCustomButtons={toolbarCustomButtons}
           toolbarClassName={isMobile && classes.hiddenToolbar}
         />
         <InputNotched children={label} variant={variant} />

@@ -3,6 +3,7 @@
 namespace MetaFox\ActivityPoint\Repositories;
 
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use MetaFox\ActivityPoint\Models\PackagePurchase;
 use MetaFox\ActivityPoint\Models\PointPackage as Model;
 use MetaFox\Platform\Contracts\User;
@@ -39,9 +40,9 @@ interface PointPackageRepositoryInterface
     /**
      * @param  User                 $context
      * @param  array<string, mixed> $attributes
-     * @return Paginator
+     * @return Collection
      */
-    public function viewPackagesAdmin(User $context, array $attributes): Paginator;
+    public function viewPackagesAdmin(User $context, array $attributes): Collection;
 
     /**
      * @param  User                 $context

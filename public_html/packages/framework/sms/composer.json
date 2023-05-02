@@ -1,6 +1,6 @@
 {
     "name": "metafox/sms",
-    "version": "5.0.2",
+    "version": "5.0.3",
     "description": "SMS Gateway",
     "keyword": "",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "extra": {
         "metafox": {
-            "core": false,
+            "core": true,
             "priority": 9,
             "alias": "sms",
             "asset": "sms",

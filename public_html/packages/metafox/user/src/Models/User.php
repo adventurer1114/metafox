@@ -429,7 +429,7 @@ class User extends Authenticatable implements
 
     public function toTitle(): string
     {
-        return $this->full_name;
+        return $this->full_name ?? '';
     }
 
     public function toLink(): ?string

@@ -18,7 +18,7 @@ const Enhancer = connectSubject(connectItemView(Base, () => {}));
 export default createBlock<any>({
   extendBlock: Enhancer,
   defaults: {
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - Rule - Main Card',
     itemLayout: 'Group - Rule - Main Card',
     contentType: 'group',

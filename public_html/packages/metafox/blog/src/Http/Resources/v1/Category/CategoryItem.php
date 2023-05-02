@@ -32,7 +32,8 @@ class CategoryItem extends JsonResource
             'name_url'      => $this->resource->name_url,
             'total_item'    => $this->resource->total_item,
             'ordering'      => $this->resource->ordering,
-            'url'           => $this->resource->toLink(),
+            'link'          => $this->resource->toLink(),
+            'url'           => $this->resource->toUrl(),
             'subs'          => new CategoryItemCollection($this->resource->subCategories),
         ];
     }

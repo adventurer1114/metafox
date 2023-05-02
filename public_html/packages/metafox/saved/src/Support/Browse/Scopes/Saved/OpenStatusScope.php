@@ -64,6 +64,7 @@ class OpenStatusScope extends BaseScope
             return;
         }
 
+        $table   = $model->getTable();
         $listId  = $this->getSavedListId() == 0 ? null : $this->getSavedListId();
         $viewIds = SavedListItemView::query()->getModel()->where([
             'user_id' => $this->getUserId(),
@@ -72,10 +73,10 @@ class OpenStatusScope extends BaseScope
 
         switch ($this->getOpenValue()) {
             case 'opened':
-                $builder->whereIn('id', $viewIds);
+                $builder->whereIn($this->alias($table, 'id'), $viewIds);
                 break;
             default:
-                $builder->whereNotIn('id', $viewIds);
+                $builder->whereNotIn($this->alias($table, 'id'), $viewIds);
         }
     }
 }

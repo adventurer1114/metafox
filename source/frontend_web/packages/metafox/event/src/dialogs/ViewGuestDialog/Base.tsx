@@ -62,10 +62,12 @@ const useCustomTabs = item => {
       emptyPageProps: {
         icon: 'ico-user3-three',
         description: 'no_one_has_been_invited',
-        buttonCustom: {
-          component: 'event.invitedButton',
-          props: { item, type: 'event/invitePeopleToCome' }
-        }
+        buttonCustom: item.extra?.can_invite
+          ? {
+              component: 'event.invitedButton',
+              props: { item, type: 'event/invitePeopleToCome' }
+            }
+          : null
       },
       dataSource: {
         apiUrl: dataSourceInvite.apiUrl,

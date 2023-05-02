@@ -12,7 +12,9 @@ use MetaFox\Page\Jobs\CleanUpDeletedPageJob;
 use MetaFox\Page\Models\Category;
 use MetaFox\Page\Models\Page;
 use MetaFox\Page\Models\PageMember;
+use MetaFox\Page\Notifications\ApproveNewPostNotification;
 use MetaFox\Page\Notifications\ApproveRequestClaimNotification;
+use MetaFox\Page\Notifications\AssignOwnerNotification;
 use MetaFox\Page\Notifications\ClaimNotification;
 use MetaFox\Page\Notifications\LikePageNotification;
 use MetaFox\Page\Notifications\PageApproveNotification;
@@ -70,7 +72,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'type'            => Page::PAGE_UPDATE_COVER_ENTITY_TYPE,
                 'entity_type'     => Page::ENTITY_TYPE,
                 'is_active'       => true,
-                'title'           => 'user::phrase.page_type',
+                'title'           => 'page::phrase.page_type',
                 'description'     => 'page_user_name_updated_their_cover_photo',
                 'is_system'       => 0,
                 'can_comment'     => true,
@@ -87,20 +89,20 @@ class PackageSettingListener extends BasePackageSettingListener
     {
         return [
             Page::ENTITY_TYPE => [
-                'view'          => UserRole::LEVEL_GUEST,
-                'create'        => UserRole::LEVEL_REGISTERED,
-                'update'        => UserRole::LEVEL_REGISTERED,
-                'delete'        => UserRole::LEVEL_REGISTERED,
-                'moderate'      => UserRole::LEVEL_STAFF,
-                'feature'       => UserRole::LEVEL_STAFF,
-                'approve'       => UserRole::LEVEL_STAFF,
-                'claim'         => UserRole::LEVEL_STAFF,
-                'share'         => UserRole::LEVEL_REGISTERED,
-                'report'        => UserRole::LEVEL_REGISTERED,
-                'auto_approved' => UserRole::LEVEL_REGISTERED,
-                'upload_cover'  => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_REGISTERED,
+                'update'           => UserRole::LEVEL_REGISTERED,
+                'delete'           => UserRole::LEVEL_REGISTERED,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'feature'          => UserRole::LEVEL_STAFF,
+                'approve'          => UserRole::LEVEL_STAFF,
+                'claim'            => UserRole::LEVEL_STAFF,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'auto_approved'    => UserRole::LEVEL_REGISTERED,
+                'upload_cover'     => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
             ],
         ];
     }
@@ -119,6 +121,15 @@ class PackageSettingListener extends BasePackageSettingListener
                     ],
                 ],
                 'quota_control' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
+                'purchase_sponsor_price' => [
                     'type'    => MetaFoxDataType::INTEGER,
                     'default' => 0,
                     'roles'   => [
@@ -219,6 +230,9 @@ class PackageSettingListener extends BasePackageSettingListener
             'user.role.downgrade' => [
                 UserRoleDowngradeListener::class,
             ],
+            'activity.notify.approved_new_post_in_owner' => [
+                ApprovedNewPostListener::class,
+            ],
         ];
     }
 
@@ -257,7 +271,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'is_request' => 0,
                 'is_system'  => 1,
                 'can_edit'   => 0,
-                'channels'   => ['database', 'mail', 'sms', 'mobilepush', 'webpush'],
+                'channels'   => ['database', 'mail', 'sms', 'webpush'],
                 'ordering'   => 16,
             ],
             [
@@ -293,6 +307,27 @@ class PackageSettingListener extends BasePackageSettingListener
                 'channels'   => ['mail', 'sms', 'database', 'mobilepush', 'webpush'],
                 'ordering'   => 19,
             ],
+            [
+                'type'       => 'page_new_post',
+                'module_id'  => 'page',
+                'handler'    => ApproveNewPostNotification::class,
+                'title'      => 'page::phrase.page_new_post_notification_type',
+                'is_request' => 0,
+                'is_system'  => 1,
+                'can_edit'   => 1,
+                'channels'   => ['mail', 'database', 'mobilepush', 'webpush'],
+            ],
+            [
+                'type'       => 'assign_owner_page',
+                'module_id'  => 'page',
+                'handler'    => AssignOwnerNotification::class,
+                'title'      => 'page::phrase.assign_owner_page_notification_type',
+                'is_request' => 0,
+                'is_system'  => 1,
+                'can_edit'   => 1,
+                'channels'   => ['mail', 'sms', 'database', 'mobilepush', 'webpush'],
+                'ordering'   => 20,
+            ],
         ];
     }
 
@@ -323,5 +358,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['page', 'page_category'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/page',
+                'name' => 'page::phrase.ad_mob_page_home_page',
+            ],
+            [
+                'path' => '/page/:id',
+                'name' => 'page::phrase.ad_mob_page_detail_page',
+            ],
+        ];
     }
 }

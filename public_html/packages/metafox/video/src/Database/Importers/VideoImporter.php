@@ -98,13 +98,14 @@ class VideoImporter extends JsonImporter
 
         $this->addEntryToBatch(VideoText::class, [
             'id'          => $entry['$oid'],
-            'text'        => $entry['text'] ?? '',
-            'text_parsed' => $this->parseText($entry['text_parsed'] ?? ''),
+            'text'        => $this->parseMention($entry['text'] ?? '', $entry),
+            'text_parsed' => $this->parseText($entry['text_parsed'] ?? '', true, true, $entry),
         ]);
     }
 
     public function afterImport(): void
     {
+        $this->processImportUserMention();
         $this->importTagData(VideoTagData::class);
     }
 }

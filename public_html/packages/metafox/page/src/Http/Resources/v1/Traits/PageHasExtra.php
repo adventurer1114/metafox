@@ -58,6 +58,7 @@ trait PageHasExtra
             ResourcePermission::CAN_ADD_COVER         => $canUploadCover,
             ResourcePermission::CAN_VIEW_PUBLISH_DATE => $policy->viewPublishedDate($context, $this->resource),
             ResourcePermission::CAN_MESSAGE           => $policy->message($context, $this->resource),
+            ResourcePermission::CAN_FOLLOW            => $policy->follow($context, $this->resource),
         ];
     }
 }

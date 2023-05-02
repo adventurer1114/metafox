@@ -25,11 +25,11 @@ class DataGrid extends Grid
 
     protected function initialize(): void
     {
-        $this->setSearchForm(new SearchFieldForm());
+        if ($this->enableOrder()) {
+            $this->sortable();
+        }
 
-        $this->addColumn('id')
-            ->header('ID')
-            ->width(80);
+        $this->setSearchForm(new SearchFieldForm());
 
         $this->addColumn('field_name')
             ->header(__p('core::phrase.name'))
@@ -42,13 +42,10 @@ class DataGrid extends Grid
         $this->addColumn('group')
             ->header(__p('profile::phrase.group'))
             ->flex();
-        $this->addColumn('ordering')
-            ->header(__p('core::phrase.ordering'))
-            ->alignCenter()
-            ->flex();
 
         $this->addColumn('is_active')
             ->header(__p('core::phrase.is_active'))
+            ->flex()
             ->asYesNoIcon();
         /*
          * Add default actions
@@ -58,6 +55,12 @@ class DataGrid extends Grid
             $actions->add('edit')
                 ->asFormDialog(false)
                 ->link('links.editItem');
+
+            if ($this->enableOrder()) {
+                $actions->add('orderItem')
+                    ->asPost()
+                    ->apiUrl('admincp/profile/field/order');
+            }
         });
 
         /*
@@ -67,5 +70,10 @@ class DataGrid extends Grid
             $menu->withEdit();
             $menu->withDelete();
         });
+    }
+
+    protected function enableOrder(): bool
+    {
+        return true;
     }
 }

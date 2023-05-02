@@ -647,10 +647,10 @@
   "p_chatplus_private_code": "ChatPlus Secret Code",
   "invalid-secret-code [invalid-secret-code]": "Invalid ChatPlus Secret Code",
   "there_are_two_many_concurrent_calls": "There are too many calls, please wait in minutes",
-  "call_group_members_start_ringing": "Call Group Members - Start Ringing",
+  "call_group_members_start_ringing": "Call Group Members",
   "can_not_call_with_more_than_value_members": "Can not call with more than {value} members",
-  "start_video_call": "Start Video Chat",
-  "start_call": "Start Call",
+  "start_video_call": "Video Chat",
+  "start_call": "Audio Call",
   "downloading": "Downloading...",
   "download_video_successfully": "Download video successfully",
   "notify_all_in_this_room_is_not_allowed": "Notify all in this room is not allowed",
@@ -749,5 +749,7 @@
   "undo_starred_messages": "Undo starred messages",
   "undo_pinned_messages": "Undo pinned messages",
   "create_new_group": "Create new group",
-  "start_a_video_call": "Start a video call"
+  "start_a_video_call": "Start a video call",
+  "remove_from_chat": "Remove from chat?",
+  "remove_from_chat_description": "Are you sure you want to remove this person from the conversation? They will no longer be able to send or receive new messages."
 }

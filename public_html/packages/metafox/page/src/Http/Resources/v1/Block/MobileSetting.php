@@ -19,6 +19,13 @@ class MobileSetting extends ResourceSetting
         $this->add('unblockFromPage')
             ->apiUrl('page-unblock')
             ->asDelete()
-            ->apiParams(['page_id' => ':page_id', 'user_id' => ':user_id']);
+            ->apiParams(['page_id' => ':page_id', 'user_id' => ':user_id'])
+            ->confirm([
+                'title'        => __p('page::phrase.un_block_member_confirm_label'),
+                'message'      => 'confirm_unblock_form_page_desc',
+                'phraseParams' => [
+                    'userName' => ':user.full_name',
+                ],
+            ]);
     }
 }

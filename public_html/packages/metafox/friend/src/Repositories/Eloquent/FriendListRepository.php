@@ -5,12 +5,14 @@ namespace MetaFox\Friend\Repositories\Eloquent;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Query\JoinClause;
 use MetaFox\Friend\Models\FriendList;
+use MetaFox\Friend\Models\FriendListData;
 use MetaFox\Friend\Policies\FriendListPolicy;
 use MetaFox\Friend\Repositories\FriendListRepositoryInterface;
 use MetaFox\Friend\Repositories\FriendRepositoryInterface;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\Support\Browse\Scopes\SortScope;
+use MetaFox\User\Traits\UserMorphTrait;
 
 /**
  * Class FriendListRepository.
@@ -23,6 +25,7 @@ use MetaFox\Platform\Support\Browse\Scopes\SortScope;
  */
 class FriendListRepository extends AbstractRepository implements FriendListRepositoryInterface
 {
+    use UserMorphTrait;
     public function model(): string
     {
         return FriendList::class;
@@ -174,16 +177,16 @@ class FriendListRepository extends AbstractRepository implements FriendListRepos
         return $friendList->users()->updateExistingPivot($id, ['']);
     }
 
-    public function deleteUserData(int $userId): void
+    /**
+     * @inheritDoc
+     */
+    public function deleteUserForListData(User $user): void
     {
-        $lists = $this->getModel()->newModelQuery()
-            ->where([
-                'user_id' => $userId,
-            ])
-            ->get();
+        $model = new FriendListData();
 
-        foreach ($lists as $list) {
-            $list->delete();
-        }
+        $model->newQuery()->where([
+            'user_id'   => $user->entityId(),
+            'user_type' => $user->entityType(),
+        ])->delete();
     }
 }

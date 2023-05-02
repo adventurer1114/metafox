@@ -40,9 +40,12 @@ class WebSetting extends Setting
                 ]
             );
 
-        $this->add('viewItems')
+        $this->add('viewAll')
             ->asGet()
             ->apiUrl('saveditems-collection')
+            ->apiRules([
+                'saved_id' => ['truthy', 'saved_id'],
+            ])
             ->apiParams([
                 'saved_id' => ':saved_id',
             ]);
@@ -64,5 +67,12 @@ class WebSetting extends Setting
                     'message' => __p('saved::phrase.leave_confirm_saved_list', ),
                 ]
             );
+
+        $this->add('viewItem')
+            ->asGet()
+            ->apiUrl('saveditems-collection/item/:id')
+            ->apiParams([
+                'type' => ':type',
+            ]);
     }
 }

@@ -41,7 +41,7 @@ class StoreCategoryForm extends AbstractForm
                 ->required(true)
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             MetaFoxConstant::DEFAULT_MAX_CATEGORY_TITLE_LENGTH,
                             __p('validation.field_must_be_at_most_max_length_characters', [
@@ -62,9 +62,17 @@ class StoreCategoryForm extends AbstractForm
                 ->label(__p('core::phrase.parent_category'))
                 ->required(false)
                 ->options($this->getParentCategoryOptions()),
-            Builder::checkbox('is_active')->label(__p('core::phrase.is_active'))->required(true),
+            Builder::checkbox('is_active')
+                ->label(__p('core::phrase.is_active'))
+                ->disabled($this->isDisabled())
+                ->required(true),
         );
 
         $this->addDefaultFooter();
+    }
+
+    protected function isDisabled(): bool
+    {
+        return false;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MetaFox\Payment\Repositories\Eloquent;
 
-use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use MetaFox\Payment\Models\Order;
 use MetaFox\Payment\Repositories\OrderAdminRepositoryInterface;
@@ -27,7 +27,7 @@ class OrderAdminRepository extends AbstractRepository implements OrderAdminRepos
         return Order::class;
     }
 
-    public function getTransactions(User $context, array $attributes): Paginator
+    public function getTransactions(User $context, array $attributes): Collection
     {
         $status        = Arr::get($attributes, 'status', []);
         $excludeStatus = Arr::get($attributes, 'exclude_status', []);
@@ -66,6 +66,6 @@ class OrderAdminRepository extends AbstractRepository implements OrderAdminRepos
             ->addScope($sortScope)
             ->addScope($statusScope)
             ->where('item_type', '=', $attributes['item_type'])
-            ->paginate($attributes['limit']);
+            ->get();
     }
 }

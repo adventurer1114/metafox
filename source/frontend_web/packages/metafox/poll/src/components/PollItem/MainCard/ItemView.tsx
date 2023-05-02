@@ -25,22 +25,6 @@ const FlagWrapper = styled('span', {
   marginBottom: theme.spacing(1)
 }));
 
-const ItemMediaWrapper = styled(ItemMedia, {
-  name: 'ItemMediaWrapper'
-})(({ theme }) => ({
-  [theme.breakpoints.down('sm')]: {
-    marginBottom: theme.spacing(2)
-  }
-}));
-
-const ItemActionWrapper = styled(ItemAction, {
-  name: 'ItemActionWrapper'
-})(({ theme }) => ({
-  [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(0, 0, 0, 2)
-  }
-}));
-
 const ClosedStyled = styled(Box, {
   name: 'ClosedStyled'
 })(({ theme }) => ({
@@ -80,7 +64,7 @@ export default function PollItemMainCard({
       testid={`${item.resource_name}`}
       data-eid={identity}
     >
-      <ItemMediaWrapper
+      <ItemMedia
         src={cover}
         link={to}
         alt={item.question}
@@ -99,14 +83,17 @@ export default function PollItemMainCard({
           <Link to={to} children={item.question} color={'inherit'} />
         </ItemTitle>
         {itemProps.showActionMenu ? (
-          <ItemActionWrapper placement="top-end" spacing="normal">
+          <ItemAction
+            placement={isMobile ? 'bottom-end' : 'top-end'}
+            spacing="normal"
+          >
             <ItemActionMenu
               identity={identity}
               icon={'ico-dottedmore-vertical-o'}
               state={state}
               handleAction={handleAction}
             />
-          </ItemActionWrapper>
+          </ItemAction>
         ) : null}
         <div className={classes.itemMinor}>
           <Link hoverCard to={`/user/${user?.id}`} children={user?.full_name} />

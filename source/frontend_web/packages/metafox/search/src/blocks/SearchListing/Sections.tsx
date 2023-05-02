@@ -29,12 +29,12 @@ export default function Sections({
       loading={loading}
       emptyComponent={data?.length > 0 ? undefined : 'core.block.no_results'}
     >
-      <Box>
+      <Box sx={{ maxWidth: '100%' }}>
         <List disablePadding>
           {isArray(data)
             ? data.map((item, key) => (
                 <Box key={key}>
-                  <Typography variant="h4" sx={{ py: 2, pl: isMobile ? 2 : 0 }}>
+                  <Typography variant="h4" sx={{ pt: 2, pl: isMobile ? 2 : 0 }}>
                     {item.label}
                   </Typography>
                   <Item item={item} {...others} />

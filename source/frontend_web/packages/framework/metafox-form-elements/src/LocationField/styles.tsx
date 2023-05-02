@@ -13,6 +13,9 @@ export default makeStyles(
         height: 300,
         backgroundColor: theme.palette.action.focus
       },
+      hideMap: {
+        display: 'none !important'
+      },
       popper: {
         zIndex: 1300,
         width: '100%'

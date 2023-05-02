@@ -30,7 +30,6 @@ use MetaFox\Platform\Contracts\HasResourceCategory;
 use MetaFox\Platform\Contracts\HasResourceStream;
 use MetaFox\Platform\Contracts\HasSavedItem;
 use MetaFox\Platform\Contracts\HasSponsor;
-use MetaFox\Platform\Contracts\HasSponsorInFeed;
 use MetaFox\Platform\Contracts\HasThumbnail;
 use MetaFox\Platform\Contracts\HasTotalCommentWithReply;
 use MetaFox\Platform\Contracts\HasTotalLike;
@@ -104,7 +103,6 @@ class Listing extends Model implements
     HasResourceCategory,
     HasFeature,
     HasSponsor,
-    HasSponsorInFeed,
     HasLocationCheckin,
     HasTotalLike,
     HasTotalShare,
@@ -190,6 +188,7 @@ class Listing extends Model implements
         'city',
         'tags',
         'start_expired_at',
+        'notify_at',
     ];
 
     /**
@@ -246,6 +245,16 @@ class Listing extends Model implements
         return [$this->location_name, $this->location_latitude, $this->location_longitude, $this->country_iso];
     }
 
+    public function isShowLocation(): bool
+    {
+        return false;
+    }
+
+    /**
+     * toLocationObject.
+     *
+     * @return array<mixed>
+     */
     public function toLocationObject(): array
     {
         return [
@@ -301,6 +310,11 @@ class Listing extends Model implements
             ->orderBy('ordering');
     }
 
+    /**
+     * toSavedItem.
+     *
+     * @return array<mixed>
+     */
     public function toSavedItem(): array
     {
         return [
@@ -310,9 +324,16 @@ class Listing extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
+    /**
+     * toSearchable.
+     *
+     * @return ?array<mixed>
+     */
     public function toSearchable(): ?array
     {
         if (!$this->isApproved()) {
@@ -351,6 +372,11 @@ class Listing extends Model implements
         return url_utility()->makeApiMobileUrl('marketplace/' . $this->entityId());
     }
 
+    /**
+     * getPriceAttribute.
+     *
+     * @return array<mixed>
+     */
     public function getPriceAttribute(): array
     {
         $price = Arr::get($this->attributes, 'price');
@@ -366,6 +392,11 @@ class Listing extends Model implements
         return $price;
     }
 
+    /**
+     * toApprovedNotification.
+     *
+     * @return array<mixed>
+     */
     public function toApprovedNotification(): array
     {
         return [$this->user, new ListingApprovedNotification($this)];
@@ -391,5 +422,16 @@ class Listing extends Model implements
     {
         return $this->hasMany(Invoice::class, 'listing_id', 'id')
             ->whereIn('status', [Facade::getInitPaymentStatus()]);
+    }
+
+    public function getImagesAttribute(): ?array
+    {
+        $thumbnail = $this->photos->first()?->image_file_id;
+
+        if ($thumbnail == null) {
+            return null;
+        }
+
+        return app('storage')->getUrls($thumbnail);
     }
 }

@@ -4,6 +4,7 @@ namespace MetaFox\App\Repositories\Eloquent;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
@@ -54,7 +55,8 @@ class PackageRepository extends AbstractRepository implements PackageRepositoryI
             return localCacheStore()->rememberForever(
                 'ModuleRepository_getModuleOptions_true',
                 function () {
-                    $return   = [];
+                    $return = [];
+
                     $packages = $this->orderBy('title')->all();
 
                     foreach ($packages as $module) {
@@ -79,6 +81,37 @@ class PackageRepository extends AbstractRepository implements PackageRepositoryI
                 return $return;
             }
         );
+    }
+
+    public function getPackageHasPermission(): Collection
+    {
+        return localCacheStore()->rememberForever(
+            'ModuleRepository_getModuleHasPermission',
+            function () {
+                return $this->getModel()->newQuery()
+                    ->withCount([
+                        'permissions' => function ($query) {
+                            $query->whereNotIn('entity_type', ['*']);
+                        }])
+                    ->orderBy('title')
+                    ->get('packages.*');
+            }
+        );
+    }
+
+    public function getPackageHasPermissionOptions(): array
+    {
+        $packages = $this->getPackageHasPermission()->filter(function (Package $package) {
+            return $package->permissions_count > 0;
+        });
+
+        $packageOptions = [];
+
+        foreach ($packages as $package) {
+            $packageOptions[] = ['value' => $package->alias, 'label' => $package->title];
+        }
+
+        return $packageOptions;
     }
 
     public function getActivePackageAliases(): array
@@ -106,7 +139,8 @@ class PackageRepository extends AbstractRepository implements PackageRepositoryI
         return localCacheStore()->rememberForever(
             __METHOD__,
             function () {
-                $return   = [];
+                $return = [];
+
                 $packages = $this->getModel()->newQuery()->where([
                     'is_active'    => 1,
                     'is_installed' => 1,
@@ -491,5 +525,10 @@ class PackageRepository extends AbstractRepository implements PackageRepositoryI
             ->whereIn('name', $names)
             ->get()
             ->collect();
+    }
+
+    public function isAppActive(string $name): bool
+    {
+        return in_array($name, $this->getActivePackageIds());
     }
 }

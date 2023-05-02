@@ -55,9 +55,9 @@ class ServiceMailgunSettingForm extends Form
                 ->description(__p('mail::mailgun.secret_desc'))
                 ->yup(Yup::string()->required()->nullable()),
             Builder::text('core.services.mailgun.endpoint')
-                ->required()
                 ->label(__p('mail::mailgun.mailgun_endpoint_label'))
                 ->description(__p('mail::mailgun.endpoint_desc'))
+                ->placeholder('api.mailgun.net')
                 ->yup(Yup::string()->label(__p('mail::mailgun.mailgun_endpoint_label'))->required()->nullable()),
             Builder::text('mail.from.name')
                 ->required()
@@ -80,7 +80,12 @@ class ServiceMailgunSettingForm extends Form
         $this->addDefaultFooter(true);
     }
 
-    public function validated(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return array<mixed>
+     */
+    public function validated(Request $request): array
     {
         $data = $request->validate([
             'core.services.mailgun.domain'   => 'string|required',
@@ -94,7 +99,7 @@ class ServiceMailgunSettingForm extends Form
         Arr::set($data, 'mail.mailers.mailgun.transport', 'mailgun');
 
         config([
-            'core.services.mailgun'      => Arr::get($data, 'core.services.mailgun'),
+            'services.mailgun'           => Arr::get($data, 'core.services.mailgun'),
             'mail.mailers.verify_config' => Arr::get($data, 'mail.mailers.mailgun'),
         ]);
 

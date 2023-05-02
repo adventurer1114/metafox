@@ -13,22 +13,34 @@ import { UserAvatar } from '@metafox/ui';
 import { Divider as MenuDivider } from '@mui/material';
 import useStyles from './SiteBarMobileBlock.styles';
 import React from 'react';
+import { filterShowWhen } from '@metafox/utils';
 
 function ProfileMenuMobile() {
   const classes = useStyles();
-  const { useDialog, i18n, useSession, jsxBackend } = useGlobal();
+  const { useDialog, i18n, useSession, jsxBackend, getSetting, getAcl } =
+    useGlobal();
   const { dialogProps } = useDialog();
   const { user: authUser } = useSession();
   const accountMenu = useAppMenu('core', 'accountMenu');
   const [handleAction] = useActionControl(null, {});
   const title = i18n.formatMessage({ id: 'profile' });
 
+  const setting = getSetting();
+  const acl = getAcl();
+  const session = useSession();
+
+  const accountMenuFilter = filterShowWhen(accountMenu.items, {
+    setting,
+    acl,
+    session
+  });
+
   return (
     <Dialog
-      maxWidth="sm"
+      {...dialogProps}
       fullWidth
       data-testid="popupProfileMenu"
-      {...dialogProps}
+      fullScreen
     >
       <DialogTitle data-testid="popupTitle" enableBack disableClose>
         {title}
@@ -47,7 +59,7 @@ function ProfileMenuMobile() {
               </Link>
             </div>
           </div>
-          {accountMenu.items.filter(Boolean).map((item, index) =>
+          {accountMenuFilter.filter(Boolean).map((item, index) =>
             jsxBackend.render({
               component: `menuItem.as.${item.as || 'normal'}`,
               props: {

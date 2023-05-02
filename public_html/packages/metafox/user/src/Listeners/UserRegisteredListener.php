@@ -33,6 +33,10 @@ class UserRegisteredListener
 
     private function handleUserVerification(User $user): void
     {
+        if ($user->hasVerifiedEmail()) {
+            return;
+        }
+
         if (!Settings::get('user.verify_email_at_signup')) {
             $user->markAsVerified();
 

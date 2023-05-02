@@ -19,7 +19,15 @@ class AssignOwnerGroupNotification extends ApproveNotification
 
     public function callbackMessage(): ?string
     {
-        $owner = UserEntity::getById($this->model->userId());
+        $owner = UserEntity::getById($this->model?->userId());
+
+        if (!$owner) {
+            return null;
+        }
+
+        if (!$this->user) {
+            return null;
+        }
 
         return $this->localize('group::notification.user_assign_owner_of_the_group_title_notification', [
             'user'  => $this->user->name,

@@ -18,6 +18,10 @@ export default function ModalRoutes() {
 
   // const isFirst = !!modal;
 
+  if (location.state?.asModal && location.state?.resetModal) {
+    window.history.replaceState({}, document.title);
+  }
+
   if (location.state?.asModal) {
     isModal = true;
   }

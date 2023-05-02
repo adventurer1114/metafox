@@ -81,4 +81,15 @@ class LanguageRepository extends AbstractRepository implements LanguageRepositor
 
         return (bool) $language->delete();
     }
+
+    public function viewAllLanguages(array $codes = []): Collection
+    {
+        $query = Language::query();
+
+        if (count($codes)) {
+            $query->whereIn('language_code', $codes);
+        }
+
+        return $query->get();
+    }
 }

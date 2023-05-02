@@ -59,23 +59,6 @@ class BgsCollectionController extends ApiController
     }
 
     /**
-     * View collection.
-     *
-     * @param IndexRequest $request
-     *
-     * @return JsonResource
-     * @throws AuthenticationException
-     * @throws AuthorizationException
-     */
-    public function viewBgsCollectionsForAdmin(IndexRequest $request)
-    {
-        $params = $request->validated();
-        $data   = $this->repository->viewBgsCollectionsForAdmin(user(), $params);
-
-        return new ItemCollection($data);
-    }
-
-    /**
      * Get background.
      *
      * @param GetBackgroundsRequest $request

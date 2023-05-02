@@ -17,7 +17,7 @@ class PrivacyField extends AbstractField
             ->label(__p('core::phrase.privacy'))
             ->name('privacy')
             ->fullWidth(true)
-            ->variant('standard')
+            ->variant('standard-inlined')
             ->options($this->getFieldPrivacyOptions());
     }
 

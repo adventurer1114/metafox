@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-pages-blocks-PageComposer-Block"],{78651:function(e,o,s){s.r(o);var a=s(85597);o.default=(0,a.j4Z)({extendBlock:"feed.block.statusComposer",name:"PageComposer",overrides:{showWhen:["falsy","profile.is_pending"]}})}}]);

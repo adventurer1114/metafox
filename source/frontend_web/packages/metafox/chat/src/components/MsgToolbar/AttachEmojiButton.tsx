@@ -21,7 +21,7 @@ export default function AttachEmojiButton({
   scrollRef,
   scrollClose,
   placement = 'top',
-  label = 'insert_an_emoji',
+  label = 'react',
   control: Control,
   identity,
   unsetReaction

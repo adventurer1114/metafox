@@ -45,7 +45,9 @@ use MetaFox\User\Traits\UserMorphTrait;
 use MetaFox\Video\Jobs\VideoProcessingJob;
 use MetaFox\Video\Models\Video as Model;
 use MetaFox\Video\Notifications\VideoDoneProcessingNotification;
+use MetaFox\Video\Policies\CategoryPolicy;
 use MetaFox\Video\Policies\VideoPolicy;
+use MetaFox\Video\Repositories\CategoryRepositoryInterface;
 use MetaFox\Video\Repositories\VideoRepositoryInterface;
 use MetaFox\Video\Support\Browse\Scopes\Video\SortScope;
 use MetaFox\Video\Support\Browse\Scopes\Video\ViewScope;
@@ -99,12 +101,19 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
 
         if (Browse::VIEW_PENDING == $view) {
             if (Arr::get($attributes, 'user_id') == 0 || Arr::get($attributes, 'user_id') != $context->entityId()) {
-                if (!$context->hasPermissionTo('video.approve')) {
+                if ($context->isGuest() || !$context->hasPermissionTo('video.approve')) {
                     throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
                 }
             }
         }
 
+        $categoryId = Arr::get($attributes, 'category_id', 0);
+
+        if ($categoryId > 0) {
+            $category = resolve(CategoryRepositoryInterface::class)->find($categoryId);
+
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
+        }
         $query     = $this->buildQueryViewVideos($context, $owner, $attributes);
         $relations = ['videoText', 'user', 'userEntity', 'activeCategories'];
 
@@ -172,6 +181,8 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
 
         $videoTempFile = null;
         $tempFile      = Arr::get($attributes, 'temp_file', 0);
+        $jobExtra      = [];
+
         if ($tempFile > 0) {
             $attributes['in_process']    = Model::VIDEO_IN_PROCESS;
             $attributes['image_file_id'] = null;
@@ -206,14 +217,16 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
         $model = $this->getModel()->newModelInstance();
         $model->fill($attributes);
 
+        Arr::set($jobExtra, 'privacy', Arr::get($attributes, 'privacy'));
         if ($attributes['privacy'] == MetaFoxPrivacy::CUSTOM) {
             $model->setPrivacyListAttribute($attributes['list']);
+            Arr::set($jobExtra, 'privacy_list', Arr::get($attributes, 'list'));
         }
 
         $model->save();
 
         if (null !== $videoTempFile) {
-            VideoProcessingJob::dispatch($videoTempFile, $model->entityId());
+            VideoProcessingJob::dispatch($videoTempFile, $model->entityId(), $jobExtra);
         }
 
         $model->refresh();
@@ -462,6 +475,10 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
 
         $video->fill($attributes);
 
+        if ($attributes['privacy'] == MetaFoxPrivacy::CUSTOM) {
+            $video->setPrivacyListAttribute($attributes['privacy_list']);
+        }
+
         $video->save();
 
         app('events')->dispatch('activity.feed.create_from_resource', [$video], true);
@@ -504,6 +521,8 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
 
         $content = null;
 
+        $extra = [];
+
         if (Arr::has($params, 'text')) {
             $text = Arr::get($params, 'text');
 
@@ -536,15 +555,15 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
 
         $model->fill($params);
 
+        Arr::set($extra, 'privacy', Arr::get($params, 'privacy'));
         if (MetaFoxPrivacy::CUSTOM == $params['privacy']) {
             $model->setPrivacyListAttribute($params['list']);
+            Arr::set($extra, 'privacy_list', Arr::get($params, 'list'));
         }
 
         $model->save();
 
         $model->refresh();
-
-        $extra = [];
 
         if (Arr::has($params, 'searchable_text')) {
             Arr::set($extra, 'searchable_text', Arr::get($params, 'searchable_text'));
@@ -573,8 +592,8 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
         array $params = []
     ): Model {
         policy_authorize(PhotoPolicy::class, 'update', $context, $video);
-
-        $params = array_merge($params, [
+        $jobExtra = [];
+        $params   = array_merge($params, [
             'title'       => $tempFile->file_name,
             'text'        => '',
             'is_approved' => (int) $context->hasPermissionTo('video.auto_approved'),
@@ -589,14 +608,16 @@ class VideoRepository extends AbstractRepository implements VideoRepositoryInter
 
         $video->fill($params);
 
+        Arr::set($jobExtra, 'privacy', Arr::get($params, 'privacy'));
         if ($params['privacy'] == MetaFoxPrivacy::CUSTOM) {
             $video->setPrivacyListAttribute($params['list']);
+            Arr::set($jobExtra, 'privacy_list', Arr::get($params, 'list'));
         }
 
         $video->save();
         $video->refresh();
 
-        VideoProcessingJob::dispatch($tempFile, $video->entityId());
+        VideoProcessingJob::dispatch($tempFile, $video->entityId(), $jobExtra);
 
         return $video;
     }

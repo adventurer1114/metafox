@@ -65,22 +65,22 @@ class PackageSettingListener extends BasePackageSettingListener
     {
         return [
             Event::ENTITY_TYPE => [
-                'view'     => UserRole::LEVEL_GUEST,
-                'create'   => UserRole::LEVEL_REGISTERED,
-                'update'   => UserRole::LEVEL_REGISTERED,
-                'delete'   => UserRole::LEVEL_REGISTERED,
-                'moderate' => UserRole::LEVEL_STAFF,
-                'feature'  => UserRole::LEVEL_REGISTERED,
-                'approve'  => UserRole::LEVEL_STAFF,
-                'save'     => UserRole::LEVEL_REGISTERED,
-                'like'     => UserRole::LEVEL_REGISTERED,
-                'share'    => UserRole::LEVEL_REGISTERED,
-                'report'   => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
-                'auto_approved' => UserRole::LEVEL_REGISTERED,
-                'discussion'    => UserRole::LEVEL_REGISTERED,
-                'mass_email'    => UserRole::LEVEL_REGISTERED,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_REGISTERED,
+                'update'           => UserRole::LEVEL_REGISTERED,
+                'delete'           => UserRole::LEVEL_REGISTERED,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'feature'          => UserRole::LEVEL_REGISTERED,
+                'approve'          => UserRole::LEVEL_STAFF,
+                'save'             => UserRole::LEVEL_REGISTERED,
+                'like'             => UserRole::LEVEL_REGISTERED,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'auto_approved'    => UserRole::LEVEL_REGISTERED,
+                'discussion'       => UserRole::LEVEL_REGISTERED,
+                'mass_email'       => UserRole::LEVEL_REGISTERED,
             ],
         ];
     }
@@ -171,6 +171,7 @@ class PackageSettingListener extends BasePackageSettingListener
             'number_hours_expiration_invite_code' => ['value' => 48],
             'invite_expiration_role'              => ['value' => 0],
             'default_time_format'                 => ['value' => 12],
+            'enable_map'                          => ['value' => true],
         ];
     }
 
@@ -311,6 +312,15 @@ class PackageSettingListener extends BasePackageSettingListener
                         UserRole::NORMAL_USER => 0,
                     ],
                 ],
+                'purchase_sponsor_price' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
                 'how_long_time_must_wait_send_mass_email' => [
                     'type'    => MetaFoxDataType::INTEGER,
                     'default' => 60,
@@ -353,5 +363,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['event', 'event_category'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/event',
+                'name' => 'event::phrase.ad_mob_home_page',
+            ],
+            [
+                'path' => '/event/:id',
+                'name' => 'event::phrase.ad_mob_detail_page',
+            ],
+        ];
     }
 }

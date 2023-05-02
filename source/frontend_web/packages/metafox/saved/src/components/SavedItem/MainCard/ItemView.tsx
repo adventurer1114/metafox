@@ -1,9 +1,4 @@
-import {
-  GlobalState,
-  Link,
-  useGlobal,
-  useResourceAction
-} from '@metafox/framework';
+import { Link, useGlobal, useResourceAction } from '@metafox/framework';
 import { SavedItemProps as ItemProps } from '@metafox/saved/types';
 import {
   ItemAction,
@@ -15,9 +10,8 @@ import {
   LineIcon
 } from '@metafox/ui';
 import { getImageSrc } from '@metafox/utils';
-import { Box, Button, IconButton, styled } from '@mui/material';
+import { Box, Button, styled } from '@mui/material';
 import { camelCase } from 'lodash';
-import { useSelector } from 'react-redux';
 import React from 'react';
 import MoreCollection from './MoreCollection';
 import { APP_SAVED, RESOURCE_SAVED_LIST } from '@metafox/saved/constant';
@@ -45,34 +39,32 @@ export default function SavedItemView({
   handleAction,
   state,
   itemProps,
-  user,
+  user: userSaved,
   wrapAs,
   wrapProps
 }: ItemProps) {
   const {
     ItemActionMenu,
     i18n,
-    ShareActButton,
     useSession,
     assetUrl,
     dispatch,
     useGetItem,
-    usePageParams
+    usePageParams,
+    useIsMobile
   } = useGlobal();
   const session = useSession();
+  const isMobile = useIsMobile();
   const { collection_id } = usePageParams();
-  const shareMenu = useSelector(
-    (state: GlobalState) => state.share.shareOptions || []
-  );
   const identityFirstCollection = `saved.entities.saved_list.${item?.default_collection_id}`;
   const identityCollectionParam = `saved.entities.saved_list.${collection_id}`;
   const firstCollection = useGetItem(identityFirstCollection);
   const itemCollectionParam = useGetItem(identityCollectionParam);
-  const userOwner = useGetItem(item?.user);
+  const userOwnerItem = useGetItem(item?.owner);
   const dataSourceCollections = useResourceAction(
     APP_SAVED,
     RESOURCE_SAVED_LIST,
-    'viewItems'
+    'viewAll'
   );
 
   const isAddToCollection = React.useMemo(() => {
@@ -82,16 +74,16 @@ export default function SavedItemView({
 
     if (
       collection_id &&
-      (session?.user?.id === userOwner?.id ||
+      (session?.user?.id === userSaved?.id ||
         itemCollectionParam?.extra?.is_owner)
     ) {
       return true;
     }
 
     return false;
-  }, [collection_id, itemCollectionParam, session, userOwner]);
+  }, [collection_id, itemCollectionParam, session, userSaved]);
 
-  if (!item || !user) return null;
+  if (!item || !userSaved) return null;
 
   const { menuName = 'itemActionMenu' } = itemProps;
 
@@ -139,9 +131,9 @@ export default function SavedItemView({
         <ItemSubInfo sx={{ color: 'text.secondary', mt: 1 }}>
           <Link
             color="inherit"
-            to={user.link}
-            children={user.full_name}
-            hoverCard={`/user/${user.id}`}
+            to={userOwnerItem?.link}
+            children={userOwnerItem?.full_name}
+            hoverCard={`/user/${userOwnerItem?.id}`}
           />
           {item.item_type_name
             ? i18n.formatMessage({ id: item.item_type_name })
@@ -170,6 +162,7 @@ export default function SavedItemView({
         <Box>
           {isAddToCollection && (
             <ItemActionMenu
+              placement={isMobile ? 'auto-end' : 'bottom-end'}
               menuName="addToCollection"
               identity={identity}
               state={state}
@@ -186,25 +179,6 @@ export default function SavedItemView({
               }
             />
           )}
-          {session.loggedIn && item.extra.can_share && ShareActButton ? (
-            <ItemActionMenu
-              icon="ico-share-o"
-              items={shareMenu}
-              testid="menuShare"
-              identity={identity}
-              handleAction={handleAction}
-              sx={{ mt: 2 }}
-              control={
-                <IconButton
-                  variant="outlined-square"
-                  size="small"
-                  color="primary"
-                >
-                  <LineIcon icon="ico-share-o" sx={{ fontSize: 15 }} />
-                </IconButton>
-              }
-            />
-          ) : null}
         </Box>
       </ItemText>
     </ItemView>

@@ -72,7 +72,7 @@ export default function EventEmbedItemView({
       {image ? (
         <Link to={link}>
           <BgCover
-            style={{ backgroundImage: `url(${getImageSrc(image, '200')})` }}
+            style={{ backgroundImage: `url(${getImageSrc(image, '1024')})` }}
           />
         </Link>
       ) : null}

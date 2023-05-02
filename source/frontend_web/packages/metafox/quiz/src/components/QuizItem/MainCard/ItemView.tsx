@@ -61,14 +61,14 @@ export default function QuizItemMainCard({
         backgroundImage
       />
       <ItemText>
+        {isMobile ? (
+          <FlagWrapper>
+            <FeaturedFlag variant="itemView" value={item.is_featured} />
+            <SponsorFlag variant="itemView" value={item.is_sponsor} />
+            <PendingFlag variant="itemView" value={item.is_pending} />
+          </FlagWrapper>
+        ) : null}
         <ItemTitle>
-          {isMobile ? (
-            <FlagWrapper>
-              <FeaturedFlag variant="itemView" value={item.is_featured} />
-              <SponsorFlag variant="itemView" value={item.is_sponsor} />
-              <PendingFlag variant="itemView" value={item.is_pending} />
-            </FlagWrapper>
-          ) : null}
           <Link to={to} children={item.title} color={'inherit'} />
         </ItemTitle>
         {itemProps.showActionMenu ? (

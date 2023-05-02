@@ -9,9 +9,11 @@ use MetaFox\Form\Builder;
 use MetaFox\Form\GenderTrait;
 use MetaFox\Form\RelationTrait;
 use MetaFox\Platform\Facades\Settings;
+use MetaFox\Profile\Repositories\ProfileRepositoryInterface;
 use MetaFox\User\Http\Resources\v1\UserEntity\UserEntityDetail;
 use MetaFox\User\Models\UserProfile;
-use MetaFox\Profile\Repositories\ProfileRepositoryInterface;
+use MetaFox\User\Models\UserRelation;
+use MetaFox\User\Repositories\UserRelationRepositoryInterface;
 use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\Yup\Yup;
 use stdClass;
@@ -119,7 +121,7 @@ class UserProfileForm extends AbstractForm
                         ->is(0)
                         ->then(
                             Yup::number()
-                                ->required(__p('validation.custom_gender_field_is_required'))
+                                ->required(__p('validation.custom_gender_field_is_a_required_field'))
                         )
                 ),
             //Birthday field
@@ -188,5 +190,22 @@ class UserProfileForm extends AbstractForm
         }
 
         return $cityCode;
+    }
+
+    public function getRelations(): array
+    {
+        $repository      = resolve(UserRelationRepositoryInterface::class);
+        $phpfoxRelations = $repository->getRelations();
+        $data            = [];
+
+        foreach ($phpfoxRelations as $relation) {
+            /* @var UserRelation $relation */
+            $data[] = [
+                'value' => $relation->entityId(),
+                'label' => __p($relation->phrase_var),
+            ];
+        }
+
+        return $data;
     }
 }

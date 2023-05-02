@@ -113,7 +113,8 @@ class InviteRepository extends AbstractRepository implements InviteRepositoryInt
                 'user_id'   => $user->entityId(),
                 'user_type' => $user->entityType(),
                 'status_id' => Invite::STATUS_NOT_INVITE_AGAIN,
-            ])))->save();
+            ])));
+            $invite->save();
         }
 
         if (!empty($invite)) {

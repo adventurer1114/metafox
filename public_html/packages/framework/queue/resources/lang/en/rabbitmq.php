@@ -2,6 +2,7 @@
 
 /* this is auto generated file */
 return [
+    'name' => 'RabbitMQ',
     'host_desc'      => '',
     'host_label'     => 'Host',
     'password_desc'  => '',
@@ -14,4 +15,5 @@ return [
     'user_label'     => 'User',
     'vhost_desc'     => '',
     'vhost_label'    => 'VHOST',
+    'form_desc'      => '',
 ];

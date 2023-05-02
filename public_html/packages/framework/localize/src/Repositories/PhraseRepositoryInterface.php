@@ -49,7 +49,13 @@ interface PhraseRepositoryInterface
      * @param  bool        $overwrite Overwrite existing translation
      * @return bool
      */
-    public function addSamplePhrase(string $key, ?string $text, ?string $locale, bool $dryRun = false, bool $overwrite = false): bool;
+    public function addSamplePhrase(
+        string $key,
+        ?string $text,
+        ?string $locale,
+        bool $dryRun = false,
+        bool $overwrite = false
+    ): bool;
 
     /**
      * @param string $key
@@ -109,4 +115,10 @@ interface PhraseRepositoryInterface
      * @return bool
      */
     public function deletePhrasesByLocale(string $locale): bool;
+
+    /**
+     * @param  string $key
+     * @return Phrase
+     */
+    public function getPhrasesByKey(string $key): Phrase;
 }

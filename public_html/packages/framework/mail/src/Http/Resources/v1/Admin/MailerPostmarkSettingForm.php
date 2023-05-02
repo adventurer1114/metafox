@@ -68,7 +68,12 @@ class MailerPostmarkSettingForm extends Form
         $this->addDefaultFooter(true);
     }
 
-    public function validated(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return array<mixed>
+     */
+    public function validated(Request $request): array
     {
         $data = $request->validate([
             'core.services.postmark.token' => 'required|string',
@@ -80,7 +85,7 @@ class MailerPostmarkSettingForm extends Form
         Arr::set($data, 'mail.mailers.postmark.transport', 'portmark');
 
         config([
-            'core.serivices.postmark'    => Arr::get($data, 'core.serivices.postmark'),
+            'services.postmark'          => Arr::get($data, 'core.serivices.postmark'),
             'mail.mailers.verify_config' => Arr::get($data, 'mail.mailers.postmark'),
         ]);
 

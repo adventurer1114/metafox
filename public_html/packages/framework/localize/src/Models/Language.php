@@ -12,18 +12,18 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 /**
  * Class Language.
  *
- * @property int             $id
- * @property string          $language_code
- * @property string          $name
- * @property string          $charset
- * @property string          $direction
- * @property int             $is_default
- * @property int             $is_active
- * @property int             $is_master
- * @property string          $updated_at
- * @property string          $created_at
- * @property ?string         $package_id
- * @method   LanguageFactory factory(...$parameters)
+ * @property        int             $id
+ * @property        string          $language_code
+ * @property        string          $name
+ * @property        string          $charset
+ * @property        string          $direction
+ * @property        int             $is_default
+ * @property        int             $is_active
+ * @property        int             $is_master
+ * @property        string          $updated_at
+ * @property        string          $created_at
+ * @property        ?string         $package_id
+ * @method   static LanguageFactory factory(...$parameters)
  */
 class Language extends Model implements Entity
 {

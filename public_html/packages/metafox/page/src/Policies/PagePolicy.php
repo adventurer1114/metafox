@@ -7,7 +7,6 @@ use MetaFox\Page\Models\Page as Resource;
 use MetaFox\Page\Repositories\BlockRepositoryInterface;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
-use MetaFox\Platform\Contracts\HasApprove;
 use MetaFox\Platform\Contracts\HasPrivacyMember;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
@@ -49,8 +48,12 @@ class PagePolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -61,6 +64,12 @@ class PagePolicy implements ResourcePolicyInterface
 
     public function view(User $user, Entity $resource): bool
     {
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('page.moderate')) {
             return true;
         }
@@ -69,12 +78,9 @@ class PagePolicy implements ResourcePolicyInterface
             return false;
         }
 
-        // Check setting view on resource.
-        if ($resource instanceof HasApprove) {
-            if (!$resource->isApproved()) {
-                if (!$user->hasPermissionTo('page.approve') && $user->entityId() != $resource->userId()) {
-                    return false;
-                }
+        if (!$isApproved) {
+            if (!$user->hasPermissionTo('page.approve') && $user->entityId() != $resource->userId()) {
+                return false;
             }
         }
 
@@ -284,6 +290,10 @@ class PagePolicy implements ResourcePolicyInterface
             return false;
         }
 
+        if (!$page->isApproved()) {
+            return false;
+        }
+
         return $user->hasPermissionTo('page.upload_cover') && $this->update($user, $page);
     }
 
@@ -293,6 +303,21 @@ class PagePolicy implements ResourcePolicyInterface
             return false;
         }
 
+        if (!$page->isApproved()) {
+            return false;
+        }
+
         return $page->cover_id > 0;
+    }
+
+    public function follow(User $user, Page $page): bool
+    {
+        $follow = app('events')->dispatch('follow.can_follow', [$user, $page], true);
+
+        if ($follow == null) {
+            return false;
+        }
+
+        return $follow;
     }
 }

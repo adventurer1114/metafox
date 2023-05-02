@@ -47,35 +47,35 @@ use MetaFox\Platform\Facades\Settings;
 /**
  * Class Poll.
  *
- * @property int           $id
- * @property string        $question
- * @property string        $description
- * @property string | null $caption
- * @property int           $view_id
- * @property int           $privacy
- * @property bool          $is_featured
- * @property bool          $is_sponsor
- * @property bool          $sponsor_in_feed
- * @property int           $total_view
- * @property int           $total_like
- * @property int           $total_comment
- * @property int           $total_share
- * @property int           $total_attachment
- * @property int           $total_vote
- * @property string        $image_file_id
- * @property int           $randomize
- * @property bool          $public_vote
- * @property bool          $is_multiple
- * @property bool          $is_closed
- * @property Carbon        $closed_at
- * @property string        $created_at
- * @property string        $updated_at
- * @property Collection    $answers
- * @property int           $answers_count
- * @property Collection    $results
- * @property PollText|null $pollText
- * @property Design        $design
- * @method   static        PollFactory factory(...$parameters)
+ * @property        int           $id
+ * @property        string        $question
+ * @property        string        $description
+ * @property        string | null $caption
+ * @property        int           $view_id
+ * @property        int           $privacy
+ * @property        bool          $is_featured
+ * @property        bool          $is_sponsor
+ * @property        bool          $sponsor_in_feed
+ * @property        int           $total_view
+ * @property        int           $total_like
+ * @property        int           $total_comment
+ * @property        int           $total_share
+ * @property        int           $total_attachment
+ * @property        int           $total_vote
+ * @property        string        $image_file_id
+ * @property        int           $randomize
+ * @property        bool          $public_vote
+ * @property        bool          $is_multiple
+ * @property        bool          $is_closed
+ * @property        Carbon        $closed_at
+ * @property        string        $created_at
+ * @property        string        $updated_at
+ * @property        Collection    $answers
+ * @property        int           $answers_count
+ * @property        Collection    $results
+ * @property        PollText|null $pollText
+ * @property        Design        $design
+ * @method   static PollFactory   factory(...$parameters)
  */
 class Poll extends Model implements
     Content,
@@ -257,6 +257,8 @@ class Poll extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 

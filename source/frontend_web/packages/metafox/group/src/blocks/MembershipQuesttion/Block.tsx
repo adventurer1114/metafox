@@ -23,7 +23,7 @@ export default createBlock<ListViewBlockProps>({
   overrides: {
     emptyPage: 'hide',
     authRequired: true,
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - PendingPost - Main Card',
     contentType: 'group'
   }

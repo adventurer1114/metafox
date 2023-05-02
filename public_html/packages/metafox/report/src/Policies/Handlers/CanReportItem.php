@@ -20,6 +20,10 @@ class CanReportItem implements PolicyRuleInterface
         }
 
         if ($resource instanceof Content) {
+            if ($resource->isDraft()) {
+                return false;
+            }
+
             if (!$resource->isApproved()) {
                 return false;
             }

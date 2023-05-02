@@ -55,7 +55,7 @@
           "component": "activity-point.block.history",
           "slotName": "main",
           "title": "transactions_history",
-          "blockLayout": "Large Main Lists Mobile"
+          "blockLayout": "App List - Table - Mobile"
         },
         {
           "blockId": "ia",

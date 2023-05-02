@@ -27,6 +27,7 @@ class InviteItem extends JsonResource
      */
     public function toArray($request): array
     {
+        $owner              = $this->resource->owner;
         $expiredAt          = $this->resource->expired_at;
         $expiredDay         = null;
         $expiredDescription = null;
@@ -35,7 +36,12 @@ class InviteItem extends JsonResource
             $expiredDay         = Carbon::now()->diffInHours($expiredAt) + 1;
             $expiredDescription = __p(
                 'group::phrase.expired_invite_hours',
-                ['value' => CarbonInterval::make($expiredDay . 'h')->cascade()->forHumans()]
+                [
+                    'value' => CarbonInterval::make($expiredDay . 'h')
+                        ->locale($owner->preferredLocale())
+                        ->cascade()
+                        ->forHumans(),
+                ]
             );
         }
 
@@ -50,7 +56,7 @@ class InviteItem extends JsonResource
             'invited_moderator'   => $this->resource->isInviteModerator(),
             'invited_link'        => $this->resource->isInviteLink(),
             'user'                => new UserItem($this->resource->user),
-            'owner'               => new UserItem($this->resource->owner),
+            'owner'               => new UserItem($owner),
             'expired_day'         => $expiredDay,
             'expired_description' => $expiredDescription,
         ];

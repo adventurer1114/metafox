@@ -8,7 +8,7 @@ use MetaFox\Platform\Contracts\User;
 
 class UserExtraStatisticListener
 {
-    public function handle(User $context, User $user, string $itemType, int $itemId): ?array
+    public function handle(?User $context, ?User $user, string $itemType, int $itemId): ?array
     {
         if ($itemType != Event::ENTITY_TYPE) {
             return null;

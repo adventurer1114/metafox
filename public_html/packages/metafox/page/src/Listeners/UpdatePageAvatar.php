@@ -20,7 +20,7 @@ class UpdatePageAvatar
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function handle(User $context, User $owner, ?UploadedFile $image, string $imageCrop): array
+    public function handle(?User $context, User $owner, ?UploadedFile $image, string $imageCrop): array
     {
         if (!$owner instanceof Page) {
             return [];

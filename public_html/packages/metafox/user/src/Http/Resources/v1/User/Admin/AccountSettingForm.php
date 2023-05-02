@@ -14,6 +14,7 @@ use MetaFox\Form\Html\Dropdown;
 use MetaFox\Form\Section;
 use MetaFox\Notification\Repositories\Eloquent\NotificationChannelRepository;
 use MetaFox\Platform\Facades\Settings;
+use MetaFox\Platform\Rules\MetaFoxPasswordFormatRule;
 use MetaFox\Platform\UserRole;
 use MetaFox\Profile\Repositories\ProfileRepositoryInterface;
 use MetaFox\User\Models\User as Model;
@@ -22,6 +23,7 @@ use MetaFox\User\Repositories\Contracts\UserRepositoryInterface;
 use MetaFox\User\Repositories\UserPrivacyRepositoryInterface;
 use MetaFox\User\Support\Browse\Scopes\User\CustomFieldScope;
 use MetaFox\User\Support\Facades\User as UserFacade;
+use MetaFox\Yup\StringShape;
 use MetaFox\Yup\Yup;
 
 /**
@@ -114,7 +116,10 @@ class AccountSettingForm extends AbstractForm
                         ->required()
                 ),
             Builder::password('password')
-                ->label(__p('core::phrase.password')),
+                ->label(__p('core::phrase.password'))
+                ->minLength(Settings::get('user.minimum_length_for_password', 8))
+                ->maxLength(Settings::get('user.maximum_length_for_password', 30))
+                ->yup($this->getPasswordValidate()),
             Builder::text('email')
                 ->required()
                 ->label(__p('core::phrase.email_address'))
@@ -155,7 +160,7 @@ class AccountSettingForm extends AbstractForm
                         ->is(0)
                         ->then(
                             Yup::number()
-                                ->required(__p('user::validation.custom_gender_is_required'))
+                                ->required(__p('user::validation.custom_gender_is_a_required_field'))
                         )
                 ),
             Builder::birthday('birthday')
@@ -183,7 +188,7 @@ class AccountSettingForm extends AbstractForm
 
         $this->buildPrivacyField($basic);
 
-        $this->buildNotificationField($basic);
+        $this->buildNotificationSections();
 
         $this->buildCustomField($basic);
 
@@ -302,46 +307,19 @@ class AccountSettingForm extends AbstractForm
         }
     }
 
-    private function buildNotificationTypoField(Section $basic, string $channel): void
+    private function buildNotificationSection(string $channel): void
     {
-        switch ($channel) {
-            case 'mail':
-                $basic->addField(
-                    Builder::typography('email_notification_typo')
-                        ->variant('h5')
-                        ->plainText(__p('notification::phrase.email_notifications'))
-                );
-                break;
-            case 'database':
-                $basic->addField(
-                    Builder::typography('in_app_notification_typo')
-                        ->variant('h5')
-                        ->plainText(__p('notification::phrase.in_app_notifications'))
-                );
-                break;
+        $container = $this->addSection("notification_{$channel}")
+            ->label(__p("notification::phrase.{$channel}_notifications"))
+            ->collapsible();
 
-            case 'mobilepush':
-                $basic->addField(
-                    Builder::typography('mobile_notification_typo')
-                        ->variant('h5')
-                        ->plainText(__p('notification::phrase.mobile_notifications'))
-                );
-                break;
-            case 'sms':
-                $basic->addField(
-                    Builder::typography('sms_notification_typo')
-                    ->variant('h5')
-                        ->plainText(__p('notification::phrase.sms_notifications'))
-                );
-                break;
-        }
+        $this->buildNotificationSwitchField($container, $channel);
     }
 
-    private function buildNotificationField(Section $basic): void
+    private function buildNotificationSections(): void
     {
         foreach ($this->getNotificationChannel() as $channel) {
-            $this->buildNotificationTypoField($basic, $channel);
-            $this->buildNotificationSwitchField($basic, $channel);
+            $this->buildNotificationSection($channel);
         }
     }
 
@@ -459,5 +437,15 @@ class AccountSettingForm extends AbstractForm
             'label' => $profile->city_location,
             'value' => $profile->country_city_code,
         ];
+    }
+
+    protected function getPasswordValidate(): StringShape
+    {
+        $passwordRule = new MetaFoxPasswordFormatRule();
+
+        return Yup::string()
+            ->setError('typeError', __p('validation.password_is_a_required_field'))
+            ->setError('minLength', '${path} must be at least ${min} characters')
+            ->matchesArray($passwordRule->getFormRules(), $passwordRule->message());
     }
 }

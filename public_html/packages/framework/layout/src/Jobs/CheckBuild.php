@@ -127,6 +127,8 @@ class CheckBuild implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
+        Log::channel('installation')->debug(__METHOD__);
+
         // there are no task
         if (!$this->task) {
             return;
@@ -160,6 +162,8 @@ class CheckBuild implements ShouldQueue, ShouldBeUnique
         if (!$this->verifyBundleExists()) {
             return;
         }
+
+        set_installation_lock('stepBuildFrontend', 'processing');
 
         $tempFile = $this->copyToTempFile();
 
@@ -220,6 +224,8 @@ class CheckBuild implements ShouldQueue, ShouldBeUnique
 
         Log::channel('dev')->error(sprintf('error: %s', $exception->getMessage()));
 
+        set_installation_lock('stepBuildFrontend', 'done');
+
         $this->task->bundle_status = 'failed';
         $this->task->result        = sprintf('%s error %s', __METHOD__, $exception->getMessage());
         $this->task->save();
@@ -242,6 +248,7 @@ class CheckBuild implements ShouldQueue, ShouldBeUnique
         $tmp  = tempnam(sys_get_temp_dir(), 'file'); // good
         $zip  = new ZipArchive();
         $zip->open($tmp, ZipArchive::CREATE);
+        $this->attachBuildArchive($data, $zip);
         resolve(SnippetRepositoryInterface::class)->attachBuildArchive($data, $zip);
         resolve(PackageRepositoryInterface::class)->attachBuildArchive($data, $zip);
         $zip->close(); // close archive first.
@@ -283,6 +290,37 @@ class CheckBuild implements ShouldQueue, ShouldBeUnique
         $this->task->job_id        = Arr::get($json, 'data.id');
         $this->task->bundle_status = 'processing';
         $this->task->save();
+    }
+
+    /**
+     * @param  \ArrayObject $data
+     * @param  ZipArchive   $zip
+     * @return void
+     * @codeCoverageIgnore
+     */
+    public function attachBuildArchive(\ArrayObject $data, ZipArchive $zip): void
+    {
+        $base = base_path('frontend');
+
+        if (!is_dir($base)) {
+            return;
+        }
+
+        $baseLength = strlen($base) + 1;
+
+        $recursiveDirectoryIterator = new \RecursiveDirectoryIterator($base, \FilesystemIterator::SKIP_DOTS);
+        /** @var \SplFileInfo[] $fileInfos */
+        $fileInfos = new \RecursiveIteratorIterator($recursiveDirectoryIterator);
+
+        foreach ($fileInfos as $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            $localName = substr($file->getPathname(), $baseLength);
+
+            $zip->addFromString($localName, file_get_contents($file->getPathname()));
+        }
     }
 
     public function getResponse()

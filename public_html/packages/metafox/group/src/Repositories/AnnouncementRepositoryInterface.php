@@ -49,4 +49,11 @@ interface AnnouncementRepositoryInterface
      * @return bool
      */
     public function checkExistsAnnouncement(int $groupId, int $itemId, string $itemType): bool;
+
+    /**
+     * @param  int    $itemId
+     * @param  string $itemType
+     * @return void
+     */
+    public function deleteByItem(int $itemId, string $itemType): void;
 }

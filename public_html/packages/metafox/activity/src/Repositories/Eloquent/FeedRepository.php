@@ -4,9 +4,10 @@ namespace MetaFox\Activity\Repositories\Eloquent;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Container\Container as Application;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -195,7 +196,7 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
         return $feeds;
     }
 
-    public function getFeed(User $user, int $id): Feed
+    public function getFeed(?User $user, int $id): Feed
     {
         $resource = $this->find($id);
 
@@ -266,7 +267,11 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
 
         ActivityFeed::sendFeedComposeNotification($feed);
 
-        return ['feed' => $feed];
+        if (!$feed->isApproved()) {
+            return ['feed' => $feed, 'message' => __p('activity::phrase.thanks_for_your_post_for_approval')];
+        }
+
+        return ['feed' => $feed, 'message' => __p('activity::phrase.feed_created_successfully')];
     }
 
     /**
@@ -527,7 +532,7 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
         return $feed;
     }
 
-    public function getFeedByItem(User $context, Entity $content, ?string $typeId = null): Feed
+    public function getFeedByItem(?User $context, ?Entity $content, ?string $typeId = null): Feed
     {
         if ($typeId === null) {
             $typeId = $content->entityType();
@@ -547,7 +552,7 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
         return $feed;
     }
 
-    public function getTaggedFriends(int $itemId, string $itemType, int $limit)
+    public function getTaggedFriends(int $itemId, string $itemType, int $limit): LengthAwarePaginator
     {
         /** @var Content $item */
         $item = (new Feed([
@@ -559,13 +564,13 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
             throw (new ModelNotFoundException())->setModel($itemType);
         }
 
-        $taggedFriends = $this->getTaggedFriendsTrait($item, $limit);
+        $taggedFriendQuery = $this->getTaggedFriendsTrait($item, $limit);
 
-        if (empty($taggedFriends)) {
-            return new LengthAwarePaginator([], 0, $limit);
+        if (!$taggedFriendQuery instanceof  Builder) {
+            return new Paginator([], 0, $limit);
         }
 
-        return $taggedFriends;
+        return $taggedFriendQuery->paginate($limit, ['user_entities.*'], 'tag_friend_page');
     }
 
     public function getSpamStatusSetting(): int
@@ -872,6 +877,10 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
         if ($params['is_allowed'] == Stream::STATUS_ALLOW) {
             $stream = Stream::query()->where($conditions)->first();
 
+            if (!$stream) { // prevent crashed.
+                return false;
+            }
+
             return $stream->update([
                 'status' => 0,
             ]);
@@ -896,8 +905,16 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
 
     public function getPrivacyDetail(User $context, Content $resource, ?int $representativePrivacy = null): array
     {
-        $owner = $resource->owner;
+        return $this->handlePrivacyDetail($context, $resource, $resource->owner, $representativePrivacy);
+    }
 
+    public function getOwnerPrivacyDetail(User $context, User $resource, ?int $representativePrivacy = null): array
+    {
+        return $this->handlePrivacyDetail($context, $resource, $resource, $representativePrivacy);
+    }
+
+    protected function handlePrivacyDetail(User $context, Content $resource, ?User $owner, ?int $representativePrivacy = null): array
+    {
         $privacy = $representativePrivacy ?? $resource->privacy ?? MetaFoxPrivacy::EVERYONE;
 
         // In case we can not find the owner's privacy
@@ -971,15 +988,6 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
 
     protected function getDefaultPrivacyDetail(int $privacy, ?User $context = null, ?User $owner = null): array
     {
-        $icon = match ($privacy) {
-            MetaFoxPrivacy::EVERYONE           => MetaFoxPrivacy::PRIVACY_PUBLIC_ICON,
-            MetaFoxPrivacy::MEMBERS            => MetaFoxPrivacy::PRIVACY_MEMBERS_ICON,
-            MetaFoxPrivacy::FRIENDS            => MetaFoxPrivacy::PRIVACY_FRIENDS_ICON,
-            MetaFoxPrivacy::FRIENDS_OF_FRIENDS => MetaFoxPrivacy::PRIVACY_FRIENDS_OF_FRIENDS_ICON,
-            MetaFoxPrivacy::ONLY_ME            => MetaFoxPrivacy::PRIVACY_ONLY_ME_ICON,
-            MetaFoxPrivacy::CUSTOM             => MetaFoxPrivacy::PRIVACY_CUSTOM_ICON,
-        };
-
         $tooltip = match ($privacy) {
             MetaFoxPrivacy::EVERYONE           => __p('core::phrase.privacy_public'),
             MetaFoxPrivacy::MEMBERS            => __p('core::phrase.privacy_members'),
@@ -1196,12 +1204,29 @@ class FeedRepository extends AbstractRepository implements FeedRepositoryInterfa
         );
     }
 
-    public function getMissingContentFeed(string $typeId, int $limit = 100): Collection
+    public function getMissingContentFeed(string $typeId): Collection
     {
         return $this->getModel()
             ->newQuery()
             ->where('type_id', $typeId)
             ->whereNull('activity_feeds.content')
-            ->limit($limit)->get();
+            ->get();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function approvePendingFeeds(User $user, User $owner): void
+    {
+        $items = $this->getModel()->newQuery()->where([
+            'owner_id' => $owner->entityId(),
+            'status'   => MetaFoxConstant::ITEM_STATUS_PENDING,
+            'user_id'  => $user->entityId(),
+        ])->get();
+
+        foreach ($items as $item) {
+            $this->approvePendingFeed($owner->user, $item->entityId());
+        }
     }
 }

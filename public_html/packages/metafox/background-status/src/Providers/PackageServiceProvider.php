@@ -7,7 +7,9 @@ use MetaFox\BackgroundStatus\Models\BgsBackground;
 use MetaFox\BackgroundStatus\Models\BgsCollection;
 use MetaFox\BackgroundStatus\Observers\BgsBackgroundObserver;
 use MetaFox\BackgroundStatus\Observers\BgsCollectionObserver;
+use MetaFox\BackgroundStatus\Repositories\BgsBackgroundRepositoryInterface;
 use MetaFox\BackgroundStatus\Repositories\BgsCollectionRepositoryInterface;
+use MetaFox\BackgroundStatus\Repositories\Eloquent\BgsBackgroundRepository;
 use MetaFox\BackgroundStatus\Repositories\Eloquent\BgsCollectionRepository;
 
 /**
@@ -36,5 +38,6 @@ class PackageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(BgsCollectionRepositoryInterface::class, BgsCollectionRepository::class);
+        $this->app->bind(BgsBackgroundRepositoryInterface::class, BgsBackgroundRepository::class);
     }
 }

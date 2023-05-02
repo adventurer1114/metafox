@@ -8,6 +8,8 @@
 namespace MetaFox\User\Http\Resources\v1\User;
 
 use MetaFox\Platform\Resource\WebSetting as ResourceSetting;
+use MetaFox\Platform\Support\Browse\Browse;
+use MetaFox\User\Support\Browse\Scopes\User\SortScope;
 
 /**
  *--------------------------------------------------------------------------
@@ -41,15 +43,18 @@ class WebSetting extends ResourceSetting
                 'title'   => __p('core::phrase.are_you_sure'),
                 'message' => __p('user::phrase.block_user_confirm'),
             ]);
+
         $this->add('viewAll')
             ->apiUrl('user')
             ->apiRules([
-                'q'       => ['truthy', 'q'],
-                'sort'    => ['includes', 'sort', ['full_name', 'last_login', 'last_activity']],
-                'gender'  => ['truthy', 'gender'],
-                'view'    => ['includes', 'view', ['recommend', 'featured', 'recent']],
-                'country' => ['truthy', 'country'],
-                'city'    => ['truthy', 'city'],
+                'q'                => ['truthy', 'q'],
+                'sort'             => ['includes', 'sort', ['full_name', 'last_login', 'last_activity']],
+                'gender'           => ['truthy', 'gender'],
+                'view'             => ['includes', 'view', ['recommend', 'featured', 'recent']],
+                'country'          => ['truthy', 'country'],
+                'city'             => ['truthy', 'city'],
+                'city_code'        => ['truthy', 'city_code'],
+                'country_state_id' => ['truthy', 'country_state_id'],
             ]);
 
         $this->add('editItem')
@@ -70,6 +75,11 @@ class WebSetting extends ResourceSetting
                 ]
             );
 
+        $this->add('updateAccountSettings')
+            ->apiUrl('user/:id')
+            ->urlParams([':id' => 'id'])
+            ->asPut();
+
         $this->add('featureItem')
             ->apiUrl('user/feature/:id');
 
@@ -88,6 +98,16 @@ class WebSetting extends ResourceSetting
         $this->add('sendRequest')
             ->asPost()
             ->apiUrl('friend/request?friend_user_id=:id');
+
+        $this->add('viewFriends')
+            ->asGet()
+            ->apiUrl('friend/?user_id=:id')
+            ->apiRules([
+                'q'    => ['truthy', 'q'],
+                'sort' => [
+                    'includes', 'sort', [Browse::SORT_RECENT, SortScope::SORT_FULL_NAME],
+                ],
+            ]);
 
         $this->add('cancelRequest')
             ->asDelete()
@@ -180,6 +200,17 @@ class WebSetting extends ResourceSetting
                 'channel' => ':channel',
             ]);
 
+        $this->add('follow')
+            ->apiUrl('follow')
+            ->asPost()
+            ->apiParams([
+                'user_id' => ':user_id',
+            ]);
+
+        $this->add('unfollow')
+            ->apiUrl('follow/:id')
+            ->asDelete();
+
         $this->add('updateSmsNotificationSettings')
             ->apiUrl('account/notification')
             ->asPut()
@@ -217,5 +248,9 @@ class WebSetting extends ResourceSetting
                 'token'   => ':token',
             ])
             ->asGet();
+
+        $this->add('getPhoneNumberSettingForm')
+            ->asGet()
+            ->apiUrl('core/form/user.account.edit_phone_number');
     }
 }

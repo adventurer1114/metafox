@@ -30,7 +30,7 @@ class Datetime extends AbstractField
         return $this->setAttribute('labelTimePicker', $label);
     }
 
-    public function timeSuggestion(bool $flag): self
+    public function timeSuggestion(bool $flag = true): self
     {
         return $this->setAttribute('timeSuggestion', $flag);
     }
@@ -38,6 +38,16 @@ class Datetime extends AbstractField
     public function minDateTime(string $min): self
     {
         return $this->setAttribute('minDateTime', $min);
+    }
+
+    public function displayFormat(string $value): self
+    {
+        return $this->setAttribute('displayFormat', $value);
+    }
+
+    public function timeFormat(int $value): self
+    {
+        return $this->setAttribute('timeFormat', $value);
     }
 
     /**
@@ -49,5 +59,10 @@ class Datetime extends AbstractField
         return $this->sizeSmall()
             ->marginDense()
             ->maxWidth('220px');
+    }
+
+    public function nullable(bool $value = true): static
+    {
+        return $this->setAttribute('nullable', $value);
     }
 }

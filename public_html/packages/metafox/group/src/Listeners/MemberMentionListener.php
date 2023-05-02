@@ -21,8 +21,11 @@ class MemberMentionListener
         $this->repository = $repository;
     }
 
-    public function handle(User $context, string $ownerType, string $ownerId, array $attributes): ?Paginator
+    public function handle(?User $context, string $ownerType, string $ownerId, array $attributes): ?Paginator
     {
+        if (!$context) {
+            return null;
+        }
         if ($ownerType != Group::ENTITY_TYPE) {
             return null;
         }

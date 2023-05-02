@@ -64,8 +64,7 @@ class CreateFriendListForm extends AbstractForm
             ->setAttribute('separator', false)
             ->addFields(
                 Builder::submit()
-                    ->label(__p('core::phrase.submit'))
-                    ->disableWhenClean(), // When enable, please assign initial value for form
+                    ->label(__p('core::phrase.submit')),
                 Builder::cancelButton(),
             );
     }

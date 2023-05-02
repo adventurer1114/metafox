@@ -11,8 +11,8 @@ use MetaFox\User\Database\Factories\UserRelationDataFactory;
 /**
  * Class UserRelationData.
  *
- * @property int                     $id
- * @method   UserRelationDataFactory factory(...$parameters)
+ * @property        int                     $id
+ * @method   static UserRelationDataFactory factory(...$parameters)
  */
 class UserRelationData extends Model implements Entity
 {

@@ -85,6 +85,8 @@ class AlbumDetail extends JsonResource
             $description = $albumInfo->description;
         }
 
+        $extra = $this->getExtra();
+
         return [
             'id'            => $this->resource->id,
             'module_name'   => 'photo',
@@ -117,7 +119,7 @@ class AlbumDetail extends JsonResource
             'link'              => $this->resource->toLink(),
             'url'               => $this->resource->toUrl(),
             'statistic'         => $this->getStatistic(),
-            'extra'             => $this->getExtra(),
+            'extra'             => $extra,
             'feed_param'        => $this->getFeedParams(),
         ];
     }

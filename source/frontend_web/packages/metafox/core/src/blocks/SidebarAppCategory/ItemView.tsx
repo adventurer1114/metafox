@@ -22,7 +22,10 @@ const ItemWrapper = styled('div')(({ theme }) => ({
 const Item = styled('div')(({ theme }) => ({
   '&.hasSubs': {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    '& a': {
+      paddingRight: theme.spacing(5)
+    }
   },
   '&.itemActive': {
     '& > a': {

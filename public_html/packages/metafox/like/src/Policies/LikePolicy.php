@@ -44,7 +44,7 @@ class LikePolicy implements ActionOnResourcePolicyInterface
         return true;
     }
 
-    public function view(User $user, Entity $resource): bool
+    public function view(User $user, ?Entity $resource): bool
     {
         // check user role permission
         if (!$user->hasPermissionTo('like.view')) {
@@ -54,8 +54,12 @@ class LikePolicy implements ActionOnResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -75,8 +79,8 @@ class LikePolicy implements ActionOnResourcePolicyInterface
         }
 
         $entityPermission = "{$resource->entityType()}.like";
-        
-        if (!$user->checkPermissionIfExists($entityPermission)) {
+
+        if (!$user->hasPermissionTo($entityPermission)) {
             return false;
         }
 

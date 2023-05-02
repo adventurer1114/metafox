@@ -126,8 +126,8 @@ class AdminSearchRepository extends AbstractRepository implements AdminSearchRep
             $group = 'Apps';
         }
 
-        $title = $this->trimTitle($title);
-        $group = $group ?? $caption;
+        $title   = $this->trimTitle($title);
+        $group   = $group ?? $caption;
         $caption = $this->trimCaption($caption, $title);
 
         return [
@@ -142,7 +142,6 @@ class AdminSearchRepository extends AbstractRepository implements AdminSearchRep
         ];
     }
 
-
     public function upsert(array $data): void
     {
         $this->initStopWords();
@@ -155,15 +154,15 @@ class AdminSearchRepository extends AbstractRepository implements AdminSearchRep
             return;
         }
 
-        $keys=[];
-        $ret = [];
-        foreach($data as $elem){
+        $keys = [];
+        $ret  = [];
+        foreach ($data as $elem) {
             $arrayKey = $elem['uid'];
-            if(in_array($arrayKey,$keys)){
+            if (in_array($arrayKey, $keys)) {
                 continue;
             }
             $ret[] = $elem;
-            array_push($keys,$arrayKey);
+            array_push($keys, $arrayKey);
         }
         // Cardinality violation: 7 ERROR:  ON CONFLICT DO UPDATE command cannot affect row a second time
         $this->getModel()->newQuery()->upsert($ret, ['uid'], ['group', 'package_id', 'module_id']);
@@ -236,6 +235,7 @@ class AdminSearchRepository extends AbstractRepository implements AdminSearchRep
                 ['url', 'like', '/admincp/%'],
                 ['package_id', '=', $app->name],
                 ['resolution', '=', 'admin'],
+                ['is_active', '=', 1],
             ])
             ->orderBy('name')
             ->get();
@@ -357,7 +357,7 @@ class AdminSearchRepository extends AbstractRepository implements AdminSearchRep
                 'group'      => $group,
                 'module_id'  => $permission->module_id,
                 'package_id' => $package_id,
-                'url'        => $url . '#'. $permission->name,
+                'url'        => $url . '#' . $permission->name,
             ];
         }
         $this->upsert($data);

@@ -13,10 +13,10 @@ use MetaFox\Platform\Contracts\User;
 class UserPreviewListener
 {
     /**
-     * @param  User         $resource
+     * @param  User|null    $resource
      * @return JsonResource
      */
-    public function handle(User $resource): JsonResource
+    public function handle(?User $resource): JsonResource
     {
         return new GroupPreview($resource);
     }

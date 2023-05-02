@@ -141,7 +141,14 @@ interface UploadFile
     public function getFile(int $id): StorageFile;
 
     /**
-     * @param string|null $base64
+     * @param  ?int $tempFileId
+     * @param  bool $rollUp
+     * @return ?int
+     */
+    public function getFileId(?int $tempFileId, bool $rollUp = false): ?int;
+
+    /**
+     * @param  string|null $base64
      * @return $this
      */
     public function setBase64(?string $base64): static;

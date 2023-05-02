@@ -119,4 +119,10 @@ interface HostInviteRepositoryInterface
      * @return void
      */
     public function massDeleteNotification(Invite $invite): void;
+
+    /**
+     * @param  int  $id
+     * @return void
+     */
+    public function deleteHostPendingInvites(int $id): void;
 }

@@ -19,7 +19,7 @@
           "itemView": "group.itemView.mainCard",
           "canLoadMore": 1,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Group - Main Card",
           "canLoadSmooth": 1,
           "itemLayout": "Group - Main Card"
@@ -111,18 +111,22 @@
         },
         {
           "blockId": "fevt9",
-          "component": "core.block.mainListing",
+          "component": "groups.block.groupsListingBlock",
           "slotName": "main",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "noHeader": true,
             "title": "no_groups_found"
           },
+          "dataSource": {
+            "apiUrl": "/group",
+            "apiParams": "view=my"
+          },
           "title": "",
           "itemView": "group.itemView.mainCard",
           "canLoadMore": 1,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Group - Main Card",
           "canLoadSmooth": 1,
           "itemLayout": "Group - Main Card"

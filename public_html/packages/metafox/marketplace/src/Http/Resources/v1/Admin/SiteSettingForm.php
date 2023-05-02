@@ -26,7 +26,7 @@ class SiteSettingForm extends Form
     {
         $module = 'marketplace';
 
-        $vars   = [
+        $vars = [
             'maximum_title_length',
             'minimum_title_length',
             'days_to_expire',
@@ -59,6 +59,7 @@ class SiteSettingForm extends Form
             Builder::text('marketplace.minimum_title_length')
                 ->label(__p('marketplace::phrase.minimum_title_length'))
                 ->description(__p('marketplace::phrase.minimum_title_length'))
+                ->required()
                 ->yup(
                     Yup::number()
                         ->required(__p('marketplace::phrase.minimum_title_length_description_required', [
@@ -71,6 +72,7 @@ class SiteSettingForm extends Form
             Builder::text('marketplace.maximum_title_length')
                 ->label(__p('marketplace::phrase.maximum_title_length'))
                 ->description(__p('marketplace::phrase.maximum_title_length'))
+                ->required()
                 ->yup(
                     Yup::number()
                         ->required(__p('marketplace::phrase.maximum_title_length_description_required', [
@@ -86,6 +88,7 @@ class SiteSettingForm extends Form
                         ->setError('typeError', __p('core::validation.numeric', ['attribute' => '${path}']))
                 ),
             Builder::text('marketplace.days_to_expire')
+                ->required()
                 ->label(__p('marketplace::phrase.days_to_expire_label'))
                 ->description(__p('marketplace::phrase.days_to_expire_desc'))
                 ->yup(
@@ -97,6 +100,7 @@ class SiteSettingForm extends Form
             Builder::text('marketplace.days_to_notify_before_expire')
                 ->label(__p('marketplace::phrase.days_to_notify_before_expire_label'))
                 ->description(__p('marketplace::phrase.days_to_notify_before_expire_desc'))
+                ->required()
                 ->yup(
                     Yup::number()
                         ->required()

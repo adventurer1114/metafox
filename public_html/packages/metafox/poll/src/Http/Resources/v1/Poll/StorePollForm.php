@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Form\Section;
 use MetaFox\Platform\Contracts\User as UserContract;
 use MetaFox\Platform\Facades\Settings;
@@ -31,6 +32,8 @@ use MetaFox\Yup\Yup;
  */
 class StorePollForm extends AbstractForm
 {
+    use PrivacyFieldTrait;
+
     /**
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -39,12 +42,12 @@ class StorePollForm extends AbstractForm
     {
         $context = user();
         $params  = $request->validated();
-        $owner   = null;
         if ($params['owner_id'] != 0) {
             $userEntity = UserEntity::getById($params['owner_id']);
-            $owner      = $userEntity->detail;
+            $this->setOwner($userEntity->detail);
         }
-        policy_authorize(PollPolicy::class, 'create', $context, $owner);
+
+        policy_authorize(PollPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -192,7 +195,10 @@ class StorePollForm extends AbstractForm
                 ->showWhen(['truthy', 'enable_close']),
 
             // Privacy field
-            $this->buildPrivacyField(),
+            $this->buildPrivacyField()
+                ->fullWidth(false)
+                ->minWidth(275)
+                ->description(__p('poll::phrase.control_who_can_see_this_poll')),
 
             // Hidden fields
             Builder::hidden('owner_id'),
@@ -204,36 +210,12 @@ class StorePollForm extends AbstractForm
         $this->setButtonFields($footer);
     }
 
-    /**
-     * @return AbstractField
-     * @throws AuthenticationException
-     */
-    protected function buildPrivacyField(): AbstractField
-    {
-        return Builder::privacy()->fullWidth(false)
-            ->minWidth(275)
-            ->description(__p('poll::phrase.control_who_can_see_this_poll'))
-            ->showWhen([
-                'or',
-                [
-                    'falsy',
-                    'owner_id',
-                ], [
-                    'eq',
-                    'owner_id',
-                    user()->entityId(),
-                ],
-            ]);
-    }
-
     protected function setButtonFields(Section $footer): void
     {
         $footer->addFields(
             Builder::submit('submit')
                 ->label(__p('core::phrase.submit'))
-                ->setValue(1)
-                ->flexWidth(true)
-                ->setAttributes(['fontSize' => 18, 'fontWeight' => 700]),
+                ->setValue(1),
             Builder::cancelButton()->sizeMedium(),
         );
     }
@@ -247,6 +229,8 @@ class StorePollForm extends AbstractForm
         }
 
         return Builder::singlePhoto()
+            ->widthPhoto('160px')
+            ->aspectRatio('1:1')
             ->required(Settings::get('poll.is_image_required', false))
             ->itemType('poll')
             ->thumbnailSizes($this->resource->getSizes())

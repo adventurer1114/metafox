@@ -11,6 +11,6 @@ import Base, { Props } from './Base';
 export default createBlock<Props>({
   extendBlock: Base,
   defaults: {
-    blockLayout: 'Admin - Contained'
+    blockLayout: 'Admin - Block - Contained'
   }
 });

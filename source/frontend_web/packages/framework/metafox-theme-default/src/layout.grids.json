@@ -55,6 +55,20 @@
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 4
+    },
+    "gridVariant": "gridView"
+  },
+  "Friend - Profile - Cards": {
+    "gridContainerProps": {
+      "columnSpacing": 2,
+      "rowSpacing": 2
+    },
+    "gridItemProps": {
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
       "xl": 6
     },
     "gridVariant": "gridView"
@@ -159,6 +173,20 @@
     },
     "gridVariant": "gridView"
   },
+  "Music - Main Card": {
+    "gridContainerProps": {
+      "rowSpacing": 2,
+      "columnSpacing": 2
+    },
+    "gridItemProps": {
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "xl": 6,
+      "xs": 12
+    },
+    "gridVariant": "gridView"
+  },
   "Quiz - Main Card": {
     "gridContainerProps": {
       "rowSpacing": 2,
@@ -179,11 +207,11 @@
       "columnSpacing": 2
     },
     "gridItemProps": {
-      "xl": 6,
-      "lg": 6,
-      "md": 6,
+      "xs": 12,
       "sm": 6,
-      "xs": 12
+      "md": 6,
+      "lg": 6,
+      "xl": 4
     },
     "gridVariant": "gridView"
   },
@@ -234,8 +262,8 @@
   },
   "Blog - Profile - Main Card": {
     "gridContainerProps": {
-      "columnSpacing": 4,
-      "rowSpacing": 3
+      "columnSpacing": 2,
+      "rowSpacing": 2
     },
     "gridItemProps": {
       "xs": 12,
@@ -386,6 +414,13 @@
     },
     "gridVariant": "listView"
   },
+  "Saved Playlists - Small List": {
+    "gridContainerProps": {
+      "rowSpacing": 0,
+      "columnSpacing": 0
+    },
+    "gridVariant": "listView"
+  },
   "Hashtag - Trending": {
     "gridContainerProps": {
       "columnSpacing": 0,
@@ -407,7 +442,7 @@
     },
     "gridVariant": "gridView"
   },
-  "Blog - Mobile Main Card": {
+  "Blog - Main Card - Mobile": {
     "gridContainerProps": {
       "columnSpacing": 0,
       "rowSpacing": 2
@@ -420,6 +455,12 @@
     "gridVariant": "listView"
   },
   "Poll - Main Card - Mobile": {
+    "gridContainerProps": {
+      "rowSpacing": 2
+    },
+    "gridVariant": "listView"
+  },
+  "Music - Main Card - Mobile": {
     "gridContainerProps": {
       "rowSpacing": 2
     },
@@ -526,6 +567,58 @@
     "gridVariant": "gridView"
   },
   "Video - Small Card": {
+    "gridContainerProps": {
+      "columnSpacing": 2,
+      "rowSpacing": 2
+    },
+    "gridItemProps": {
+      "xl": 1
+    },
+    "gridVariant": "gridView"
+  },
+  "Live_video - Main Card": {
+    "gridContainerProps": {
+      "columnSpacing": 2,
+      "rowSpacing": 2
+    },
+    "gridItemProps": {
+      "sm": 6,
+      "md": 4,
+      "lg": 4,
+      "xl": 4,
+      "xs": 12
+    },
+    "gridVariant": "gridView"
+  },
+  "Livestream - Live Card": {
+    "gridContainerProps": {
+      "columnSpacing": 2,
+      "rowSpacing": 2
+    },
+    "gridItemProps": {
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12,
+      "xs": 12
+    },
+    "gridVariant": "gridView"
+  },
+  "Livestream - Flat View": {
+    "gridContainerProps": {
+      "columnSpacing": 2,
+      "rowSpacing": 2
+    },
+    "gridItemProps": {
+      "xl": 2,
+      "lg": 3,
+      "md": 3,
+      "sm": 4,
+      "xs": 12
+    },
+    "gridVariant": "gridView"
+  },
+  "Livestream - Small Card": {
     "gridContainerProps": {
       "columnSpacing": 2,
       "rowSpacing": 2
@@ -682,7 +775,7 @@
   },
   "ActivityPoint - Packages": {
     "gridContainerProps": {
-      "spacing": 4
+      "spacing": 2
     },
     "gridItemProps": {
       "sm": 4,
@@ -697,6 +790,36 @@
     "gridVariant": "gridView"
   },
   "ChatRoom - Main Card Mobile": {
+    "gridVariant": "gridView"
+  },
+  "Advertise List Item": {
+    "gridContainerProps": {
+      "spacing": 0,
+      "sx": {
+        "flexDirection": "column"
+      }
+    },
+    "gridItemProps": {
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12
+    },
+    "gridVariant": "gridView"
+  },
+  "Record Item - Table": {
+    "gridContainerProps": {
+      "columnSpacing": 2,
+      "rowSpacing": 1
+    },
+    "gridItemProps": {
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12,
+      "xs": 12
+    },
     "gridVariant": "gridView"
   }
 }

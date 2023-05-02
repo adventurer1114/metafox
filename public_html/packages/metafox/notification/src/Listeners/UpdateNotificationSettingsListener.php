@@ -13,12 +13,12 @@ use MetaFox\Platform\Contracts\User;
 class UpdateNotificationSettingsListener
 {
     /**
-     * @param User              $user
+     * @param User|null         $user
      * @param array<string,int> $attributes
      *
      * @return bool
      */
-    public function handle(User $user, array $attributes): bool
+    public function handle(?User $user, array $attributes): bool
     {
         return resolve(TypeRepositoryInterface::class)->updateNotificationSettingsByChannel($user, $attributes);
     }

@@ -51,17 +51,20 @@ class FileController extends ApiController
 
         if (!file_type()->verifyMime($file, $fileType)) {
             return $this->error(
-                __p('validation.mimes', [
-                    'attribute' => 'file',
-                    'values'    => file_type()->getMimeTypeFromType($fileType),
-                ]),
+                __p('validation.cannot_play_back_the_file_the_format_is_not_supported'),
                 422
             );
         }
 
+        $storageId = Arr::get($params, 'storage_id');
+
+        if (!$storageId) {
+            $storageId = 'photo';
+        }
+
         // Upload files.
         $storageFile = upload()
-            ->setStorage('photo')
+            ->setStorage($storageId)
             ->setPath($params['item_type'])
             ->setThumbSizes($params['thumbnail_sizes'])
             ->setItemType($params['item_type'])

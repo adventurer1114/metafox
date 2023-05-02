@@ -36,6 +36,12 @@ interface NotificationRepositoryInterface
 
     /**
      * @param  User $context
+     * @return bool
+     */
+    public function markAllAsNotified(User $context): bool;
+
+    /**
+     * @param  User $context
      * @param  int  $id
      * @return bool
      */

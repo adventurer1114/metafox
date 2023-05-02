@@ -10,14 +10,12 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 
 /**
  * Class CommentAttachment.
- * @property int         $id
- * @property int         $comment_id
- * @property int         $item_id
- * @property string      $item_type
- * @property string      $params
- * @property string|null $image_path
- * @property string      $server_id
- * @method   static      CommentAttachmentFactory factory(...$parameters)
+ * @property        int                      $id
+ * @property        int                      $comment_id
+ * @property        int                      $item_id
+ * @property        string                   $item_type
+ * @property        string                   $params
+ * @method   static CommentAttachmentFactory factory(...$parameters)
  */
 class CommentAttachment extends Model implements Entity
 {

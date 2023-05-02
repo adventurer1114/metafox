@@ -87,6 +87,11 @@ class Location extends AbstractField
         return $this->setAttribute('value', $value);
     }
 
+    public function hideMap(bool $flag = false): static
+    {
+        return $this->setAttribute('hideMap', $flag);
+    }
+
     /**
      * @return mixed
      */

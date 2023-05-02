@@ -33,7 +33,7 @@ class CreateForm extends AbstractForm
 
         $this->asPost()
             ->setBackProps(__p('core::web.groups'))
-            ->title(__p('group::phrase.new_group'))
+            ->title(__p('group::phrase.create_group'))
             ->action(Model::API_URL)
             ->navigationConfirmation([
                 'title'          => __p('core::web.leave_page'),
@@ -102,11 +102,7 @@ class CreateForm extends AbstractForm
                 ),
         );
 
-        $this->addFooter()
-            ->addFields(
-                Builder::submit()->label(__p('group::phrase.create_group'))->flexWidth(1),
-                Builder::cancelButton()->sizeMedium(),
-            );
+        $this->addDefaultFooter();
     }
 
     /**

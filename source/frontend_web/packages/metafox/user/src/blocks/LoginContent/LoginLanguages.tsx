@@ -1,46 +1,29 @@
 import { MFOX_LOCALE, useGlobal } from '@metafox/framework';
 import { detectBrowserLanguage } from '@metafox/utils';
-import { Theme } from '@mui/material';
+import { MenuItem, Select, styled } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
-import { createStyles, makeStyles, withStyles } from '@mui/styles';
 import React from 'react';
 
-const useStyles = makeStyles(
-  theme => ({
-    languages: {
-      paddingTop: theme.spacing(2.5),
-      paddingBottom: theme.spacing(2.5),
-      display: 'flex',
-      justifyContent: 'flex-end',
-      '& .MuiInput-root': {
-        color: theme.palette.default.contrastText
-      },
-      '& .MuiSvgIcon-root': {
-        color: theme.palette.default.contrastText
-      }
-    }
-  }),
-  { name: 'LoginContent' }
-);
+const name = 'LoginContent';
 
-const StyledSelect = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      color: '#fff',
-      height: 'initial',
-      '& option': {
-        color: theme.palette.text.primary
-      }
-    },
-    icon: {
-      color: '#fff'
-    }
-  })
-)(NativeSelect);
+const RootStyled = styled('div', { name, slot: 'root' })(({ theme }) => ({
+  paddingTop: theme.spacing(2.5),
+  paddingBottom: theme.spacing(2),
+  display: 'flex',
+  justifyContent: 'flex-end',
+  '& .MuiSvgIcon-root': {
+    color: theme.palette.default.contrastText
+  },
+  '& .MuiInput-input': {
+    color: theme.palette.default.contrastText
+  }
+}));
+
+const MenuItemStyled = styled(MenuItem, { name })(({ theme }) => ({
+  color: theme.palette.text.primary
+}));
 
 export default function LoginLanguages() {
-  const classes = useStyles();
   const { usePreference, getSetting, preferenceBackend, navigate } =
     useGlobal();
 
@@ -58,24 +41,24 @@ export default function LoginLanguages() {
   };
 
   return (
-    <div className={classes.languages}>
+    <RootStyled>
       <FormControl>
-        <StyledSelect
+        <Select
+          labelId="demo-simple-select-autowidth-label"
+          id="demo-simple-select-autowidth"
           value={value}
-          inputProps={{
-            name: 'languages',
-            id: 'languages'
-          }}
           onChange={onChange}
+          autoWidth
+          variant="standard"
           disableUnderline
         >
           {Object.keys(supports).map(langCode => (
-            <option key={langCode} value={langCode}>
+            <MenuItemStyled key={langCode} value={langCode}>
               {supports[langCode]}
-            </option>
+            </MenuItemStyled>
           ))}
-        </StyledSelect>
+        </Select>
       </FormControl>
-    </div>
+    </RootStyled>
   );
 }

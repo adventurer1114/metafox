@@ -18,7 +18,7 @@ use MetaFox\Platform\PackageManager;
 /**
  * Class SiteSettingRepository.
  */
-final class SiteSettingRepository implements SiteSettingRepositoryInterface
+class SiteSettingRepository implements SiteSettingRepositoryInterface
 {
     /**
      * Keep name=> setting id, of settings with `is_auto` = 0.
@@ -149,11 +149,10 @@ final class SiteSettingRepository implements SiteSettingRepositoryInterface
         $response = [];
 
         foreach ($settings as $name => $data) {
-
             // delete dirty settings.
-            if($data['is_deleted']?? false){
+            if ($data['is_deleted'] ?? false) {
                 SiteSetting::query()->where([
-                    'name'=> $name
+                    'name' => $name,
                 ])->delete();
                 continue;
             }
@@ -522,6 +521,13 @@ final class SiteSettingRepository implements SiteSettingRepositoryInterface
             foreach ($data as $name => $value) {
                 Arr::set($result, sprintf('%s.%s', $alias, $name), $value);
             }
+        }
+    }
+
+    public function mockValues(array $values)
+    {
+        foreach ($values as $name => $value) {
+            Arr::set($this->cachedValueBag, $name, $value);
         }
     }
 }

@@ -7,10 +7,10 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
-use MetaFox\Page\Http\Requests\v1\PageCategory\DeleteRequest;
-use MetaFox\Page\Http\Requests\v1\PageCategory\IndexRequest;
-use MetaFox\Page\Http\Requests\v1\PageCategory\StoreRequest;
-use MetaFox\Page\Http\Requests\v1\PageCategory\UpdateRequest;
+use MetaFox\Page\Http\Requests\v1\PageCategory\Admin\DeleteRequest;
+use MetaFox\Page\Http\Requests\v1\PageCategory\Admin\IndexRequest;
+use MetaFox\Page\Http\Requests\v1\PageCategory\Admin\StoreRequest;
+use MetaFox\Page\Http\Requests\v1\PageCategory\Admin\UpdateRequest;
 use MetaFox\Page\Http\Resources\v1\PageCategory\Admin\CategoryItemCollection as ItemCollection;
 use MetaFox\Page\Http\Resources\v1\PageCategory\Admin\DestroyCategoryForm;
 use MetaFox\Page\Http\Resources\v1\PageCategory\Admin\StoreCategoryForm;
@@ -49,7 +49,7 @@ class PageCategoryAdminController extends ApiController
     {
         $params = $request->validated();
 
-        $data   = $this->repository->viewForAdmin(user(), $params);
+        $data = $this->repository->viewForAdmin(user(), $params);
 
         return new ItemCollection($data);
     }
@@ -68,10 +68,14 @@ class PageCategoryAdminController extends ApiController
         $params = $request->validated();
 
         /** @var Category $data */
-        $data   = $this->repository->createCategory(user(), $params);
+        $data = $this->repository->createCategory(user(), $params);
 
         if ($data->parent_id) {
-            $url = sprintf('/admincp/page/category/%s/category/browse?parent_id=%s', $data->parent_id, $data->parent_id);
+            $url = sprintf(
+                '/admincp/page/category/%s/category/browse?parent_id=%s',
+                $data->parent_id,
+                $data->parent_id
+            );
         } else {
             $url = '/admincp/event/category/browse';
         }
@@ -140,23 +144,27 @@ class PageCategoryAdminController extends ApiController
      *
      * @return StoreCategoryForm
      */
-    public function create(): StoreCategoryForm
+    public function create(): JsonResponse
     {
-        return new StoreCategoryForm();
+        $form = app()->make(StoreCategoryForm::class, ['resource' => null]);
+
+        return $this->success($form);
     }
 
     public function edit(int $id): JsonResponse
     {
-        $form = new UpdateCategoryForm($this->repository->find($id));
+        $resource = $this->repository->find($id);
+
+        $form = app()->make(UpdateCategoryForm::class, compact('resource'));
 
         return $this->success($form);
     }
 
     public function delete(int $id): JsonResponse
     {
-        $form = new DestroyCategoryForm($this->repository->find($id));
+        $resource = $this->repository->find($id);
 
-        app()->call([$form, 'boot'], ['id' => $id]);
+        $form = app()->make(DestroyCategoryForm::class, compact('resource'));
 
         return $this->success($form);
     }
@@ -169,8 +177,7 @@ class PageCategoryAdminController extends ApiController
      */
     public function toggleActive(int $id): JsonResponse
     {
-        $item = $this->repository->find($id);
-        $item->update(['is_active' => $item->is_active ? 0 : 1]);
+        $item = $this->repository->toggleActive($id);
 
         return $this->success([new Detail($item)], [], __p('core::phrase.already_saved_changes'));
     }

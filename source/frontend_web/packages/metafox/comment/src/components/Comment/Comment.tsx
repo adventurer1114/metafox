@@ -196,7 +196,7 @@ export default function Comment({
 
   if (!item || !user) return null;
 
-  const remainChild = Math.min(item.child_total - children?.length, 10);
+  const remainChild = Math.min(item.child_total - (children?.length || 0), 10);
   const isThreadDisplay = getSetting('comment.enable_thread');
 
   const {
@@ -215,7 +215,7 @@ export default function Comment({
   ).filter(item => item?.isLoading === true);
 
   const showRemovePreviewButton =
-    extra_data?.extra_type === 'link' && !item?.is_hide;
+    extra_data?.extra_type === 'link' && item?.extra?.can_remove_link_preview;
 
   const handleClickMore = () => {
     setLoadingMore(true);
@@ -232,7 +232,7 @@ export default function Comment({
       id={`comment-${item.id}`}
       data-author={user.full_name}
     >
-      <Box pt={2}>
+      <Box pt={1}>
         {item.isEditing ? (
           <EditContent
             text={editText}
@@ -378,7 +378,7 @@ export default function Comment({
           )}
         </ViewMoreReplyButton>
       ) : null}
-      {!is_hidden && (
+      {!is_hidden && (childrenSort?.length || preFetchingComment?.length) ? (
         <ReplyListing>
           {childrenSort?.length
             ? childrenSort.map(item => (
@@ -396,8 +396,8 @@ export default function Comment({
               ))
             : null}
         </ReplyListing>
-      )}
-      {item.parent_id ? null : (
+      ) : null}
+      {item.parent_id && state.commentOpened ? null : (
         <ReplyListing>
           {CommentComposer && (
             <CommentComposer

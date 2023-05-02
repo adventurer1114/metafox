@@ -91,6 +91,7 @@ export type ItemExtraShape = {
   can_message?: boolean;
   can_upload_media?: boolean;
   can_add_cover?: boolean;
+  can_remove_link_preview?: boolean;
 };
 
 export type BackgroundSize = '48' | '300' | '1024' | 'origin';
@@ -311,6 +312,7 @@ export type ItemActionMenuProps = {
   autoHide?: boolean;
   preventClose?: boolean;
   zIndex?: number;
+  popperOptions?: any;
 };
 
 export type MenuItemValue = string;
@@ -457,6 +459,7 @@ export interface TruncateTextProps extends TypographyProps {
   fontWeight?: number;
   fixHeight?: boolean;
   showFull?: boolean;
+  isIE?: number;
 }
 
 export type ControlMenuItemProps = {

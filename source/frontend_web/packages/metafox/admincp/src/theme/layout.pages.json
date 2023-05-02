@@ -25,8 +25,7 @@
           "blockId": "8r8c",
           "component": "core.block.AdminDepthStats",
           "slotName": "top2",
-          "title": "in_dept_statistics",
-          "blockLayout": "Admin - Contained"
+          "title": "in_dept_statistics"
         },
         {
           "blockId": "4i9sq",
@@ -81,8 +80,7 @@
           "blockId": "8r8c",
           "component": "core.block.AdminDepthStats",
           "slotName": "main",
-          "title": "in_dept_statistics",
-          "blockLayout": "Admin - Contained"
+          "title": "in_dept_statistics"
         },
         {
           "blockId": "yvxfo",
@@ -508,7 +506,7 @@
           "component": "core.block.AdminOverview",
           "slotName": "main",
           "freeze": false,
-          "blockLayout": "Admin Table"
+          "blockLayout": "Admin - Table - Contained"
         }
       ]
     }

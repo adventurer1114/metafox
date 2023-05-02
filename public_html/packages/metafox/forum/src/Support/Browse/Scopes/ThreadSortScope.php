@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use MetaFox\Platform\Support\Browse\Browse;
+use MetaFox\Platform\Support\Browse\Contracts\HasAlphabetSort;
 use MetaFox\Platform\Support\Browse\Scopes\SortScope;
+use MetaFox\Platform\Support\Browse\Traits\AlphabetSortTrait;
 
 /**
  * Class SortScope.
  */
-class ThreadSortScope extends SortScope
+class ThreadSortScope extends SortScope implements HasAlphabetSort
 {
+    use AlphabetSortTrait;
+
     public const SORT_DEFAULT              = Browse::SORT_RECENT;
     public const SORT_TYPE_DEFAULT         = Browse::SORT_TYPE_DESC;
     public const SORT_RECENT_POST          = 'recent_post';
@@ -177,7 +181,7 @@ class ThreadSortScope extends SortScope
                         break;
                     case self::SORT_LAST_POST:
                         $builder->orderByDesc($this->alias($table, 'is_sticked'));
-                        $this->buildLatestPosts($builder, $model);
+                        $this->buildLatestPosts($builder, $model, $sortType);
                         break;
                     default:
                         $this->orderByStickedDesc($builder, $table);
@@ -198,7 +202,7 @@ class ThreadSortScope extends SortScope
         $builder->orderByDesc($this->alias($table, 'is_sticked'));
     }
 
-    protected function buildLatestPosts(Builder $builder, Model $model): void
+    protected function buildLatestPosts(Builder $builder, Model $model, string $sortType = Browse::SORT_TYPE_DESC): void
     {
         $table    = $model->getTable();
 
@@ -208,9 +212,9 @@ class ThreadSortScope extends SortScope
             ->leftJoin('forum_posts', function (JoinClause $joinClause) {
                 $joinClause->on('forum_posts.id', '=', 'forum_threads.last_post_id');
             })
-            ->orderBy('ordered_date', 'desc')
-            ->orderBy($this->alias($table, 'created_at'), Browse::SORT_TYPE_DESC)
-            ->orderBy($this->alias($table, $model->getKeyName()), Browse::SORT_TYPE_DESC);
+            ->orderBy('ordered_date', $sortType)
+            ->orderBy($this->alias($table, 'created_at'), $sortType)
+            ->orderBy($this->alias($table, $model->getKeyName()), $sortType);
     }
 
     protected function buildLastReplies(Builder $builder, Model $model, bool $isOrderedBySticked = false): void
@@ -230,5 +234,10 @@ class ThreadSortScope extends SortScope
             ->orderBy('forum_posts.created_at', $sortType)
             ->orderBy($this->alias($table, 'created_at'), $sortType)
             ->orderBy($this->alias($table, $model->getKeyName()), $sortType);
+    }
+
+    public function getAlphabetSortColumn(): string
+    {
+        return 'title';
     }
 }

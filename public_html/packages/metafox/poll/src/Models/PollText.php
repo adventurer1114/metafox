@@ -29,6 +29,7 @@ class PollText extends Model implements ResourceText
     protected $table = 'poll_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

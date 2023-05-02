@@ -17,8 +17,12 @@ trait FriendStatisticTrait
      */
     protected function getFriendStatistic(): array
     {
+        if (empty($this->resource)) {
+            return [];
+        }
+
         return [
-            'total_friend' => $this->countTotalFriend($this->resource->entityId()),
+            'total_friend'  => $this->countTotalFriend($this->resource->entityId()),
             'total_request' => $this->countTotalFriendRequest($this->resource),
         ];
     }

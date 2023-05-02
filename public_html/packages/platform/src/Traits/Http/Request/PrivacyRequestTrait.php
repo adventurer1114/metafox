@@ -6,8 +6,7 @@ use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\MetaFoxPrivacy;
 
 /**
- * Trait HasFeedParam
- * @package MetaFox\Platform\Traits\Http\Request
+ * Trait HasFeedParam.
  * @property Content $resource
  */
 trait PrivacyRequestTrait
@@ -24,8 +23,9 @@ trait PrivacyRequestTrait
         }
 
         $data['list'] = [];
+
         if (is_array($data['privacy'])) {
-            $data['list'] = $data['privacy'];
+            $data['list']    = $data['privacy'];
             $data['privacy'] = MetaFoxPrivacy::CUSTOM;
         }
 

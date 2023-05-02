@@ -2,7 +2,6 @@
 
 namespace MetaFox\Notification\Policies;
 
-use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
@@ -23,14 +22,10 @@ class NotificationPolicy implements ResourcePolicyInterface
 
     public function viewAny(User $user, ?User $owner = null): bool
     {
-        if (!$user->hasPermissionTo('notification.view')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('notification.view');
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return false;
     }
@@ -52,19 +47,11 @@ class NotificationPolicy implements ResourcePolicyInterface
 
     public function delete(User $user, ?Entity $resource = null): bool
     {
-        if (!$user->hasPermissionTo('notification.moderate')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('notification.moderate');
     }
 
     public function deleteOwn(User $user, ?Entity $resource = null): bool
     {
-        if (!$user->hasPermissionTo('notification.deleteOwn')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('notification.deleteOwn');
     }
 }

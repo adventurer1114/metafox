@@ -22,7 +22,7 @@ class EditReportReasonForm extends CreateReportReasonForm
     {
         $this->config([
             'title'  => __p('core::phrase.edit'),
-            'action' => url_utility()->makeApiUrl('admincp/report/reason/' . $this->resource->id),
+            'action' => '/admincp/report/reason/' . $this->resource?->id,
             'method' => MetaFoxForm::METHOD_PUT,
             'value'  => new ReportReasonDetail($this->resource),
         ]);

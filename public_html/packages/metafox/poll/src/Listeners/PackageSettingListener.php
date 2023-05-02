@@ -54,18 +54,18 @@ class PackageSettingListener extends BasePackageSettingListener
                 'create' => UserRole::LEVEL_PAGE,
                 'update' => UserRole::LEVEL_PAGE,
                 // 'publish'                 => UserRole::LEVEL_REGISTERED,
-                'delete'   => UserRole::LEVEL_PAGE,
-                'moderate' => UserRole::LEVEL_STAFF,
-                'feature'  => UserRole::LEVEL_REGISTERED,
-                'like'     => UserRole::LEVEL_REGISTERED,
-                'share'    => UserRole::LEVEL_REGISTERED,
-                'comment'  => UserRole::LEVEL_REGISTERED,
-                'report'   => UserRole::LEVEL_REGISTERED,
-                'save'     => UserRole::LEVEL_REGISTERED,
-                'approve'  => UserRole::LEVEL_STAFF,
-                // 'purchase_sponsor'        => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'                 => UserRole::LEVEL_REGISTERED,
-                // 'sponsor_in_feed'         => UserRole::LEVEL_REGISTERED,
+                'delete'                  => UserRole::LEVEL_PAGE,
+                'moderate'                => UserRole::LEVEL_STAFF,
+                'feature'                 => UserRole::LEVEL_REGISTERED,
+                'like'                    => UserRole::LEVEL_REGISTERED,
+                'share'                   => UserRole::LEVEL_REGISTERED,
+                'comment'                 => UserRole::LEVEL_REGISTERED,
+                'report'                  => UserRole::LEVEL_REGISTERED,
+                'save'                    => UserRole::LEVEL_REGISTERED,
+                'approve'                 => UserRole::LEVEL_STAFF,
+                'purchase_sponsor'        => UserRole::LEVEL_REGISTERED,
+                'sponsor'                 => UserRole::LEVEL_REGISTERED,
+                'sponsor_in_feed'         => UserRole::LEVEL_REGISTERED,
                 'auto_approved'           => UserRole::LEVEL_PAGE,
                 'view_result_before_vote' => UserRole::LEVEL_REGISTERED,
                 'view_result_after_vote'  => UserRole::LEVEL_REGISTERED,
@@ -259,6 +259,15 @@ class PackageSettingListener extends BasePackageSettingListener
                         UserRole::NORMAL_USER => 0,
                     ],
                 ],
+                'purchase_sponsor_price' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
             ],
         ];
     }
@@ -286,5 +295,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['poll'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/poll',
+                'name' => 'poll::phrase.ad_mob_poll_home_page',
+            ],
+            [
+                'path' => '/poll/:id',
+                'name' => 'poll::phrase.ad_mob_poll_detail_page',
+            ],
+        ];
     }
 }

@@ -45,6 +45,10 @@ class FriendListPolicy
      */
     public function view(User $user, Resource $resource): bool
     {
+        if ($user->hasSuperAdminRole()) {
+            return true;
+        }
+
         //Does not allow view friend list in case you does not have permission for viewing friends
         if ($user->entityId() != $resource->userId()) {
             return false;

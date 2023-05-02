@@ -490,6 +490,7 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'photo.sidebarMenu',
         'name'     => 'my_pending',
@@ -530,13 +531,14 @@ return [
         'name'     => 'my_albums',
         'label'    => 'photo::phrase.my_albums',
         'ordering' => 7,
-        'icon'     => 'ico-user-man-o',
+        'icon'     => 'ico-photos-check',
         'to'       => '/photo/my-albums',
     ],
     [
         'tab'      => 'pending',
         'showWhen' => [
-            'or',
+            'and',
+            ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.photo.photo.approve'],
         ],
         'menu'     => 'photo.sidebarMenu',

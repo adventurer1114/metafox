@@ -72,6 +72,7 @@ return [
         'version'    => 'v1',
         'resolution' => 'admin',
         'title'      => 'FTP Storage',
+        'is_active'  => 0,
     ],
     [
         'driver'     => 'MetaFox\\Storage\\Http\\Resources\\v1\\Admin\\UpdateLocalDiskForm',
@@ -96,6 +97,7 @@ return [
         'version'    => 'v1',
         'resolution' => 'admin',
         'title'      => 'SFTP Storage',
+        'is_active'  => 0,
     ],
     [
         'driver'  => 'MetaFox\\Storage\\Http\\Resources\\v1\\PackageSetting',

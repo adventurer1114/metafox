@@ -21,21 +21,6 @@ export default createBlock<Props>({
   extendBlock: Enhance,
   defaults: {
     placeholder: 'Search',
-    blockProps: {
-      variant: 'plained',
-      titleComponent: 'h2',
-      titleVariant: 'subtitle1',
-      titleColor: 'textPrimary',
-      noFooter: true,
-      noHeader: true,
-      blockStyle: {},
-      contentStyle: {
-        borderRadius: 'base',
-        pt: 0,
-        pb: 0
-      },
-      headerStyle: {},
-      footerStyle: {}
-    }
+    blockLayout: 'Detail - Paper - Radius Bottom'
   }
 });

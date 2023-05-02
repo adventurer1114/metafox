@@ -15,48 +15,58 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-    'middleware' => 'auth:api',
-    'namespace'  => __NAMESPACE__,
-], function () {
-    Route::group(['prefix' => 'event'], function () {
-        Route::get('form/{id?}', 'EventController@form');
-        Route::patch('sponsor/{id}', 'EventController@sponsor');
-        Route::patch('feature/{id}', 'EventController@feature');
-        Route::patch('approve/{id}', 'EventController@approve');
-        Route::get('{id}/stats', 'EventController@getStats');
-        Route::post('{id}/mass-email', 'EventController@massEmail');
-    });
-    Route::group(['prefix' => 'event-member'], function () {
-        Route::delete('member', 'MemberController@removeMember');
-        Route::delete('host', 'MemberController@removeHost');
-        Route::put('interest/{id}', 'MemberController@interest');
-    });
-    Route::group(['prefix' => 'event-invite'], function () {
-        Route::get('/', 'InviteController@index');
-        Route::post('/', 'InviteController@store');
-        Route::put('/', 'InviteController@update');
-        Route::delete('/', 'InviteController@delete');
-        Route::get('/get-code', 'InviteController@getCode');
-    });
-    Route::group(['prefix' => 'event-code'], function () {
-        Route::post('/', 'InviteCodeController@store');
-        Route::get('/verify/{code}', 'InviteCodeController@verify');
-        Route::post('/accept/{code}', 'InviteCodeController@accept');
+Route::controller(EventController::class)
+    ->prefix('event')
+    ->group(function () {
+        Route::get('form/{id?}', 'form');
+        Route::patch('sponsor/{id}', 'sponsor');
+        Route::patch('feature/{id}', 'feature');
+        Route::patch('approve/{id}', 'approve');
+        Route::get('{id}/stats', 'getStats');
+        Route::post('{id}/mass-email', 'massEmail');
     });
 
-    Route::group(['prefix' => 'event-host-invite'], function () {
-        Route::get('/', 'HostInviteController@index');
-        Route::post('/', 'HostInviteController@store');
-        Route::put('/', 'HostInviteController@update');
-        Route::delete('/', 'HostInviteController@delete');
-    });
-    Route::group(['prefix' => 'event/setting'], function () {
-        Route::get('/form/{id}', 'SettingController@form');
-        Route::put('/{id}', 'SettingController@update');
+Route::prefix('event-member')
+    ->controller(MemberController::class)
+    ->group(function () {
+        Route::delete('member', 'removeMember');
+        Route::delete('host', 'removeHost');
+        Route::put('interest/{id}', 'interest');
     });
 
-    Route::resource('event', 'EventController');
-    Route::resource('event-category', 'CategoryController');
-    Route::resource('event-member', 'MemberController');
-});
+Route::prefix('event-code')
+    ->controller(InviteCodeController::class)
+    ->group(function () {
+        Route::post('/', 'store');
+        Route::get('/verify/{code}', 'verify');
+        Route::post('/accept/{code}', 'accept');
+    });
+
+Route::prefix('event/setting')
+    ->controller(SettingController::class)
+    ->group(function () {
+        Route::get('/form/{id}', 'form');
+        Route::put('/{id}', 'update');
+    });
+
+Route::prefix('event-host-invite')
+    ->as('event-host-invite.')
+    ->controller(HostInviteController::class)
+    ->group(function () {
+        Route::put('/', 'update')->name('update');
+        Route::delete('/', 'delete')->name('delete');
+    });
+
+Route::prefix('event-invite')
+    ->as('event-invite.')
+    ->controller(InviteController::class)
+    ->group(function () {
+        Route::put('/', 'update')->name('update');
+        Route::delete('/', 'delete')->name('delete');
+    });
+
+Route::resource('event-host-invite', HostInviteController::class)->only(['index', 'store']);
+Route::resource('event-invite', InviteController::class)->only(['index', 'store']);
+Route::resource('event', EventController::class);
+Route::resource('event-category', CategoryController::class)->only(['index']);
+Route::resource('event-member', MemberController::class);

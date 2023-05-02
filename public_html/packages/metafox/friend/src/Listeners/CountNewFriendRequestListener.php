@@ -20,8 +20,11 @@ class CountNewFriendRequestListener
      * @return void
      * @throws AuthorizationException
      */
-    public function handle(User $context, StdClass $data): void
+    public function handle(?User $context, StdClass $data): void
     {
+        if (!$context) {
+            return;
+        }
         resolve(FriendRequestRepositoryInterface::class)
             ->countFriendRequest($context, $data);
     }

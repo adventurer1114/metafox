@@ -3,6 +3,7 @@
 namespace MetaFox\Platform\Support\Repository;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Gate;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\HasPolicy;
 use MetaFox\Platform\Contracts\User;

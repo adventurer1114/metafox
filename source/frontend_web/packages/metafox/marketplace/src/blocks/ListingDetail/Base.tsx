@@ -1,7 +1,8 @@
 import {
   RouteLink as Link,
   useGlobal,
-  getItemSelector
+  getItemSelector,
+  GlobalState
 } from '@metafox/framework';
 import HtmlViewer from '@metafox/html-viewer';
 import { Block, BlockContent } from '@metafox/layout';
@@ -62,16 +63,19 @@ const ListingHeader = styled('div', { name, slot: 'listingHeader' })(
   })
 );
 const Images = styled('div', { name, slot: 'images' })(({ theme }) => ({
-  width: 400,
   float: 'left',
   marginRight: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  width: '40%',
+  minWidth: '400px',
   [theme.breakpoints.down('sm')]: {
     width: '100%',
+    minWidth: 'auto',
     float: 'none'
   }
 }));
 const ImageStyled = styled(Image, { name, slot: 'image' })(({ theme }) => ({
-  width: 400,
+  width: '100%',
   height: 400,
   [theme.breakpoints.down('sm')]: {
     marginRight: 0,
@@ -130,7 +134,6 @@ const OwnerWrapper = styled('div', { name, slot: 'ownerWrapper' })(
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       alignItems: 'flex-start'
@@ -139,7 +142,7 @@ const OwnerWrapper = styled('div', { name, slot: 'ownerWrapper' })(
 );
 const Owner = styled('div', { name, slot: 'owner' })(({ theme }) => ({
   overflow: 'hidden',
-  padding: theme.spacing(3.5, 0),
+  padding: theme.spacing(3, 0),
   display: 'flex',
   alignItems: 'center',
   flex: 1,
@@ -239,6 +242,16 @@ const LinkStyled = styled(Box, { name: 'LinkStyled' })(({ theme }) => ({
   margin: theme.spacing(0, 0.5)
 }));
 
+const LabelDetail = styled(Typography, { name: 'LabelDetail' })(
+  ({ theme }) => ({
+    fontSize: theme.mixins.pxToRem(18),
+    fontWeight: theme.typography.fontWeightBold,
+    color: theme.palette.grey['600'],
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2)
+  })
+);
+
 export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
   const { item, actions, user, identity, handleAction, state, isModalView } =
     props;
@@ -249,10 +262,13 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
     ItemDetailInteraction,
     dispatch,
     useGetItems,
-    jsxBackend
+    jsxBackend,
+    navigate,
+    useIsMobile
   } = useGlobal();
   const attachments = useGetItems(item?.attachments);
   const categories = useGetItems(item?.categories);
+  const isMobile = useIsMobile();
   const handlePayment = React.useCallback(() => {
     actions.paymentItem();
   }, [actions]);
@@ -291,7 +307,8 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
     dispatch({
       type: 'chat/room/openChatRoom',
       payload: {
-        identity: listingSeller
+        identity: listingSeller,
+        isMobile
       }
     });
   };
@@ -311,6 +328,9 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
   return (
     <Block testid={`detailview ${item.resource_name}`}>
       <BlockContent>
+        {is_pending && PendingCard ? (
+          <PendingCard sxWrapper={{ mb: 1 }} item={item} />
+        ) : null}
         <ItemWrapper isModalView={isModalView}>
           <ListingHeader>
             {images?.length || cover ? (
@@ -325,11 +345,6 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
             <Container>
               <Box position="relative">
                 <InnerContainer>
-                  {is_pending && PendingCard ? (
-                    <Box sx={{ margin: 2 }}>
-                      <PendingCard sx item={item} />
-                    </Box>
-                  ) : null}
                   {categories
                     ? categories.map(category => (
                         <Category
@@ -443,9 +458,11 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
                   )}
                   <ItemOuter>
                     <Box>
-                      <Info mt={2}>
-                        <HtmlViewer html={short_description || ''} />
-                      </Info>
+                      {short_description ? (
+                        <Info mt={2}>
+                          <HtmlViewer html={short_description || ''} />
+                        </Info>
+                      ) : null}
                       {expires_label ? (
                         <Expires>
                           {' '}
@@ -454,8 +471,8 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
                       ) : null}
                       {location?.lat && location?.lng && (
                         <LocationStyled>
-                          <LineIcon icon="ico-checkin-o" />
-                          <Box ml={1.5}>
+                          <LineIcon sx={{ mt: 0.25 }} icon="ico-checkin-o" />
+                          <Box ml={1}>
                             <div>{location?.address}</div>
                             <Box sx={{ display: 'flex' }}>
                               <LinkStyled component="span" onClick={onViewMap}>
@@ -478,7 +495,7 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
                     </Box>
                     <OwnerWrapper>
                       <Owner>
-                        <Box sx={{ float: 'left' }} mr={2}>
+                        <Box sx={{ float: 'left' }} mr={1.5}>
                           <UserAvatar user={user} size={48} />
                         </Box>
                         <Box overflow="hidden" flexGrow="1">
@@ -552,6 +569,9 @@ export default function MarketplaceDetail(props: MarketplaceDetailViewProps) {
             </Container>
           </ListingHeader>
           <Box sx={{ p: { sm: 0, xs: 2 } }}>
+            <LabelDetail>
+              {i18n.formatMessage({ id: 'listing_detail' })}
+            </LabelDetail>
             {description ? (
               <Info>
                 <HtmlViewer html={description || ''} />

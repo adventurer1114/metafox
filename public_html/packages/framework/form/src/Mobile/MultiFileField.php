@@ -15,6 +15,7 @@ class MultiFileField extends FileField
         $maxSizes = Settings::get('storage.filesystems.max_upload_filesize', []);
 
         $this->setComponent(self::COMPONENT)
+            ->variant('standard-inlined')
             ->maxUploadSize($maxSizes)
             ->multiple();
     }

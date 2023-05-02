@@ -141,6 +141,7 @@ class GroupDetail extends JsonResource
             'is_pending'                    => $isPending,
             'is_featured'                   => $this->resource->is_featured,
             'is_sponsor'                    => $this->resource->is_sponsor,
+            'is_following'                  => GroupFacade::isFollowing($context, $this->resource),
             'pending_mode'                  => $this->resource->pending_mode,
             'membership'                    => $membership,
             'image'                         => $covers,

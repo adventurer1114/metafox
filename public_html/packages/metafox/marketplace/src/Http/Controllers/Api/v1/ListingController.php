@@ -59,17 +59,17 @@ class ListingController extends ApiController
      */
     public function index(IndexRequest $request): JsonResponse
     {
-        $params  = $request->validated();
+        $params = $request->validated();
 
         $context = user();
 
-        $owner   = $context;
+        $owner = $context;
 
         if ($params['user_id'] > 0) {
             $owner = UserEntity::getById($params['user_id'])->detail;
 
             if (!policy_check(ListingPolicy::class, 'viewOnProfilePage', $context, $owner)) {
-                return $this->success([]);
+                throw new AuthorizationException();
             }
 
             if (!UserPrivacy::hasAccess($context, $owner, 'marketplace_view_browse_marketplace_listings')) {
@@ -108,7 +108,11 @@ class ListingController extends ApiController
         /*
          * Mark as history
          */
-        resolve(ListingHistoryRepositoryInterface::class)->createHistory($context->entityId(), $context->entityType(), $id);
+        resolve(ListingHistoryRepositoryInterface::class)->createHistory(
+            $context->entityId(),
+            $context->entityType(),
+            $id
+        );
 
         return new Detail($data);
     }
@@ -167,11 +171,15 @@ class ListingController extends ApiController
      */
     public function update(UpdateRequest $request, int $id): JsonResponse
     {
-        $params      = $request->validated();
+        $params = $request->validated();
 
         $marketplace = $this->repository->updateMarketplaceListing(user(), $id, $params);
 
-        return $this->success(new Detail($marketplace), [], __p('marketplace::phrase.listing_has_been_updated_successfully'));
+        return $this->success(
+            new Detail($marketplace),
+            [],
+            __p('marketplace::phrase.listing_has_been_updated_successfully')
+        );
     }
 
     /**

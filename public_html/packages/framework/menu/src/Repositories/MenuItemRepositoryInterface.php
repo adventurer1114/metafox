@@ -72,4 +72,13 @@ interface MenuItemRepositoryInterface
      * @return bool
      */
     public function orderItems(array $orderIds): bool;
+
+    /**
+     * @param  string        $menu
+     * @param  string        $name
+     * @param  string        $resolution
+     * @param  string|null   $parentName
+     * @return MenuItem|null
+     */
+    public function getMenuItemByName(string $menu, string $name, string $resolution, ?string $parentName = null): ?MenuItem;
 }

@@ -25,7 +25,7 @@ class PageSupport implements PageContract
     protected $repository;
 
     /**
-     * @param  PageRepositoryInterface  $repository
+     * @param PageRepositoryInterface $repository
      */
     public function __construct(PageRepositoryInterface $repository)
     {
@@ -104,7 +104,7 @@ class PageSupport implements PageContract
     /**
      * getDefaultListTypes.
      *
-     * @param  string  $resourceName
+     * @param  string       $resourceName
      * @return array<mixed>
      */
     protected function getDefaultListTypes(string $resourceName): array
@@ -144,5 +144,14 @@ class PageSupport implements PageContract
         }
 
         return $types;
+    }
+
+    public function isFollowing(User $context, User $user): bool
+    {
+        if (!app('events')->dispatch('follow.is_follow', [$context, $user], true)) {
+            return false;
+        }
+
+        return true;
     }
 }

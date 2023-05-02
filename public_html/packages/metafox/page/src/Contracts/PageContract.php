@@ -30,4 +30,6 @@ interface PageContract
      * @return array
      */
     public function getListTypes(): array;
+
+    public function isFollowing(User $context, User $user): bool;
 }

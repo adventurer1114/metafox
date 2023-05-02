@@ -3,7 +3,6 @@
 namespace MetaFox\Comment\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Route;
-use MetaFox\Comment\Http\Controllers\Api\v1\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +15,16 @@ use MetaFox\Comment\Http\Controllers\Api\v1\CommentController;
 |
 */
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    Route::controller(CommentController::class)
-        ->prefix('comment')
-        ->group(function () {
-            Route::post('hide', 'hide');
-            Route::get('related-comment', 'getRelatedComments');
-            Route::get('history-edit/{id}', 'getCommentHistories');
-            Route::get('preview/{id}', 'previewComment');
-        });
+Route::controller(CommentController::class)
+    ->prefix('comment')
+    ->group(function () {
+        Route::post('hide', 'hide');
+        Route::get('related-comment', 'getRelatedComments');
+        Route::get('history-edit/{id}', 'getCommentHistories');
+        Route::get('preview/{id}', 'previewComment');
+        Route::patch('{id}/remove-preview', 'removeLinkPreview');
+    });
 
-    Route::get('comment-lists', [CommentController::class, 'getUsersComment']);
+Route::get('comment-lists', [CommentController::class, 'getUsersComment']);
 
-    Route::resource('comment', 'CommentController');
-});
+Route::resource('comment', CommentController::class);

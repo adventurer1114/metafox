@@ -1,7 +1,7 @@
 {
     "name": "metafox/payment",
     "description": "Payment Gateway",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "authors": [
         {
             "name": "phpFox",

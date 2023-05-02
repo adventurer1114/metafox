@@ -17,7 +17,7 @@ return [
     'can_feature_marketplace_desc'                                       => '',
     'can_feature_marketplace_label'                                      => 'Can feature listings?',
     'can_flood_control_marketplace_desc'                                 => 'Setting it to "0" (without quotes) is default and users will not have to wait.',
-    'can_flood_control_marketplace_label'                                => 'How many minutes should a user wait before they can create another listing?',
+    'can_flood_control_marketplace_label'                                => 'How many minutes this user group should wait before they can post a new listing',
     'can_like_marketplace_desc'                                          => '',
     'can_like_marketplace_label'                                         => 'Can like listings?',
     'can_maximum_number_of_attached_photos_per_upload_marketplace_desc'  => 'Define the maximum number of attached photos a role can upload in total. 0 means unlimited.',
@@ -52,4 +52,6 @@ return [
     'can_view_expired_marketplace_label'                                 => 'Can members of this user group view the section "Expired" in the marketplace?',
     'can_view_marketplace_desc'                                          => '',
     'can_view_marketplace_label'                                         => 'Can browse and view listings?',
+    'can_purchase_sponsor_price_marketplace_desc'                        => '',
+    'can_purchase_sponsor_price_marketplace_label'                       => 'How much is the sponsor space worth for marketplace listings? This works in a CPM basis.',
 ];

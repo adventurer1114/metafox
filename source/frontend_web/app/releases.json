@@ -58,6 +58,9 @@
     "@metafox/video": "local",
     "@metafox/marketplace": "local",
     "@metafox/quiz": "local",
-    "@metafox/chat": "local"
+    "@metafox/chat": "local",
+    "@metafox/music": "local",
+    "@metafox/advertise": "local",
+    "@metafox/livestreaming": "local"
   }
 }

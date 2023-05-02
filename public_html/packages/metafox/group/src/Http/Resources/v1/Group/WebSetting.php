@@ -349,5 +349,18 @@ class WebSetting extends Setting
                 'owner_id'       => ':owner_id',
                 'is_member_only' => 1,
             ]);
+
+        $this->add('follow')
+            ->apiUrl('follow')
+            ->asPost()
+            ->apiParams([
+                'user_id' => ':id',
+            ]);
+
+        $this->add('unfollow')
+            ->apiUrl('follow/:id')
+            ->asDelete();
+
+        $this->add('shareOnGroupProfile');
     }
 }

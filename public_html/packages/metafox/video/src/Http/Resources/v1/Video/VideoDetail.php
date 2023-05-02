@@ -120,6 +120,7 @@ class VideoDetail extends JsonResource
             'feed_param'        => $this->getFeedParams(),
             'album_id'          => $this->resource->album_id,
             'album'             => $album,
+            'is_creator'        => $context->entityId() == $this->resource->userId(),
         ];
     }
 

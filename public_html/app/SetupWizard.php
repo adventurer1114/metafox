@@ -776,6 +776,11 @@ class SetupWizard
             if (isset($existedApps[$id])) {
                 unset($payload[$index]);
             }
+
+            // check app compatibilities
+            if (!version_compare($this->platformVersion, $latest['compatible'], '>=')) {
+                unset($payload[$index]);
+            }
         }
 
         return array_values($payload);
@@ -787,6 +792,8 @@ class SetupWizard
         $this->log(sprintf('Start %s', __METHOD__));
 
         $recommendApps = $this->getRecommendAppsForInstall($license);
+
+        $this->log(var_export($recommendApps, true));
 
         return $this->success([
             'loadedAppsLoaded' => true,
@@ -1000,6 +1007,10 @@ class SetupWizard
         $version = $input['version'];
 
         $filename = sprintf('%s/%s.zip', $this->downloadAppFolder, preg_replace("#\W+#", '-', $id));
+
+        if (file_exists($filename)) {
+            return $this->success([]);
+        }
 
         $json = $this->httpRequest(self::METAFOX_STORE_URL . '/install', 'post', [
             'id'           => $id,
@@ -2089,8 +2100,8 @@ HELP_BLOCK;
             ['name'    => 'MFOX_LICENSE_KEY', 'value' => @$input['license']['key']],
             ['section' => 'Api Authenticate'],
             ['name'    => 'APP_KEY', 'value' => ''],
-            ['name'    => 'MFOX_API_KEY', 'value' => '2'],
-            ['name'    => 'MFOX_API_SECRET', 'value' => '738ab5b83c902a7b81860e05811fd5cd65e95f72'],
+            ['name'    => 'MFOX_API_KEY'],
+            ['name'    => 'MFOX_API_SECRET'],
             ['section' => 'Supper Administrator'],
             ['name'    => 'SITE_USERNAME', 'value' => @$input['administrator']['username']],
             ['name'    => 'SITE_EMAIL', 'value' => @$input['administrator']['email']],

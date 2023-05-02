@@ -10,5 +10,8 @@ import { createProfilePage } from '@metafox/framework';
 export default createProfilePage({
   appName: 'group',
   pageName: 'group.feedDetail',
-  resourceName: 'group'
+  resourceName: 'group',
+  paramCreator: prev => ({
+    tab: 'home'
+  })
 });

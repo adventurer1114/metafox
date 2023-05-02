@@ -129,7 +129,6 @@ Route::group([
             // Account setting
             Route::group(['prefix' => 'setting'], function () {
                 Route::get('/', 'AccountController@setting');
-                Route::get('/form', 'AccountController@getAccountSettingForm');
                 Route::put('/', 'AccountController@updateAccountSetting');
             });
 
@@ -145,34 +144,34 @@ Route::group([
             });
         });
 
-    Route::group(['prefix' => 'admincp'], function () {
-        // manage members
-        Route::get('user', 'UserAdminController@index');
-        Route::get('user/{id}', 'UserAdminController@show');
-        Route::get('user/form/edit/{id}', 'UserAdminController@formUpdate');
-        Route::get('user/form/statistics/{id}', 'UserAdminController@getStatistics');
-        Route::patch('user/approve/{id}', 'UserAdminController@approve');
-
-        // manage cancelled options
-        Route::get('user/cancel/reason', 'CancelReasonAdminController@index');
-        Route::post('user/cancel/reason', 'CancelReasonAdminController@store');
-        Route::get('user/cancel/reason/active/{id}', 'CancelReasonAdminController@active');
-        Route::get('user/cancel/reason/form/{id}', 'CancelReasonAdminController@editForm');
-        Route::get('user/cancel/reason/form', 'CancelReasonAdminController@createForm');
-
-        // manage cancelled options
-        Route::get('user/cancel/feedback', 'CancelFeedbackAdminController@index');
-
-        // promotions
-        Route::get('user/promotion/form', 'UserPromotionAdminController@createForm');
-        Route::get('user/promotion/form/{id}', 'UserPromotionAdminController@editForm');
-        Route::resource('user/promotion', 'UserPromotionAdminController');
-
-        // relationship status
-        Route::get('user/relation/form', 'UserRelationAdminController@createForm');
-        Route::get('user/relation/form/:id', 'UserRelationAdminController@editForm');
-        Route::resource('user/relation', 'UserRelationAdminController');
-    });
+//    Route::group(['prefix' => 'admincp'], function () {
+//        // manage members
+//        Route::get('user', 'UserAdminController@index');
+//        Route::get('user/{id}', 'UserAdminController@show');
+//        Route::get('user/form/edit/{id}', 'UserAdminController@formUpdate');
+//        Route::get('user/form/statistics/{id}', 'UserAdminController@getStatistics');
+//        Route::patch('user/approve/{id}', 'UserAdminController@approve');
+//
+//        // manage cancelled options
+//        Route::get('user/cancel/reason', 'CancelReasonAdminController@index');
+//        Route::post('user/cancel/reason', 'CancelReasonAdminController@store');
+//        Route::get('user/cancel/reason/active/{id}', 'CancelReasonAdminController@active');
+//        Route::get('user/cancel/reason/form/{id}', 'CancelReasonAdminController@editForm');
+//        Route::get('user/cancel/reason/form', 'CancelReasonAdminController@createForm');
+//
+//        // manage cancelled options
+//        Route::get('user/cancel/feedback', 'CancelFeedbackAdminController@index');
+//
+//        // promotions
+//        Route::get('user/promotion/form', 'UserPromotionAdminController@createForm');
+//        Route::get('user/promotion/form/{id}', 'UserPromotionAdminController@editForm');
+//        Route::resource('user/promotion', 'UserPromotionAdminController');
+//
+//        // relationship status
+//        Route::get('user/relation/form', 'UserRelationAdminController@createForm');
+//        Route::get('user/relation/form/:id', 'UserRelationAdminController@editForm');
+//        Route::resource('user/relation', 'UserRelationAdminController');
+//    });
 });
 
 Route::prefix('user')

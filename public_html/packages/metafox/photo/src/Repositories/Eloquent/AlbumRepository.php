@@ -16,6 +16,7 @@ use MetaFox\Photo\Models\Photo;
 use MetaFox\Photo\Models\PhotoGroup;
 use MetaFox\Photo\Policies\AlbumPolicy;
 use MetaFox\Photo\Repositories\AlbumRepositoryInterface;
+use MetaFox\Photo\Repositories\PhotoGroupRepositoryInterface;
 use MetaFox\Photo\Support\Browse\Scopes\Album\PrivacyScope as AlbumPrivacyScope;
 use MetaFox\Photo\Support\Browse\Scopes\Album\SortScope;
 use MetaFox\Photo\Support\Browse\Scopes\Album\ViewScope;
@@ -41,6 +42,7 @@ use MetaFox\Platform\Support\Repository\HasSponsor;
 use MetaFox\User\Models\UserProfile;
 use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Traits\UserMorphTrait;
+use Throwable;
 
 /**
  * Class AlbumRepository.
@@ -64,6 +66,11 @@ class AlbumRepository extends AbstractRepository implements AlbumRepositoryInter
     public function model(): string
     {
         return Album::class;
+    }
+
+    protected function groupRepository(): PhotoGroupRepositoryInterface
+    {
+        return resolve(PhotoGroupRepositoryInterface::class);
     }
 
     public function viewAlbums(User $context, User $owner, array $attributes = []): Paginator
@@ -148,10 +155,6 @@ class AlbumRepository extends AbstractRepository implements AlbumRepositoryInter
             $privacyScope->setOwnerId($ownerId);
 
             $viewScope->setIsViewOwner(true);
-
-            if (!$context->can('approve', [Album::class, resolve(Album::class)])) {
-                $query->where('photo_albums.is_approved', '=', Album::IS_APPROVED);
-            }
         }
 
         if ($search != null) {
@@ -249,10 +252,10 @@ class AlbumRepository extends AbstractRepository implements AlbumRepositoryInter
      * @param  array<string, mixed>   $attributes
      * @return Album
      * @throws AuthorizationException
+     * @throws Throwable
      */
     public function updateAlbum(User $context, int $id, array $attributes): Album
     {
-        /** @var Album $album */
         $album = $this->find($id);
 
         policy_authorize(AlbumPolicy::class, 'update', $context, $album);
@@ -275,14 +278,17 @@ class AlbumRepository extends AbstractRepository implements AlbumRepositoryInter
 
         $album->save();
 
-        $owner = UserEntity::getById($attributes['owner_id']);
+        // todo ? check require owner_id? on request class?
+        if ($attributes['owner_id'] ?? 0) {
+            $owner                    = UserEntity::getById($attributes['owner_id']);
+            $attributes['owner_id']   = $owner->entityId();
+            $attributes['owner_type'] = $owner->entityType();
+        }
 
         $attributes = array_merge($attributes, [
-            'user_id'    => $context->entityId(),
-            'user_type'  => $context->entityType(),
-            'owner_id'   => $owner->entityId(),
-            'owner_type' => $owner->entityType(),
-            'module_id'  => Photo::ENTITY_TYPE,
+            'user_id'   => $context->entityId(),
+            'user_type' => $context->entityType(),
+            'module_id' => Photo::ENTITY_TYPE,
         ]);
 
         //Handle add new album items
@@ -692,11 +698,12 @@ class AlbumRepository extends AbstractRepository implements AlbumRepositoryInter
 
         $uploadedPhoto = 0;
         $uploadedVideo = 0;
+        $isApproved    = 0;
 
         foreach ($newItems as $item) {
             $tempFile = upload()->getFile($item['id']);
 
-            app('events')->dispatch('photo.media_upload', [
+            $itemResult = app('events')->dispatch('photo.media_upload', [
                 $context,
                 $album->owner,
                 $tempFile->item_type,
@@ -711,6 +718,14 @@ class AlbumRepository extends AbstractRepository implements AlbumRepositoryInter
             if ($item['type'] == 'video') {
                 $uploadedVideo++;
             }
+
+            if ($itemResult?->isApproved()) {
+                $isApproved = 1;
+            }
+        }
+
+        if ($isApproved) {
+            $this->groupRepository()->updateApprovedStatus($group->entityId());
         }
 
         return [$uploadedPhoto, $uploadedVideo];

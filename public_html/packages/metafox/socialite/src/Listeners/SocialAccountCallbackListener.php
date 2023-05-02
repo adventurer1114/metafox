@@ -2,10 +2,16 @@
 
 namespace MetaFox\Socialite\Listeners;
 
+use Exception;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialUser;
+use MetaFox\Core\Support\FileSystem\UploadFile;
+use MetaFox\Platform\Contracts\User as ContractsUser;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Socialite\Support\Traits\SocialiteConfigTrait;
@@ -18,6 +24,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
 /**
  * Class SocialAccountCallbackListener.
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @ignore
  * @codeCoverageIgnore
  */
@@ -105,6 +112,10 @@ class SocialAccountCallbackListener
             }
         }
 
+        if (!Settings::get('user.allow_user_registration')) {
+            abort(403, __p('user::phrase.user_registration_is_disabled'));
+        }
+
         $approveStatus = MetaFoxConstant::STATUS_APPROVED;
         if (Settings::get('user.approve_users')) {
             $approveStatus = MetaFoxConstant::STATUS_PENDING_APPROVAL;
@@ -112,16 +123,16 @@ class SocialAccountCallbackListener
 
         /** @var User $user */
         $user          = $this->userRepository->createUser([
-            'full_name' => $socialUser->getName() ?? $socialUser->getEmail() ?? '',
-            'user_name' => $providerName . $socialUser->getId(),
-            'email'     => $socialUser->getEmail(),
-            'password'  => bcrypt('123456'),
-            'profile'   => [
-                // @todo get image link.
-                'avatar_file_id' => null,
-            ],
+            'full_name'      => $socialUser->getName() ?? $socialUser->getEmail() ?? '',
+            'user_name'      => $providerName . $socialUser->getId(),
+            'email'          => $socialUser->getEmail(),
+            'password'       => bcrypt('123456'),
             'approve_status' => $approveStatus,
         ]);
+
+        $this->handleUserAvatar($user, $socialUser);
+
+        $user->markAsVerified();
 
         // Refresh to get full data.
         $user->refresh();
@@ -129,5 +140,32 @@ class SocialAccountCallbackListener
         app('events')->dispatch('user.registered', [$user]);
 
         return $user;
+    }
+
+    protected function handleUserAvatar(ContractsUser $user, SocialUser $socialUser): void
+    {
+        try {
+            $avatarUrl = $socialUser->getAvatar();
+            if (empty($avatarUrl)) {
+                return;
+            }
+
+            $response = Http::get($avatarUrl);
+            if (!$response->ok()) {
+                return;
+            }
+
+            $tempFile = sprintf('%s.%s', tempnam(sys_get_temp_dir(), 'metafox'), File::extension($avatarUrl) ?? 'jpg');
+            file_put_contents($tempFile, $response->body());
+
+            $uploadedFile = UploadFile::pathToUploadedFile($tempFile);
+            if (!$uploadedFile instanceof UploadedFile) {
+                return;
+            }
+
+            $this->userRepository->createAvatarFromSignup($user, $uploadedFile, []);
+        } catch (Exception) {
+            return;
+        }
     }
 }

@@ -26,8 +26,8 @@ class StoreStickerSetForm extends AbstractForm
 {
     protected function prepare(): void
     {
-        $this->title(__p('core::phrase.edit'))
-            ->action('/admincp/sticker/sticker-set')
+        $this->title(__p('sticker::phrase.new_sticker_set'))
+            ->action(apiUrl('admin.sticker.sticker-set.store'))
             ->asMultipart()
             ->setValue([
                 'is_active' => 0,
@@ -44,17 +44,18 @@ class StoreStickerSetForm extends AbstractForm
                 ->placeholder(__p('core::phrase.fill_in_a_title'))
                 ->yup(
                     Yup::string()
-                    ->minLength(MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH)
-                    ->maxLength(MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH)
-                    ->required(__p('validation.this_field_is_required'))
+                        ->minLength(MetaFoxConstant::DEFAULT_MIN_TITLE_LENGTH)
+                        ->maxLength(MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH)
+                        ->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::rawFile('file')
                 ->label(__p('sticker::phrase.sticker_list'))
-                ->accept('.zip')
+                ->accept('.zip, .gif')
                 ->maxUploadSize(Settings::get('sticker.sticker_package_upload_limit'))
                 ->placeholder(__p('sticker::phrase.select_sticker_images_to_upload'))
+                ->itemType('sticker')
                 ->required(),
-            Builder::switch('is_active')
+            Builder::checkbox('is_active')
                 ->fullWidth()
                 ->marginNormal()
                 ->label(__p('core::phrase.is_active')),

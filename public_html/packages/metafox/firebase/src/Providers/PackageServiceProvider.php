@@ -2,6 +2,7 @@
 
 namespace MetaFox\Firebase\Providers;
 
+use MetaFox\Firebase\Support\Firestore;
 use MetaFox\Notification\Channels\MobilepushChannel;
 use MetaFox\Firebase\Channels\FirebaseMobileChannel;
 use MetaFox\Firebase\Channels\FirebaseWebChannel;
@@ -28,7 +29,8 @@ class PackageServiceProvider extends ServiceProvider
      * @var array<string,string>
      */
     public array $singletons = [
-        'firebase.fcm' => CloudMessaging::class,
+        'firebase.fcm'       => CloudMessaging::class,
+        'firebase.firestore' => Firestore::class,
     ];
 
     /**

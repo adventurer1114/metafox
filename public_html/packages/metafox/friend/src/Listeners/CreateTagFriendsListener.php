@@ -14,15 +14,19 @@ use MetaFox\Platform\Contracts\User;
 class CreateTagFriendsListener
 {
     /**
-     * @param User            $context
+     * @param User|null       $context
      * @param HasTaggedFriend $item
      * @param int[]           $tagFriends
      * @param string|null     $typeId
      *
      * @return bool
      */
-    public function handle(User $context, HasTaggedFriend $item, array $tagFriends, ?string $typeId = null): bool
+    public function handle(?User $context, HasTaggedFriend $item, array $tagFriends, ?string $typeId = null): bool
     {
+        if (!$context) {
+            return false;
+        }
+
         return resolve(TagFriendRepositoryInterface::class)->createTagFriend($context, $item, $tagFriends, $typeId);
     }
 }

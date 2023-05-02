@@ -17,7 +17,9 @@ use MetaFox\Event\Models\Event;
 use MetaFox\Event\Models\HostInvite;
 use MetaFox\Event\Models\MassEmail;
 use MetaFox\Event\Models\Member;
+use MetaFox\Event\Policies\CategoryPolicy;
 use MetaFox\Event\Policies\EventPolicy;
+use MetaFox\Event\Repositories\CategoryRepositoryInterface;
 use MetaFox\Event\Repositories\EventRepositoryInterface;
 use MetaFox\Event\Repositories\HostInviteRepositoryInterface;
 use MetaFox\Event\Repositories\MemberRepositoryInterface;
@@ -117,13 +119,14 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
             $this->attachmentRepository()->updateItemId($attributes['attachments'], $event);
         }
 
-        if (!empty($attributes['host'])) {
+        if (!empty($attributes['host']) && $attributes['privacy'] != MetaFoxPrivacy::ONLY_ME) {
             $this->hostInviteRepository()->inviteHosts($context, $event, $attributes['host']);
         }
 
         $this->memberRepository()->joinEvent($event, $context, Member::ROLE_HOST);
 
-        return $this->with(['eventText', 'attachments'])->find($event->entityId());
+        return $this->with(['eventText', 'attachments'])
+            ->find($event->entityId());
     }
 
     /**
@@ -150,9 +153,16 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
         }
 
         if (Browse::VIEW_PENDING == $view) {
-            if (!$context->hasPermissionTo('event.approve')) {
+            if ($context->isGuest() || !$context->hasPermissionTo('event.approve')) {
                 throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
             }
+        }
+        $categoryId = Arr::get($attributes, 'category_id', 0);
+
+        if ($categoryId > 0) {
+            $category = resolve(CategoryRepositoryInterface::class)->find($categoryId);
+
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
         }
 
         $relations = ['eventText', 'user', 'userEntity', 'activeCategories'];
@@ -304,14 +314,6 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
 
         policy_authorize(EventPolicy::class, 'update', $context, $event);
 
-        $submittedHostIds = $attributes['host'] ?? null;
-        $removedHostIds   = $hostIds = null;
-        if (isset($submittedHostIds)) {
-            $currentHostIds = $this->memberRepository()->getEventHostsForForm($event)->pluck('id')->toArray();
-            $removedHostIds = array_diff($currentHostIds, $submittedHostIds);
-            $hostIds        = array_diff($submittedHostIds, $currentHostIds);
-        }
-
         if (isset($attributes['title'])) {
             $attributes['title'] = $this->cleanTitle($attributes['title']);
         }
@@ -339,21 +341,46 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
 
         $event->save();
 
+        $event->refresh();
+
         if (!empty($attributes['attachments'])) {
             $this->attachmentRepository()->updateItemId($attributes['attachments'], $event);
         }
 
-        if (!empty($hostIds)) {
-            $this->hostInviteRepository()->inviteHosts($context, $event, $hostIds);
-        }
-
-        if (!empty($removedHostIds)) {
-            $this->memberRepository()->removeHostByIds($context, $event, $removedHostIds);
-        }
+        $this->handleUpdateHosts($context, $event, Arr::get($attributes, 'host'));
 
         $this->updateFeedStatus($event);
 
         return $this->with(['eventText', 'attachments'])->find($event->entityId());
+    }
+
+    protected function handleUpdateHosts(User $context, Event $event, ?array $hosts = null): void
+    {
+        if ($event->privacy == MetaFoxPrivacy::ONLY_ME) {
+            resolve(HostInviteRepositoryInterface::class)->deleteHostPendingInvites($event->entityId());
+
+            return;
+        }
+
+        if (null === $hosts) {
+            return;
+        }
+
+        $currentIds = $this->memberRepository()->getEventHostsForForm($event)
+            ->pluck('id')
+            ->toArray();
+
+        $removeIds = array_diff($currentIds, $hosts);
+
+        $insertIds = array_diff($hosts, $currentIds);
+
+        if (count($insertIds)) {
+            $this->hostInviteRepository()->inviteHosts($context, $event, $insertIds);
+        }
+
+        if (count($removeIds)) {
+            $this->memberRepository()->removeHostByIds($context, $event, $removeIds);
+        }
     }
 
     protected function updateFeedStatus(Event $event): void
@@ -568,7 +595,7 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
             ->all();
     }
 
-    public function getMissingLocationEvent(int $limit = 100): Collection
+    public function getMissingLocationEvent(): Collection
     {
         return $this->getModel()
             ->newQuery()
@@ -576,6 +603,6 @@ class EventRepository extends AbstractRepository implements EventRepositoryInter
             ->where(function (Builder $subQuery) {
                 $subQuery->whereNull('events.location_latitude')
                     ->orWhereNull('events.location_longitude');
-            })->limit($limit)->get();
+            })->get();
     }
 }

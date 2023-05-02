@@ -11,7 +11,7 @@ import {
 } from '@metafox/dialog';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import { isEmpty, range } from 'lodash';
+import { isArray, isEmpty, range } from 'lodash';
 import {
   Button,
   Checkbox as MuiCheckbox,
@@ -70,9 +70,9 @@ export default function DialogCustomListPrivacy({ value, feed }) {
   React.useEffect(() => {
     setCustomList(customListPrivacy);
 
-    if (!isEmpty(customListPrivacy))
+    if (!isEmpty(customListPrivacy) && !isArray(value))
       setValues(toArrayIsSelected(customListPrivacy));
-  }, [customListPrivacy]);
+  }, [customListPrivacy, value]);
 
   const handleSubmit = () => {
     closeDialog();

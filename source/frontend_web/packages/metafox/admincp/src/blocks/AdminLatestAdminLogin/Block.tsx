@@ -12,6 +12,6 @@ export default createBlock<Props>({
   extendBlock: Base,
   defaults: {
     title: 'Latest ACP Logins',
-    blockLayout: 'Admin - Contained'
+    blockLayout: 'Admin - Block - Contained'
   }
 });

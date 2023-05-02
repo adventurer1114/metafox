@@ -8,7 +8,7 @@ return [
     'create_word'               => 'Add Word',
     'preserved_words'           => 'Preserved Words',
     'settings'                  => 'Settings',
-    'word_created_successfully' => 'Word created successfully',
+    'word_created_successfully' => 'Word created successfully.',
     'word_filters'              => 'Word Filters',
     'word_setting'              => '',
 ];

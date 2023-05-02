@@ -103,5 +103,9 @@ class WebSetting extends Setting
         $this->add('previewComment')
             ->apiUrl('comment/preview/:id')
             ->asGet();
+
+        $this->add('removePreviewItem')
+            ->apiUrl('comment/:id/remove-preview')
+            ->asPatch();
     }
 }

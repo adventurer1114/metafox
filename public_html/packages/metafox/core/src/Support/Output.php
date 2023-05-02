@@ -93,15 +93,16 @@ class Output implements OutputContract
             return MetaFoxConstant::EMPTY_STRING;
         }
 
+        /**
+         * Always clean script & style tags.
+         */
+        $string = $this->cleanScriptTag($string);
+        $string = $this->cleanStyleTag($string);
+
         $isAllowHtml = $this->isAllowHtml();
 
         if (!$isAllowHtml) {
             $string = strip_tags($string);
-        }
-
-        if ($isAllowHtml) {
-            $string = $this->cleanScriptTag($string);
-            $string = $this->cleanStyleTag($string);
         }
 
         $string = ban_word()->clean($string);

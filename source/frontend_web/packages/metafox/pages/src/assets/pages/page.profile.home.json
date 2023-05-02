@@ -117,7 +117,7 @@
           "key": "srfte",
           "blockId": "srfte",
           "variant": "default",
-          "blockLayout": "Blocker"
+          "blockLayout": "Status Composer"
         },
         {
           "component": "feed.block.pageProfileFeeds",

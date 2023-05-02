@@ -5,6 +5,7 @@ namespace MetaFox\Subscription\Listeners;
 use MetaFox\Form\Builder;
 use MetaFox\Form\Section;
 use MetaFox\Platform\Facades\Settings;
+use MetaFox\Subscription\Repositories\SubscriptionPackageRepositoryInterface;
 use MetaFox\Subscription\Support\Facade\SubscriptionComparison;
 use MetaFox\Subscription\Support\Facade\SubscriptionPackage;
 use MetaFox\User\Support\Facades\User;
@@ -17,7 +18,11 @@ class SubscriptionPackageRegistrationFieldsListener
         if (SubscriptionPackage::allowUsingPackages()) {
             $isRequired = Settings::get('subscription.required_on_sign_up', false);
 
+            $context = user();
+
             $packages = SubscriptionPackage::getPackagesForRegistration(true);
+
+            $packages = resolve(SubscriptionPackageRepositoryInterface::class)->filterPackagesByCurrencyId($context, $packages);
 
             $options = [];
 

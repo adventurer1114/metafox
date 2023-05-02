@@ -67,6 +67,13 @@ interface SubscriptionPackageRepositoryInterface
     public function hasDisableFields(int $id, bool $includePastSubscription = false): bool;
 
     /**
+     * @param  User       $context
+     * @param  Collection $packages
+     * @return Collection
+     */
+    public function filterPackagesByCurrencyId(User $context, Collection $packages): Collection;
+
+    /**
      * @param  SubscriptionPackage $package
      * @return void
      */

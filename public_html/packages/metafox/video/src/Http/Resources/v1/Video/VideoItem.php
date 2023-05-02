@@ -86,6 +86,7 @@ class VideoItem extends JsonResource
             'categories'    => new CategoryItemCollection($this->resource->categories),
             'creation_date' => $this->resource->created_at,
             'extra'         => $this->getExtra(),
+            'is_creator'    => $context->entityId() == $this->resource->userId(),
         ];
     }
 

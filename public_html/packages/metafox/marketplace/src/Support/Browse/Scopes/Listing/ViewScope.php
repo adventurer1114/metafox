@@ -9,7 +9,6 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Carbon;
 use MetaFox\Marketplace\Policies\ListingPolicy;
 use MetaFox\Platform\Contracts\User;
-use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Platform\Support\Browse\Scopes\BaseScope;
 use MetaFox\User\Support\Facades\UserEntity;
@@ -282,14 +281,17 @@ class ViewScope extends BaseScope
     protected function buildAliveOrMyExpired(Builder $builder): void
     {
         $context = $this->getUserContext();
-        $days    = (int) Settings::get('marketplace.days_to_expire', 30);
 
-        if (0 == $days) {
-            return;
-        }
-
-        $builder->whereRaw('marketplace_listings.start_expired_at + ? > ?', [$days * 86400, Carbon::now()->timestamp])
-            ->orWhere('marketplace_listings.user_id', '=', $context->entityId());
+        $builder->where(function (Builder $builder) use ($context) {
+            $builder->where(function (Builder $builder) {
+                $builder->where('marketplace_listings.start_expired_at', '>', Carbon::now()->timestamp)
+                    ->orWhere('marketplace_listings.start_expired_at', '=', 0);
+            })->orWhere(function (Builder $builder) use ($context) {
+                $builder->where('marketplace_listings.start_expired_at', '<=', Carbon::now()->timestamp)
+                    ->where('marketplace_listings.start_expired_at', '>', 0)
+                    ->where('marketplace_listings.user_id', '=', $context->entityId());
+            });
+        });
     }
 
     protected function checkViewAll(): bool
@@ -323,18 +325,10 @@ class ViewScope extends BaseScope
 
     protected function buildExpired(BuilderContract $builder): void
     {
-        $days = (int) Settings::get('marketplace.days_to_expire', 30);
-
-        if (0 == $days) {
-            $builder->where('marketplace_listings.start_expired_at', '=', 0);
-
-            return;
-        }
-
-        $builder->whereRaw(
-            '(marketplace_listings.start_expired_at + ?) <= ?',
-            [$days * 86400, Carbon::now()->timestamp]
-        );
+        $builder->where(function (BuilderContract $builder) {
+            $builder->where('marketplace_listings.start_expired_at', '<=', Carbon::now()->timestamp)
+                ->where('marketplace_listings.start_expired_at', '>', 0);
+        });
     }
 
     protected function buildAlive(BuilderContract $builder): void
@@ -345,13 +339,10 @@ class ViewScope extends BaseScope
             return;
         }
 
-        $days = (int) Settings::get('marketplace.days_to_expire', 30);
-
-        if (0 == $days) {
-            return;
-        }
-
-        $builder->whereRaw('marketplace_listings.start_expired_at + ? > ?', [$days * 86400, Carbon::now()->timestamp]);
+        $builder->where(function (BuilderContract $builder) {
+            $builder->where('marketplace_listings.start_expired_at', '>', Carbon::now()->timestamp)
+                ->orWhere('marketplace_listings.start_expired_at', '=', 0);
+        });
     }
 
     protected function viewAvailableItems(BuilderContract $builder): void

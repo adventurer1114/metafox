@@ -40,8 +40,8 @@ class ReportItemPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param User $user
-     *
+     * @param  User       $user
+     * @param  array|null $attributes
      * @return bool
      */
     public function create(User $user, ?array $attributes = []): bool
@@ -54,10 +54,10 @@ class ReportItemPolicy
             return false;
         }
 
-        $itemType = Arr::get($attributes, 'item_type', '');
+        $itemType         = Arr::get($attributes, 'item_type', '');
         $entityPermission = "$itemType.report";
 
-        if (!$user->checkPermissionIfExists($entityPermission)) {
+        if (!$user->hasPermissionTo($entityPermission)) {
             return false;
         }
 

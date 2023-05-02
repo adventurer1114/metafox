@@ -83,7 +83,7 @@
           "key": "nxvv",
           "blockId": "nxvv",
           "blockLayout": "Profile - Contained",
-          "gridLayout": "Blog - Mobile Main Card",
+          "gridLayout": "Blog - Main Card - Mobile",
           "itemLayout": "Blog - Profile - Main Card",
           "contentType": "blog",
           "emptyPage": "core.block.no_item_with_icon",

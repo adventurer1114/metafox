@@ -67,11 +67,12 @@ export function* shareToNewsFeed(action: ItemLocalAction) {
       title: 'share_newsfeed',
       parentIdentity,
       parentType: user.resource_name,
-      pageParams
+      pageParams,
+      enableLeaveConfirm: false
     }
   });
 }
 
-const sagas = [takeLatest('shareToNewsFeed', shareToNewsFeed)];
+const sagas = [takeLatest('feed/shareToNewsFeed', shareToNewsFeed)];
 
 export default sagas;

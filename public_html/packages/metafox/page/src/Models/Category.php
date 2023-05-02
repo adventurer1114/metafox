@@ -65,7 +65,10 @@ class Category extends Model implements HasTotalItem, HasSubCategory
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toUrl(): ?string
@@ -80,7 +83,10 @@ class Category extends Model implements HasTotalItem, HasSubCategory
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function getIsDefaultAttribute(): bool

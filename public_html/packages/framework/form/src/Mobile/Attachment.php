@@ -26,7 +26,7 @@ class Attachment extends Files
         $this->setComponent(MetaFoxForm::ATTACHMENT)
             ->name('attachments')
             ->label(__p('core::phrase.attachment'))
-            ->variant('standard')
+            ->variant('standard-inlined')
             ->fullWidth()
             ->maxFiles($maxFiles)
             ->maxUploadSize($maxUploadFileSize)

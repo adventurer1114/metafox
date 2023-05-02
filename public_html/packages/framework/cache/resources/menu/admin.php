@@ -22,6 +22,7 @@ return [
         'label'    => 'cache::phrase.add_new_cache',
         'ordering' => 3,
         'to'       => '/admincp/cache/store/create',
+        'is_deleted' => 1,
     ],
     [
         'menu'        => 'core.adminSidebarMenu',

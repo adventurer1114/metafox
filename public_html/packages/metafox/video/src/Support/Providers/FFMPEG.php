@@ -134,7 +134,34 @@ class FFMPEG implements VideoServiceInterface
     private function cleanUpTemp(array $files)
     {
         foreach ($files as $file) {
-            unlink($file);
+            if (file_exists($file)) { // ensure file exists or add @unlink file.
+                @unlink($file);
+            }
         }
+    }
+
+    public function executeApi(string $apiName, string $method = 'GET', bool $returnTransfer = false, string $postFields = ''): mixed
+    {
+        return null;
+    }
+
+    public function getLiveServerUrl(): string
+    {
+        return '';
+    }
+
+    public function getThumbnailPlayback(): string
+    {
+        return '';
+    }
+
+    public function getVideoPlayback(): string
+    {
+        return '';
+    }
+
+    public function isValidConfiguration(): bool
+    {
+        return Settings::get('video.ffmpeg.binaries') && Settings::get('video.ffprobe.binaries');
     }
 }

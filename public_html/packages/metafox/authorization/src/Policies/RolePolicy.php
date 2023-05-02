@@ -19,73 +19,57 @@ class RolePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param User|Model $user
+     * @param User $user
      *
      * @return bool
      */
     public function viewAny(User $user): bool
     {
-        if (!$user->hasPermissionTo('user_role.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_role.manage');
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param User|Model $user
+     * @param User $user
      *
      * @return bool
      */
     public function view(User $user): bool
     {
-        if (!$user->hasPermissionTo('user_role.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_role.manage');
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param User|Model $user
+     * @param User $user
      *
      * @return bool
      */
     public function create(User $user): bool
     {
-        if (!$user->hasPermissionTo('user_role.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_role.manage');
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param User|Model $user
-     * @param Role       $role
+     * @param User $user
+     * @param Role $role
      *
      * @return bool
      */
     public function update(User $user, Role $role): bool
     {
-        if (!$user->hasPermissionTo('user_role.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_role.manage');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User|Model $user
-     * @param Role       $role
+     * @param User $user
+     * @param Role $role
      *
      * @return bool
      */
@@ -95,11 +79,7 @@ class RolePolicy
             return false;
         }
 
-        if (!$user->hasPermissionTo('user_role.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_role.manage');
     }
 
     public function inheritFromParent(User $user, Role $parentRole): bool

@@ -48,7 +48,7 @@ class UpdateRequest extends StoreRequest
             'questions.*.answers.*.answer'     => ['required_with:questions.*.answers.*', 'string', 'between:1,255'],
             'questions.*.answers.*.is_correct' => ['sometimes', 'numeric', new AllowInRule([0, 1])],
             'item_id'                          => ['sometimes', 'numeric', 'exists:user_entities,id'],
-            'file'                             => ['sometimes', 'array'],
+            'file'                             => ['sometimes', 'array', 'nullable'],
             'file.temp_file'                   => ['required_if:file.status,update', 'numeric', new ExistIfGreaterThanZero('exists:storage_files,id')],
             'file.status'                      => ['required_with:file', 'string', new AllowInRule(['update', 'remove'])],
             'privacy'                          => ['sometimes', new PrivacyRule()],

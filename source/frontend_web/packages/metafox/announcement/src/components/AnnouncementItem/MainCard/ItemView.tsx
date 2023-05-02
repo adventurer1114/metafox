@@ -63,7 +63,7 @@ export default function AnnouncementItemView({
   return (
     <ItemView wrapAs={wrapAs} wrapProps={wrapProps} testid={'itemAnnouncement'}>
       <ItemTitle role="button">
-        <Link color="inherit" to={to} asModal>
+        <Link color="inherit" to={to} asModal resetModal>
           {item?.title}
         </Link>
       </ItemTitle>

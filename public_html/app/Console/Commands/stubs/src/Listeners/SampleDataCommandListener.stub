@@ -29,7 +29,7 @@ class SampleDataCommandListener
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function handle(User $admin, User $user): void
+    public function handle(?User $admin, User $user): void
     {
         Factory::times(4)
             ->setUser($admin)

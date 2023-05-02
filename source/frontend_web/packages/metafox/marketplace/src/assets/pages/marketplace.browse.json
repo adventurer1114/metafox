@@ -15,7 +15,8 @@
             "title": "no_marketplace_found"
           },
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "canLoadSmooth": 1,
+          "blockLayout": "App List",
           "gridLayout": "Marketplace - Main Card",
           "itemLayout": "Marketplace - Main Card"
         },
@@ -91,7 +92,8 @@
             "title": "no_marketplace_found"
           },
           "canLoadMore": true,
-          "blockLayout": "App List - Mobile - Paper",
+          "canLoadSmooth": 1,
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Marketplace - MainCard - Mobile",
           "itemLayout": "Marketplace - MainCard - Mobile"
         }

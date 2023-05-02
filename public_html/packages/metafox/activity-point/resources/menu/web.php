@@ -3,13 +3,23 @@
 /* this is auto generated file */
 return [
     [
-        'tab'      => 'transactions',
+        'tab'        => 'transactions',
+        'menu'       => 'activitypoint.sidebarMenu',
+        'name'       => 'transactions',
+        'label'      => 'activitypoint::phrase.point_transactions',
+        'ordering'   => 1,
+        'icon'       => 'ico-stats-dots',
+        'to'         => '/activitypoint/transactions',
+        'is_deleted' => true,
+    ],
+    [
+        'tab'      => 'landing',
         'menu'     => 'activitypoint.sidebarMenu',
-        'name'     => 'transactions',
-        'label'    => 'activitypoint::phrase.point_transactions',
+        'name'     => 'landing',
+        'label'    => 'activitypoint::phrase.statistics',
         'ordering' => 1,
         'icon'     => 'ico-stats-dots',
-        'to'       => '/activitypoint/transactions',
+        'to'       => '/activitypoint',
     ],
     [
         'tab'      => 'packages',
@@ -37,7 +47,7 @@ return [
         'label'    => 'activitypoint::phrase.transactions_history',
         'ordering' => 4,
         'as'       => '',
-        'icon'     => 'ico-text-file-search',
+        'icon'     => 'ico-clock-o',
         'to'       => '/activitypoint/transactions-history',
     ],
     [
@@ -47,7 +57,7 @@ return [
         'label'    => 'activitypoint::phrase.package_transactions',
         'ordering' => 5,
         'as'       => '',
-        'icon'     => 'ico-text-file-search',
+        'icon'     => 'ico-box-o',
         'to'       => '/activitypoint/transactions-package',
     ],
     [

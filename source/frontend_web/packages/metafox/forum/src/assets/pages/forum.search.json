@@ -75,7 +75,7 @@
         {
           "component": "core.block.sidebarAppMobile",
           "slotName": "main",
-          "title": "Groups",
+          "title": "Forums",
           "blockProps": {
             "variant": "plained",
             "marginBottom": 2

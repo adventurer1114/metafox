@@ -1,4 +1,4 @@
-import { FeedEmbedCardProps, LineIcon } from '@metafox/ui';
+import { FeedEmbedCardProps, LineIcon, Image } from '@metafox/ui';
 import { UserItemShape } from '@metafox/user';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -33,6 +33,7 @@ type UserProfileItemShape = {
   user: UserItemShape;
   relation: RalationType;
   relation_with?: string;
+  relation_image?: string;
 };
 type EmbedUserProfileItemProps = FeedEmbedCardProps & {
   item: UserProfileItemShape;
@@ -42,7 +43,7 @@ export default function EmbedUserProfileItem({
   item,
   variant
 }: EmbedUserProfileItemProps) {
-  const { relation } = item || {};
+  const { relation, relation_image } = item || {};
 
   if (!item) return null;
 
@@ -50,9 +51,13 @@ export default function EmbedUserProfileItem({
     <Item>
       {relation ? (
         <Box>
-          <IconRelation>
-            <LineIcon icon="ico-user-couple" />
-          </IconRelation>
+          {relation_image ? (
+            <Image src={relation_image} shape="circle" aspectRatio={'11'}/>
+          ) : (
+            <IconRelation>
+              <LineIcon icon="ico-user-couple" />
+            </IconRelation>
+          )}
           <Typography mt={1.5} color="text.secondary" variant="body1">
             {relation.label}
           </Typography>

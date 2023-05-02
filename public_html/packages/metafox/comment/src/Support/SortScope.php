@@ -11,12 +11,6 @@ use MetaFox\Platform\Support\Browse\Traits\TotalMemberSortTrait;
 
 class SortScope
 {
-    use TotalMemberSortTrait;
-    use FeatureSortTrait;
-
-    public const SORT_TOTAL_MEMBER_COLUMN = 'total_member';
-    public const SORT_FEATURE_COLUMN      = 'is_feature';
-
     /**
      * @return array<int, string>
      */

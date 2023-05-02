@@ -23,7 +23,6 @@ return [
         'label'    => 'notification::phrase.mark_as_read',
         'ordering' => 1,
         'value'    => 'notification/markAsRead',
-        'icon'     => 'ico-check',
     ],
     [
         'className' => 'itemDelete',
@@ -32,7 +31,6 @@ return [
         'label'     => 'notification::phrase.delete',
         'ordering'  => 2,
         'value'     => 'notification/deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'menu'     => 'notification.notification.itemActionMenu',
@@ -40,7 +38,6 @@ return [
         'label'    => 'notification::phrase.mark_as_read',
         'ordering' => 1,
         'value'    => 'notification/markAsRead',
-        'icon'     => 'ico-check',
     ],
     [
         'className' => 'itemDelete',
@@ -50,6 +47,5 @@ return [
         'label'     => 'notification::phrase.delete',
         'ordering'  => 2,
         'value'     => 'notification/deleteItem',
-        'icon'      => 'ico-trash',
     ],
 ];

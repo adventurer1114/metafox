@@ -38,7 +38,21 @@ class CreateBundleForm extends AbstractForm
                     ->accepts('.zip')
                     ->maxUploadSize(2000000000)
                     ->label('Attach archive file')
-                    ->placeholder('Attach file'),
+                    ->placeholder(__p('importer::phrase.attach_file')),
+                Builder::choice('chat_type')
+                    ->label(__p('importer::phrase.select_chat_app_to_import'))
+                    ->required()
+                ->options([
+                    [
+                        'value' => 'chat',
+                        'label' => 'Chat',
+                    ],
+                    [
+                        'value' => 'chatplus',
+                        'label' => 'ChatPlus',
+                    ],
+
+                ])
             );
 
         $this->addFooter()

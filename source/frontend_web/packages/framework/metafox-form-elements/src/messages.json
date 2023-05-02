@@ -1,0 +1,8 @@
+{
+  "image_url": "URL",
+  "image_width": "Width",
+  "image_height": "Height",
+  "image_width_desc": "auto, 400px, etc ...",
+  "image_height_desc": "auto, 400px, etc ...",
+  "external_image": "External Image"
+}

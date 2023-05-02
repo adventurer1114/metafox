@@ -6,29 +6,30 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use MetaFox\Group\Models\Group;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\Contracts\User as ContractUser;
 
 interface SupportContract
 {
     /**
-     * @param int $id
+     * @param  int        $id
      * @return Group|null
      */
     public function getGroup(int $id): ?Group;
 
     /**
-     * @param Group $group
+     * @param  Group $group
      * @return bool
      */
     public function mustAnswerMembershipQuestion(Group $group): bool;
 
     /**
-     * @param Group $group
+     * @param  Group $group
      * @return bool
      */
     public function mustAcceptGroupRule(Group $group): bool;
 
     /**
-     * @param Group $group
+     * @param  Group           $group
      * @return Collection|null
      */
     public function getQuestions(Group $group): ?Collection;
@@ -59,20 +60,27 @@ interface SupportContract
     public function getPrivacyList(): array;
 
     /**
-     * @param string $content
+     * @param  string $content
      * @return array
      */
     public function getMentions(string $content): array;
 
     /**
-     * @param array $ids
+     * @param  array      $ids
      * @return Collection
      */
     public function getGroupsForMention(array $ids): Collection;
 
     /**
-     * @param User $user
+     * @param  User    $user
      * @return Builder
      */
     public function getGroupBuilder(User $user): Builder;
+
+    /**
+     * @param  ContractUser $context
+     * @param  ContractUser $user
+     * @return bool
+     */
+    public function isFollowing(ContractUser $context, ContractUser $user): bool;
 }

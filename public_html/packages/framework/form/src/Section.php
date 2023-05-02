@@ -211,4 +211,23 @@ class Section extends AbstractField implements ArrayAccess
     {
         return $this->setAttribute('autoSubmit', $flag);
     }
+
+    /**
+     * @param array<string> $options
+     */
+    public function sxContainer(array $options): self
+    {
+        return $this->setAttribute('sxContainer', $options);
+    }
+
+    /**
+     * Mark the section as collapsible.
+     * @param bool $flag
+     *
+     * @return self
+     */
+    public function collapsible(bool $flag = true): self
+    {
+        return $this->setAttribute('collapsible', $flag);
+    }
 }

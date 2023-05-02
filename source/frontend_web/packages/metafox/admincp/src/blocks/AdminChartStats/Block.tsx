@@ -12,7 +12,7 @@ export default createBlock<Props>({
   extendBlock: Base,
   defaults: {
     title: 'Chart',
-    blockLayout: 'Admin - Contained',
+    blockLayout: 'Admin - Block - Contained',
     blockProps: {
       blockStyle: {
         sx: {

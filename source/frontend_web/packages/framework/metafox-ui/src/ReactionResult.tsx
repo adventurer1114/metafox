@@ -59,6 +59,8 @@ const useStyles = makeStyles(
         boxSizing: 'content-box',
         borderRadius: '100%',
         lineHeight: 0,
+        width: '100%',
+        height: '100%',
         '& img': {
           width: '100%',
           height: '100%',

@@ -94,7 +94,7 @@ class OwnerPaymentSuccessNotification extends Notification
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($message)
-            ->action($this->localize('core::phrase.review_now'), $this->toUrl());
+            ->action($this->localize('core::phrase.view_now'), $this->toUrl());
     }
 
     public function toUrl(): ?string

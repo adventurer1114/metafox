@@ -12,13 +12,13 @@ import {
 } from '@metafox/framework';
 import HtmlViewer from '@metafox/html-viewer';
 import { ScrollContainer } from '@metafox/layout';
-import { APP_PHOTO } from '@metafox/photo';
 import {
   FeedStatistic,
   FromNow,
   LineIcon,
   PrivacyIcon,
-  UserAvatar
+  UserAvatar,
+  Statistic
 } from '@metafox/ui';
 import { Box, Divider, Skeleton } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -27,6 +27,8 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import useStyles from './styles';
 import TaggedFriendsPhoto from './TaggedFriendsPhoto';
+import TaggedFriends from './TaggedFriends';
+import TaggedPlace from './TaggedPlace';
 
 const name = 'ItemDetailInteractionInModal';
 
@@ -55,7 +57,8 @@ const ContentWrapper = styled('div', {
   name,
   slot: 'contentWrapper'
 })(({ theme }) => ({
-  flexGrow: 1,
+  flex: 1,
+  minHeight: 0,
   display: 'flex',
   flexFlow: 'column',
   position: 'relative'
@@ -74,7 +77,8 @@ const BodyWrapper = styled('div', {
   name,
   slot: 'body'
 })(({ theme }) => ({
-  flexGrow: 1
+  flex: 1,
+  minHeight: 0
 }));
 
 const Footer = styled('div', {
@@ -82,14 +86,11 @@ const Footer = styled('div', {
   slot: 'footer',
   shouldForwardProp: prop => prop !== 'maxHeight'
 })<{ maxHeight?: number }>(({ theme, maxHeight }) => ({
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  right: 0,
   borderBottomRightRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.background.paper,
   padding: theme.spacing(0, 2),
   zIndex: 99,
+  borderTop: `1px solid ${theme.palette.border.secondary}`,
   minHeight: theme.spacing(6),
   ...(maxHeight && {
     maxHeight
@@ -144,14 +145,22 @@ const ItemDetailInteractionInModal = ({
   identity,
   item,
   user,
-  loading
-}: FeedItemViewProps & { loading?: boolean }) => {
+  loading,
+  commentlistingComponent,
+  startFooterItems,
+  commentComposerProps,
+  statisticDisplay
+}: FeedItemViewProps & {
+  loading?: boolean;
+  commentlistingComponent?: React.FC;
+  startFooterItems: any;
+  commentComposerProps?: Record<string, any>;
+  statisticDisplay?: string;
+}) => {
   const commentInputRef = React.useRef();
   const wrapperModalRef = React.useRef(null);
   const headerRef = React.useRef(null);
   const footerRef = React.useRef(null);
-  const [heightScrollMax, setHeightScrollMax] = React.useState<number>(200);
-  const [footerHeightMax, setFooterHeightMax] = React.useState<number>(64);
   const {
     CommentList,
     ReactionActButton,
@@ -161,7 +170,6 @@ const ItemDetailInteractionInModal = ({
     ItemActionMenu,
     jsxBackend,
     useActionControl,
-    useIsMobile,
     i18n
   } = useGlobal();
   const [sortType, setSortType] = useSortComment();
@@ -180,18 +188,9 @@ const ItemDetailInteractionInModal = ({
   );
 
   const classes = useStyles();
-  const isMobile = useIsMobile();
   const loggedIn = useLoggedIn();
   const viewMoreComments = (payload, meta) =>
     handleAction('comment/viewMoreComments', payload, meta);
-
-  React.useEffect(() => {
-    const wrapperModalHeight = wrapperModalRef.current?.offsetHeight;
-    const headerHeight = headerRef.current?.offsetHeight || 0;
-    const footerHeight = footerRef.current?.offsetHeight || 48;
-    setFooterHeightMax(wrapperModalHeight - headerHeight);
-    setHeightScrollMax(wrapperModalHeight - headerHeight - footerHeight);
-  }, [loading]);
 
   if (loading && !item?.extra) {
     // cheat check extra is mean have fetch data detail before
@@ -204,7 +203,7 @@ const ItemDetailInteractionInModal = ({
 
   if (!item || !user) return null;
 
-  const { info, statistic, most_reactions, extra } = item;
+  const { info, statistic, most_reactions, extra, location } = item;
   const CommentComposer = jsxBackend.get('CommentComposer');
 
   return (
@@ -250,6 +249,14 @@ const ItemDetailInteractionInModal = ({
             </div>
             <PrivacyBlockStyled className={clsx('dotSeparators')}>
               <FromNow value={item.creation_date} data-testid="creationDate" />
+              {statisticDisplay ? (
+                <Statistic
+                  values={item.statistic}
+                  display={statisticDisplay}
+                  component={'span'}
+                  skipZero={false}
+                />
+              ) : null}
               <PrivacyIcon
                 value={item.privacy}
                 item={item?.privacy_detail}
@@ -264,95 +271,128 @@ const ItemDetailInteractionInModal = ({
           />
         </Header>
         <BodyWrapper>
-          <ScrollContainer
-            autoHide
-            autoHeightMax={isMobile ? 'none' : heightScrollMax}
-            style={{ height: 'auto' }}
+          <Box
+            sx={{
+              maxHeight: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%'
+            }}
           >
-            <Box px={2}>
-              <Box mb={2}>
-                <ContentStyled>
-                  <FeedStatusView status={item?.text ?? item?.description} />
-                </ContentStyled>
-                {info && (
-                  <InfoStyled>
-                    <HtmlViewer html={info} />
-                  </InfoStyled>
-                )}
-                {item.resource_name === APP_PHOTO && tagged_friends?.length ? (
-                  <HeadlineSpan className={classes.statusRoot}>
-                    <TaggedFriendsPhoto
-                      item_type={'photo'}
-                      item_id={item.id}
-                      total={tagged_friends.length}
-                      users={tagged_friends}
-                      className={classes.profileLink}
+            <ScrollContainer autoHide autoHeight autoHeightMax={'100%'}>
+              <Box px={2}>
+                <Box mb={2}>
+                  <ContentStyled>
+                    <FeedStatusView status={item?.text ?? item?.description} />
+                  </ContentStyled>
+                  {info && (
+                    <InfoStyled>
+                      <HtmlViewer html={info} />
+                    </InfoStyled>
+                  )}
+                  {tagged_friends?.length ? (
+                    <HeadlineSpan className={classes.statusRoot}>
+                      {item.resource_name === 'photo' ? (
+                        <TaggedFriendsPhoto
+                          item_type={'photo'}
+                          item_id={item.id}
+                          total={tagged_friends.length}
+                          users={tagged_friends}
+                          className={classes.profileLink}
+                        />
+                      ) : (
+                        <TaggedFriends
+                          item_type={item.item_type}
+                          item_id={item.id}
+                          total={tagged_friends.length}
+                          users={tagged_friends}
+                          className={classes.profileLink}
+                        />
+                      )}
+                      {location ? (
+                        <Box component="span" ml={0.5}>
+                          {i18n.formatMessage(
+                            {
+                              id: 'at_tagged_place'
+                            },
+                            {
+                              name: location.address,
+                              bold: () => <TaggedPlace place={location} />
+                            }
+                          )}
+                        </Box>
+                      ) : null}
+                    </HeadlineSpan>
+                  ) : null}
+                </Box>
+                <FeedStatistic
+                  id-tid="statistic"
+                  handleAction={handleAction}
+                  identity={identity}
+                  reactions={most_reactions}
+                  statistic={statistic}
+                />
+                <CommentReaction>
+                  {extra?.can_like && (
+                    <ReactionActButton
+                      id-tid="reaction"
+                      reacted={item.user_reacted}
+                      identity={identity}
+                      handleAction={handleAction}
                     />
-                  </HeadlineSpan>
+                  )}
+                  {extra?.can_comment && (
+                    <CommentActButton
+                      id-tid="comment"
+                      identity={identity}
+                      handleAction={handleAction}
+                    />
+                  )}
+                  {extra?.can_share && (
+                    <ShareActButton
+                      handleAction={handleAction}
+                      id-tid="share"
+                      identity={identity}
+                    />
+                  )}
+                </CommentReaction>
+                <Divider />
+                {commentlistingComponent ? (
+                  commentlistingComponent
+                ) : CommentList ? (
+                  <CommentList
+                    id-tid="comment_list"
+                    handleAction={handleAction}
+                    data={item.related_comments}
+                    total_hidden={
+                      item?.related_comments_statistic?.total_hidden
+                    }
+                    viewMoreComments={viewMoreComments}
+                    total_comment={statistic?.total_comment}
+                    total_reply={statistic?.total_reply}
+                    identity={identity}
+                    setSortType={setSortType}
+                    sortType={sortType}
+                    open={state?.commentOpened}
+                    isDetailPage
+                  />
                 ) : null}
               </Box>
-              <FeedStatistic
-                id-tid="statistic"
-                handleAction={handleAction}
-                identity={identity}
-                reactions={most_reactions}
-                statistic={statistic}
-              />
-              <CommentReaction>
-                {extra?.can_like && (
-                  <ReactionActButton
-                    id-tid="reaction"
-                    reacted={item.user_reacted}
-                    identity={identity}
-                    handleAction={handleAction}
-                  />
-                )}
-                {extra?.can_comment && (
-                  <CommentActButton
-                    id-tid="comment"
-                    identity={identity}
-                    handleAction={handleAction}
-                  />
-                )}
-                {extra?.can_share && (
-                  <ShareActButton
-                    handleAction={handleAction}
-                    id-tid="share"
-                    identity={identity}
-                  />
-                )}
-              </CommentReaction>
-              <Divider />
-              {CommentList && (
-                <CommentList
-                  id-tid="comment_list"
-                  handleAction={handleAction}
-                  data={item.related_comments}
-                  total_hidden={item?.related_comments_statistic?.total_hidden}
-                  viewMoreComments={viewMoreComments}
-                  total_comment={statistic?.total_comment}
-                  total_reply={statistic?.total_reply}
-                  identity={identity}
-                  setSortType={setSortType}
-                  sortType={sortType}
-                  open={state?.commentOpened}
-                />
-              )}
-            </Box>
-          </ScrollContainer>
-        </BodyWrapper>
-        {loggedIn && extra?.can_comment && CommentComposer ? (
-          <Footer ref={footerRef} maxHeight={footerHeightMax}>
-            <ScrollContainer autoHide autoHeightMax={footerHeightMax}>
-              <CommentComposer
-                id-tid="comment_composer"
-                identity={identity}
-                open={state?.commentOpened}
-                focus={state.commentFocused}
-              />
             </ScrollContainer>
-          </Footer>
-        ) : null}
+          </Box>
+        </BodyWrapper>
+        <Footer ref={footerRef}>
+          {startFooterItems ? jsxBackend.render(startFooterItems) : null}
+          {loggedIn && extra?.can_comment && CommentComposer ? (
+            <CommentComposer
+              id-tid="comment_composer"
+              identity={identity}
+              open={state?.commentOpened}
+              focus={state.commentFocused}
+              {...commentComposerProps}
+            />
+          ) : null}
+        </Footer>
       </ContentWrapper>
     </ModalWrapper>
   );

@@ -69,12 +69,12 @@ class DataGrid extends Grid
 
         $this->addColumn('statistic.total_success')
             ->header(__p('subscription::admin.active_users'))
-            ->width(80)
+            ->width(120)
             ->linkTo('link_to_active');
 
         $this->addColumn('statistic.total_expired')
             ->header(__p('subscription::admin.expired'))
-            ->width(80)
+            ->width(120)
             ->linkTo('link_to_expired');
 
         $this->addColumn('statistic.total_canceled')

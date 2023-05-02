@@ -9,7 +9,7 @@ use MetaFox\Platform\Contracts\User;
 
 class FriendMentionBuilderListener
 {
-    public function handle(User $context, User $user): ?Builder
+    public function handle(?User $context, User $user): ?Builder
     {
         if (!policy_check(GroupPolicy::class, 'viewAny', $context, $user)) {
             return null;

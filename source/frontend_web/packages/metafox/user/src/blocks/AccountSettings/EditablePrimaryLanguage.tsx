@@ -35,7 +35,7 @@ export default function EditablePrimaryLanguage({
             <SmartFormBuilder
               successAction={RELOAD_ACCOUNT}
               dataSource={{ apiUrl: '/user/account/language-form' }}
-              loadingComponent={<LoadingComponent />}
+              loadingComponent={LoadingComponent}
               onSuccess={() => setEdit(false)}
               onCancel={() => setEdit(false)}
             />

@@ -74,7 +74,8 @@ export default function UserAvatar({
   const style: any = {
     width: size,
     height: size,
-    color: theme.palette.grey['50']
+    color: theme.palette.grey['50'],
+    fontSize: size / 3
   };
   const hoverCardUrl =
     user?.module_name === 'user' && user?.id ? `/user/${user?.id}` : '';

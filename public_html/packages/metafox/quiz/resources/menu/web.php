@@ -224,7 +224,7 @@ return [
         'name'     => 'landing',
         'label'    => 'quiz::phrase.home',
         'ordering' => 1,
-        'icon'     => 'ico-newspaper-alt-o',
+        'icon'     => 'ico-question-mark',
         'to'       => '/quiz',
     ],
     [
@@ -254,6 +254,7 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'quiz.sidebarMenu',
         'name'     => 'my_pending',
@@ -278,7 +279,8 @@ return [
     [
         'tab'      => 'pending',
         'showWhen' => [
-            'or',
+            'and',
+            ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.quiz.quiz.approve'],
         ],
         'menu'     => 'quiz.sidebarMenu',

@@ -45,7 +45,7 @@ class StorePointPackageForm extends AbstractForm
                 ->maxLength(Model::MAXIMUM_PACKAGE_TITLE)
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(Model::MAXIMUM_PACKAGE_TITLE)
                 ),
             Builder::text('amount')

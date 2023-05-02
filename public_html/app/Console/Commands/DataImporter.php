@@ -33,14 +33,16 @@ class DataImporter extends Command
      */
     public function handle()
     {
-        $restart = !!$this->option('restart');
-        $filter = $this->option('filter');
-        $wipe = !!$this->option('wipe');
+        $restart  = (bool) $this->option('restart');
+        $filter   = $this->option('filter');
+        $chatType = $this->option('chatType');
+        $wipe     = (bool) $this->option('wipe');
 
         if ($this->option('continue')) { // only continue.
             Artisan::call('queue:prune-failed');
             $this->comment('Import continue');
             ImportMonitor::dispatch();
+
             return 0;
         }
 
@@ -49,7 +51,6 @@ class DataImporter extends Command
         }
 
         if ($wipe) {
-
             DB::table('importer_entries')->truncate();
             $this->info('Truncated table importer_entries.');
             DB::table('importer_bundle')->truncate();
@@ -73,15 +74,18 @@ class DataImporter extends Command
         if ($filter && count($filter)) {
             // update bundle
             Bundle::query()->whereIn('resource', $filter)->update([
-                'status' => 'initial'
+                'status' => 'initial',
             ]);
         }
 
         // Reset all.
         $this->info('Scan storage/app/importer/schedule.json for bundling.');
-        
+
         $bundleRepository = resolve(BundleRepositoryInterface::class);
-        $filename = 'storage/app/importer/schedule.json';
+        $filename         = 'storage/app/importer/schedule.json';
+        if (in_array($chatType, ['chat', 'chatplus'])) {
+            $bundleRepository->selectChatApp($chatType);
+        }
         $bundleRepository->importScheduleJson($filename, $filter);
         $bundleRepository->addLockFile();
 
@@ -93,10 +97,11 @@ class DataImporter extends Command
     protected function getOptions()
     {
         return [
-            ['restart', null, InputOption::VALUE_NONE, "Restart importer queue"],
-            ['continue', null, InputOption::VALUE_NONE, "Continue"],
-            ['filter', null, InputOption::VALUE_OPTIONAL, "Filter for resource"],
-            ['wipe', null, InputOption::VALUE_OPTIONAL, "Truncate importer_* tables"],
+            ['restart', null, InputOption::VALUE_NONE, 'Restart importer queue'],
+            ['continue', null, InputOption::VALUE_NONE, 'Continue'],
+            ['filter', null, InputOption::VALUE_OPTIONAL, 'Filter for resource'],
+            ['wipe', null, InputOption::VALUE_OPTIONAL, 'Truncate importer_* tables'],
+            ['chatType', null, InputOption::VALUE_OPTIONAL, 'Select Chat app to import'],
         ];
     }
 }

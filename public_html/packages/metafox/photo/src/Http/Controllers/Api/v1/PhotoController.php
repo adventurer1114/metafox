@@ -407,8 +407,9 @@ class PhotoController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      *
+     * @return BinaryFileResponse
      * @throws AuthenticationException
      * @throws AuthorizationException
      */
@@ -420,5 +421,16 @@ class PhotoController extends ApiController
 
         return response()->download($photo->download_url, basename($photo->image_url))
             ->deleteFileAfterSend(true);
+    }
+
+    public function edit($id)
+    {
+        $model = $this->repository->find($id);
+
+        $form =   new EditPhotoForm($model);
+
+        app()->call([$form, 'boot'], ['id'=>$id]);
+
+        return $form;
     }
 }

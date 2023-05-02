@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["pages.livestream"],{21546:function(e,a,r){r.r(a);var s=r(85597);a.default=(0,s.nd)({appName:"livestreaming",pageName:"livestreaming.search",resourceName:"live_video"})}}]);

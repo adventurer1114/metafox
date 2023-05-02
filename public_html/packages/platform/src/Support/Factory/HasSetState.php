@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 use MetaFox\Platform\Contracts\Content;
+use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\MetaFoxPrivacy;
 
@@ -15,6 +16,51 @@ use MetaFox\Platform\MetaFoxPrivacy;
  */
 trait HasSetState
 {
+    /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function forUser(User $user): static
+    {
+        return $this->state(function () use ($user) {
+            return [
+                'user_id'   => $user->entityId(),
+                'user_type' => $user->entityType(),
+            ];
+        });
+    }
+
+    /**
+     * @param User $owner
+     *
+     * @return $this
+     */
+    public function forOwner(User $owner): static
+    {
+        return $this->state(function () use ($owner) {
+            return [
+                'owner_id'   => $owner->entityId(),
+                'owner_type' => $owner->entityType(),
+            ];
+        });
+    }
+
+    /**
+     * @param Entity $item
+     *
+     * @return $this
+     */
+    public function forItem(Entity $item): static
+    {
+        return $this->state(function () use ($item) {
+            return [
+                'item_id'   => $item->entityId(),
+                'item_type' => $item->entityType(),
+            ];
+        });
+    }
+
     /**
      * @param User $user
      *
@@ -69,7 +115,7 @@ trait HasSetState
      *
      * @return $this
      */
-    public function setOwner(User $user): static
+    public function setOwner(User $user)
     {
         return $this->state(function () use ($user) {
             return [
@@ -144,12 +190,12 @@ trait HasSetState
                 return [];
             }
 
-            $privacy = random_privacy($attributes['owner_type']);
+            $privacy = random_privacy($attributes['owner_type'] ?? 'user');
 
             if ($privacy === 4) {
-                $list = DB::table('friend_lists')->where('user_id','=', $attributes['owner_id'])
+                $list = DB::table('friend_lists')->where('user_id', '=', $attributes['owner_id'] ?? 1)
                     ->inRandomOrder()
-                    ->limit(mt_rand(2,5))->pluck('id')->toArray();;
+                    ->limit(mt_rand(2, 5))->pluck('id')->toArray();
 
                 return ['privacy_list' => $list, 'privacy' => 4];
             }
@@ -160,10 +206,14 @@ trait HasSetState
         });
     }
 
+    /**
+     * @param $userId
+     * @param $limit
+     * @return mixed
+     * @deprecated
+     */
     public function fakeRandomId($userId, $limit)
     {
-
-
         $data = $this->getModel()->newQuery()
             ->where(['user_id' => $userId])
             ->pluck('id');
@@ -211,12 +261,14 @@ trait HasSetState
         string $column1 = 'owner_id',
         string $column2 = 'user_id'
     ) {
-        return \MetaFox\User\Models\User::query()
+        $id = \MetaFox\User\Models\User::query()
             ->select(['id'])
             ->whereNotIn('id', $otherModelName::query()->select($column1)->where($column2, $id))
             ->where('id', '<>', $id)
             ->inRandomOrder()
             ->value('id');
+
+        return $id ? $id : 1;
     }
 
     /**

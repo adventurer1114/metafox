@@ -32,7 +32,6 @@ export interface CommentItemShape extends ItemShape {
   user_reacted?: string;
   extra_data?: CommentExtraDataShape;
   child_total?: number;
-  is_hide?: boolean;
   is_edited?: boolean;
   is_hidden?: boolean;
   _identity?: string;
@@ -126,11 +125,10 @@ export interface CommentListProps {
     meta?: Record<string, any>
   ) => void;
   parent_user?: Record<string, any>;
-  forceHideSort?: boolean;
   sortType?: SortTypeValue;
   setSortType?: (value: string) => void;
-  setShowSort?: (value: boolean) => void;
   setLoadingSort?: (value: boolean) => void;
+  isDetailPage?: boolean;
 }
 
 export interface CommentComposerPluginControlProps {

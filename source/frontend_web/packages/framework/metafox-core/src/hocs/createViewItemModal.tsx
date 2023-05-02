@@ -34,7 +34,6 @@ export default function createViewItemModal<T extends Params = Params>({
     const abortId = useAbortControl();
     const [error, setErr] = React.useState<number>(0);
     const [loading, setLoading] = React.useState<boolean>(true);
-    const loadedDetail = props?.location?.state?.loadedDetail;
 
     const pageParams = createPageParams<Params>(props, prev => ({
       appName,
@@ -66,8 +65,6 @@ export default function createViewItemModal<T extends Params = Params>({
     const id = pageParams[idName];
 
     useEffect(() => {
-      if (loadedDetail) return;
-
       dispatch(
         fetchDetail(config.apiUrl, { id }, onSuccess, onFailure, abortId)
       );

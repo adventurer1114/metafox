@@ -33,7 +33,7 @@ class ApprovedThread extends ApproveNotification
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($content)
-            ->action($this->localize('core::phrase.review_now'), $this->toUrl());
+            ->action($this->localize('core::phrase.view_now'), $this->toUrl());
     }
 
     public function callbackMessage(): ?string
@@ -69,5 +69,16 @@ class ApprovedThread extends ApproveNotification
         }
 
         return $model->toLink();
+    }
+
+    public function toRouter(): ?string
+    {
+        $model = $this->model;
+
+        if (null === $model) {
+            return null;
+        }
+
+        return $this->model->toRouter();
     }
 }

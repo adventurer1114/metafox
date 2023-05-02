@@ -13,21 +13,15 @@ use MetaFox\Quiz\Http\Requests\v1\Quiz\CreateFormRequest;
 use MetaFox\Quiz\Http\Requests\v1\Quiz\IndexRequest;
 use MetaFox\Quiz\Http\Requests\v1\Quiz\StoreRequest;
 use MetaFox\Quiz\Http\Requests\v1\Quiz\UpdateRequest;
-use MetaFox\Quiz\Http\Requests\v1\Quiz\ViewIndividualPlay;
-use MetaFox\Quiz\Http\Requests\v1\Quiz\ViewPlayRequest;
 use MetaFox\Quiz\Http\Resources\v1\Quiz\CreateQuizForm as CreateForm;
 use MetaFox\Quiz\Http\Resources\v1\Quiz\EditQuizForm as EditForm;
-use MetaFox\Quiz\Http\Resources\v1\Quiz\QuestionSummary;
-use MetaFox\Quiz\Http\Resources\v1\Quiz\QuizDetail as Detail;
 use MetaFox\Quiz\Http\Resources\v1\Quiz\QuizDetail;
+use MetaFox\Quiz\Http\Resources\v1\Quiz\QuizDetail as Detail;
 use MetaFox\Quiz\Http\Resources\v1\Quiz\QuizItemCollection as ItemCollection;
 use MetaFox\Quiz\Http\Resources\v1\Quiz\SearchQuizForm as SearchForm;
-use MetaFox\Quiz\Http\Resources\v1\Result\IndividualResultDetail;
-use MetaFox\Quiz\Http\Resources\v1\Result\ResultDetail;
 use MetaFox\Quiz\Models\Quiz;
 use MetaFox\Quiz\Policies\QuizPolicy;
 use MetaFox\Quiz\Repositories\QuizRepositoryInterface;
-use MetaFox\Quiz\Repositories\ResultRepositoryInterface;
 use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
 
@@ -63,6 +57,7 @@ class QuizController extends ApiController
      *
      * @return JsonResponse
      * @throws AuthenticationException
+     * @throws AuthorizationException
      */
     public function index(IndexRequest $request): JsonResponse
     {
@@ -71,7 +66,7 @@ class QuizController extends ApiController
         if ($params['user_id'] > 0) {
             $owner = UserEntity::getById($params['user_id'])->detail;
             if (policy_check(QuizPolicy::class, 'viewOnProfilePage', $context, $owner) == false) {
-                $this->success([]);
+                throw new AuthorizationException();
             }
 
             if (UserPrivacy::hasAccess($context, $owner, 'quiz.profile_menu') == false) {

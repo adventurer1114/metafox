@@ -35,6 +35,7 @@ export type FeedItemShape = {
   description?: string;
   _identity: string;
   pins?: any[];
+  is_show_location?: boolean;
 } & ItemShape;
 
 export type ManageHiddenItemShape = ItemShape & {

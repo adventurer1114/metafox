@@ -99,7 +99,7 @@ class MobileSetting extends Setting
             ]);
 
         $this->add('blockFromGroup')
-            ->apiUrl('core/mobile/form/group.group_member.block')
+            ->apiUrl('core/mobile/form/group.group_block.block_member')
             ->asPost()
             ->apiParams(['group_id' => ':group_id', 'user_id' => ':user_id']);
 
@@ -128,6 +128,7 @@ class MobileSetting extends Setting
                 'group_id'        => ':id',
                 'view'            => 'member',
                 'not_invite_role' => 1,
+                'q'               => ':q',
             ]);
         $this->add('searchGlobalUser')
             ->apiUrl(apiUrl('search.index'))

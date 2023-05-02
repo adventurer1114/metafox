@@ -28,35 +28,13 @@
           "sidebarHeaderName": "mangerHeader"
         },
         {
-          "component": "core.block.sidebarAppMenu",
-          "slotName": "side",
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle1",
-            "titleColor": "text",
-            "noFooter": true,
-            "blockStyle": {
-              "pl": 3,
-              "pr": 0,
-              "pt": 0,
-              "pb": 0
-            },
-            "headerStyle": {
-              "pt": 1,
-              "pb": 1
-            },
-            "contentStyle": {
-              "pt": 1,
-              "pb": 1
-            },
-            "noHeader": true
-          },
-          "sidebarHeaderName": "mangerHeader",
           "blockId": "u0duz",
-          "title": "Group Settings",
+          "component": "core.block.sidebarAppMenuSetting",
+          "slotName": "side",
+          "title": "",
           "menuName": "groupManagerSettings",
-          "blockLayout": "sidebar app menu"
+          "blockLayout": "sidebar app menu",
+          "sidebarHeaderName": "mangerHeader"
         },
         {
           "component": "core.block.mainBlock",

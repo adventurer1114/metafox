@@ -9,13 +9,11 @@
           "blockId": "15t1m",
           "title": "Status Composer",
           "variant": "default",
-          "displayLimit": 8,
           "headerActions": {
             "ml": 0,
             "mr": 0
           },
-          "blockLayout": "Blocker",
-          "blockStyle": "Contained"
+          "blockLayout": "Status Composer"
         },
         {
           "component": "feed.block.reloadFeed",
@@ -83,119 +81,9 @@
           "title": "",
           "blockId": "qlfp",
           "showWhen": ["truthy", "setting.chatplus.server"],
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle1",
-            "titleColor": "text",
-            "noFooter": true,
-            "noHeader": true,
-            "padding": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0
-            },
-            "gutter": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0
-            },
-            "contentGutter": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0
-            },
-            "headerGutter": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0
-            },
-            "footerGutter": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0
-            },
-            "blockStyle": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0,
-              "bgColor": "0",
-              "borderStyle": "0",
-              "borderColor": "0"
-            },
-            "contentStyle": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0,
-              "bgColor": "0",
-              "borderStyle": "0",
-              "borderColor": "0"
-            },
-            "headerStyle": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0,
-              "bgColor": "0",
-              "borderStyle": "0",
-              "borderColor": "0"
-            },
-            "footerStyle": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 0,
-              "ml": 0,
-              "mt": 0,
-              "mr": 0,
-              "mb": 0,
-              "bgColor": "0",
-              "borderStyle": "0",
-              "borderColor": "0"
-            }
-          },
           "dividerVariant": "middle",
           "noHeader": true,
-          "blockLayout": "No Style"
+          "blockLayout": "Block Divider"
         },
         {
           "component": "core.block.sidebarShortcutMenu",
@@ -207,7 +95,11 @@
           "itemView": "shortcut.itemView.smallCard",
           "gridLayout": "Shortcut - Menu Items",
           "canLoadMore": 0,
-          "canLoadSmooth": true,
+          "collapsible": {
+            "limit": 5,
+            "as": "shortcut.ui.toggleButton"
+          },
+          "numberOfItemsPerPage": 20,
           "authRequired": true,
           "dataSource": {
             "apiUrl": "/user/shortcut"
@@ -237,35 +129,46 @@
           }
         },
         {
+          "component": "livestreaming.block.listingBlock",
+          "slotName": "subside",
+          "title": "live_videos",
+          "itemView": "livestreaming.itemView.liveCard",
+          "blockId": "i9s8",
+          "contentType": "livestreaming",
+          "emptyPage": "hide",
+          "blockLayout": "Profile - Side Contained (no gutter)",
+          "gridLayout": "Livestream - Live Card",
+          "itemLayout": "Livestream - Live Card",
+          "canLoadMore": false,
+          "displayLimit": 1,
+          "dataSource": {
+            "apiUrl": "/live-video",
+            "apiParams": "sort=most_viewed&view=all_streaming&limit=1"
+          },
+          "showWhen": ["truthy", "acl.livestreaming.live_video.view"],
+          "headerActions": [
+            {
+              "label": "all",
+              "to": "/live-video/all-streaming"
+            }
+          ]
+        },
+        {
           "component": "chatplus.block.contactsNewFeed",
           "slotName": "subside",
           "blockId": "2312ewqe",
           "variant": "default",
           "pagingId": "/feed",
-          "title": "Contacts",
+          "title": "online_friends",
+          "blockLayout": "Blocker Contacts ChatPlus",
           "showWhen": ["truthy", "setting.chatplus.server"]
         },
         {
           "component": "core.block.footer",
-          "emptyPage": "core.block.no_content_with_description",
           "slotName": "subside",
-          "title": "Activity Feed",
-          "blockId": "footer0",
-          "itemView": "feed.itemView.mainCard",
-          "contentType": "feed",
-          "dataSource": {
-            "apiUrl": "/feed",
-            "apiParams": "view=latest",
-            "pagingId": "/feed"
-          },
-          "canLoadMore": true,
-          "canLoadSmooth": true,
-          "blockStyle": "Main Listings",
-          "gridStyle": "Feed - Main Card",
+          "dividerVariant": "middle",
           "blockLayout": "footer",
-          "gridLayout": "Feed - Main Card",
-          "itemLayout": "Feed - Main Card",
-          "dividerVariant": "middle"
+          "blockId": "footer0"
         }
       ]
     },

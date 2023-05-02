@@ -58,17 +58,27 @@ class PackageSeeder extends Seeder
         $directory = PackageManager::getAssetPath('metafox/background-status');
 
         $storage = app('storage');
+        $assetId = 'asset';
+
         foreach ($items as $index => $item) {
-            $localPath =  $item['path'];
+            $localPath = $item['path'];
             $filename  = $directory . '/' . $localPath;
 
-            $file = $storage->putFileAs('asset', 'assets/bgs', $filename, $localPath);
+            $origin = $storage->putFileAs($assetId, 'assets/bgs', $filename, $localPath);
+
+            foreach ($item['variants'] as $variant => $localVariantPath) {
+                $storage->putFileAs($assetId, 'assets/bgs', $directory . '/' . $localVariantPath, $localVariantPath, [
+                    'is_origin' => false,
+                    'variant'   => $variant,
+                    'origin_id' => $origin->id,
+                ]);
+            }
 
             $chunks[] = [
                 'collection_id' => $collection->id,
-                'image_path'    => $item['path'],
-                'server_id'     => $file->path,
-                'image_file_id' => $file->id,
+                'image_path'    => $origin->path,
+                'server_id'     => $assetId,
+                'image_file_id' => $origin->id,
                 'view_only'     => 1,
                 'ordering'      => Arr::get($item, 'ordering', $index),
             ];

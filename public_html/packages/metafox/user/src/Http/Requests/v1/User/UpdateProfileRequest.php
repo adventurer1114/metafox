@@ -2,14 +2,14 @@
 
 namespace MetaFox\User\Http\Requests\v1\User;
 
+use ArrayObject;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use MetaFox\Core\Support\Facades\CountryCity as CityFacade;
+use MetaFox\Form\Constants as MetaFoxForm;
 use MetaFox\Form\RelationTrait;
 use MetaFox\Localize\Models\CountryCity;
 use MetaFox\Platform\Facades\Settings;
-use MetaFox\Form\Constants as MetaFoxForm;
-use MetaFox\Platform\Rules\AllowInRule;
 use MetaFox\Platform\Rules\ExistIfGreaterThanZero;
 use MetaFox\Profile\Repositories\ProfileRepositoryInterface;
 
@@ -37,7 +37,7 @@ class UpdateProfileRequest extends FormRequest
 
         $requireBasicField = $isBasicFieldRequired ? ['required'] : ['sometimes', 'nullable'];
 
-        $rules = new \ArrayObject([
+        $rules = new ArrayObject([
             'birthday'            => [...$requireBasicField, 'date'],
             'postal_code'         => ['sometimes', 'nullable', 'string'],
             'country_iso'         => [...$requireBasicField, 'string', 'min:2'],
@@ -51,7 +51,9 @@ class UpdateProfileRequest extends FormRequest
             'custom_gender' => [
                 'required_if:gender,0', 'nullable', 'numeric', new ExistIfGreaterThanZero('exists:user_gender,id'),
             ],
-            'relation'         => ['sometimes', 'nullable', 'numeric', new AllowInRule($allowedRelations)],
+            'relation' => [
+                'sometimes', 'nullable', 'numeric', new ExistIfGreaterThanZero('exists:user_relation,id'),
+            ],
             'relation_with'    => ['sometimes', 'nullable', 'array'],
             'relation_with.id' => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id')],
             'bio'              => ['sometimes', 'string', 'nullable'],
@@ -62,9 +64,13 @@ class UpdateProfileRequest extends FormRequest
         ]);
 
         if ($isRelationshipStatusEnabled) {
-            $rules['relation']           = ['sometimes', 'nullable', 'numeric', new AllowInRule($allowedRelations)];
+            $rules['relation'] = [
+                'sometimes', 'nullable', 'numeric', new ExistIfGreaterThanZero('exists:user_relation,id'),
+            ];
             $rules['relation_with']      = ['sometimes', 'array', 'nullable'];
-            $rules['relation_with.*.id'] = ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id')];
+            $rules['relation_with.*.id'] = [
+                'sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id'),
+            ];
         }
 
         resolve(ProfileRepositoryInterface::class)->loadEditRules($rules);
@@ -122,11 +128,11 @@ class UpdateProfileRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'country_iso.required'      => __p('user::phrase.country_is_required'),
-            'birthday.required'         => __p('user::phrase.birthday_is_required'),
-            'gender.required'           => __p('user::phrase.gender_is_required'),
-            'relation.numeric'          => __p('user::phrase.relationship_status_is_required'),
-            'custom_gender.required_if' => __p('user::validation.custom_gender_field_is_required'),
+            'country_iso.required'      => __p('user::phrase.country_is_a_required_field'),
+            'birthday.required'         => __p('user::phrase.birthday_is_a_required_field'),
+            'gender.required'           => __p('user::phrase.gender_is_a_required_field'),
+            'relation.numeric'          => __p('user::phrase.relationship_status_is_a_required_field'),
+            'custom_gender.required_if' => __p('user::validation.custom_gender_field_is_a_required_field'),
         ];
     }
 

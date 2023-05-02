@@ -7,12 +7,21 @@ import { Block, BlockContent } from '@metafox/layout';
 import { AnnouncementItemProps as ItemProps } from '@metafox/announcement/types';
 // components
 import { FormatDate, ItemTitle, ItemUserShape, UserAvatar } from '@metafox/ui';
-import { Box, styled, Typography } from '@mui/material';
+import { Box, Button, styled, Typography } from '@mui/material';
 import React from 'react';
 import LoadingSkeleton from './LoadingSkeleton';
 
 const AvatarWrapper = styled('div', { name: 'AvatarWrapper' })(({ theme }) => ({
   marginRight: theme.spacing(1.5)
+}));
+
+const UserRead = styled('span', { name: 'userRead' })(({ theme }) => ({
+  marginLeft: theme.spacing(0.5),
+  color: theme.palette.primary.main,
+  cursor: 'pointer',
+  '&:hover': {
+    textDecoration: 'underline'
+  }
 }));
 
 export default function DetailView({
@@ -22,9 +31,23 @@ export default function DetailView({
   state,
   handleAction
 }: ItemProps) {
-  const { ItemDetailInteraction } = useGlobal();
+  const { ItemDetailInteraction, i18n, dispatch } = useGlobal();
 
   if (!user || !item) return null;
+
+  const openListViewer = () => {
+    dispatch({ type: 'announcement/openListViewer', payload: { identity } });
+  };
+
+  const onMarkAsRead = () => {
+    if (item.is_read) return;
+
+    dispatch({
+      type: 'announcement/markAsRead',
+      payload: { id: item.id, isDetail: true },
+      meta: { onSuccess: () => {} }
+    });
+  };
 
   return (
     <Block testid={`detailview ${item.resource_name}`}>
@@ -65,6 +88,28 @@ export default function DetailView({
           </Box>
           <Box component="div" mt={3} fontSize="15px">
             <HtmlViewer html={item?.text || ''} />
+            <Box mt={2} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button
+                variant="outlined"
+                size="medium"
+                color="primary"
+                disabled={item?.is_read}
+                onClick={onMarkAsRead}
+              >
+                {i18n.formatMessage({
+                  id: item?.is_read ? 'i_have_read_this' : 'mark_as_read'
+                })}
+              </Button>
+              <Box ml={1}>
+                {i18n.formatMessage({ id: 'read_by' })}
+                <UserRead onClick={openListViewer}>
+                  {i18n.formatMessage(
+                    { id: 'number_user' },
+                    { value: item?.statistic?.total_view }
+                  )}
+                </UserRead>
+              </Box>
+            </Box>
           </Box>
           <ItemDetailInteraction
             identity={identity}

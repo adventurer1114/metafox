@@ -5,6 +5,7 @@ namespace MetaFox\Sticker\Http\Controllers\Api\v1;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Platform\Http\Requests\v1\ActiveRequest;
@@ -15,6 +16,7 @@ use MetaFox\Sticker\Http\Resources\v1\StickerSet\Admin\StickerSetDetail as Detai
 use MetaFox\Sticker\Http\Resources\v1\StickerSet\Admin\StickerSetItemCollection as ItemCollection;
 use MetaFox\Sticker\Http\Resources\v1\StickerSet\Admin\StoreStickerSetForm;
 use MetaFox\Sticker\Http\Resources\v1\StickerSet\Admin\UpdateStickerSetForm;
+use MetaFox\Sticker\Repositories\StickerSetAdminRepositoryInterface;
 use MetaFox\Sticker\Repositories\StickerSetRepositoryInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -37,16 +39,16 @@ use Prettus\Validator\Exceptions\ValidatorException;
 class StickerSetAdminController extends ApiController
 {
     /**
-     * @var StickerSetRepositoryInterface
+     * @var StickerSetAdminRepositoryInterface
      */
-    private StickerSetRepositoryInterface $repository;
+    private StickerSetAdminRepositoryInterface $repository;
 
     /**
      * StickerSetAdminController Constructor.
      *
-     * @param StickerSetRepositoryInterface $repository
+     * @param StickerSetAdminRepositoryInterface $repository
      */
-    public function __construct(StickerSetRepositoryInterface $repository)
+    public function __construct(StickerSetAdminRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -61,7 +63,7 @@ class StickerSetAdminController extends ApiController
     public function index(IndexRequest $request): JsonResponse
     {
         $params = $request->validated();
-        $data   = $this->repository->viewStickerSetsForAdmin(user(), $params);
+        $data   = $this->repository->viewStickerSets(user(), $params);
 
         return $this->success(new ItemCollection($data));
     }
@@ -75,21 +77,15 @@ class StickerSetAdminController extends ApiController
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws ValidatorException
-     * @todo: should implement this later
      */
     public function store(StoreRequest $request): JsonResponse
     {
         $params = $request->validated();
         $data   = $this->repository->installStickerSet(user(), $params);
 
-        return $this->success(new Detail($data), [
-            'nextAction' => [
-                'type'    => 'navigate',
-                'payload' => [
-                    'url' => '/admincp/sticker/sticker-set/browse',
-                ],
-            ],
-        ], __p('sticker::phrase.successfully_created_sticker'));
+        $this->navigate($data->admin_browse_url);
+
+        return $this->success(new Detail($data), [], __p('sticker::phrase.successfully_created_sticker'));
     }
 
     /**
@@ -101,7 +97,6 @@ class StickerSetAdminController extends ApiController
      * @throws AuthenticationException
      * @throws AuthorizationException
      * @throws ValidationException
-     * @todo: implement this later??
      */
     public function show(int $id): JsonResponse
     {
@@ -123,9 +118,11 @@ class StickerSetAdminController extends ApiController
     public function update(UpdateRequest $request, int $id): JsonResponse
     {
         $params = $request->validated();
-        $data   = $this->repository->updateStickerSet(user(), $id, $params);
 
-        return $this->success(new Detail($data));
+        $data = $this->repository->updateStickerSet(user(), $id, $params);
+        $this->navigate($data->admin_browse_url);
+
+        return $this->success(new Detail($data), [], __p('sticker::phrase.successfully_updated_sticker'));
     }
 
     /**
@@ -155,22 +152,28 @@ class StickerSetAdminController extends ApiController
     public function toggleActive(ActiveRequest $request, int $id): JsonResponse
     {
         $isActive = $request->get('active');
-        $this->repository->updateActive(user(), $id, $isActive);
+        $this->repository->toggleActive(user(), $id, $isActive);
 
         return $this->success([
             'is_active' => $isActive,
         ], [], __p('core::phrase.updated_successfully'));
     }
 
-    public function edit($id): JsonResponse
+    public function edit(int $id): JsonResponse
     {
         $item = $this->repository->find($id);
 
         return $this->success(new UpdateStickerSetForm($item));
     }
 
-    public function create(): StoreStickerSetForm
+    public function create(Request $request): JsonResponse
     {
-        return new StoreStickerSetForm();
+        $form = resolve(StoreStickerSetForm::class);
+
+        if (method_exists($form, 'boot')) {
+            app()->call([$form, 'boot'], $request->route()->parameters());
+        }
+
+        return $this->success($form);
     }
 }

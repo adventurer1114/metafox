@@ -5,6 +5,7 @@ namespace MetaFox\App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use MetaFox\App\Database\Factories\PackageFactory;
 use MetaFox\Platform\Contracts\Entity;
@@ -141,6 +142,11 @@ class Package extends Model implements Entity
         Arr::set($composer, 'extra.metafox.providers', $this->providers);
         Arr::set($composer, 'extra.metafox.internalUrl', $this->internal_url);
         Arr::set($composer, 'extra.metafox.internalAdminUrl', $this->internal_admin_url);
+    }
+
+    public function permissions(): HasMany
+    {
+        return $this->hasMany(config('permission.models.permission'), 'module_id', 'alias');
     }
 
     public function getTitleAttribute(string $value): string

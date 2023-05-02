@@ -50,7 +50,8 @@ const useStyles = makeStyles(
         }
       },
       logo: {
-        maxWidth: '127px'
+        maxWidth: '100%',
+        maxHeight: '48px'
       },
       title: {
         fontWeight: 'bold',
@@ -64,7 +65,7 @@ const useStyles = makeStyles(
         alignItems: 'center',
         justifyContent: 'center',
         [theme.breakpoints.up('md')]: {
-          padding: theme.spacing(14, 0)
+          padding: theme.spacing(6, 0)
         },
         [theme.breakpoints.down('md')]: {
           padding: theme.spacing(0, 0, 3)

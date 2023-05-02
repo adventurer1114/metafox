@@ -36,9 +36,9 @@ class ReactionPolicy
      *
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(User $user, $resource =  null): bool
     {
-        return policy_check(LikePolicy::class, 'view', $user);
+        return policy_check(LikePolicy::class, 'view', $user, $resource);
     }
 
     /**

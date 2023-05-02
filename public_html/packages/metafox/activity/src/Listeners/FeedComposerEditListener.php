@@ -12,14 +12,17 @@ use MetaFox\Platform\MetaFoxPrivacy;
 class FeedComposerEditListener
 {
     /**
-     * @param  User       $user
-     * @param  User       $owner
+     * @param  User|null  $user
+     * @param  User|null  $owner
      * @param  mixed      $item
      * @param  array      $params
      * @return bool|array
      */
-    public function handle(User $user, User $owner, mixed $item, array $params): ?array
+    public function handle(?User $user, ?User $owner, mixed $item, array $params): ?array
     {
+        if (!$user) {
+            return null;
+        }
         if (!in_array($item?->entityType(), [Post::ENTITY_TYPE, Share::ENTITY_TYPE])) {
             return null;
         }

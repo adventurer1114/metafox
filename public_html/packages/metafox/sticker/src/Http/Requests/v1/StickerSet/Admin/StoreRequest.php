@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
         return [
             'title'     => ['required', 'string', 'between:3,255'],
             'is_active' => ['sometimes', 'numeric', new AllowInRule([0, 1])],
-            'file'      => ['required', 'file', 'mimes:zip'],
+            'file'      => ['required', 'file', 'mimes:zip,gif'],
         ];
     }
 }

@@ -24,7 +24,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
       : theme.palette.grey['800'],
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
-  boxShadow: 'none'
+  boxShadow: 'none',
+  marginTop: theme.spacing(2)
 }));
 
 const StyledTypography = styled(Typography)(({ theme }) => ({}));

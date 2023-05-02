@@ -9,7 +9,7 @@ import {
   UIBlockViewProps,
   UserAvatar
 } from '@metafox/ui';
-import { Box, Skeleton, styled } from '@mui/material';
+import { Skeleton, styled } from '@mui/material';
 import React from 'react';
 
 export interface Props extends UIBlockViewProps {}
@@ -86,27 +86,25 @@ export default function AdminItemStats({ title }: Props) {
   }
 
   return (
-    <Box sx={{ mb: { sm: 2, xs: 2, md: 0 } }}>
-      <Block>
-        <BlockHeader>
-          <BlockTitle>{i18n.formatMessage({ id: title })}</BlockTitle>
-        </BlockHeader>
-        {!loading && data ? (
-          <BlockContent>
-            {data.map((item, index) => (
-              <ItemContent key={index}>
-                <ItemMediaWrapper>
-                  <UserAvatar user={item.user} size={48} />
-                </ItemMediaWrapper>
-                <ItemText>
-                  <Title>{item.user.full_name}</Title>
-                  <Ip>{item.ip_address}</Ip>
-                </ItemText>
-              </ItemContent>
-            ))}
-          </BlockContent>
-        ) : null}
-      </Block>
-    </Box>
+    <Block>
+      <BlockHeader>
+        <BlockTitle>{i18n.formatMessage({ id: title })}</BlockTitle>
+      </BlockHeader>
+      {!loading && data ? (
+        <BlockContent>
+          {data.map((item, index) => (
+            <ItemContent key={index}>
+              <ItemMediaWrapper>
+                <UserAvatar user={item.user} size={48} />
+              </ItemMediaWrapper>
+              <ItemText>
+                <Title>{item.user.full_name}</Title>
+                <Ip>{item.ip_address}</Ip>
+              </ItemText>
+            </ItemContent>
+          ))}
+        </BlockContent>
+      ) : null}
+    </Block>
   );
 }

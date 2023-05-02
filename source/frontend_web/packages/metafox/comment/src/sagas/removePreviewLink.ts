@@ -7,8 +7,8 @@ import {
   getGlobalContext,
   getItem,
   handleActionError,
-  patchEntity,
-  getItemActionConfig
+  getItemActionConfig,
+  fulfillEntity
 } from '@metafox/framework';
 import { takeEvery } from 'redux-saga/effects';
 
@@ -16,23 +16,22 @@ export function* removePreviewLink(action) {
   const { identity } = action.payload;
   const item = yield* getItem(identity);
 
-  const { apiClient, compactUrl } = yield* getGlobalContext();
+  const { apiClient, compactUrl, normalization } = yield* getGlobalContext();
 
   try {
-    yield* patchEntity(identity, {
-      extra_data: [],
-      is_hide: true
-    });
+    const config = yield* getItemActionConfig(item, 'removePreviewItem');
 
-    const config = yield* getItemActionConfig(item, 'editItem');
-
-    yield apiClient.request({
+    const response = yield apiClient.request({
       method: config.apiMethod,
-      url: compactUrl(config.apiUrl, item),
-      data: {
-        is_hide: 1
-      }
+      url: compactUrl(config.apiUrl, item)
     });
+
+    const data = response.data?.data;
+
+    if (data) {
+      const result = normalization.normalize(data);
+      yield* fulfillEntity(result.data);
+    }
   } catch (error) {
     yield* handleActionError(error);
   }

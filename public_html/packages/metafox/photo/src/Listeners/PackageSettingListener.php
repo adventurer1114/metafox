@@ -46,7 +46,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'can_comment'     => true,
                 'can_like'        => true,
                 'can_share'       => true,
-                'can_edit'        => true,
+                'can_edit'        => false,
                 'can_create_feed' => true,
                 'can_put_stream'  => true,
             ],
@@ -75,7 +75,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'can_comment'     => true,
                 'can_like'        => true,
                 'can_share'       => true,
-                'can_edit'        => true,
+                'can_edit'        => false,
                 'can_create_feed' => true,
                 'can_put_stream'  => true,
                 'params'          => [
@@ -101,7 +101,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'can_comment'                 => true,
                 'can_like'                    => true,
                 'can_share'                   => true,
-                'can_edit'                    => true,
+                'can_edit'                    => false,
                 'can_create_feed'             => true,
                 'can_put_stream'              => true,
                 'prevent_from_edit_feed_item' => true,
@@ -273,43 +273,45 @@ class PackageSettingListener extends BasePackageSettingListener
                 'report'             => UserRole::LEVEL_REGISTERED,
                 'set_profile_avatar' => UserRole::LEVEL_REGISTERED,
                 'set_profile_cover'  => UserRole::LEVEL_REGISTERED,
-                'set_parent_cover'   => UserRole::LEVEL_REGISTERED,
                 'tag_friend'         => UserRole::LEVEL_REGISTERED,
                 'tag_friend_any'     => UserRole::LEVEL_REGISTERED,
                 'auto_approved'      => UserRole::LEVEL_PAGE,
                 //                'set_as_mature'      => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor'   => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'            => UserRole::LEVEL_REGISTERED,
-                // 'sponsor_in_feed'    => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'sponsor_in_feed'  => UserRole::LEVEL_REGISTERED,
             ],
             PhotoGroup::ENTITY_TYPE => [
-                'view'     => UserRole::LEVEL_GUEST,
-                'create'   => UserRole::LEVEL_PAGE,
-                'update'   => UserRole::LEVEL_PAGE,
-                'delete'   => UserRole::LEVEL_PAGE,
-                'save'     => UserRole::LEVEL_REGISTERED,
-                'moderate' => UserRole::LEVEL_STAFF,
-                'approve'  => UserRole::LEVEL_STAFF,
-                'like'     => UserRole::LEVEL_REGISTERED,
-                'share'    => UserRole::LEVEL_REGISTERED,
-                'comment'  => UserRole::LEVEL_REGISTERED,
-                'report'   => UserRole::LEVEL_REGISTERED,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_PAGE,
+                'update'           => UserRole::LEVEL_PAGE,
+                'delete'           => UserRole::LEVEL_PAGE,
+                'save'             => UserRole::LEVEL_REGISTERED,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'approve'          => UserRole::LEVEL_STAFF,
+                'like'             => UserRole::LEVEL_REGISTERED,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'comment'          => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'sponsor_in_feed'  => UserRole::LEVEL_REGISTERED,
             ],
             Album::ENTITY_TYPE => [
-                'view'        => UserRole::LEVEL_GUEST,
-                'create'      => UserRole::LEVEL_REGISTERED,
-                'update'      => UserRole::LEVEL_REGISTERED,
-                'delete'      => UserRole::LEVEL_REGISTERED,
-                'moderate'    => UserRole::LEVEL_STAFF,
-                'feature'     => UserRole::LEVEL_REGISTERED,
-                'save'        => UserRole::LEVEL_REGISTERED,
-                'like'        => UserRole::LEVEL_REGISTERED,
-                'share'       => UserRole::LEVEL_REGISTERED,
-                'comment'     => UserRole::LEVEL_REGISTERED,
-                'report'      => UserRole::LEVEL_REGISTERED,
-                'set_privacy' => UserRole::LEVEL_REGISTERED,
-                // 'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
-                // 'sponsor'          => UserRole::LEVEL_REGISTERED,
+                'view'             => UserRole::LEVEL_GUEST,
+                'create'           => UserRole::LEVEL_REGISTERED,
+                'update'           => UserRole::LEVEL_REGISTERED,
+                'delete'           => UserRole::LEVEL_REGISTERED,
+                'moderate'         => UserRole::LEVEL_STAFF,
+                'feature'          => UserRole::LEVEL_REGISTERED,
+                'save'             => UserRole::LEVEL_REGISTERED,
+                'like'             => UserRole::LEVEL_REGISTERED,
+                'share'            => UserRole::LEVEL_REGISTERED,
+                'comment'          => UserRole::LEVEL_REGISTERED,
+                'report'           => UserRole::LEVEL_REGISTERED,
+                'set_privacy'      => UserRole::LEVEL_REGISTERED,
+                'purchase_sponsor' => UserRole::LEVEL_REGISTERED,
+                'sponsor'          => UserRole::LEVEL_REGISTERED,
             ],
         ];
     }
@@ -355,6 +357,15 @@ class PackageSettingListener extends BasePackageSettingListener
                         UserRole::NORMAL_USER => 18,
                     ],
                 ],
+                'purchase_sponsor_price' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
             ],
             Album::ENTITY_TYPE => [
                 'flood_control' => [
@@ -367,6 +378,15 @@ class PackageSettingListener extends BasePackageSettingListener
                     ],
                 ],
                 'quota_control' => [
+                    'type'    => MetaFoxDataType::INTEGER,
+                    'default' => 0,
+                    'roles'   => [
+                        UserRole::ADMIN_USER  => 0,
+                        UserRole::STAFF_USER  => 0,
+                        UserRole::NORMAL_USER => 0,
+                    ],
+                ],
+                'purchase_sponsor_price' => [
                     'type'    => MetaFoxDataType::INTEGER,
                     'default' => 0,
                     'roles'   => [
@@ -512,7 +532,7 @@ class PackageSettingListener extends BasePackageSettingListener
                 'value' => 'photo_album',
             ],
             [
-                'label' => __p('photo::phrase.photo_groups'),
+                'label' => __p('photo::phrase.saved_item_label'),
                 'value' => 'photo_set',
             ],
         ];
@@ -529,5 +549,26 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['photo', 'photo_album', 'photo_category'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/photo',
+                'name' => 'photo::phrase.ad_mob_photo_home_page',
+            ],
+            [
+                'path' => '/photo/photo_album',
+                'name' => 'photo::phrase.ad_mob_album_home_page',
+            ],
+            [
+                'path' => '/photo/photo_album/:id',
+                'name' => 'photo::phrase.ad_mob_album_detail_page',
+            ],
+        ];
     }
 }

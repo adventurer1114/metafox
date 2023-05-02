@@ -39,8 +39,13 @@ export default function createMultiTabPage<T extends Params = Params>({
   conditionChangeDefaultTab
 }: Config<T>) {
   function Base(props: any) {
-    const { createPageParams, createContentParams, dispatch, jsxBackend } =
-      useGlobal();
+    const {
+      createPageParams,
+      createErrorPage,
+      createContentParams,
+      dispatch,
+      jsxBackend
+    } = useGlobal();
 
     const [err, setErr] = React.useState<number>(0);
     const [loading, setLoading] = React.useState(true);
@@ -115,7 +120,9 @@ export default function createMultiTabPage<T extends Params = Params>({
       setLoading(false);
     }, [item]);
 
-    if (err) return <Page pageName="core.error404" />;
+    if (err) {
+      return createErrorPage(err);
+    }
 
     if (loading) return jsxBackend.render({ component: 'Loading' });
 

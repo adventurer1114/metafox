@@ -3,6 +3,7 @@
 namespace MetaFox\Profile\Repositories\Eloquent;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Artisan;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Profile\Models\Field;
 use Illuminate\Support\Arr;
@@ -68,5 +69,43 @@ class FieldRepository extends AbstractRepository implements FieldRepositoryInter
             ->newModelQuery()
             ->where('is_active', 1)
             ->get();
+    }
+
+    public function orderFields(array $orderIds): bool
+    {
+        $fields = Field::query()
+            ->whereIn('id', $orderIds)
+            ->get()
+            ->keyBy('id');
+
+        if (!$fields->count()) {
+            return true;
+        }
+
+        $ordering = 1;
+
+        foreach ($orderIds as $orderId) {
+            $orderField = $fields->get($orderId);
+
+            if (null === $orderField) {
+                continue;
+            }
+
+            $orderField->update(['ordering' => $ordering++]);
+        }
+
+        return true;
+    }
+
+    public function createField(array $attributes): Field
+    {
+        $currentOrdering        = $this->getModel()->newQuery()->max('ordering');
+        $attributes['ordering'] = ++$currentOrdering;
+
+        $field = $this->getModel()->newModelInstance();
+        $field->fill($attributes);
+        $field->save();
+
+        return $field;
     }
 }

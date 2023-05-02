@@ -23,7 +23,7 @@
             "apiParams": "page_id=:id&view=admin"
           },
           "blockLayout": "Profile - Sub Tab Contained No Title",
-          "gridLayout": "Friend - Cards",
+          "gridLayout": "Friend - Profile - Cards",
           "itemLayout": "Friend - Cards",
           "headerActions": [
             {
@@ -55,7 +55,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "parentBlockId": "hu43",
@@ -78,7 +78,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "parentBlockId": "ad22",
@@ -101,7 +101,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "parentBlockId": "ae35",
@@ -124,7 +124,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "blockId": "ae35",
@@ -265,7 +265,7 @@
           },
           "blockLayout": "Profile - Sub Tab Contained No Title",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards",
+          "gridLayout": "Friend - Profile - Cards",
           "headerActions": [
             {
               "as": "group.ui.updateRoleUserButton",
@@ -296,7 +296,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "parentBlockId": "hu43",
@@ -319,7 +319,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "parentBlockId": "ad22",
@@ -342,7 +342,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "parentBlockId": "ae35",
@@ -365,7 +365,7 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards"
+          "gridLayout": "Friend - Profile - Cards"
         },
         {
           "blockId": "ae35",

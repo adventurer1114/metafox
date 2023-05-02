@@ -56,7 +56,7 @@ class UpdateExampleRuleForm extends StoreExampleRuleForm
                 ->label(__p('core::phrase.title'))
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxLengthTitle,
                             __p('validation.field_must_be_at_most_max_length_characters', [

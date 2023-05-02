@@ -1,6 +1,6 @@
 {
     "name": "metafox/poll",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Poll\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/poll": "5.0.1"
+                "@metafox/poll": "*"
             },
             "frontendPaths": [
                 "packages/metafox/poll"

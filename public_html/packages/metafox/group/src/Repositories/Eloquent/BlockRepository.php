@@ -124,8 +124,6 @@ class BlockRepository extends AbstractRepository implements BlockRepositoryInter
 
         $group = $this->groupRepository()->find($groupId);
 
-        app('events')->dispatch('user.user_blocked', [$group, $user]);
-
         /* @var Block $block */
         Block::query()->create([
             'group_id'   => $groupId,
@@ -135,6 +133,7 @@ class BlockRepository extends AbstractRepository implements BlockRepositoryInter
             'owner_type' => $context->entityType(),
         ]);
         $this->memberRepository()->deleteGroupMember($context, $groupId, $userId, $deleteAllActivities);
+        app('events')->dispatch('user.user_blocked', [$group, $user]);
 
         return true;
     }

@@ -224,12 +224,87 @@ export function* deleteUserFriendRequest(action: ItemLocalAction) {
   }
 }
 
+export function* unfollowUser(action: ItemLocalAction) {
+  const {
+    payload: { identity }
+  } = action;
+
+  const item = yield* getItem(identity);
+  const { extra } = item;
+  const { apiClient, compactUrl } = yield* getGlobalContext();
+
+  if (!item) return null;
+
+  const config = yield* getItemActionConfig(item, 'unfollow');
+
+  const ok = yield* handleActionConfirm(config);
+
+  if (!ok) return;
+
+  try {
+    const response = yield apiClient.request({
+      method: config.apiMethod,
+      url: compactUrl(config.apiUrl, item)
+    });
+
+    yield* patchEntity(identity, {
+      is_following: false,
+      extra: {
+        ...extra,
+        can_follow: true
+      }
+    });
+    yield* handleActionFeedback(response);
+  } catch (error) {
+    yield* handleActionError(error);
+  }
+}
+
+export function* followUser(action: ItemLocalAction) {
+  const {
+    payload: { identity }
+  } = action;
+
+  const item = yield* getItem(identity);
+  const { extra } = item;
+  const { apiClient, compactUrl, compactData } = yield* getGlobalContext();
+
+  if (!item) return null;
+
+  const config = yield* getItemActionConfig(item, 'follow');
+
+  const ok = yield* handleActionConfirm(config);
+
+  if (!ok) return;
+
+  try {
+    const response = yield apiClient.request({
+      method: config.apiMethod,
+      url: compactUrl(config.apiUrl, item),
+      data: compactData(config.apiParams, { user_id: item.id })
+    });
+
+    yield* patchEntity(identity, {
+      is_following: true,
+      extra: {
+        ...extra,
+        can_follow: false
+      }
+    });
+    yield* handleActionFeedback(response);
+  } catch (error) {
+    yield* handleActionError(error);
+  }
+}
+
 const sagas = [
   takeEvery('user/addFriend', sendRequest),
   takeEvery('user/cancelRequest', cancelRequest),
   takeEvery('user/unFriend', unfriend),
   takeEvery('user/acceptFriendRequest', acceptUserFriendRequest),
-  takeEvery('user/denyFriendRequest', deleteUserFriendRequest)
+  takeEvery('user/denyFriendRequest', deleteUserFriendRequest),
+  takeEvery('user/unfollow', unfollowUser),
+  takeEvery('user/follow', followUser)
 ];
 
 export default sagas;

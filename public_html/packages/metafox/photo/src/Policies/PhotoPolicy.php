@@ -49,6 +49,12 @@ class PhotoPolicy implements
 
     public function view(User $user, Entity $resource): bool
     {
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('photo.moderate')) {
             return true;
         }
@@ -74,7 +80,7 @@ class PhotoPolicy implements
         }
 
         // Check setting view on resource.
-        if ($resource->isApproved()) {
+        if ($isApproved) {
             return true;
         }
 
@@ -91,8 +97,12 @@ class PhotoPolicy implements
         return $user->entityId() == $resource->userId();
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -288,10 +298,6 @@ class PhotoPolicy implements
     public function setParentCover(User $user, ?Resource $resource = null): bool
     {
         if ($resource instanceof Content) {
-            if (!$user->hasPermissionTo('photo.set_parent_cover')) {
-                return false;
-            }
-
             if (!$resource->isApproved()) {
                 return false;
             }
@@ -303,6 +309,10 @@ class PhotoPolicy implements
 
             if ($user->hasPermissionTo("{$owner->entityType()}.moderate")) {
                 return true;
+            }
+
+            if (!$user->hasPermissionTo("{$owner->entityType()}.upload_cover")) {
+                return false;
             }
 
             if ($resource->ownerId() != $owner->entityId()) {
@@ -407,7 +417,7 @@ class PhotoPolicy implements
         return $album->is_normal;
     }
 
-    public function uploadToAlbum(User $context, ?User $owner): bool
+    public function uploadToAlbum(User $context, ?User $owner, ?int $albumId = null): bool
     {
         if (null === $owner) {
             return false;
@@ -421,6 +431,15 @@ class PhotoPolicy implements
             return UserPrivacy::hasAccess($context, $owner, 'photo.share_photos');
         }
 
+        if ($albumId == null) {
+            return true;
+        }
+        $album = app('events')->dispatch('photo.album.get_by_id', [$albumId], true);
+
+        if ($album?->is_timeline) {
+            return true;
+        }
+
         if ($owner->entityId() == $context->entityId()) {
             return true;
         }
@@ -431,9 +450,6 @@ class PhotoPolicy implements
     public function setParentAvatar(User $user, ?Resource $resource = null): bool
     {
         if (!$resource instanceof Content) {
-            return false;
-        }
-        if (!$user->hasPermissionTo('photo.set_parent_cover')) {
             return false;
         }
 

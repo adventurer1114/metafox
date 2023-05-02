@@ -44,9 +44,11 @@ const LinkEmbedItemView = ({ identity }: Props) => {
     getItemSelector(state, identity)
   );
 
-  const { title, description, link, image, host } = item;
+  const { title, description, link, image, host, is_preview_hidden } = item;
   const classes = useStyles();
   const imgSrc = getImageSrc(image, '200');
+
+  if (is_preview_hidden) return null;
 
   return (
     <FeedEmbedCard variant="list" bottomSpacing="normal">

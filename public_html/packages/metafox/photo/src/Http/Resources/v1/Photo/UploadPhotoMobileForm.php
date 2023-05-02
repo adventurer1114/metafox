@@ -84,7 +84,7 @@ class UploadPhotoMobileForm extends AbstractForm
                 'files'                 => [],
                 'categories'            => [$defaultCategory],
                 'can_set_album_privacy' => $context->hasPermissionTo('photo_album.set_privacy'),
-                'new_album'             => ['privacy' => $privacyAlbum],
+                'new_album_privacy'     => $privacyAlbum,
             ]);
     }
 
@@ -111,16 +111,6 @@ class UploadPhotoMobileForm extends AbstractForm
         }
 
         $basic->addFields(
-            Builder::album('album')
-                ->multiple(false)
-                ->sizeLarge()
-                ->fullWidth()
-                ->showWhen(['falsy', 'add_new_album'])
-                ->label(__p('photo::phrase.photo_album'))
-                ->setOwner($this->owner)
-                ->setUser($context)
-                ->description(__p('photo::phrase.you_need_to_select_an_album', ['allowVideo' => 0]))
-                ->setRepository(AlbumRepositoryInterface::class),
             Builder::multiFile('files')
                 ->required()
                 ->isVideoUploadAllowed($isVideoAllowed)
@@ -138,6 +128,16 @@ class UploadPhotoMobileForm extends AbstractForm
                 ->yup(
                     $this->fileUploadValidator()
                 ),
+            Builder::album('album')
+                ->multiple(false)
+                ->sizeLarge()
+                ->fullWidth()
+                ->showWhen(['falsy', 'add_new_album'])
+                ->label(__p('photo::phrase.photo_album'))
+                ->setOwner($this->owner)
+                ->setUser($context)
+                ->description(__p('photo::phrase.you_need_to_select_an_album', ['allowVideo' => 0]))
+                ->setRepository(AlbumRepositoryInterface::class),
             Builder::button('add_new_album')
                 ->component('Button')
                 ->showWhen(['truthy', $this->canCreateAlbum($context)])
@@ -178,12 +178,16 @@ class UploadPhotoMobileForm extends AbstractForm
         );
 
         $albumInfo->addFields(
-            Builder::text('new_album.name')
+            Builder::text('new_album_name')
                 ->label(__p('photo::phrase.album_name'))
                 ->required()
                 ->showWhen(['truthy', 'add_new_album'])
                 ->yup(
                     Yup::string()
+                        ->when(Yup::when('add_new_album')
+                            ->is(1)
+                            ->then(Yup::string()
+                                ->required()))
                         ->minLength(
                             $minAlbumNameLength,
                             __p(
@@ -203,11 +207,11 @@ class UploadPhotoMobileForm extends AbstractForm
                             ])
                         )
                 ),
-            Builder::textArea('new_album.description')
+            Builder::textArea('new_album_description')
                 ->label(__p('photo::phrase.album_description'))
                 ->required(false)
                 ->showWhen(['truthy', 'add_new_album']),
-            Builder::privacy('new_album.privacy')
+            Builder::privacy('new_album_privacy')
                 ->label(__p('photo::phrase.album_privacy'))
                 ->fullWidth(false)
                 ->required()

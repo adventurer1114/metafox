@@ -27,7 +27,7 @@ export default function EditableFullName({ title, data, loaded }: Props) {
               dataSource={{ apiUrl: '/user/account/name-form' }}
               onCancel={() => setEdit(false)}
               onSuccess={() => setEdit(false)}
-              loadingComponent={<LoadingComponent />}
+              loadingComponent={LoadingComponent}
             />
           ) : (
             <div>

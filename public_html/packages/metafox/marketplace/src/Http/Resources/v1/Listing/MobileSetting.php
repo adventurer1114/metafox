@@ -9,6 +9,7 @@ namespace MetaFox\Marketplace\Http\Resources\v1\Listing;
 
 use MetaFox\Marketplace\Models\Listing;
 use MetaFox\Marketplace\Support\Browse\Scopes\Listing\ViewScope;
+use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Resource\MobileSetting as Setting;
 use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Platform\Support\Browse\Scopes\SortScope;
@@ -182,5 +183,39 @@ class MobileSetting extends Setting
         $this->add('reopenItem')
             ->apiUrl('marketplace/reopen/:id')
             ->asPatch();
+
+        $this->add('viewMap')
+            ->apiUrl('marketplace')
+            ->apiRules([
+                'q'         => ['truthy', 'q'],
+                'sort_type' => [
+                    'includes',
+                    'sort_type',
+                    [
+                        Browse::SORT_TYPE_DESC,
+                        Browse::SORT_TYPE_ASC,
+                    ],
+                ],
+                'when' => [
+                    'includes',
+                    'when',
+                    WhenScope::getAllowWhen(),
+                ],
+                'limit' => [
+                    'includes',
+                    'limit',
+                    [
+                        MetaFoxConstant::VIEW_5_NEAREST,
+                        MetaFoxConstant::VIEW_10_NEAREST,
+                        MetaFoxConstant::VIEW_15_NEAREST,
+                        MetaFoxConstant::VIEW_20_NEAREST,
+                    ],
+                ],
+                'bounds_west'  => ['truthy', 'bounds_west'],
+                'bounds_east'  => ['truthy', 'bounds_east'],
+                'bounds_south' => ['truthy', 'bounds_south'],
+                'bounds_north' => ['truthy', 'bounds_north'],
+                'zoom'         => ['truthy', 'zoom'],
+            ]);
     }
 }

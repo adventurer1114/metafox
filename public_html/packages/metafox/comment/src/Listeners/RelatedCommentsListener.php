@@ -11,14 +11,14 @@ use MetaFox\Platform\Contracts\User;
 class RelatedCommentsListener
 {
     /**
-     * @param  User  $context
-     * @param  mixed  $content
-     * @param  array  $extra
+     * @param  User|null    $context
+     * @param  mixed        $content
+     * @param  array        $extra
      * @return JsonResource
      */
-    public function handle(User $context, mixed $content, array $extra = []): JsonResource
+    public function handle(?User $context, mixed $content, array $extra = []): JsonResource
     {
-        if(!$content instanceof HasTotalComment){
+        if (!$content instanceof HasTotalComment || !$context) {
             return new JsonResource([]);
         }
 

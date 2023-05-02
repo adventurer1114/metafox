@@ -40,7 +40,6 @@ return [
         'label'    => 'page::phrase.invite_friends',
         'ordering' => 2,
         'value'    => 'page/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => [
@@ -53,7 +52,6 @@ return [
         'label'    => 'group::phrase.approve',
         'ordering' => 3,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -66,7 +64,6 @@ return [
         'label'    => 'page::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -79,7 +76,6 @@ return [
         'label'    => 'page::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -92,7 +88,6 @@ return [
         'label'    => 'page::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -105,7 +100,6 @@ return [
         'label'    => 'page::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -118,7 +112,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -131,7 +124,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -145,7 +137,6 @@ return [
         'label'     => 'page::phrase.delete',
         'ordering'  => 10,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -189,9 +180,8 @@ return [
         'menu'     => 'page.page.profileActionMenu',
         'name'     => 'message',
         'label'    => 'page::phrase.message',
-        'ordering' => 4,
+        'ordering' => 5,
         'value'    => 'comingSoon',
-        'icon'     => 'ico-comment-o',
     ],
     [
         'showWhen' => [
@@ -201,18 +191,16 @@ return [
         'menu'     => 'page.page.profileActionMenu',
         'name'     => 'claim',
         'label'    => 'page::phrase.claim_page',
-        'ordering' => 5,
+        'ordering' => 6,
         'value'    => 'page/claim',
-        'icon'     => 'ico-compose-alt',
     ],
     [
         'showWhen' => ['truthy', 'item.extra.can_edit'],
         'menu'     => 'page.page.profileActionMenu',
         'name'     => 'manage',
         'label'    => 'page::phrase.manage',
-        'ordering' => 6,
+        'ordering' => 7,
         'value'    => 'pages/manage',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -222,9 +210,8 @@ return [
         'menu'     => 'page.page.profileActionMenu',
         'name'     => 'invite',
         'label'    => 'page::phrase.invite_friends',
-        'ordering' => 7,
+        'ordering' => 8,
         'value'    => 'page/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'color'    => 'primary',
@@ -236,9 +223,8 @@ return [
         'menu'     => 'page.page.profileActionMenu',
         'name'     => 'feature',
         'label'    => 'core::phrase.feature',
-        'ordering' => 8,
+        'ordering' => 9,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'color'    => 'primary',
@@ -252,7 +238,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 9,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'color'    => 'primary',
@@ -271,7 +256,6 @@ return [
         'label'    => 'page::phrase.sponsor',
         'ordering' => 10,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'color'    => 'primary',
@@ -290,7 +274,6 @@ return [
         'label'    => 'page::phrase.un_sponsor',
         'ordering' => 11,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'color'    => 'primary',
@@ -308,7 +291,6 @@ return [
         'label'    => 'page::phrase.reassign_owner',
         'ordering' => 12,
         'value'    => 'page/reassignOwnerDialog',
-        'icon'     => 'ico-user2-next-o',
     ],
     [
         'showWhen' => [
@@ -316,12 +298,12 @@ return [
             ['truthy', 'item.extra.can_delete'],
         ],
         'className' => 'itemDelete',
+        'style'     => 'danger',
         'menu'      => 'page.page.profileActionMenu',
         'name'      => 'delete',
         'label'     => 'page::phrase.delete',
         'ordering'  => 15,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'active'   => true,
@@ -354,7 +336,6 @@ return [
         'label'    => 'page::phrase.message',
         'ordering' => 1,
         'value'    => 'comingSoon',
-        'icon'     => 'ico-comment-o',
     ],
     [
         'showWhen' => [],
@@ -363,7 +344,6 @@ return [
         'label'    => 'page::phrase.invite_friends',
         'ordering' => 2,
         'value'    => 'page/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'menu'     => 'page.page.sort_menu',
@@ -426,7 +406,6 @@ return [
         'label'    => 'page::phrase.remove_as_admin',
         'ordering' => 4,
         'value'    => 'page/removeAsAdmin',
-        'icon'     => 'ico-user2-down-o',
     ],
     [
         'showWhen' => [
@@ -440,7 +419,6 @@ return [
         'label'    => 'page::phrase.set_as_admin',
         'ordering' => 5,
         'value'    => 'page/setAsAdmin',
-        'icon'     => 'ico-businessman',
     ],
     [
         'showWhen' => [
@@ -454,7 +432,6 @@ return [
         'label'    => 'page::phrase.remove_admin_invite',
         'ordering' => 6,
         'value'    => 'page/removeAdminInvite',
-        'icon'     => 'ico-close-circle-o',
     ],
     [
         'showWhen' => [
@@ -467,7 +444,6 @@ return [
         'label'    => 'page::phrase.reassign_owner',
         'ordering' => 7,
         'value'    => 'page/reassignOwner',
-        'icon'     => 'ico-businessman',
     ],
     [
         'showWhen' => [
@@ -479,7 +455,6 @@ return [
         'label'    => 'page::phrase.block_from_page',
         'ordering' => 8,
         'value'    => 'page/blockFromPage',
-        'icon'     => 'ico-ban',
     ],
     [
         'showWhen' => [
@@ -492,7 +467,6 @@ return [
         'label'    => 'page::phrase.remove_member',
         'ordering' => 9,
         'value'    => 'page/removeMember',
-        'icon'     => 'ico-user1-del-o',
     ],
     [
         'tab'    => 'all',
@@ -505,7 +479,6 @@ return [
         'label'    => 'page::phrase.all_pages',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/pages/all',
     ],
     [
@@ -520,7 +493,6 @@ return [
         'label'    => 'page::phrase.my_pages',
         'ordering' => 2,
         'value'    => 'viewMyPages',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/pages/my',
     ],
     [
@@ -528,12 +500,15 @@ return [
             'module_name'   => 'page',
             'resource_name' => 'page',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'page.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'page::phrase.my_pending_pages',
         'ordering' => 3,
         'value'    => 'viewMyPendingPages',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'tab'      => 'friend',
@@ -547,7 +522,6 @@ return [
         'label'    => 'page::phrase.friends_pages',
         'ordering' => 4,
         'value'    => 'viewFriendPages',
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/pages/friend',
     ],
     [
@@ -562,7 +536,6 @@ return [
         'label'    => 'page::phrase.liked_pages',
         'ordering' => 5,
         'value'    => 'viewLikedPages',
-        'icon'     => 'ico-thumbup-o',
         'to'       => '/pages/liked',
     ],
     [
@@ -577,7 +550,6 @@ return [
         'label'    => 'page::phrase.page_invites',
         'ordering' => 6,
         'value'    => 'viewInvitedPages',
-        'icon'     => 'ico-envelope-o',
         'to'       => '/pages/invited',
     ],
     [
@@ -595,7 +567,6 @@ return [
         'label'    => 'page::phrase.pending_pages',
         'ordering' => 7,
         'value'    => 'viewPendingPages',
-        'icon'     => 'ico-clock-o',
         'to'       => '/pages/pending',
     ],
     [
@@ -640,7 +611,6 @@ return [
         'label'    => 'page::phrase.invite_friends',
         'ordering' => 2,
         'value'    => 'page/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => [
@@ -652,7 +622,6 @@ return [
         'label'    => 'page::phrase.claim_page',
         'ordering' => 3,
         'value'    => 'page/claim',
-        'icon'     => 'ico-compose-alt',
     ],
     [
         'showWhen' => [
@@ -665,7 +634,6 @@ return [
         'label'    => 'page::phrase.sponsor_in_feed',
         'ordering' => 4,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -678,7 +646,6 @@ return [
         'label'    => 'page::phrase.unsponsor_in_feed',
         'ordering' => 5,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -691,7 +658,6 @@ return [
         'label'    => 'page::phrase.sponsor_this_item',
         'ordering' => 6,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -704,7 +670,6 @@ return [
         'label'    => 'page::phrase.unsponsor_this_item',
         'ordering' => 7,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -717,7 +682,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 8,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -730,7 +694,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -744,7 +707,6 @@ return [
         'label'     => 'page::phrase.delete',
         'ordering'  => 10,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen'  => [],
@@ -757,5 +719,52 @@ return [
         'as'        => 'item',
         'icon'      => 'flag-waving',
         'iconColor' => '#ff891f',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_share'],
+        ],
+        'params' => [
+            'module_name'   => 'page',
+            'resource_name' => 'page',
+        ],
+        'menu'     => 'feed.itemShareActionsMenu',
+        'name'     => 'share_on_page',
+        'label'    => 'activity::phrase.share_on_page',
+        'ordering' => 4,
+        'value'    => 'shareOnPageProfile',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_pending', 0],
+            ['truthy', 'item.extra.can_pin_item'],
+            ['falsy', 'item.extra.can_review_feed'],
+            ['truthy', 'profile_id'],
+            ['or', ['eqeqeq', 'params._identity', '$.item.user'], ['eqeqeq', 'params._identity', '$.item.parent_user']],
+            ['eq', 'profile_type', 'page'],
+            ['noneOf', 'item.pins', '$.profile_id'],
+        ],
+        'menu'     => 'feed.feed.itemActionMenu',
+        'name'     => 'pinItemOnPage',
+        'label'    => 'page::phrase.pin_post_on_page',
+        'ordering' => 2,
+        'value'    => 'pinItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_pending', 0],
+            ['truthy', 'item.extra.can_pin_item'],
+            ['truthy', 'profile_id'],
+            ['or', ['eqeqeq', 'params._identity', '$.item.user'], ['eqeqeq', 'params._identity', '$.item.parent_user']],
+            ['eq', 'profile_type', 'page'],
+            ['oneOf', 'item.pins', '$.profile_id'],
+        ],
+        'menu'     => 'feed.feed.itemActionMenu',
+        'name'     => 'unpinItemOnPage',
+        'label'    => 'activity::phrase.unpin_post',
+        'ordering' => 3, 'value' => 'unpinItem',
     ],
 ];

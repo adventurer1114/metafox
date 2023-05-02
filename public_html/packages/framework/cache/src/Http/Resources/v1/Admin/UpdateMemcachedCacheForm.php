@@ -2,10 +2,14 @@
 
 namespace MetaFox\Cache\Http\Resources\v1\Admin;
 
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use MetaFox\Form\AbstractForm as Form;
 use MetaFox\Form\Builder;
 use MetaFox\Yup\Yup;
+use Nette\Schema\ValidationException;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -14,8 +18,6 @@ use Psr\SimpleCache\InvalidArgumentException;
  */
 class UpdateMemcachedCacheForm extends Form
 {
-    use TraitValidateCacheConfiguration;
-
     protected function prepare(): void
     {
         $res    = $this->resource ?? [];
@@ -83,5 +85,25 @@ class UpdateMemcachedCacheForm extends Form
         $this->validateCacheConfiguration($data);
 
         return $data;
+    }
+
+    /**
+     * @param  array                                        $config
+     * @return void
+     * @throws InvalidArgumentException|ValidationException
+     */
+    public function validateCacheConfiguration(array $config): void
+    {
+        try {
+            config()->set(['cache.stores.memcached' => $config]);
+            $store = Cache::store('memcached');
+
+            $key   = __METHOD__;
+            $value = Carbon::now();
+            $store->set($key, $value);
+            $store->get($key);
+        } catch (Exception) {
+            throw new \InvalidArgumentException('Could not save item to cache store');
+        }
     }
 }

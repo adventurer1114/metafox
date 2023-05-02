@@ -11,8 +11,11 @@ use MetaFox\Platform\Contracts\User;
 
 class UserDeletedListener
 {
-    public function handle(User $user): void
+    public function handle(?User $user): void
     {
+        if (!$user) {
+            return;
+        }
         $this->deleteFriends($user);
 
         $this->deleteFriendLists($user);
@@ -24,39 +27,66 @@ class UserDeletedListener
         $this->deleteBlockedFriendTags($user);
 
         $this->deleteIgnoredSuggestions($user);
+
+        $this->deleteFriendListsData($user);
     }
 
     protected function deleteIgnoredSuggestions(User $user): void
     {
-        resolve(FriendRepositoryInterface::class)->deleteUserSuggestionIgnoreData($user->entityId());
+        /** @var FriendRepositoryInterface $repository */
+        $repository = resolve(FriendRepositoryInterface::class);
+        $repository->deleteUserSuggestionIgnoreData($user->entityId());
     }
 
     protected function deleteBlockedFriendTags(User $user): void
     {
-        resolve(FriendTagBlockedRepositoryInterface::class)->deleteUserData($user->entityId());
+        /** @var FriendTagBlockedRepositoryInterface $repository */
+        $repository = resolve(FriendTagBlockedRepositoryInterface::class);
+
+        $repository->deleteUserData($user);
     }
 
     protected function deleteFriendTags(User $user): void
     {
-        resolve(TagFriendRepositoryInterface::class)->deleteUserData($user->entityId());
+        /** @var TagFriendRepositoryInterface $repository */
+        $repository = resolve(TagFriendRepositoryInterface::class);
+
+        $repository->deleteUserData($user);
+        $repository->deleteOwnerData($user);
     }
 
     protected function deleteFriendRequests(User $user): void
     {
+        /** @var FriendRequestRepositoryInterface $repository */
         $repository = resolve(FriendRequestRepositoryInterface::class);
 
-        $repository->deleteUserData($user->entityId());
+        $repository->deleteUserData($user);
 
-        $repository->deleteOwnerData($user->entityId());
+        $repository->deleteOwnerData($user);
     }
 
     protected function deleteFriendLists(User $user): void
     {
-        resolve(FriendListRepositoryInterface::class)->deleteUserData($user->entityId());
+        /** @var FriendListRepositoryInterface $repository */
+        $repository = resolve(FriendListRepositoryInterface::class);
+
+        $repository->deleteUserData($user);
+    }
+
+    protected function deleteFriendListsData(User $user): void
+    {
+        /** @var FriendListRepositoryInterface $repository */
+        $repository = resolve(FriendListRepositoryInterface::class);
+
+        $repository->deleteUserForListData($user);
     }
 
     protected function deleteFriends(User $user): void
     {
-        resolve(FriendRepositoryInterface::class)->deleteUserData($user->entityId());
+        /** @var FriendRepositoryInterface $repository */
+        $repository = resolve(FriendRepositoryInterface::class);
+
+        $repository->deleteUserData($user);
+        $repository->deleteOwnerData($user);
     }
 }

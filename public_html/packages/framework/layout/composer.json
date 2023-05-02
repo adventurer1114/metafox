@@ -1,6 +1,6 @@
 {
     "name": "metafox/layout",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Theme",
     "keyword": "phpFox, framework, layout, metafox",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@framework/layout": "5.0.1"
+                "@framework/layout": "*"
             },
             "internalUrl": "",
             "internalAdminUrl": "/admincp/layout/theme/browse"

@@ -14,6 +14,7 @@ use MetaFox\Core\Traits\CollectTotalItemStatTrait;
 use MetaFox\Group\Models\Group;
 use MetaFox\Group\Models\GroupInviteCode;
 use MetaFox\Group\Models\Invite;
+use MetaFox\Group\Policies\CategoryPolicy;
 use MetaFox\Group\Policies\GroupPolicy;
 use MetaFox\Group\Repositories\CategoryRepositoryInterface;
 use MetaFox\Group\Repositories\GroupChangePrivacyRepositoryInterface;
@@ -87,14 +88,6 @@ class GroupRepository extends AbstractRepository implements GroupRepositoryInter
     }
 
     /**
-     * @return CategoryRepositoryInterface
-     */
-    private function categoryRepository(): CategoryRepositoryInterface
-    {
-        return resolve(CategoryRepositoryInterface::class);
-    }
-
-    /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -121,7 +114,7 @@ class GroupRepository extends AbstractRepository implements GroupRepositoryInter
                     break;
                 }
 
-                if (!$context->hasPermissionTo('group.approve')) {
+                if ($context->isGuest() || !$context->hasPermissionTo('group.approve')) {
                     throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
                 }
 
@@ -130,6 +123,13 @@ class GroupRepository extends AbstractRepository implements GroupRepositoryInter
 
         if ($context->entityId() && $profileId == $context->entityId() && $view != Browse::VIEW_PENDING) {
             $attributes['view'] = $view = Browse::VIEW_MY;
+        }
+        $categoryId = Arr::get($attributes, 'category_id', 0);
+
+        if ($categoryId > 0) {
+            $category = resolve(CategoryRepositoryInterface::class)->find($categoryId);
+
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
         }
 
         $sortScope = new SortScope();

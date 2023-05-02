@@ -72,13 +72,7 @@ class BlogRepository extends AbstractRepository implements BlogRepositoryInterfa
 
         $attributes['title'] = $this->cleanTitle($attributes['title']);
 
-        if ($attributes['temp_file'] > 0) {
-            $tempFile                    = upload()->getFile($attributes['temp_file']);
-            $attributes['image_file_id'] = $tempFile->id;
-
-            // Delete temp file after done
-            upload()->rollUp($attributes['temp_file']);
-        }
+        $attributes['image_file_id'] = upload()->getFileId($attributes['temp_file'], true);
 
         //only apply auto approve when $context == $owner
         if ($context->entityId() == $owner->entityId()) {
@@ -95,9 +89,8 @@ class BlogRepository extends AbstractRepository implements BlogRepositoryInterfa
 
         $blog->save();
 
-        if (!empty($attributes['attachments'])) {
-            resolve(AttachmentRepositoryInterface::class)->updateItemId($attributes['attachments'], $blog);
-        }
+        resolve(AttachmentRepositoryInterface::class)
+            ->updateItemId($attributes['attachments'], $blog);
 
         $blog->refresh();
 
@@ -128,11 +121,7 @@ class BlogRepository extends AbstractRepository implements BlogRepositoryInterfa
         }
 
         if ($attributes['temp_file'] > 0) {
-            $tempFile                    = upload()->getFile($attributes['temp_file']);
-            $attributes['image_file_id'] = $tempFile->id;
-
-            // Delete temp file after done
-            upload()->rollUp($attributes['temp_file']);
+            $attributes['image_file_id'] = upload()->getFileId($attributes['temp_file'], true);
         }
 
         $blog->fill($attributes);
@@ -143,9 +132,8 @@ class BlogRepository extends AbstractRepository implements BlogRepositoryInterfa
 
         $blog->save();
 
-        if (isset($attributes['attachments'])) {
-            resolve(AttachmentRepositoryInterface::class)->updateItemId($attributes['attachments'], $blog);
-        }
+        resolve(AttachmentRepositoryInterface::class)
+            ->updateItemId($attributes['attachments'] ?? null, $blog);
 
         $blog->refresh();
 
@@ -190,7 +178,7 @@ class BlogRepository extends AbstractRepository implements BlogRepositoryInterfa
 
         if (Browse::VIEW_PENDING == $view) {
             if (Arr::get($attributes, 'user_id') == 0) {
-                if (!$context->hasPermissionTo('blog.approve')) {
+                if ($context->isGuest() || !$context->hasPermissionTo('blog.approve')) {
                     throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
                 }
             }
@@ -201,7 +189,7 @@ class BlogRepository extends AbstractRepository implements BlogRepositoryInterfa
         if ($categoryId > 0) {
             $category = resolve(CategoryRepositoryInterface::class)->find($categoryId);
 
-            policy_authorize(CategoryPolicy::class, 'viewActive', $category);
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
         }
 
         $query = $this->buildQueryViewBlogs($context, $owner, $attributes);

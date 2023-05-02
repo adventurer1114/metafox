@@ -61,7 +61,7 @@ class ReactionRepository extends AbstractRepository implements ReactionRepositor
         ]);
 
         /** @var Reaction $reaction */
-        $reaction = parent::create($attributes);
+        $reaction = $this->create($attributes);
         $reaction->refresh();
 
         return $reaction;

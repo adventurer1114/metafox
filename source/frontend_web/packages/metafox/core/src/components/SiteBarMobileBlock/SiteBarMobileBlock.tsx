@@ -76,6 +76,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
   const anchorRef = React.useRef<HTMLDivElement>();
   const theme = useTheme();
   const setting: any = getSetting();
+  const menuRef = React.useRef();
 
   const TabMenu = filterShowWhen(TabMenuData, {
     setting
@@ -86,7 +87,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
       ? assetUrl('layout.image_logo_dark')
       : assetUrl('layout.image_logo');
 
-  const { appName = 'feed', soft = null } = usePageParams();
+  const { appName = 'feed' } = usePageParams();
 
   const handleClick = () => {
     setOpen(prev => !prev);
@@ -154,7 +155,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
     <Block>
       <BlockContent>
         <div className={classes.blockHeader}>
-          <div className={classes.menuWrapper}>
+          <div className={classes.menuWrapper} ref={menuRef}>
             {TabMenu.map((item, index) =>
               item.style !== 'search' ? (
                 <Link
@@ -163,7 +164,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
                   to={item.to}
                   className={clsx(
                     classes.menuButton,
-                    appName === item.appName && !soft && classes.active
+                    appName === item.appName && !open && classes.active
                   )}
                   underline="none"
                 >
@@ -180,7 +181,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
                     to={item.to}
                     className={clsx(
                       classes.menuButton,
-                      appName === item.appName && !soft && classes.active
+                      appName === item.appName && !open && classes.active
                     )}
                     underline="none"
                     onClick={toggleOpen}
@@ -194,6 +195,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
                     <div className={clsx(classes.searchMobile)}>
                       <AppBarSearch
                         openSearch={openSearch}
+                        menuRef={menuRef}
                         closeSearch={() => setOpenSearch(false)}
                       />
                       <Link
@@ -210,7 +212,7 @@ function BaseBlock({ blockProps }: BlockViewProps) {
             <Link
               role="button"
               ref={anchorRef}
-              className={clsx(classes.menuButton, soft && classes.active)}
+              className={clsx(classes.menuButton, open && classes.active)}
               onClick={handleClick}
               underline="none"
             >
@@ -258,7 +260,11 @@ function BaseBlock({ blockProps }: BlockViewProps) {
               </div>
             </div>
             <div className={classes.menuApp}>
-              <SideAppMenuBlock appName="core" menuName="primaryMenu" />
+              <SideAppMenuBlock
+                appName="core"
+                menuName="primaryMenu"
+                displayViewMore={false}
+              />
             </div>
           </div>
         </Popover>

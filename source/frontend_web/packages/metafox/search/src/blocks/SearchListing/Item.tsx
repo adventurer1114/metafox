@@ -2,6 +2,7 @@ import {
   MenuShape,
   useAppMenu,
   useGlobal,
+  useIsMobile,
   useLocation,
   useResourceAction
 } from '@metafox/framework';
@@ -10,13 +11,26 @@ import * as React from 'react';
 import { APP_SEARCH } from '@metafox/search';
 import { compactData } from '@metafox/utils';
 import { upperFirst, omit } from 'lodash';
-import { Button, Box, styled } from '@mui/material';
+import { Button, Box, styled, Typography } from '@mui/material';
 import qs from 'query-string';
 
+const mapingItemLayout = {
+  music: 'Music - Main Card',
+  music_song: 'Music - Main Card',
+  music_album: 'Music - Main Card',
+  music_playlist: 'Music - Main Card'
+};
+
 const SearchItemStyled = styled(Box, { name: 'SearchItem' })(({ theme }) => ({
-  paddingTop: 2,
-  paddingBottom: 1,
-  width: '600px'
+  paddingTop: theme.spacing(2),
+  paddingBottom: theme.spacing(1),
+  [theme.breakpoints.up('sm')]: {
+    width: '600px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
+  }
 }));
 
 const APP_FEED = 'feed';
@@ -31,6 +45,7 @@ export default function SearchItem({
   const pageParams = usePageParams();
   const { ListView, navigate, i18n } = useGlobal();
   const { appName, resourceName, is_hashtag } = pageParams;
+  const isMobile = useIsMobile();
 
   const menu: MenuShape = useAppMenu(APP_SEARCH, 'webCategoryMenu');
 
@@ -72,11 +87,21 @@ export default function SearchItem({
     <SearchItemStyled>
       <Block>
         <BlockContent>
+          {view !== 'all' && (
+            <Typography variant="h4" sx={{ pb: 2 }}>
+              {label}
+            </Typography>
+          )}
           <ListView
             testid="searchListing"
             blockLayout="Search Main Lists"
             gridLayout="Search - Main Card"
-            itemLayout={`${upperFirst(item_type)} - Main Card`}
+            itemLayout={
+              (mapingItemLayout[item_type] && isMobile
+                ? `${mapingItemLayout[item_type]} - Mobile`
+                : mapingItemLayout[item_type]) ||
+              `${upperFirst(item_type)} - Main Card`
+            }
             itemView={`${item_type}.itemView.mainCard`}
             dataSource={{
               apiUrl: dataSource.apiUrl,
@@ -85,18 +110,7 @@ export default function SearchItem({
                 ...itemParam
               })
             }}
-            blockProps={{
-              titleStyle: {
-                component: 'h4',
-                sx: {
-                  typography: 'h4',
-                  marginBottom: '16px',
-                  marginTop: '16px'
-                }
-              }
-            }}
             canLoadMore={item_type === APP_FEED || !!item}
-            title={view !== 'all' && label}
           />
           {item && item_type !== 'feed' && (
             <Button variant="link" onClick={handleViewAll}>

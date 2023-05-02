@@ -54,7 +54,9 @@ class AttachmentSettingForm extends Form
                     ->yup(Yup::number()->unint()->required()),
                 Builder::text('core.attachment.maximum_file_size_each_attachment_can_be_uploaded')
                     ->label(__p('core::phrase.maximum_file_size_each_attachment_can_be_uploaded'))
-                    ->yup(Yup::number()->unint())
+                    ->description(__p('core::phrase.maximum_file_size_each_attachment_can_be_uploaded_desc'))
+                    ->required()
+                    ->yup(Yup::number()->required()->unint())
             );
 
         $this->addFooter()

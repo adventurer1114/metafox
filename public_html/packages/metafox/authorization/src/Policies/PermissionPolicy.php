@@ -21,30 +21,22 @@ class PermissionPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User|Model $user
+     * @param  User $user
      * @return bool
      */
     public function viewAny(User $user): bool
     {
-        if (!$user->hasPermissionTo('user_permission.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_permission.manage');
     }
 
     /**
      * Determine whether the user can view a model.
      *
-     * @param  User|Model $user
+     * @param  User $user
      * @return bool
      */
     public function view(User $user): bool
     {
-        if (!$user->hasPermissionTo('user_permission.manage')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('user_permission.manage');
     }
 }

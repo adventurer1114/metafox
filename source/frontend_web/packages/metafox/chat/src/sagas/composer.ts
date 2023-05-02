@@ -6,6 +6,7 @@
 import {
   BasicFileItem,
   getGlobalContext,
+  getItem,
   handleActionError,
   LocalAction
 } from '@metafox/framework';
@@ -83,7 +84,25 @@ function* handleSubmit(
       : String(text).replace(/@\[.+\]\((here|all)\)/g, '@$1');
     const reply_id = reactMode === 'reply' ? msgId : undefined;
 
+    const msgReply = yield* getItem(`chat.entities.message.${reply_id}`);
+    const msgReplyUser = yield* getItem(msgReply?.user);
+
     if (action?.meta?.onSuccess) yield action?.meta?.onSuccess();
+
+    const idNewMsg = uniqueId('chatNew');
+
+    const newMessage = {
+      text,
+      room_id: rid,
+      isLoading: true,
+      idNewMsg,
+      dataQuote: reply_id ? { ...msgReply, user: msgReplyUser } : undefined
+    };
+
+    yield put({
+      type: 'chat/chatroom/preFetchingMsg',
+      payload: { rid, message: newMessage }
+    });
 
     const result = yield apiClient.request({
       method: reactMode === 'edit' ? 'PUT' : 'POST',
@@ -92,6 +111,18 @@ function* handleSubmit(
     });
 
     if (!result) return false;
+
+    const data = result.data.data;
+
+    yield put({
+      type: 'chat/chatroom/preFetchingMsg',
+      payload: { rid, message: { ...newMessage, isLoading: false } }
+    });
+
+    yield put({
+      type: 'chat/addMessage',
+      payload: { ...data }
+    });
 
     return true;
   } catch (error: any) {

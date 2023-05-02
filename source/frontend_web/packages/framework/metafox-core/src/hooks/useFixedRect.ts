@@ -6,10 +6,7 @@ interface FixedRectValue {
   style: React.CSSProperties;
 }
 
-export default function useFixedRect(
-  outerRef: React.RefObject<HTMLElement>,
-  rid?: string
-) {
+export default function useFixedRect(outerRef: React.RefObject<HTMLElement>) {
   const [state, setState] = React.useState<FixedRectValue>({
     width: 0,
     top: 0,
@@ -35,7 +32,7 @@ export default function useFixedRect(
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outerRef?.current, rid]);
+  }, [outerRef]);
 
   return state;
 }

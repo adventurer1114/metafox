@@ -8,8 +8,11 @@ use MetaFox\Platform\Contracts\User;
 
 class UserDeletedListener
 {
-    public function handle(User $user): void
+    public function handle(?User $user): void
     {
+        if (!$user) {
+            return;
+        }
         $this->deleteShares($user);
 
         $this->deletePosts($user);

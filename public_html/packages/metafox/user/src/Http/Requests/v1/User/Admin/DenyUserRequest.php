@@ -3,8 +3,6 @@
 namespace MetaFox\User\Http\Requests\v1\User\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use MetaFox\Platform\MetaFoxConstant;
-use MetaFox\Platform\Rules\AllowInRule;
 
 /**
  * --------------------------------------------------------------------------
@@ -29,18 +27,9 @@ class DenyUserRequest extends FormRequest
      */
     public function rules()
     {
-        $requiredIf = 'required_if:approve_status,' . MetaFoxConstant::STATUS_NOT_APPROVED;
-
         return [
-            'approve_status' => [
-                'sometimes', 'string', new AllowInRule([
-                    MetaFoxConstant::STATUS_APPROVED,
-                    MetaFoxConstant::STATUS_PENDING_APPROVAL,
-                    MetaFoxConstant::STATUS_NOT_APPROVED,
-                ]),
-            ],
-            'subject' => [$requiredIf, 'nullable', 'string'],
-            'message' => [$requiredIf, 'nullable', 'string'],
+            'subject' => ['required', 'nullable', 'string'],
+            'message' => ['required', 'nullable', 'string'],
         ];
     }
 }

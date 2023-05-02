@@ -21,12 +21,7 @@ const BlockHeader = styled(Box, {
   display: 'flex',
   flexDirection: 'row',
   boxSizing: 'border-box',
-  alignItems: 'center',
-  // todo: need padding because mobile is sticky with left screen.
-  [theme.breakpoints.down('md')]: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
-  }
+  alignItems: 'center'
 }));
 
 export type Props = {

@@ -39,5 +39,9 @@ class MobileSetting extends Setting
                 'q'     => ':q',
                 'limit' => 10,
             ]);
+
+        $this->add('hashtagTrending')
+            ->apiUrl('search/hashtag/trending')
+            ->asGet();
     }
 }

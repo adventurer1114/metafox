@@ -11,6 +11,7 @@ use MetaFox\Importer\Models\Bundle;
 use MetaFox\Importer\Repositories\BundleRepositoryInterface;
 use MetaFox\Importer\Support\Browse\Scopes\Bundle\StatusScope;
 use MetaFox\Importer\Supports\Status;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
 
@@ -58,7 +59,7 @@ class BundleRepository extends AbstractRepository implements BundleRepositoryInt
         return $query;
     }
 
-    public function importScheduleArchive(string $archiveFileName): void
+    public function importScheduleArchive(string $archiveFileName, string $chatType = 'chat'): void
     {
         $disk = Storage::disk('local');
         $zip  = new \ZipArchive();
@@ -101,6 +102,7 @@ class BundleRepository extends AbstractRepository implements BundleRepositoryInt
         $jsonFile = substr($jsonFile, strlen(base_path()) + 1);
 
         $this->importScheduleJson($jsonFile);
+        $this->selectChatApp($chatType);
         $this->addLockFile();
     }
 
@@ -251,7 +253,7 @@ class BundleRepository extends AbstractRepository implements BundleRepositoryInt
     {
         $lockFile = storage_path('framework/importing.lock');
         if (file_exists($lockFile)) {
-            unlink($lockFile);
+            @unlink($lockFile);
         }
     }
 
@@ -260,5 +262,15 @@ class BundleRepository extends AbstractRepository implements BundleRepositoryInt
         $lockFile = storage_path('framework/importing.lock');
 
         return file_exists($lockFile);
+    }
+
+    public function selectChatApp(string $chatType): void
+    {
+        if (!in_array($chatType, ['chat', 'chatplus'])) {
+            return;
+        }
+        Settings::createSetting('importer', 'importer.importer_selected_chat_app', null, null, $chatType, 'string', false, true);
+        Settings::refresh();
+        localCacheStore()->clear();
     }
 }

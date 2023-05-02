@@ -12,7 +12,7 @@ return [
         'ordering'    => 5,
         'as'          => 'post.video',
         'value'       => 'video',
-        'icon'        => 'videocam',
+        'icon'        => 'video-player-o',
         'to'          => '3',
     ],
     [
@@ -25,8 +25,23 @@ return [
         'ordering'    => 5,
         'as'          => 'post.video',
         'value'       => 'video',
-        'icon'        => 'videocam',
+        'icon'        => 'video-player-o',
         'to'          => '3',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'description' => 'Say something about this video...',
@@ -38,7 +53,7 @@ return [
         'ordering'    => 5,
         'as'          => 'post.video',
         'value'       => 'video',
-        'icon'        => 'videocam',
+        'icon'        => 'video-player-o',
         'to'          => '3',
     ],
     [
@@ -51,8 +66,23 @@ return [
         'ordering'    => 5,
         'as'          => 'post.video',
         'value'       => 'video',
-        'icon'        => 'videocam',
+        'icon'        => 'video-player-o',
         'to'          => '3',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'tab'      => 'video',
@@ -72,7 +102,7 @@ return [
         'ordering'    => 5,
         'as'          => 'post.video',
         'value'       => 'video',
-        'icon'        => 'videocam',
+        'icon'        => 'video-player-o',
         'to'          => '3',
     ],
     [
@@ -97,7 +127,6 @@ return [
         'label'    => 'video::phrase.all_videos',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
     ],
     [
         'showWhen' => [],
@@ -110,19 +139,21 @@ return [
         'label'    => 'video::phrase.my_videos',
         'ordering' => 2,
         'value'    => 'viewMyVideos',
-        'icon'     => 'ico-user-man-o',
     ],
     [
         'params' => [
             'module_name'   => 'video',
             'resource_name' => 'video',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'video.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'video::phrase.my_pending_videos',
         'ordering' => 3,
         'value'    => 'viewMyPendingVideos',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'showWhen' => [
@@ -138,7 +169,6 @@ return [
         'label'    => 'video::phrase.pending_videos',
         'ordering' => 3,
         'value'    => 'viewPendingVideos',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'params' => [
@@ -150,7 +180,6 @@ return [
         'label'    => 'video::phrase.friend_s_videos',
         'ordering' => 4,
         'value'    => 'viewFriendVideos',
-        'icon'     => 'ico-user1-two-o',
     ],
     [
         'menu'     => 'video.video.filter_menu',
@@ -190,7 +219,6 @@ return [
         'label'    => 'video::phrase.edit_video',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -203,7 +231,6 @@ return [
         'label'    => 'video::phrase.approve',
         'ordering' => 1,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -217,7 +244,6 @@ return [
         'label'    => 'video::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -230,7 +256,6 @@ return [
         'label'    => 'video::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -244,7 +269,6 @@ return [
         'label'    => 'video::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -257,7 +281,6 @@ return [
         'label'    => 'video::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -272,7 +295,6 @@ return [
         'label'     => 'core::phrase.feature',
         'ordering'  => 7,
         'value'     => 'featureItem',
-        'icon'      => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -286,7 +308,6 @@ return [
         'label'     => 'core::phrase.un_feature',
         'ordering'  => 8,
         'value'     => 'unfeatureItem',
-        'icon'      => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -300,7 +321,6 @@ return [
         'label'     => 'video::phrase.delete',
         'ordering'  => 11,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'menu'     => 'video.video.sort_menu',
@@ -391,7 +411,6 @@ return [
         'label'    => 'video::phrase.edit_video',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -404,7 +423,6 @@ return [
         'label'    => 'video::phrase.approve',
         'ordering' => 1,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -418,7 +436,6 @@ return [
         'label'    => 'video::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -431,7 +448,6 @@ return [
         'label'    => 'video::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -445,7 +461,6 @@ return [
         'label'    => 'video::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -458,7 +473,6 @@ return [
         'label'    => 'video::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -473,7 +487,6 @@ return [
         'label'     => 'core::phrase.feature',
         'ordering'  => 7,
         'value'     => 'featureItem',
-        'icon'      => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -487,7 +500,6 @@ return [
         'label'     => 'core::phrase.un_feature',
         'ordering'  => 8,
         'value'     => 'unfeatureItem',
-        'icon'      => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -501,7 +513,6 @@ return [
         'label'     => 'video::phrase.delete',
         'ordering'  => 11,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'showWhen'  => [],
@@ -512,7 +523,7 @@ return [
         'value'     => '',
         'to'        => '/video',
         'as'        => 'item',
-        'icon'      => 'videocam',
-        'iconColor' => '#ff564a',
+        'icon'      => 'video-player-o',
+        'iconColor' => '#ffac00',
     ],
 ];

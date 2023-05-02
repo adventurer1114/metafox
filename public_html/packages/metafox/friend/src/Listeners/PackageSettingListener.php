@@ -128,6 +128,9 @@ class PackageSettingListener extends BasePackageSettingListener
             'friend.friend_list.create' => [
                 CreateFriendListListener::class,
             ],
+            'friend.get_eloquent_builder' => [
+                GetEloquentBuilderListener::class,
+            ],
         ];
     }
 
@@ -295,6 +298,23 @@ class PackageSettingListener extends BasePackageSettingListener
                     'package_id'         => 'metafox/friend',
                     'description_phrase' => 'friend::activitypoint.setting_added_new_friend_description',
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/friend',
+                'name' => 'friend::phrase.ad_mob_friend_home_page',
+            ],
+            [
+                'path' => '/friend/friend_list/:id',
+                'name' => 'friend::phrase.ad_mob_friend_list_detail_page',
             ],
         ];
     }

@@ -154,6 +154,7 @@ export function* viewMoreReplies(action: ViewMoreCommentAction) {
   const excludesComment = item.excludesComment ?? [];
 
   const last_id =
+    children &&
     children[children.length - 1] &&
     typeof children[children.length - 1] === 'string'
       ? children[children.length - 1].split('.')[3]

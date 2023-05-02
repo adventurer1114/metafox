@@ -247,6 +247,11 @@ export type AppState = {
     error: string;
     loaded: boolean;
   };
+  smsNotificationSettings: {
+    data: EmailNotificationSettingItem[];
+    error: string;
+    loaded: boolean;
+  };
   notificationSettings: {
     data: EmailNotificationSettingItem[];
     error: string;

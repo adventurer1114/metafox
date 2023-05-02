@@ -10,8 +10,9 @@
           "itemView": "event.itemView.mainCard",
           "contentType": "event",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Event - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -98,8 +99,9 @@
           "itemView": "event.itemView.mainCard",
           "contentType": "event",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Event - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {

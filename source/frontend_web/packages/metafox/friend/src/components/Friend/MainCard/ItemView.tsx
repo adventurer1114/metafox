@@ -2,6 +2,7 @@ import { Link, useGlobal } from '@metafox/framework';
 import { FriendItemProps } from '@metafox/friend/types';
 import {
   ButtonList,
+  FeaturedFlag,
   FormatDate,
   ItemMedia,
   ItemSummary,
@@ -12,7 +13,7 @@ import {
   Statistic,
   UserAvatar
 } from '@metafox/ui';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
 
 export default function FriendItem({
@@ -25,8 +26,10 @@ export default function FriendItem({
   wrapProps,
   actions
 }: FriendItemProps) {
-  const { ItemActionMenu, dispatch, useSession, i18n } = useGlobal();
+  const { ItemActionMenu, dispatch, useSession, i18n, useIsMobile } =
+    useGlobal();
   const { user: authUser } = useSession();
+  const isMobile = useIsMobile();
 
   if (!item) return null;
 
@@ -38,7 +41,8 @@ export default function FriendItem({
     dispatch({
       type: 'chat/room/openChatRoom',
       payload: {
-        identity: item._identity
+        identity: item._identity,
+        isMobile
       }
     });
   };
@@ -46,15 +50,17 @@ export default function FriendItem({
   const actionButton = !isAuthUser ? (
     <ButtonList>
       {can_message ? (
-        <IconButton
-          aria-label="message"
-          size="medium"
-          color="primary"
-          variant="outlined-square"
-          onClick={handleOpenChatRoom}
-        >
-          <LineIcon icon={'ico-comment-o'} />
-        </IconButton>
+        <Tooltip title={i18n.formatMessage({ id: 'message' })}>
+          <IconButton
+            aria-label="message"
+            size="medium"
+            color="primary"
+            variant="outlined-square"
+            onClick={handleOpenChatRoom}
+          >
+            <LineIcon icon={'ico-comment-o'} />
+          </IconButton>
+        </Tooltip>
       ) : null}
       <ItemActionMenu
         identity={identity}
@@ -64,6 +70,7 @@ export default function FriendItem({
         color="primary"
         variant="outlined-square"
         icon={'ico-dottedmore-o'}
+        tooltipTitle={i18n.formatMessage({ id: 'more_options' })}
       />
     </ButtonList>
   ) : null;
@@ -80,13 +87,16 @@ export default function FriendItem({
       </ItemMedia>
       <ItemText>
         <ItemTitle>
-          <Link
-            to={to}
-            asChildPage
-            hoverCard={`/user/${item.id}`}
-            children={item.full_name}
-            color={'inherit'}
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', maxWidth: '100%' }}>
+            <FeaturedFlag variant="itemView" value={item.is_featured} />
+            <Link
+              to={to}
+              asChildPage
+              hoverCard={`/user/${item.id}`}
+              children={item.full_name}
+              color={'inherit'}
+            />
+          </Box>
         </ItemTitle>
         {!isAuthUser && statistic.total_mutual > 0 ? (
           <ItemSummary role="button" onClick={actions.showMutualFriends}>

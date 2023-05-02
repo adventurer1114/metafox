@@ -66,7 +66,7 @@ const useStyles = makeStyles(
       itemInner: {
         flex: 1,
         minWidth: 0,
-        padding: theme.spacing(2, 3),
+        padding: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column'
       },

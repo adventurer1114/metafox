@@ -42,7 +42,7 @@ class AdjustPointsNotification extends Notification
             ->locale($this->getLocale())
             ->subject($emailLine)
             ->line($emailLine)
-            ->action($this->localize('core::phrase.review_now'), $url);
+            ->action($this->localize('core::phrase.view_now'), $url);
     }
 
     /**

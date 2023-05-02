@@ -4,12 +4,13 @@ import { Block, BlockContent, BlockHeader } from '@metafox/layout';
 import { UserAvatar } from '@metafox/ui';
 import { UserItemShape } from '@metafox/user';
 import { filterShowWhen } from '@metafox/utils';
-import { Box, styled } from '@mui/material';
+import { Box, styled, useMediaQuery, useTheme } from '@mui/material';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import composerConfig from '../../composerConfig';
 import useStatusComposer from '../../hooks/useStatusComposer';
 import Control from './Control';
+import HtmlViewer from '@metafox/html-viewer';
 
 export interface Props extends BlockViewProps {
   variant: 'default' | 'expanded';
@@ -26,6 +27,7 @@ const ComposerWrapper = styled('div', { name: 'ComposerWrapper' })(
   ({ theme }) => ({
     display: 'flex',
     width: '100%',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       display: 'block',
       width: '100%'
@@ -34,6 +36,7 @@ const ComposerWrapper = styled('div', { name: 'ComposerWrapper' })(
 );
 
 const ComposerInput = styled('div', { name: 'ComposerInput' })(({ theme }) => ({
+  border: theme.mixins.border('secondary'),
   flex: 1,
   backgroundColor: theme.palette.action.hover,
   height: theme.spacing(6),
@@ -50,6 +53,9 @@ const ComposerInput = styled('div', { name: 'ComposerInput' })(({ theme }) => ({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   lineHeight: theme.mixins.pxToRem(48),
+  '*': {
+    margin: '0 !important'
+  },
   [theme.breakpoints.down('sm')]: {
     height: theme.spacing(4),
     lineHeight: theme.mixins.pxToRem(32),
@@ -60,10 +66,16 @@ const ComposerInput = styled('div', { name: 'ComposerInput' })(({ theme }) => ({
 const ComposerToolbar = styled('div', { name: 'ComposerToolbar' })(
   ({ theme }) => ({
     display: 'flex',
-    marginTop: theme.spacing(1),
     marginLeft: theme.spacing(1.5),
+    '.ico-videocam-o': {
+      fontSize: '24px'
+    },
     [theme.breakpoints.down('sm')]: {
-      marginLeft: theme.spacing(0)
+      marginLeft: theme.spacing(0),
+      marginTop: theme.spacing(1.5),
+      '& > *': {
+        marginRight: `${theme.spacing(1.5)} !important`
+      }
     }
   })
 );
@@ -94,9 +106,10 @@ export default function StatusComposer({
     jsxBackend,
     usePageParams,
     getAcl,
-    getSetting,
-    useIsMobile
+    getSetting
   } = useGlobal();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const acl = getAcl();
   const canCreate = getAcl('activity.feed.create');
   const setting = getSetting();
@@ -173,7 +186,6 @@ export default function StatusComposer({
   );
 
   const attachers = filterShowWhen(composerConfig.attachers, condition);
-  const isMobile = useIsMobile();
 
   if (
     isEmpty(authUser) ||
@@ -196,7 +208,7 @@ export default function StatusComposer({
             <AvatarWrapper>
               <UserAvatar
                 user={authUser}
-                size={isMobile ? 32 : 48}
+                size={isSmallScreen ? 32 : 48}
                 data-testid="userAvatar"
               />
             </AvatarWrapper>
@@ -205,7 +217,7 @@ export default function StatusComposer({
               color="info"
               onClick={handleClick}
             >
-              {composerStatusValue}
+              <HtmlViewer html={composerStatusValue} />
             </ComposerInput>
           </Box>
           <ComposerToolbarExpand onClick={handleResetRef}>
@@ -227,6 +239,8 @@ export default function StatusComposer({
       </Block>
     );
 
+  const attachersMinimize = isSmallScreen ? attachers : attachers.slice(0, 3);
+
   return (
     <Block testid="blockStatusComposer">
       <BlockHeader title={title} />
@@ -235,16 +249,16 @@ export default function StatusComposer({
           <AvatarWrapper>
             <UserAvatar
               user={authUser}
-              size={isMobile ? 32 : 48}
+              size={isSmallScreen ? 32 : 48}
               data-testid="userAvatar"
             />
           </AvatarWrapper>
           <ComposerWrapper>
             <ComposerInput data-testid="whatsHappening" onClick={handleClick}>
-              {composerStatusValue}
+              <HtmlViewer html={composerStatusValue} />
             </ComposerInput>
             <ComposerToolbar onClick={handleResetRef}>
-              {attachers.map(attacher =>
+              {attachersMinimize.map(attacher =>
                 jsxBackend.render({
                   component: attacher.as,
                   props: {

@@ -131,9 +131,11 @@ class StaticPageAdminController extends ApiController
      */
     public function destroy(int $id): JsonResponse
     {
+        $this->repository->deleteStaticPage($id);
+
         return $this->success([
             'id' => $id,
-        ]);
+        ], [], __p('static-page::phrase.static_page_has_been_deleted_successfully'));
     }
 
     public function edit(int $id): JsonResponse

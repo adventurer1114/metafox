@@ -93,7 +93,8 @@ trait HasNestedAttributes
      */
     public function save(array $options = []): bool
     {
-        $useTransaction = !empty($this->nestedAttributesFor);
+        $useTransaction = false; // !empty($this->nestedAttributesFor);
+        $hasAttributes  = !empty($this->nestedAttributesFor);
 
         try {
             if ($useTransaction) {
@@ -104,7 +105,7 @@ trait HasNestedAttributes
                 return false;
             }
 
-            if ($useTransaction) {
+            if ($hasAttributes) {
                 foreach ($this->nestedAttributesFor as $attribute => $params) {
                     if (!is_string($attribute)) {
                         continue;

@@ -11,9 +11,9 @@ class Confirm extends AbstractForm
     {
         $this->title($this->resource['title'] ?? __p('core::phrase.confirm'));
 
-        $this->addFooter(
-            Builder::submit()->label($this->resource['positive'] ?? 'OK'),
-            Builder::cancelButton()->label($this->resource['negotive'] ?? __p('core::phrase.cancel'))
+        $this->addFooter()->addFields(
+            Builder::submit()->label(__p('core::web.ok')),
+            Builder::cancelButton()->label(__p('core::phrase.cancel'))
         );
     }
 }

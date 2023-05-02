@@ -79,10 +79,6 @@ class OrderRepository extends AbstractRepository implements OrderRepositoryInter
             $query = $query->addScope($searchScope);
         }
 
-        if ($status != Order::STATUS_ALL) {
-            $query->where('status', '=', $status);
-        }
-
         if ($dateFrom) {
             $query->where('created_at', '>=', $dateFrom);
         }

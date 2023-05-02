@@ -317,6 +317,8 @@ class Video extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 

@@ -3,11 +3,7 @@
  * name: saga.saveditems.getCollectionItem
  */
 
-import {
-  getGlobalContext,
-  handleActionError,
-  getResourceAction
-} from '@metafox/framework';
+import { getGlobalContext, handleActionError } from '@metafox/framework';
 import { RemoteDataSource } from '@metafox/framework/types';
 import { takeLatest } from 'redux-saga/effects';
 
@@ -36,17 +32,9 @@ function* getCommentCollections(action: {
 
   const { apiClient, compactData } = yield* getGlobalContext();
 
-  let config = dataSource;
+  const config = dataSource;
 
-  if (!config) {
-    config = yield* getResourceAction(
-      'comment',
-      'comment',
-      'getUsersCommentByItem'
-    );
-  }
-
-  if (!config?.apiUrl) return;
+  if (!config?.apiUrl || !config.apiParams) return;
 
   const params = compactData(config.apiParams, { saved_id, limit });
 

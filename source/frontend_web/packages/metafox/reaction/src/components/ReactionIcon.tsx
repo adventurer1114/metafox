@@ -1,5 +1,11 @@
+import { styled } from '@mui/material';
 import React from 'react';
 import { ReactionIconProps } from '../types';
+
+const ButtonStyled = styled('span')(({ theme }) => ({
+  width: '100%',
+  height: '100%'
+}));
 
 export default function ReactionIcon({
   classes,
@@ -8,8 +14,8 @@ export default function ReactionIcon({
   title
 }: ReactionIconProps) {
   return (
-    <span role="button">
+    <ButtonStyled role="button">
       <img src={src || icon} alt={title} />
-    </span>
+    </ButtonStyled>
   );
 }

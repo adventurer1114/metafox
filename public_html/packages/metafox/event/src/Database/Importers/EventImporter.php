@@ -33,6 +33,7 @@ class EventImporter extends JsonImporter
         $this->processPrivacyStream(PrivacyStream::class);
         $this->transformPrivacyMember([MetaFoxPrivacy::ONLY_ME, MetaFoxPrivacy::CUSTOM, MetaFoxPrivacy::FRIENDS], '$id');
         $this->transformPrivacyMember([MetaFoxPrivacy::ONLY_ME, MetaFoxPrivacy::CUSTOM], '$id', '$owner');
+        $this->transformActivitySubscription('$id', '$id');
     }
 
     public function processImport()
@@ -99,7 +100,7 @@ class EventImporter extends JsonImporter
             [
                 'id'          => $oid,
                 'text'        => $entry['text'] ?? '',
-                'text_parsed' => html_entity_decode($entry['text_parsed'] ?? ''),
+                'text_parsed' => $this->parseText($entry['text_parsed'] ?? '', false),
             ]
         );
 

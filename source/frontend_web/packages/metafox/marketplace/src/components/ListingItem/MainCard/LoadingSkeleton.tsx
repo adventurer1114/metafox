@@ -15,7 +15,7 @@ import * as React from 'react';
 export default function LoadingSkeleton({ wrapAs, wrapProps }) {
   return (
     <ItemView wrapAs={wrapAs} wrapProps={wrapProps}>
-      <ImageSkeleton ratio="11" />
+      <ImageSkeleton ratio="11" borderRadius={0} />
       <ItemText>
         <ItemTitle>
           <Skeleton variant="text" />

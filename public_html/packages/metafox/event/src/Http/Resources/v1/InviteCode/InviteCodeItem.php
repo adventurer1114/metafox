@@ -26,11 +26,17 @@ class InviteCodeItem extends JsonResource
      */
     public function toArray($request)
     {
+        $user               = $this->resource->user;
         $expiredAt          = $this->resource->expired_at;
         $expiredDay         = Carbon::now()->diffInHours($expiredAt) + 1;
         $expiredDescription = __p(
             'event::phrase.expired_invite_hours',
-            ['value' => CarbonInterval::make($expiredDay . 'h')->cascade()->forHumans()]
+            [
+                'value' => CarbonInterval::make($expiredDay . 'h')
+                    ->locale($user->preferredLocale())
+                    ->cascade()
+                    ->forHumans(),
+            ]
         );
 
         return [
@@ -41,7 +47,7 @@ class InviteCodeItem extends JsonResource
             'event_id'            => $this->resource->event_id,
             'link'                => $this->resource->toLink(),
             'url'                 => $this->resource->toUrl(),
-            'user'                => ResourceGate::asResource($this->resource->user, 'detail'),
+            'user'                => ResourceGate::asResource($user, 'detail'),
             'expired_day'         => $expiredDay,
             'expired_description' => $expiredDescription,
         ];

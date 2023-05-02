@@ -1,12 +1,12 @@
 {
     "name": "metafox/importer",
-    "version": "5.0.2",
+    "version": "5.1.0",
     "description": "Importer",
     "keyword": "metafox, importer, migration",
     "authors": [
         {
-            "name": "MetaFox",
-            "homepage": "https://metafoxapp.com"
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
         }
     ],
     "extra": {
@@ -24,7 +24,6 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/importer": "5.0.1"
             },
             "internalUrl": "",
             "internalAdminUrl": "/admincp/importer/bundle/browse"

@@ -1,6 +1,6 @@
 {
     "name": "metafox/healthcheck",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Health Check",
     "keyword": "metafox/healthcheck",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/healthcheck": "5.0.1"
+                "@metafox/healthcheck": "*"
             },
             "internalUrl": "/health-check",
             "internalAdminUrl": "/admincp/health-check/wizard"

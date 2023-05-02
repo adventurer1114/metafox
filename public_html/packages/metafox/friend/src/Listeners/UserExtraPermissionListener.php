@@ -14,7 +14,7 @@ class UserExtraPermissionListener
      * @param  User|null $user
      * @return array
      */
-    public function handle(User $context, ?User $user): array
+    public function handle(?User $context, ?User $user): array
     {
         if (null === $user) {
             return [];

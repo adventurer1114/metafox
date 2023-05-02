@@ -3,17 +3,19 @@
  * name: ui.dialog.photoViewer
  */
 import { useGlobal } from '@metafox/framework';
-import { Dialog } from '@mui/material';
+import { Box, Dialog, IconButton } from '@mui/material';
 import React, { MouseEvent, useRef } from 'react';
+import LineIcon from '../LineIcon';
 import useStyles from './styles';
 
 interface Props {
   src: string;
 }
 
-const PhotoViewer = ({ src }: Props) => {
-  const { useDialog } = useGlobal();
-  const { dialogProps } = useDialog();
+const PhotoViewer = ({ src, preventZoom = false }: Props) => {
+  const { useDialog, useIsMobile } = useGlobal();
+  const { dialogProps, closeDialog } = useDialog();
+  const isMobile = useIsMobile();
 
   const classes = useStyles();
   const imgRef = useRef<HTMLDivElement>();
@@ -49,12 +51,19 @@ const PhotoViewer = ({ src }: Props) => {
 
   return (
     <Dialog {...dialogProps} maxWidth="lg">
+      {isMobile ? (
+        <Box sx={{ display: 'block', textAlign: 'end' }}>
+          <IconButton size="large" onClick={() => closeDialog()}>
+            <LineIcon icon="ico-close-circle-o" />
+          </IconButton>
+        </Box>
+      ) : null}
       <div className={classes.previewWrapper}>
         <div
           ref={imgRef}
           className={classes.previewZoom}
-          onMouseMove={handleMouseMove}
-          onMouseOut={handleMouseOut}
+          onMouseMove={preventZoom ? undefined : handleMouseMove}
+          onMouseOut={preventZoom ? undefined : handleMouseOut}
           style={{
             backgroundImage: `url(${src})`
           }}

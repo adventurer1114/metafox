@@ -10,8 +10,12 @@ use MetaFox\Platform\MetaFoxConstant;
 
 class CreateFriendListListener
 {
-    public function handle(User $context, array $attributes): ?FriendList
+    public function handle(?User $context, array $attributes): ?FriendList
     {
+        if (!$context) {
+            return null;
+        }
+
         $name = Arr::get($attributes, 'name', MetaFoxConstant::EMPTY_STRING);
 
         return resolve(FriendListRepositoryInterface::class)->createFriendList($context, $name);

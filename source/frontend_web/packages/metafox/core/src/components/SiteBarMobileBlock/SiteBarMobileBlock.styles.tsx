@@ -160,13 +160,12 @@ const useStyles = makeStyles(
         '& > .ico': {
           width: 32,
           height: 32,
-          fontSize: 16,
+          fontSize: theme.mixins.pxToRem(24),
           color: theme.palette.text.secondary,
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: -16
+          justifyContent: 'center'
         }
       },
       profile: {},
@@ -199,6 +198,7 @@ const useStyles = makeStyles(
         display: 'block',
         zIndex: '1301',
         position: 'absolute',
+        backgroundColor: theme.palette.background.paper,
         top: '0',
         width: '100%',
         height: '100%',

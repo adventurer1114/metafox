@@ -11,16 +11,13 @@ export const Container = styled('div', {
   position: 'relative',
   overflow: 'hidden',
   width: '100%',
-  height: '100%',
-  '.dialogStatusComposer &': {
-    display: 'grid',
-    paddingBottom: 16
-  }
+  height: '100%'
 });
 
 export const View = styled('div', {
   name,
-  slot: 'content'
+  slot: 'content',
+  shouldForwardProp: prop => prop !== 'scrollBarWidth'
 })<{ scrollBarWidth: number }>(({ theme, scrollBarWidth }) => ({
   position: 'absolute',
   top: 0,
@@ -30,9 +27,6 @@ export const View = styled('div', {
   overflow: 'scroll',
   height: 'calc(100% + 18px)',
   WebkitOverflowScrolling: 'touch',
-  '.dialogStatusComposer &': {
-    overflowX: 'auto'
-  },
   [theme.breakpoints.down('sm')]: {
     maxHeight: 'calc(100% + 18px)'
   },

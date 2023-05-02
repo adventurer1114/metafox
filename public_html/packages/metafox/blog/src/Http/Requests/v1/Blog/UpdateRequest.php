@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
         $rules = [
             'title'          => ['sometimes', 'string', new ResourceNameRule('blog')],
             'categories'     => ['sometimes', 'array'],
-            'categories.*'   => ['numeric', new CategoryRule(resolve(CategoryRepositoryInterface::class))],
+            'categories.*'   => ['integer', 'min:1', new CategoryRule(resolve(CategoryRepositoryInterface::class))],
             'file'           => ['sometimes', 'array'],
             'file.temp_file' => [
                 'required_if:file.status,update', 'numeric', new ExistIfGreaterThanZero('exists:storage_files,id'),

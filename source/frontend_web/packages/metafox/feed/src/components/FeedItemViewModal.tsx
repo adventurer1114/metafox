@@ -196,6 +196,7 @@ const FeedItemView = ({
               className={classes.commentListing}
               setSortType={setSortType}
               sortType={sortType}
+              isDetailPage
             />
           </ScrollContainer>
         </div>

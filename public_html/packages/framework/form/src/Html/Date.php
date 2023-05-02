@@ -54,4 +54,14 @@ class Date extends AbstractField
             ->marginDense()
             ->maxWidth('220px');
     }
+
+    /**
+     * In case we need to use another UI for date component.
+     * @param  array $values
+     * @return $this
+     */
+    public function views(array $values): static
+    {
+        return $this->setAttribute('views', $values);
+    }
 }

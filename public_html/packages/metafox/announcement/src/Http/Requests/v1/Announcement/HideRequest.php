@@ -3,6 +3,7 @@
 namespace MetaFox\Announcement\Http\Requests\v1\Announcement;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use MetaFox\Announcement\Rules\AnnouncementHideRule;
 
 /**
@@ -21,11 +22,11 @@ use MetaFox\Announcement\Rules\AnnouncementHideRule;
  */
 class HideRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
+    public function authorize(): bool
+    {
+        return Auth::user() instanceof \MetaFox\Platform\Contracts\User;
+    }
+
     public function rules(): array
     {
         $context = user();

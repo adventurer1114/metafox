@@ -17,7 +17,6 @@ return [
         'label'    => 'group::phrase.change_to_moderator',
         'ordering' => 2,
         'value'    => 'changeToModerator',
-        'icon'     => 'ico-shield-o',
     ],
     [
         'showWhen' => [
@@ -34,7 +33,6 @@ return [
         'label'    => 'group::phrase.remove_as_admin',
         'ordering' => 3,
         'value'    => 'removeAsAdmin',
-        'icon'     => 'ico-user2-down-o',
     ],
     [
         'showWhen' => [
@@ -51,7 +49,6 @@ return [
         'label'    => 'group::phrase.reassign_owner',
         'ordering' => 5,
         'value'    => 'reassignOwner',
-        'icon'     => 'ico-businessman',
     ],
     [
         'showWhen' => [
@@ -69,7 +66,6 @@ return [
         'label'    => 'group::phrase.add_as_admin',
         'ordering' => 6,
         'value'    => 'addAsAdmin',
-        'icon'     => 'ico-businessman',
     ],
     [
         'showWhen' => [
@@ -87,7 +83,6 @@ return [
         'label'    => 'group::phrase.remove_admin_invite',
         'ordering' => 6,
         'value'    => 'cancelAdminInvite',
-        'icon'     => 'ico-close-circle-o',
     ],
     [
         'showWhen' => [
@@ -104,7 +99,6 @@ return [
         'label'    => 'group::phrase.remove_as_moderator',
         'ordering' => 7,
         'value'    => 'removeAsModerator',
-        'icon'     => 'ico-user2-minus-o',
     ],
     [
         'showWhen' => [
@@ -123,7 +117,6 @@ return [
         'label'    => 'group::phrase.set_as_admin',
         'ordering' => 9,
         'value'    => 'setAsAdmin',
-        'icon'     => 'ico-businessman',
     ],
     [
         'showWhen' => [
@@ -141,7 +134,6 @@ return [
         'label'    => 'group::phrase.remove_admin_invite',
         'ordering' => 10,
         'value'    => 'cancelAdminInvite',
-        'icon'     => 'ico-close-circle-o',
     ],
     [
         'showWhen' => [
@@ -160,7 +152,6 @@ return [
         'label'    => 'group::phrase.set_as_moderator',
         'ordering' => 11,
         'value'    => 'setAsModerator',
-        'icon'     => 'ico-shield-o',
     ],
     [
         'showWhen' => [
@@ -178,7 +169,6 @@ return [
         'label'    => 'group::phrase.cancel_moderator_invite',
         'ordering' => 12,
         'value'    => 'cancelModeratorInvite',
-        'icon'     => 'ico-close-circle-o',
     ],
     [
         'showWhen' => [
@@ -194,7 +184,6 @@ return [
         'label'    => 'group::phrase.block_from_group',
         'ordering' => 13,
         'value'    => 'blockFromGroup',
-        'icon'     => 'ico-ban',
     ],
     [
         'showWhen' => [
@@ -211,7 +200,6 @@ return [
         'label'    => 'group::phrase.mute_in_group',
         'ordering' => 14,
         'value'    => 'muteInGroupForm',
-        'icon'     => 'ico-eye-alt-blocked',
     ],
     [
         'showWhen' => [
@@ -228,7 +216,6 @@ return [
         'label'    => 'group::phrase.unmute_in_group',
         'ordering' => 15,
         'value'    => 'unmuteInGroup',
-        'icon'     => 'ico-user3-plus',
     ],
     [
         'showWhen' => [
@@ -245,7 +232,6 @@ return [
         'label'    => 'group::phrase.leave_group',
         'ordering' => 16,
         'value'    => 'unjoin',
-        'icon'     => 'ico-user3-next-o',
     ],
     [
         'showWhen' => [
@@ -263,7 +249,6 @@ return [
         'label'    => 'group::phrase.remove_member',
         'ordering' => 17,
         'value'    => 'removeMember',
-        'icon'     => 'ico-user1-del-o',
     ],
     [
         'showWhen' => [
@@ -280,7 +265,6 @@ return [
         'label'    => 'group::phrase.add_friend',
         'ordering' => 2,
         'value'    => 'addFriend',
-        'icon'     => 'ico-user3-plus',
     ],
     [
         'showWhen' => [
@@ -296,7 +280,6 @@ return [
         'label'    => 'group::phrase.cancel_request',
         'ordering' => 3,
         'value'    => 'cancelRequest',
-        'icon'     => 'ico-user2-del-o',
     ],
     [
         'color'    => 'primary',
@@ -314,7 +297,6 @@ return [
         'label'    => 'group::phrase.confirm',
         'ordering' => 4,
         'value'    => 'acceptFriendRequest',
-        'icon'     => 'ico-check',
     ],
     [
         'color'    => 'primary',
@@ -332,7 +314,6 @@ return [
         'label'    => 'group::phrase.delete',
         'ordering' => 5,
         'value'    => 'denyFriendRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'color'    => 'primary',
@@ -349,7 +330,6 @@ return [
         'label'    => 'group::phrase.edit_profile',
         'ordering' => 6,
         'value'    => 'editProfile',
-        'icon'     => 'ico-pencil',
     ],
     [
         'color'    => 'primary',
@@ -366,7 +346,6 @@ return [
         'label'    => 'group::phrase.message',
         'ordering' => 7,
         'value'    => 'openChatRoom',
-        'icon'     => 'ico-comment-o',
     ],
     [
         'color'    => 'primary',
@@ -384,7 +363,6 @@ return [
         'label'     => 'group::phrase.poke',
         'ordering'  => 8,
         'value'     => 'pokeItem',
-        'icon'      => 'ico-smile-o',
         'is_active' => 0,
         'is_delete' => 1,
     ],
@@ -404,7 +382,6 @@ return [
         'label'    => 'group::phrase.featured_this_user',
         'ordering' => 9,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'style'    => 'danger',
@@ -421,7 +398,6 @@ return [
         'label'    => 'group::phrase.un_friend',
         'ordering' => 10,
         'value'    => 'user/unFriend',
-        'icon'     => 'ico-user3-minus-o',
     ],
     [
         'color'    => 'primary',
@@ -439,7 +415,6 @@ return [
         'label'    => 'group::phrase.un_featured_this_user',
         'ordering' => 10,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'style'    => 'danger',
@@ -457,7 +432,6 @@ return [
         'label'    => 'group::phrase.block_this_user',
         'ordering' => 11,
         'value'    => 'blockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'style'    => 'primary',
@@ -475,7 +449,6 @@ return [
         'label'    => 'group::phrase.un_block_this_user',
         'ordering' => 12,
         'value'    => 'unblockItem',
-        'icon'     => 'ico-ban',
     ],
     [
         'color'    => 'primary',
@@ -492,7 +465,6 @@ return [
         'label'    => 'group::phrase.gift_points',
         'ordering' => 14,
         'value'    => 'comingSoon',
-        'icon'     => 'ico-gift-o',
     ],
     [
         'active'   => true,
@@ -573,7 +545,6 @@ return [
         'label'    => 'group::phrase.edit_rule',
         'ordering' => 1,
         'value'    => 'updateGroupRule',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'params' => [
@@ -586,7 +557,6 @@ return [
         'label'    => 'group::phrase.delete_rule',
         'ordering' => 2,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'menu'     => 'group.group.filter_menu',
@@ -630,7 +600,6 @@ return [
         'label'    => 'group::phrase.generate_invite_link',
         'ordering' => 1,
         'value'    => 'group/generateLinkInvite',
-        'icon'     => 'ico-link',
     ],
     [
         'showWhen' => [
@@ -651,7 +620,6 @@ return [
         'label'    => 'group::phrase.invite_friends',
         'ordering' => 2,
         'value'    => 'group_invite/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => ['eq', 'item.membership', 2],
@@ -664,7 +632,6 @@ return [
         'label'    => 'group::phrase.cancel_request',
         'ordering' => 3,
         'value'    => 'cancelRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -677,7 +644,6 @@ return [
         'label'    => 'group::phrase.approve',
         'ordering' => 4,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'variant'  => 'contained',
@@ -695,7 +661,6 @@ return [
         'label'    => 'group::phrase.accept',
         'ordering' => 4,
         'value'    => 'acceptInvite',
-        'icon'     => 'ico-check',
     ],
     [
         'variant'  => 'outlined-square',
@@ -713,7 +678,6 @@ return [
         'label'    => 'group::phrase.decline_invite',
         'ordering' => 5,
         'value'    => 'declineInvite',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -730,7 +694,6 @@ return [
         'label'    => 'group::phrase.sponsor',
         'ordering' => 9,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -751,7 +714,6 @@ return [
         'label'    => 'group::phrase.invite_friends',
         'ordering' => 10,
         'value'    => 'inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => [
@@ -768,7 +730,6 @@ return [
         'label'    => 'group::phrase.unsponsor',
         'ordering' => 11,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -785,7 +746,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 12,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -802,7 +762,6 @@ return [
         'label'    => 'group::phrase.un_feature',
         'ordering' => 13,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -819,7 +778,6 @@ return [
         'label'    => 'group::phrase.delete',
         'ordering' => 16,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -867,7 +825,6 @@ return [
         'label'    => 'group::phrase.join_group',
         'ordering' => 3,
         'value'    => 'join',
-        'icon'     => 'ico-plus',
     ],
     [
         'showWhen' => [
@@ -886,9 +843,8 @@ return [
         'menu'     => 'group.group.profileActionMenu',
         'name'     => 'invite',
         'label'    => 'group::phrase.invite_friends',
-        'ordering' => 4,
+        'ordering' => 5,
         'value'    => 'group/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => [
@@ -901,7 +857,6 @@ return [
         'label'    => 'group::phrase.generate_invite_link',
         'ordering' => 5,
         'value'    => 'group/generateInviteLink',
-        'icon'     => 'ico-link',
     ],
     [
         'showWhen' => ['eq', 'item.membership', 2],
@@ -914,7 +869,6 @@ return [
         'label'    => 'group::phrase.cancel_request',
         'ordering' => 6,
         'value'    => 'cancelRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -935,7 +889,6 @@ return [
         'label'    => 'group::phrase.manage',
         'ordering' => 7,
         'value'    => 'manage',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -956,7 +909,6 @@ return [
         'label'    => 'group::phrase.pending_request',
         'ordering' => 8,
         'value'    => 'pendingRequests',
-        'icon'     => 'ico-gear-o',
     ],
     [
         'showWhen' => [
@@ -973,7 +925,6 @@ return [
         'ordering' => 9,
         'as'       => '',
         'value'    => 'yourContent',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/group/:id/review_my_content',
     ],
     [
@@ -992,7 +943,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 10,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -1009,7 +959,6 @@ return [
         'label'    => 'group::phrase.un_feature',
         'ordering' => 11,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'color'    => 'primary',
@@ -1027,7 +976,6 @@ return [
         'label'    => 'group::phrase.sponsor',
         'ordering' => 12,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -1044,7 +992,6 @@ return [
         'label'    => 'group::phrase.unsponsor',
         'ordering' => 13,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'color'    => 'primary',
@@ -1058,7 +1005,6 @@ return [
         'label'    => 'group::phrase.reassign_owner',
         'ordering' => 14,
         'value'    => 'reassignOwnerDialog',
-        'icon'     => 'ico-user2-next-o',
     ],
     [
         'showWhen' => [
@@ -1075,7 +1021,6 @@ return [
         'label'    => 'group::phrase.leave_group',
         'ordering' => 15,
         'value'    => 'unjoin',
-        'icon'     => 'ico-user3-next-o',
     ],
     [
         'showWhen' => [
@@ -1093,7 +1038,6 @@ return [
         'label'    => 'group::phrase.delete',
         'ordering' => 16,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'active'   => true,
@@ -1131,7 +1075,6 @@ return [
         'label'    => 'group::phrase.leave_group',
         'ordering' => 2,
         'value'    => 'unjoin',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -1152,7 +1095,6 @@ return [
         'label'    => 'group::phrase.invite_friends',
         'ordering' => 3,
         'value'    => 'group_invite/inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'menu'     => 'group.group.sort_menu',
@@ -1179,7 +1121,6 @@ return [
         'label'    => 'group::phrase.all_groups',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-hashtag',
         'to'       => '/group/all',
     ],
     [
@@ -1194,7 +1135,6 @@ return [
         'label'    => 'group::phrase.my_groups',
         'ordering' => 2,
         'value'    => 'viewMyGroups',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/group/my',
     ],
     [
@@ -1202,12 +1142,15 @@ return [
             'module_name'   => 'group',
             'resource_name' => 'group',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'group.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'group::phrase.my_pending_groups',
         'ordering' => 3,
         'value'    => 'viewMyPendingGroups',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'tab'      => 'friend',
@@ -1221,7 +1164,6 @@ return [
         'label'    => 'group::phrase.friends_groups',
         'ordering' => 4,
         'value'    => 'viewFriendGroups',
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/group/friend',
     ],
     [
@@ -1236,7 +1178,6 @@ return [
         'label'    => 'group::phrase.joined_groups',
         'ordering' => 5,
         'value'    => 'viewJoinedGroups',
-        'icon'     => 'ico-check-circle-o',
         'to'       => '/group/joined',
     ],
     [
@@ -1251,7 +1192,6 @@ return [
         'label'    => 'group::phrase.group_invites',
         'ordering' => 6,
         'value'    => 'viewInvitedGroups',
-        'icon'     => 'ico-envelope-o',
         'to'       => '/group/invited',
     ],
     [
@@ -1269,7 +1209,6 @@ return [
         'label'    => 'group::phrase.pending_groups',
         'ordering' => 7,
         'value'    => 'viewPendingGroups',
-        'icon'     => 'ico-clock-o',
         'to'       => '/group/pending',
     ],
     [
@@ -1318,7 +1257,6 @@ return [
         'label'    => 'group::phrase.cancel_request',
         'ordering' => 3,
         'value'    => 'cancelRequest',
-        'icon'     => 'ico-close',
     ],
     [
         'variant'  => 'contained',
@@ -1332,7 +1270,6 @@ return [
         'label'    => 'group::phrase.accept',
         'ordering' => 4,
         'value'    => 'acceptInvite',
-        'icon'     => 'ico-check',
     ],
     [
         'variant'  => 'outlined-square',
@@ -1346,7 +1283,6 @@ return [
         'label'    => 'group::phrase.decline_invite',
         'ordering' => 5,
         'value'    => 'declineInvite',
-        'icon'     => 'ico-close',
     ],
     [
         'showWhen' => [
@@ -1363,7 +1299,6 @@ return [
         'label'    => 'group::phrase.sponsor',
         'ordering' => 9,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -1384,7 +1319,6 @@ return [
         'label'    => 'group::phrase.invite_friends',
         'ordering' => 10,
         'value'    => 'inviteFriends',
-        'icon'     => 'ico-envelope-o',
     ],
     [
         'showWhen' => [
@@ -1401,7 +1335,6 @@ return [
         'label'    => 'group::phrase.unsponsor',
         'ordering' => 11,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -1418,7 +1351,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 12,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -1435,7 +1367,6 @@ return [
         'label'    => 'group::phrase.un_feature',
         'ordering' => 13,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -1452,7 +1383,6 @@ return [
         'label'    => 'group::phrase.delete',
         'ordering' => 16,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen'  => [],
@@ -1465,5 +1395,52 @@ return [
         'as'        => 'item',
         'icon'      => 'user3-three',
         'iconColor' => '#b132fb',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_share'],
+        ],
+        'params' => [
+            'module_name'   => 'group',
+            'resource_name' => 'group',
+        ],
+        'menu'     => 'feed.itemShareActionsMenu',
+        'name'     => 'share_on_group',
+        'label'    => 'activity::phrase.share_on_group',
+        'ordering' => 5,
+        'value'    => 'shareOnGroupProfile',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_pending', 0],
+            ['truthy', 'item.extra.can_pin_item'],
+            ['falsy', 'item.extra.can_review_feed'],
+            ['truthy', 'profile_id'],
+            ['or', ['eqeqeq', 'params._identity', '$.item.user'], ['eqeqeq', 'params._identity', '$.item.parent_user']],
+            ['eq', 'profile_type', 'group'],
+            ['noneOf', 'item.pins', '$.profile_id'],
+        ],
+        'menu'     => 'feed.feed.itemActionMenu',
+        'name'     => 'pinItemOnGroup',
+        'label'    => 'group::phrase.pin_post_on_group',
+        'ordering' => 2,
+        'value'    => 'pinItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_pending', 0],
+            ['truthy', 'item.extra.can_pin_item'],
+            ['truthy', 'profile_id'],
+            ['or', ['eqeqeq', 'params._identity', '$.item.user'], ['eqeqeq', 'params._identity', '$.item.parent_user']],
+            ['eq', 'profile_type', 'group'],
+            ['oneOf', 'item.pins', '$.profile_id'],
+        ],
+        'menu'     => 'feed.feed.itemActionMenu',
+        'name'     => 'unpinItemOnGroup',
+        'label'    => 'activity::phrase.unpin_post',
+        'ordering' => 3, 'value' => 'unpinItem',
     ],
 ];

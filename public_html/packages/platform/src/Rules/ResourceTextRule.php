@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Log;
  */
 class ResourceTextRule implements Rule
 {
+    public function __construct(public $allowHtml = false)
+    {
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -27,8 +31,10 @@ class ResourceTextRule implements Rule
             /** @var string $value */
             $value = str_replace('&nbsp;', '', $value);
 
-            // Strip all html tags inside
-            $value = strip_tags($value);
+            if (!$this->allowHtml()) {
+                // Strip all html tags inside
+                $value = strip_tags($value);
+            }
 
             // IF the remain content contains any word => it shall pass the validation
             if (preg_match('@\S+@', $value)) {
@@ -40,6 +46,11 @@ class ResourceTextRule implements Rule
         }
 
         return false;
+    }
+
+    public function allowHtml(): bool
+    {
+        return $this->allowHtml;
     }
 
     /**

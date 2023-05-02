@@ -2,6 +2,7 @@
 
 /* this is auto generated file */
 return [
+    'all_changes_are_cleared' => 'All changes are cleared successfully.',
     'browse_1_snippet'        => '',
     'browse_build'            => '',
     'browse_create_snippet'   => '',
@@ -14,12 +15,12 @@ return [
     'browse_variant'          => '',
     'build_history'           => 'Build History',
     'create_build'            => '',
+    'created_at'              => 'Created At',
     'create_snippet'          => '',
     'create_theme'            => 'Create Theme',
     'create_theme_id_guide'   => 'Theme id must be global unique id contain alpha numeric character',
     'create_variant'          => 'Create Variant',
     'create_variant_id_guide' => 'ID must be unique and contains alpha numeric characters.',
-    'created_at'              => 'Created At',
     'customization'           => 'Customization',
     'history'                 => 'History',
     'layout'                  => 'Layout',

@@ -63,7 +63,12 @@ const StyledContentInner = styled('div', {
     ...(editComponent !== 'Location' && {
       marginBottom: 0
     })
-  }
+  },
+  ...(editComponent === 'RadioGroup' && {
+    '& .MuiFormGroup-root > div': {
+      marginBottom: theme.spacing(1)
+    }
+  })
 }));
 
 const DescriptionSingleInput = styled(Box)(({ theme }) => ({
@@ -258,7 +263,7 @@ export default function EditableField({
                 )}
               </>
             ) : null}
-            <Box sx={{ my: 1 }}>
+            <Box sx={{ mb: 1, mt: 3 }}>
               <Button variant="contained" onClick={handleSave}>
                 {i18n.formatMessage({ id: 'save' })}
               </Button>

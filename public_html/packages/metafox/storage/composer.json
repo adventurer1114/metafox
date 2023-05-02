@@ -1,6 +1,6 @@
 {
     "name": "metafox/storage",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -12,7 +12,7 @@
     "extra": {
         "metafox": {
             "core": true,
-            "priority": 2,
+            "priority": 100,
             "alias": "storage",
             "asset": "storage",
             "namespace": "MetaFox\\Storage",
@@ -23,9 +23,13 @@
                 "MetaFox\\Storage\\Providers\\AliasStorageProvider",
                 "MetaFox\\Storage\\Providers\\PackageServiceProvider"
             ],
-            "frontend": {},
-            "aliases": {
-            }
+            "frontend": [],
+            "aliases": null,
+            "type": "app",
+            "mobile": [],
+            "store_id": 0,
+            "store_url": null,
+            "internalUrl": ""
         }
     },
     "autoload": {
@@ -37,5 +41,6 @@
         "psr-4": {
             "MetaFox\\Storage\\Tests\\": "tests/"
         }
-    }
+    },
+    "keyword": ""
 }

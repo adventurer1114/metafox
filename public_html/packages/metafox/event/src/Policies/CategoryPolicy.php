@@ -3,9 +3,8 @@
 namespace MetaFox\Event\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use MetaFox\Platform\Contracts\Content;
-use MetaFox\Platform\Contracts\User;
-use MetaFox\Platform\Support\Facades\PrivacyPolicy;
+use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
+use MetaFox\Platform\Traits\Policy\HasCategoryPolicyTrait;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
 
 /**
@@ -13,10 +12,11 @@ use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
  *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class CategoryPolicy
+class CategoryPolicy implements ResourcePolicyInterface
 {
     use HasPolicyTrait;
     use HandlesAuthorization;
+    use HasCategoryPolicyTrait;
 
     protected string $type = 'event_category';
 

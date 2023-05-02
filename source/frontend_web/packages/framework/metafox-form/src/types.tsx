@@ -13,6 +13,8 @@ export interface FormFieldProps<T extends {} = {}> {
   required?: boolean;
   acceptTypeFile?: any;
   formik?: FormikProps<any>;
+  aspectRatio?: any;
+  widthPhoto?: string;
   onReset?: () => void;
 }
 
@@ -64,6 +66,7 @@ export interface FormSchemaShape extends FormElementShape {
   onCancel?: () => void;
   onReset?: () => void;
   submitOnValueChanged?: boolean;
+  keepPaginationData?: boolean;
 }
 
 interface FormBuilderBase<T extends object = object> {

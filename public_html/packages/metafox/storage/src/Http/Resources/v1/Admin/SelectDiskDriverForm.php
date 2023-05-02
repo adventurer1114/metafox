@@ -41,6 +41,11 @@ class SelectDiskDriverForm extends AbstractForm
             if ($driver->name === 'alias') {
                 continue;
             }
+
+            if (!$driver->is_active) {
+                continue;
+            }
+
             $options[] = ['value' => $driver->name, 'label' => $driver->title];
         }
 

@@ -10,7 +10,7 @@ use MetaFox\Platform\Contracts\User;
 
 class FriendInvitedListener
 {
-    public function handle(User $context, string $itemType, int $itemId): ?array
+    public function handle(?User $context, string $itemType, int $itemId): ?array
     {
         if ($itemType != Listing::ENTITY_TYPE) {
             return null;

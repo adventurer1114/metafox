@@ -82,5 +82,9 @@ class WebSetting extends Setting
                 'q'     => ['truthy', 'q'],
                 'limit' => ['truthy', 'limit'],
             ]);
+
+        $this->add('hashtagTrending')
+            ->apiUrl('search/hashtag/trending')
+            ->asGet();
     }
 }

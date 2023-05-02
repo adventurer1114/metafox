@@ -6,7 +6,7 @@
           "blockId": "1srw",
           "component": "activity-point.block.dashboard",
           "slotName": "main",
-          "title": "point_transactions",
+          "title": "activitypoint_statistics",
           "blockLayout": "Large Main Lists"
         },
         {

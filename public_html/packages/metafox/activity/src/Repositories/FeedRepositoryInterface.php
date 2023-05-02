@@ -3,7 +3,7 @@
 namespace MetaFox\Activity\Repositories;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use MetaFox\Activity\Models\Feed;
 use MetaFox\Platform\Contracts\Content;
@@ -61,13 +61,13 @@ interface FeedRepositoryInterface extends HasSponsor
     /**
      * Get feed detail.
      *
-     * @param User $user
-     * @param int  $id
+     * @param User|null $user
+     * @param int       $id
      *
      * @return Feed
      * @throws AuthorizationException
      */
-    public function getFeed(User $user, int $id): Feed;
+    public function getFeed(?User $user, int $id): Feed;
 
     /**
      * Create a feed (activity post).
@@ -153,7 +153,7 @@ interface FeedRepositoryInterface extends HasSponsor
     /**
      * @throws AuthorizationException
      */
-    public function getFeedByItem(User $context, Entity $content, ?string $typeId = null): Feed;
+    public function getFeedByItem(?User $context, ?Entity $content, ?string $typeId = null): Feed;
 
     /**
      * @throws AuthorizationException
@@ -165,9 +165,9 @@ interface FeedRepositoryInterface extends HasSponsor
      * @param string $itemType
      * @param int    $limit
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
-    public function getTaggedFriends(int $itemId, string $itemType, int $limit);
+    public function getTaggedFriends(int $itemId, string $itemType, int $limit): LengthAwarePaginator;
 
     /**
      * @return int
@@ -260,6 +260,14 @@ interface FeedRepositoryInterface extends HasSponsor
     public function getPrivacyDetail(User $context, Content $resource, ?int $representativePrivacy = null): array;
 
     /**
+     * @param  User     $context
+     * @param  User     $resource
+     * @param  int|null $representativePrivacy
+     * @return array
+     */
+    public function getOwnerPrivacyDetail(User $context, User $resource, ?int $representativePrivacy = null): array;
+
+    /**
      * @param  User $context
      * @param  int  $id
      * @return bool
@@ -294,8 +302,14 @@ interface FeedRepositoryInterface extends HasSponsor
 
     /**
      * @param  string     $typeId
-     * @param  int        $limit
      * @return Collection
      */
-    public function getMissingContentFeed(string $typeId, int $limit = 100): Collection;
+    public function getMissingContentFeed(string $typeId): Collection;
+
+    /**
+     * @param  User $user
+     * @param  User $owner
+     * @return void
+     */
+    public function approvePendingFeeds(User $user, User $owner): void;
 }

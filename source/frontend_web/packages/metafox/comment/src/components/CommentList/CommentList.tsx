@@ -24,6 +24,9 @@ import {
 const CommentListRoot = styled('div', { name: 'CommentListRoot' })(
   ({ theme }) => ({
     position: 'relative',
+    '&:last-child': {
+      paddingBottom: theme.spacing(1)
+    },
     '& $CommentRoot:first-of-type': {
       marginTop: theme.spacing(1)
     },
@@ -78,10 +81,9 @@ export default function CommentList({
   parent_user,
   sortType,
   setSortType,
-  setShowSort,
-  forceHideSort = false,
   handleAction,
-  setLoadingSort: setLoadingSortParent
+  setLoadingSort: setLoadingSortParent,
+  isDetailPage = false
 }: CommentListProps) {
   const total_comment = total_comment_all - total_hidden;
   const {
@@ -137,9 +139,9 @@ export default function CommentList({
           .concat(dataCommentsRelevant)
           .concat(dataCommentsContain)
       : dataComments.sort((a, b) =>
-          (sortType === SORT_ALL
+          sortType === SORT_ALL
             ? compareDate(a, b, sortKeySetting)
-            : compareDate(b, a, sortKeySetting))
+            : compareDate(b, a, sortKeySetting)
         ),
     'id'
   );
@@ -150,13 +152,6 @@ export default function CommentList({
   );
 
   const isShowSort = dataSort.length > 1 || !!remainComment;
-
-  React.useEffect(() => {
-    if (setShowSort) {
-      setShowSort(isShowSort);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowSort]);
 
   React.useEffect(() => {
     setLoadingMore(false);
@@ -207,8 +202,8 @@ export default function CommentList({
   if (loadingSort) {
     return (
       <CommentListRoot>
-        {!forceHideSort && isShowSort ? (
-          <Box pt={2}>
+        {isShowSort ? (
+          <Box pt={1}>
             <SortCommentList value={sortType} setValue={setSortType} />
           </Box>
         ) : null}
@@ -228,15 +223,15 @@ export default function CommentList({
 
   return (
     <CommentListRoot>
-      {!forceHideSort && isShowSort ? (
-        <Box pt={2}>
+      {isShowSort ? (
+        <Box pt={isDetailPage || sortType === SORT_ALL ? 1 : 0}>
           <SortCommentList value={sortType} setValue={setSortType} />
         </Box>
       ) : null}
       {sortType === SORT_ALL ? (
         <>
           {showViewMore && (
-            <ViewMoreComment mt={2}>
+            <ViewMoreComment my={1}>
               <Box
                 sx={{ display: 'flex', alignItems: 'center' }}
                 role="button"
@@ -297,7 +292,7 @@ export default function CommentList({
               ))
             : null}
           {showViewMore && (
-            <ViewMoreComment py={2}>
+            <ViewMoreComment py={1}>
               <Box
                 sx={{ display: 'flex', alignItems: 'center' }}
                 role="button"

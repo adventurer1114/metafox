@@ -60,7 +60,7 @@ class SearchSubscriptionInvoiceForm extends AbstractForm
                     ->forAdminSearchForm()
                     ->optional()
                     ->options($this->getStatusOptions())
-                    ->label(__p('subscription::admin.subscription_status')),
+                    ->label(__p('subscription::admin.payment_status')),
                 Builder::submit()
                     ->forAdminSearchForm(),
             );

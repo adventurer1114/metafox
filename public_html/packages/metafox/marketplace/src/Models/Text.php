@@ -33,6 +33,7 @@ class Text extends Model implements ResourceText
     protected $table = 'marketplace_listing_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

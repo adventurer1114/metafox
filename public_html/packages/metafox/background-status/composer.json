@@ -1,6 +1,6 @@
 {
     "name": "metafox/background-status",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -17,12 +17,12 @@
             "alias": "backgroundstatus",
             "asset": "bgs",
             "namespace": "MetaFox\\BackgroundStatus",
-            "internalAdminUrl": "/admincp/background-status/setting",
+            "internalAdminUrl": "/admincp/bgs/collection/browse",
             "providers": [
                 "MetaFox\\BackgroundStatus\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/bgstatus": "5.0.1"
+                "@metafox/bgstatus": "*"
             },
             "frontendPaths": [
                 "packages/metafox/bgstatus"

@@ -19,18 +19,26 @@ class CanViewApprove implements PolicyRuleInterface
             return true;
         }
 
+        if ($user->hasSuperAdminRole()) {
+            return true;
+        }
+
         if ($user->entityId() == $resource->userId()) {
             return true;
+        }
+
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
         }
 
         if ($user->hasPermissionTo("$entityType.moderate")) {
             return true;
         }
 
-        if (!$resource->isApproved()) {
-            if (!$user->hasPermissionTo("$entityType.approve")) {
-                return false;
-            }
+        if (!$isApproved && !$user->hasPermissionTo("$entityType.approve")) {
+            return false;
         }
 
         return true;

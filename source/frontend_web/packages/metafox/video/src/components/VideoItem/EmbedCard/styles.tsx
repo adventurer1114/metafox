@@ -23,7 +23,7 @@ export default makeStyles(
         borderBottomRightRadius: '8px',
         border: theme.mixins.border('secondary'),
         borderTop: 'none',
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column'
       },

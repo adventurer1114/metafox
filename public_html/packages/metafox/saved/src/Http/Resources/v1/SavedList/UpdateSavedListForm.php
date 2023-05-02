@@ -3,12 +3,11 @@
 namespace MetaFox\Saved\Http\Resources\v1\SavedList;
 
 use MetaFox\Form\Builder;
-use MetaFox\Form\Html\Privacy;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxPrivacy;
+use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Saved\Models\SavedList as Model;
 use MetaFox\Yup\Yup;
-use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 
 /**
  * --------------------------------------------------------------------------
@@ -28,8 +27,8 @@ class UpdateSavedListForm extends StoreSavedListForm
 
     protected function prepare(): void
     {
-        $name     = null;
-        $privacy  = $this->resource->privacy;
+        $name    = null;
+        $privacy = $this->resource->privacy;
 
         if ($this->resource instanceof Model) {
             $name = $this->resource->name;
@@ -88,10 +87,5 @@ class UpdateSavedListForm extends StoreSavedListForm
                 ->label(__p('core::phrase.submit')),
             Builder::cancelButton(),
         );
-    }
-
-    protected function buildPrivacyField(): Privacy
-    {
-        return Builder::privacy();
     }
 }

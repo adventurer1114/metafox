@@ -12,6 +12,6 @@ export default createBlock<Props>({
   extendBlock: Base,
   defaults: {
     title: 'In-Depth Statistics',
-    blockLayout: 'Admin - Contained'
+    blockLayout: 'Admin - Block - Contained'
   }
 });

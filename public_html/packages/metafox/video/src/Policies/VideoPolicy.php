@@ -44,6 +44,12 @@ class VideoPolicy implements ResourcePolicyInterface
 
     public function view(User $user, Entity $resource): bool
     {
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('video.moderate')) {
             return true;
         }
@@ -71,7 +77,7 @@ class VideoPolicy implements ResourcePolicyInterface
             return true;
         }
 
-        if ($resource->isApproved()) {
+        if ($isApproved) {
             return true;
         }
 
@@ -92,8 +98,12 @@ class VideoPolicy implements ResourcePolicyInterface
         return false;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -114,10 +124,6 @@ class VideoPolicy implements ResourcePolicyInterface
 
         if ($owner instanceof User) {
             if ($owner->entityId() != $user->entityId()) {
-                if ($owner->entityType() == 'user') {
-                    return false;
-                }
-
                 // Check can view on owner.
                 if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
                     return false;

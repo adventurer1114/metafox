@@ -157,4 +157,17 @@ class PageClaimRepository extends AbstractRepository implements PageClaimReposit
     {
         app('events')->dispatch('notification.delete_mass_notification_by_item', [$claim], true);
     }
+
+    public function deleteClaimByUser(User $user, int $pageId): void
+    {
+        $claim = $this->getModel()->newQuery()
+            ->where('user_id', $user->entityId())
+            ->where('page_id', $pageId)
+            ->first();
+
+        if ($claim instanceof PageClaim) {
+            $claim->delete();
+            $this->deleteNotification($claim);
+        }
+    }
 }

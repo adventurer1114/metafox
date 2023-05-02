@@ -1,6 +1,6 @@
 {
     "name": "metafox/schedule",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Schedule",
     "keyword": "metafox/schedule",
     "authors": [
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/schedule": "5.0.1"
+                "@metafox/schedule": "*"
             },
             "internalUrl": "/schedule",
             "internalAdminUrl": "/admincp/schedule/setting"

@@ -49,29 +49,13 @@ class StoreRequest extends FormRequest
             'owner_id' => [
                 'sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id'),
             ],
-            'privacy'                => ['required', new PrivacyRule()],
-            'location'               => ['required', 'array'],
-            'location.lat'           => ['required', 'numeric'],
-            'location.lng'           => ['required', 'numeric'],
-            'location.address'       => ['required', 'string'],
-            'location.short_name'    => ['required', 'string'],
-            'thumbnail_photo'        => ['sometimes', 'array'],
-            'thumbnail_photo.status' => [
-                'required_with:thumbnail_photo', new AllowInRule([
-                    MetaFoxConstant::FILE_REMOVE_STATUS, MetaFoxConstant::FILE_UPDATE_STATUS,
-                ]),
-            ],
-            'thumbnail_photo.temp_file' => [
-                'required_if:thumbnail_photo.status,update', 'numeric',
-                new ExistIfGreaterThanZero('exists:storage_files,id'),
-            ],
-            'thumbnail_photo.file_type' => [
-                'required_if:thumbnail_photo.status,update', 'string', new AllowInRule(
-                    ['photo'],
-                    __p('marketplace::phrase.the_thumbnail_is_invalid')
-                ),
-            ],
-            'attached_photos'      => ['sometimes', 'array', new MaximumAttachedPhotosPerUpload($maxUpload)],
+            'privacy'              => ['required', new PrivacyRule()],
+            'location'             => ['required', 'array'],
+            'location.lat'         => ['required', 'numeric'],
+            'location.lng'         => ['required', 'numeric'],
+            'location.address'     => ['required', 'string'],
+            'location.short_name'  => ['required', 'string'],
+            'attached_photos'      => ['required', 'array', new MaximumAttachedPhotosPerUpload($maxUpload)],
             'attached_photos.*.id' => [
                 'required_if:attached_photos.*.status,update,remove', 'numeric',
                 new ExistIfGreaterThanZero('exists:storage_files,id'),
@@ -135,7 +119,7 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'price.*.value.required' => __p('marketplace::phrase.price_is_required'),
+            'price.*.value.required' => __p('marketplace::phrase.price_is_a_required_field'),
         ];
     }
 

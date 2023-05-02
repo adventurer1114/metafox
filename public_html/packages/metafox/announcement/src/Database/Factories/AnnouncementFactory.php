@@ -59,4 +59,9 @@ class AnnouncementFactory extends Factory
             return ['style_id' => $style->entityId()];
         });
     }
+
+    public function setOwner()
+    {
+        return $this;
+    }
 }

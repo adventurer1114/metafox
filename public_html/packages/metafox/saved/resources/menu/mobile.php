@@ -14,7 +14,6 @@ return [
         'label'    => 'blog::phrase.save',
         'ordering' => 11,
         'value'    => 'saveItemDetail',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -27,7 +26,6 @@ return [
         'label'    => 'blog::phrase.remove_from_saved_list',
         'ordering' => 12,
         'value'    => 'undoSaveItemDetail',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -41,7 +39,6 @@ return [
         'label'    => 'blog::phrase.save',
         'ordering' => 11,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -54,7 +51,6 @@ return [
         'label'    => 'blog::phrase.remove_from_saved_list',
         'ordering' => 12,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -67,7 +63,6 @@ return [
         'label'    => 'event::phrase.save',
         'ordering' => 15,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -80,7 +75,6 @@ return [
         'label'    => 'event::phrase.remove_from_saved_list',
         'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -94,7 +88,6 @@ return [
         'label'    => 'activity::phrase.save_post',
         'ordering' => 17,
         'value'    => 'saveItem',
-        'icon'     => 'ico-bookmark-o',
     ],
     [
         'showWhen' => [
@@ -107,7 +100,6 @@ return [
         'label'    => 'activity::phrase.remove_from_saved_list',
         'ordering' => 18,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -119,8 +111,7 @@ return [
         'name'     => 'save',
         'label'    => 'core::phrase.save',
         'ordering' => 4,
-        'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
+        'value'    => 'saveItemDetail',
     ],
     [
         'showWhen' => [
@@ -132,8 +123,7 @@ return [
         'name'     => 'unsave',
         'label'    => 'forum::phrase.forum_phrase_item_action_remove_from_saved_list',
         'ordering' => 5,
-        'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
+        'value'    => 'undoSaveItemDetail',
     ],
     [
         'showWhen' => [
@@ -146,7 +136,6 @@ return [
         'label'    => 'core::phrase.save',
         'ordering' => 4,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -159,7 +148,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_remove_from_saved_list',
         'ordering' => 5,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -171,8 +159,7 @@ return [
         'name'     => 'save',
         'label'    => 'core::phrase.save',
         'ordering' => 19,
-        'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
+        'value'    => 'saveItemDetail',
     ],
     [
         'showWhen' => [
@@ -184,8 +171,7 @@ return [
         'name'     => 'unsave',
         'label'    => 'forum::phrase.forum_phrase_item_action_remove_from_saved_list',
         'ordering' => 20,
-        'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
+        'value'    => 'undoSaveItemDetail',
     ],
     [
         'showWhen' => [
@@ -198,7 +184,6 @@ return [
         'label'    => 'core::phrase.save',
         'ordering' => 19,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -211,7 +196,6 @@ return [
         'label'    => 'forum::phrase.forum_phrase_item_action_remove_from_saved_list',
         'ordering' => 20,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -228,7 +212,6 @@ return [
         'label'    => 'group::phrase.save',
         'ordering' => 14,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -244,7 +227,6 @@ return [
         'label'    => 'group::phrase.remove_from_saved_list',
         'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -258,7 +240,6 @@ return [
         'label'    => 'marketplace::phrase.save',
         'ordering' => 10,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -271,7 +252,6 @@ return [
         'label'    => 'marketplace::phrase.remove_from_saved_list',
         'ordering' => 11,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -285,7 +265,6 @@ return [
         'label'    => 'marketplace::phrase.save',
         'ordering' => 13,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -298,7 +277,6 @@ return [
         'label'    => 'marketplace::phrase.remove_from_saved_list',
         'ordering' => 14,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -308,9 +286,8 @@ return [
         'menu'     => 'music.music_album.itemActionMenu',
         'name'     => 'save',
         'label'    => 'music::phrase.save',
-        'ordering' => 9,
+        'ordering' => 14,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -320,9 +297,30 @@ return [
         'menu'     => 'music.music_album.itemActionMenu',
         'name'     => 'un-save',
         'label'    => 'music::phrase.remove_from_saved_list',
-        'ordering' => 10,
+        'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_saved', 0],
+        ],
+        'menu'     => 'music.music_album.detailActionMenu',
+        'name'     => 'save',
+        'label'    => 'music::phrase.save',
+        'ordering' => 14,
+        'value'    => 'saveItemDetail',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_saved', 1],
+        ],
+        'menu'     => 'music.music_album.detailActionMenu',
+        'name'     => 'un-save',
+        'label'    => 'music::phrase.remove_from_saved_list',
+        'ordering' => 15,
+        'value'    => 'undoSaveItemDetail',
     ],
     [
         'showWhen' => [
@@ -332,9 +330,8 @@ return [
         'menu'     => 'music.music_playlist.itemActionMenu',
         'name'     => 'save',
         'label'    => 'music::phrase.save',
-        'ordering' => 9,
+        'ordering' => 14,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -344,9 +341,30 @@ return [
         'menu'     => 'music.music_playlist.itemActionMenu',
         'name'     => 'un-save',
         'label'    => 'music::phrase.remove_from_saved_list',
-        'ordering' => 10,
+        'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_saved', 0],
+        ],
+        'menu'     => 'music.music_playlist.detailActionMenu',
+        'name'     => 'save',
+        'label'    => 'music::phrase.save',
+        'ordering' => 14,
+        'value'    => 'saveItemDetail',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_saved', 1],
+        ],
+        'menu'     => 'music.music_playlist.detailActionMenu',
+        'name'     => 'un-save',
+        'label'    => 'music::phrase.remove_from_saved_list',
+        'ordering' => 15,
+        'value'    => 'undoSaveItemDetail',
     ],
     [
         'showWhen' => [
@@ -356,9 +374,8 @@ return [
         'menu'     => 'music.music_song.itemActionMenu',
         'name'     => 'save',
         'label'    => 'music::phrase.save',
-        'ordering' => 9,
+        'ordering' => 14,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -368,9 +385,30 @@ return [
         'menu'     => 'music.music_song.itemActionMenu',
         'name'     => 'un-save',
         'label'    => 'music::phrase.remove_from_saved_list',
-        'ordering' => 10,
+        'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_saved', 0],
+        ],
+        'menu'     => 'music.music_song.detailActionMenu',
+        'name'     => 'save',
+        'label'    => 'music::phrase.save',
+        'ordering' => 14,
+        'value'    => 'saveItemDetail',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['eq', 'item.is_saved', 1],
+        ],
+        'menu'     => 'music.music_song.detailActionMenu',
+        'name'     => 'un-save',
+        'label'    => 'music::phrase.remove_from_saved_list',
+        'ordering' => 15,
+        'value'    => 'undoSaveItemDetail',
     ],
     [
         'showWhen' => [
@@ -380,10 +418,9 @@ return [
         ],
         'menu'     => 'photo.photo.itemActionMenu',
         'name'     => 'save',
-        'label'    => 'photo::phrase.save_item',
+        'label'    => 'photo::phrase.save',
         'ordering' => 5,
         'value'    => 'saveItem',
-        'icon'     => 'ico-bookmark-o',
     ],
     [
         'showWhen' => [
@@ -395,7 +432,6 @@ return [
         'label'    => 'photo::phrase.remove_from_saved_list',
         'ordering' => 6,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -408,7 +444,6 @@ return [
         'label'    => 'photo::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -421,7 +456,6 @@ return [
         'label'    => 'photo::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -434,7 +468,6 @@ return [
         'label'    => 'poll::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -447,7 +480,6 @@ return [
         'label'    => 'poll::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -461,7 +493,6 @@ return [
         'label'    => 'quiz::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItemDetail',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -475,7 +506,6 @@ return [
         'label'    => 'quiz::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItemDetail',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [],
@@ -484,7 +514,6 @@ return [
         'label'    => 'saved::phrase.remove_from_saved_list',
         'ordering' => 2,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -496,7 +525,6 @@ return [
         'label'    => 'saved::phrase.mark_as_opened',
         'ordering' => 3,
         'value'    => 'saved/markAsOpened',
-        'icon'     => 'ico-folder-check-o',
     ],
     [
         'showWhen' => [
@@ -508,7 +536,6 @@ return [
         'label'    => 'saved::phrase.mark_as_unopened',
         'ordering' => 4,
         'value'    => 'saved/markAsUnOpened',
-        'icon'     => 'ico-folder-o',
     ],
     [
         'menu'     => 'saved.saved.itemActionMenu',
@@ -516,68 +543,84 @@ return [
         'label'    => 'saved::phrase.add_to_collection',
         'ordering' => 5,
         'value'    => 'saved/addToCollection',
-        'icon'     => 'ico-folder-o',
     ],
     [
+
         'showWhen' => [
             'and',
             ['truthy', 'acl.saved.saved_list.update'],
+            ['truthy', 'item.extra.is_owner'],
         ],
         'menu'     => 'saved.saved_list.itemActionMenu',
         'name'     => 'edit',
         'label'    => 'saved::phrase.edit',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.is_owner'],
+        ],
         'menu'     => 'saved.saved_list.itemActionMenu',
         'name'     => 'add_friend',
         'label'    => 'saved::phrase.add_friends',
         'ordering' => 2,
         'value'    => 'saved_list/addFriend',
-        'icon'     => 'ico-plus',
     ],
     [
         'menu'     => 'saved.saved_list.itemActionMenu',
         'name'     => 'view_friend',
-        'label'    => 'saved::phrase.view_friends',
+        'label'    => 'saved::phrase.view_members_list',
         'ordering' => 3,
         'value'    => 'saved_list/viewFriend',
-        'icon'     => 'ico-user2-next-o',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['falsy', 'item.extra.is_owner'],
+        ],
+        'menu'     => 'saved.saved_list.itemActionMenu',
+        'name'     => 'leave_collection',
+        'label'    => 'saved::phrase.leave_collection',
+        'ordering' => 4,
+        'value'    => 'saved_list/leaveCollection',
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'acl.saved.saved_list.delete'],
+            ['truthy', 'item.extra.is_owner'],
         ],
         'style'    => 'danger',
         'menu'     => 'saved.saved_list.itemActionMenu',
         'name'     => 'delete',
         'label'    => 'saved::phrase.delete',
-        'ordering' => 4,
+        'ordering' => 10,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'acl.saved.saved_list.update'],
+            ['truthy', 'item.extra.is_owner'],
         ],
         'menu'     => 'saved.saved_list.detailActionMenu',
         'name'     => 'edit',
         'label'    => 'saved::phrase.edit',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.is_owner'],
+        ],
         'menu'     => 'saved.saved_list.detailActionMenu',
         'name'     => 'add_friend',
         'label'    => 'saved::phrase.add_friends',
         'ordering' => 2,
         'value'    => 'saved_list/addFriend',
-        'icon'     => 'ico-plus',
     ],
     [
         'menu'     => 'saved.saved_list.detailActionMenu',
@@ -585,20 +628,30 @@ return [
         'label'    => 'saved::phrase.view_friends',
         'ordering' => 3,
         'value'    => 'saved_list/viewFriend',
-        'icon'     => 'ico-user2-next-o',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['falsy', 'item.extra.is_owner'],
+        ],
+        'menu'     => 'saved.saved_list.detailActionMenu',
+        'name'     => 'leave_collection',
+        'label'    => 'saved::phrase.leave_collection',
+        'ordering' => 4,
+        'value'    => 'saved_list/leaveCollection',
     ],
     [
         'showWhen' => [
             'and',
             ['truthy', 'acl.saved.saved_list.delete'],
+            ['truthy', 'item.extra.is_owner'],
         ],
         'style'    => 'danger',
         'menu'     => 'saved.saved_list.detailActionMenu',
         'name'     => 'delete',
         'label'    => 'saved::phrase.delete',
-        'ordering' => 4,
+        'ordering' => 10,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen' => [
@@ -612,7 +665,6 @@ return [
         'label'    => 'video::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -625,7 +677,6 @@ return [
         'label'    => 'video::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -638,7 +689,6 @@ return [
         'label'    => 'activity::phrase.save_post',
         'ordering' => 5,
         'value'    => 'saveItem',
-        'icon'     => 'ico-bookmark-o',
     ],
     [
         'showWhen' => [
@@ -650,7 +700,6 @@ return [
         'label'    => 'activity::phrase.remove_from_saved_list',
         'ordering' => 6,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -664,7 +713,6 @@ return [
         'label'    => 'page::phrase.save',
         'ordering' => 12,
         'value'    => 'saveItem',
-        'icon'     => 'ico-bookmark-o',
     ],
     [
         'showWhen' => [
@@ -677,7 +725,6 @@ return [
         'label'    => 'page::phrase.remove_from_saved_list',
         'ordering' => 13,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -691,7 +738,6 @@ return [
         'label'    => 'event::phrase.save',
         'ordering' => 15,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -704,7 +750,6 @@ return [
         'label'    => 'event::phrase.remove_from_saved_list',
         'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -718,7 +763,6 @@ return [
         'label'    => 'video::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -731,7 +775,6 @@ return [
         'label'    => 'video::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -741,10 +784,9 @@ return [
         ],
         'menu'     => 'photo.photo.detailActionMenu',
         'name'     => 'save',
-        'label'    => 'photo::phrase.save_item',
+        'label'    => 'photo::phrase.save',
         'ordering' => 5,
         'value'    => 'saveItem',
-        'icon'     => 'ico-bookmark-o',
     ],
     [
         'showWhen' => [
@@ -756,7 +798,6 @@ return [
         'label'    => 'photo::phrase.remove_from_saved_list',
         'ordering' => 6,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -769,7 +810,6 @@ return [
         'label'    => 'photo::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -782,7 +822,6 @@ return [
         'label'    => 'photo::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -795,7 +834,6 @@ return [
         'label'    => 'poll::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -808,7 +846,6 @@ return [
         'label'    => 'poll::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -822,7 +859,6 @@ return [
         'label'    => 'quiz::phrase.save',
         'ordering' => 9,
         'value'    => 'saveItemDetail',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -836,7 +872,6 @@ return [
         'label'    => 'quiz::phrase.remove_from_saved_list',
         'ordering' => 10,
         'value'    => 'undoSaveItemDetail',
-        'icon'     => 'ico-list-del',
     ],
     [
         'showWhen' => [
@@ -852,7 +887,6 @@ return [
         'label'    => 'group::phrase.save',
         'ordering' => 14,
         'value'    => 'saveItem',
-        'icon'     => 'ico-save-o',
     ],
     [
         'showWhen' => [
@@ -868,12 +902,14 @@ return [
         'label'    => 'group::phrase.remove_from_saved_list',
         'ordering' => 15,
         'value'    => 'undoSaveItem',
-        'icon'     => 'ico-list-del',
     ],
     [
-        'menu'     => 'saved.sidebarMenu',
-        'name'     => 'all',
-        'params'   => [],
+        'menu'   => 'saved.sidebarMenu',
+        'name'   => 'all',
+        'params' => [
+            'module_name'   => 'saved',
+            'resource_name' => 'saved_list',
+        ],
         'asModal'  => true,
         'label'    => 'saved::phrase.all_saved_items',
         'ordering' => 1,
@@ -909,5 +945,97 @@ return [
         'as'        => 'item',
         'icon'      => 'bookmark-o',
         'iconColor' => '#ff564a',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_delete'],
+        ],
+        'menu'     => 'saved.saved.itemActionWithinListMenu',
+        'name'     => 'unsave',
+        'label'    => 'saved::phrase.remove_from_saved_list',
+        'ordering' => 2,
+        'value'    => 'saved/deleteItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_remove'],
+        ],
+        'menu'     => 'saved.saved.itemActionWithinListMenu',
+        'name'     => 'remove_from_collection',
+        'label'    => 'saved::phrase.remove_from_collection',
+        'ordering' => 3,
+        'value'    => 'saved/removeCollectionItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['falsy', 'item.is_opened'],
+        ],
+        'menu'     => 'saved.saved.itemActionWithinListMenu',
+        'name'     => 'mark_as_opened',
+        'label'    => 'saved::phrase.mark_as_opened',
+        'ordering' => 4,
+        'value'    => 'saved/markAsOpened',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.is_opened'],
+        ],
+        'menu'     => 'saved.saved.itemActionWithinListMenu',
+        'name'     => 'mark_as_un_opened',
+        'label'    => 'saved::phrase.mark_as_unopened',
+        'ordering' => 5,
+        'value'    => 'saved/markAsUnOpened',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['falsy', 'item.is_saved'],
+            ['truthy', 'item.extra.can_save_item'],
+        ],
+        'menu'     => 'livestreaming.live_video.detailActionMenu',
+        'name'     => 'save',
+        'label'    => 'livestreaming::phrase.save',
+        'ordering' => 12,
+        'value'    => 'saveItemDetail',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.is_saved'],
+            ['truthy', 'item.extra.can_save_item'],
+        ],
+        'menu'     => 'livestreaming.live_video.detailActionMenu',
+        'name'     => 'un-save',
+        'label'    => 'livestreaming::phrase.remove_from_saved_list',
+        'ordering' => 13,
+        'value'    => 'undoSaveItemDetail',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['falsy', 'item.is_saved'],
+            ['truthy', 'item.extra.can_save_item'],
+        ],
+        'menu'     => 'livestreaming.live_video.itemActionMenu',
+        'name'     => 'save',
+        'label'    => 'livestreaming::phrase.save',
+        'ordering' => 12,
+        'value'    => 'saveItem',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.is_saved'],
+            ['truthy', 'item.extra.can_save_item'],
+        ],
+        'menu'     => 'livestreaming.live_video.itemActionMenu',
+        'name'     => 'un-save',
+        'label'    => 'livestreaming::phrase.remove_from_saved_list',
+        'ordering' => 13,
+        'value'    => 'undoSaveItem',
     ],
 ];

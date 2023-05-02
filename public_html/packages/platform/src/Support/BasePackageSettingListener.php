@@ -133,10 +133,15 @@ class BasePackageSettingListener implements PackageSettingListenerInterface
     }
 
     /**
-     * return list of classname of checkers
+     * return list of classname of checkers.
      * @return array
      */
     public function getCheckers(): array
+    {
+        return [];
+    }
+
+    public function getAdMobPages(): array
     {
         return [];
     }

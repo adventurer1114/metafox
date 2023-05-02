@@ -2,7 +2,6 @@
 
 namespace MetaFox\Saved\Policies;
 
-use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
@@ -38,6 +37,10 @@ class SavedListPolicy implements ResourcePolicyInterface
             return false;
         }
 
+        if ($this->viewMember($user, $resource)) {
+            return true;
+        }
+
         if ($user->entityId() != $resource->userId()) {
             return false;
         }
@@ -60,6 +63,10 @@ class SavedListPolicy implements ResourcePolicyInterface
 
     public function update(User $user, ?Entity $resource = null): bool
     {
+        if ($user->hasSuperAdminRole()) {
+            return true;
+        }
+
         if ($this->deleteOwn($user, $resource) == false) {
             return false;
         }
@@ -69,6 +76,10 @@ class SavedListPolicy implements ResourcePolicyInterface
 
     public function delete(User $user, ?Entity $resource = null): bool
     {
+        if ($user->hasSuperAdminRole()) {
+            return true;
+        }
+
         if ($this->deleteOwn($user, $resource) == false) {
             return false;
         }
@@ -81,7 +92,7 @@ class SavedListPolicy implements ResourcePolicyInterface
      * @codeCoverageIgnore
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return false;
     }
@@ -112,6 +123,10 @@ class SavedListPolicy implements ResourcePolicyInterface
 
     public function removeMember(User $user, ?Entity $resource = null): bool
     {
+        if ($user->hasSuperAdminRole() || $user->hasAdminRole()) {
+            return true;
+        }
+
         if ($user->entityId() != $resource->userId()) {
             return false;
         }
@@ -130,5 +145,18 @@ class SavedListPolicy implements ResourcePolicyInterface
         }
 
         return true;
+    }
+
+    public function addFriend(User $user, ?Entity $resource = null): bool
+    {
+        if ($user->hasSuperAdminRole()) {
+            return true;
+        }
+
+        if (!$resource instanceof SavedList) {
+            return false;
+        }
+
+        return $resource->userId() == $user->entityId();
     }
 }

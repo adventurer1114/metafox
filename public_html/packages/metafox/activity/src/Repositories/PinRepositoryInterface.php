@@ -60,7 +60,7 @@ interface PinRepositoryInterface
      * @param  int   $feedId
      * @return array
      */
-    public function getPinOwnwerIds(User $context, int $feedId): array;
+    public function getPinOwnerIds(User $context, int $feedId): array;
 
     /**
      * @param  int   $ownerId

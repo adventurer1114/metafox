@@ -12,7 +12,6 @@ return [
         'label'    => 'comment::phrase.edit',
         'ordering' => 1,
         'value'    => 'editComment',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -24,7 +23,6 @@ return [
         'label'    => 'comment::phrase.view_edit_history',
         'ordering' => 2,
         'value'    => 'comment/showHistory',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -37,7 +35,6 @@ return [
         'label'    => 'comment::phrase.hide_comment',
         'ordering' => 3,
         'value'    => 'comment/hideGlobalItem',
-        'icon'     => 'ico-eye-off-o',
     ],
     [
         'showWhen' => [
@@ -50,7 +47,6 @@ return [
         'label'    => 'comment::phrase.unhide_comment',
         'ordering' => 3,
         'value'    => 'comment/unhideGlobalItem',
-        'icon'     => 'ico-eye-o',
     ],
     [
         'showWhen' => [
@@ -63,7 +59,6 @@ return [
         'label'    => 'core::web.hide',
         'ordering' => 4,
         'value'    => 'comment/hideItem',
-        'icon'     => 'ico-eye-off-o',
     ],
     [
         'showWhen' => [
@@ -76,7 +71,6 @@ return [
         'label'    => 'comment::phrase.unhide_comment',
         'ordering' => 4,
         'value'    => 'comment/unhideItem',
-        'icon'     => 'ico-eye-o',
     ],
     [
         'showWhen' => [
@@ -90,6 +84,5 @@ return [
         'label'     => 'comment::phrase.delete',
         'ordering'  => 5,
         'value'     => 'deleteComment',
-        'icon'      => 'ico-trash',
     ],
 ];

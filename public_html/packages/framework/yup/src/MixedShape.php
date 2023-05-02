@@ -97,7 +97,7 @@ class MixedShape implements Shape
     public function required(?string $error = null): self
     {
         if (!$error) {
-            $error = __p('validation.this_field_is_required');
+            $error = __p('validation.this_field_is_a_required_field');
         }
 
         return $this->setAttribute('required', true, $error);

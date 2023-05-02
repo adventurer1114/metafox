@@ -92,6 +92,6 @@ export function* shareOnGroupProfile(action: ItemLocalAction) {
   });
 }
 
-const sagas = [takeLatest('shareOnGroupProfile', shareOnGroupProfile)];
+const sagas = [takeLatest('group/shareOnGroupProfile', shareOnGroupProfile)];
 
 export default sagas;

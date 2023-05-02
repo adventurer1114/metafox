@@ -17,7 +17,7 @@ class LikeTabsRequest extends FormRequest
     public function rules()
     {
         return [
-            'item_id'   => ['required', 'numeric'],
+            'item_id'   => ['required', 'numeric', 'min:0'],
             'item_type' => ['required', 'string'],
         ];
     }

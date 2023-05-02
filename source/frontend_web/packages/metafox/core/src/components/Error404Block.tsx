@@ -50,7 +50,7 @@ const Error404Title = styled(Typography, {
   slot: 'Title'
 })<{ component: string; variant: string }>(({ theme }) => ({
   maxWidth: '100%',
-  marginBottom: theme.spacing(6),
+  marginBottom: theme.spacing(2),
   fontWeight: 'bold',
   textAlign: 'center',
   [theme.breakpoints.down('sm')]: {
@@ -69,12 +69,18 @@ const Error404Block = ({
   const pageParams = usePageParams();
 
   const image = assetUrl('layout.image_error_404');
+  const debugTraceId = pageParams?.debugTraceId;
 
   return (
     <Error404Root className="error404Block" data-testid="error404">
       <Error404Title color={color} component="h1" variant="h1">
         {pageParams?.title || title}
       </Error404Title>
+      {debugTraceId ? (
+        <Typography color="primary" variant="body1">
+          Trace-ID: {debugTraceId}
+        </Typography>
+      ) : null}
       <Error404Image src={image} alt={title} />
     </Error404Root>
   );

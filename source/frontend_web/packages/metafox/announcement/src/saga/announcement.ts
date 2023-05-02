@@ -10,7 +10,9 @@ import {
   getItem,
   getResourceAction,
   handleActionError,
-  patchEntity
+  patchEntity,
+  ItemLocalAction,
+  getItemActionConfig
 } from '@metafox/framework';
 import { takeLatest } from 'redux-saga/effects';
 
@@ -65,8 +67,8 @@ export function* markAsRead(action: {
   payload;
   meta: { onSuccess: () => {} };
 }) {
-  const id = action.payload;
-  const { onSuccess } = action.meta;
+  const { id, isDetail } = action.payload;
+  const { onSuccess } = action?.meta;
 
   const identity = `announcement.entities.announcement.${id}`;
 
@@ -75,7 +77,7 @@ export function* markAsRead(action: {
 
     if (!item) return null;
 
-    const { module_name, resource_name } = item;
+    const { module_name, resource_name, statistic } = item;
     const { apiUrl, apiMethod } = yield* getResourceAction(
       module_name,
       resource_name,
@@ -90,21 +92,54 @@ export function* markAsRead(action: {
       data: { announcement_id: item.id }
     });
 
-    if (item.can_be_closed) {
+    if (item.can_be_closed && !isDetail) {
       yield* deleteEntity(identity);
       typeof onSuccess === 'function' && onSuccess();
     } else {
-      yield* patchEntity(identity, { is_read: true });
+      yield* patchEntity(identity, {
+        is_read: true,
+        statistic: {
+          ...statistic,
+          total_view: statistic?.total_view + 1
+        }
+      });
     }
   } catch (err) {
     yield* handleActionError(err);
   }
 }
 
+export function* openListViewer({ payload }: ItemLocalAction) {
+  const { identity } = payload;
+
+  const item = yield* getItem(identity);
+
+  if (!item) return;
+
+  const { dialogBackend, compactData } = yield* getGlobalContext();
+
+  const dataSource = yield* getItemActionConfig(item, 'viewAnalytic');
+
+  try {
+    yield dialogBackend.present({
+      component: 'announcement.dialog.listViewer',
+      props: {
+        dialogTitle: 'read_by',
+        apiUrl: dataSource.apiUrl,
+        apiParams: compactData(dataSource.apiParams, item),
+        pagingId: `announcement/openListViewer${item.id}`
+      }
+    });
+  } catch (error) {
+    yield* handleActionError(error);
+  }
+}
+
 const sagas = [
   takeLatest('announcement/getAnnouncementList', getAnnouncementList),
   takeLatest('announcement/getAnnouncementPage', getAnnouncementPage),
-  takeLatest('announcement/markAsRead', markAsRead)
+  takeLatest('announcement/markAsRead', markAsRead),
+  takeLatest('announcement/openListViewer', openListViewer)
 ];
 
 export default sagas;

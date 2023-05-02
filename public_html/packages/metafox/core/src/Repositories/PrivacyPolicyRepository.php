@@ -153,9 +153,9 @@ class PrivacyPolicyRepository implements PrivacyPolicy
     /** @var array<string, bool> */
     private array $permissionOnOwner = [];
 
-    private function checkPermissionOwnerCache(User $user, User $owner): ?bool
+    private function checkPermissionOwnerCache(User $user, ?User $owner): ?bool
     {
-        $key = $user->entityId() . '_' . $owner->entityId();
+        $key = $user->entityId() . '_' . $owner?->entityId();
 
         return array_key_exists($key, $this->permissionOnOwner) ? $this->permissionOnOwner[$key] : null;
     }
@@ -171,13 +171,12 @@ class PrivacyPolicyRepository implements PrivacyPolicy
      * @inheritdoc
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    public function checkPermissionOwner(User $user, User $owner, bool $cache = true): bool
+    public function checkPermissionOwner(User $user, ?User $owner, bool $cache = true): bool
     {
-        $getFromCache = $this->checkPermissionOwnerCache($user, $owner);
-
-        if ($cache === false) {
-            $getFromCache = null;
+        if (!$owner) {
+            return false;
         }
+        $getFromCache = $cache ? $this->checkPermissionOwnerCache($user, $owner) : null;
 
         if ($getFromCache !== null) {
             return $getFromCache;

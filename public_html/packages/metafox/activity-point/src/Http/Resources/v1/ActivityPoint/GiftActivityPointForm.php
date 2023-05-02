@@ -48,30 +48,39 @@ class GiftActivityPointForm extends AbstractForm
      */
     protected function initialize(): void
     {
-        $currentPoints = ActivityPoint::getTotalActivityPoints(user());
-        $fullName      = $this->resource instanceof \MetaFox\User\Models\User ? $this->resource->full_name : '';
+        $context         = user();
+        $currentPoints   = ActivityPoint::getTotalActivityPoints($context);
+        $fullName        = $this->resource instanceof \MetaFox\User\Models\User ? $this->resource->full_name : '';
+        $basic           = $this->addBasic();
+        $isDisabledPoint = false;
 
-        $basic = $this->addBasic();
+        $yup = Yup::number()
+            ->required(__p('activitypoint::phrase.gifted_point_is_a_required_field'))
+            ->int()
+            ->min(1);
+
+        $info = __p('activitypoint::phrase.gift_points_text', [
+            'current_points' => $currentPoints,
+            'user'           => $fullName,
+        ]);
+        if (!$context->hasSuperAdminRole()) {
+            $isDisabledPoint = $currentPoints <= 0;
+            $info            = __p('activitypoint::phrase.supper_admin_gift_points_text', ['user' => $fullName]);
+
+            $yup->max($currentPoints, __p('activitypoint::phrase.you_have_only_points', ['points' => $currentPoints]));
+        }
+
         $basic->addFields(
             Builder::typography('info')
-                ->plainText(__p('activitypoint::phrase.gift_points_text', [
-                    'current_points' => $currentPoints,
-                    'user'           => $fullName,
-                ]))
+                ->plainText($info)
                 ->color('text.secondary'),
             Builder::text('points')
                 ->asNumber()
                 ->preventScrolling()
                 ->required()
-                ->disabled($currentPoints <= 0)
+                ->disabled($isDisabledPoint)
                 ->label(__p('activitypoint::phrase.how_many_points'))
-                ->yup(
-                    Yup::number()
-                        ->required(__p('activitypoint::phrase.gifted_point_is_required'))
-                        ->int()
-                        ->min(1)
-                        ->max($currentPoints, __p('activitypoint::phrase.you_have_only_points', ['points' => $currentPoints]))
-                ),
+                ->yup($yup),
             Builder::hidden('user_id'),
         );
 
@@ -80,7 +89,7 @@ class GiftActivityPointForm extends AbstractForm
                 Builder::cancelButton(),
                 Builder::submit()
                     ->label(__p('activitypoint::phrase.gift_points'))
-                    ->disabled($currentPoints <= 0),
+                    ->disabled($isDisabledPoint),
             );
     }
 }

@@ -31,7 +31,7 @@ class ProfileUpdatedByAdmin extends Notification
             ->locale($this->getLocale())
             ->subject($this->localize('user::phrase.mail.profile_updated_by_admin_subject'))
             ->line($this->localize('user::phrase.mail.profile_updated_by_admin_text'))
-            ->action($this->localize('core::phrase.review_now'), $this->model->toUrl());
+            ->action($this->localize('core::phrase.view_now'), $this->model->toUrl());
     }
 
     public function toArray(IsNotifiable $notifiable): array

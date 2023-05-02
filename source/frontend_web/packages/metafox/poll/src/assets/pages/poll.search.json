@@ -23,7 +23,7 @@
           "slotName": "main",
           "title": "",
           "itemView": "poll.itemView.mainCard",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Poll - Main Card",
           "emptyPageProps": {
             "noBlock": 0,
@@ -63,13 +63,6 @@
             "xl": 12
           },
           "blockId": "xb5gs"
-        },
-        {
-          "component": "core.block.footer",
-          "slotName": "subside",
-          "dividerVariant": "middle",
-          "blockLayout": "footer",
-          "blockId": "qlfp"
         },
         {
           "blockId": "g3p9c",

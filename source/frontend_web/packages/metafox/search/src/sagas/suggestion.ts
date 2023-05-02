@@ -5,7 +5,7 @@
 
 import { getGlobalContext, GlobalState } from '@metafox/framework';
 import { APP_USER } from '@metafox/user/constant';
-import { put, select, throttle } from 'redux-saga/effects';
+import { put, select, debounce } from 'redux-saga/effects';
 
 const APP_GROUP = 'group';
 const APP_PAGE = 'page';
@@ -94,6 +94,6 @@ export function* query(action: QueryAction) {
   }
 }
 
-const sagas = [throttle(500, 'suggestions/QUERY', query)];
+const sagas = [debounce(500, 'suggestions/QUERY', query)];
 
 export default sagas;

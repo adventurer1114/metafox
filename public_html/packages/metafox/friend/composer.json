@@ -1,6 +1,6 @@
 {
     "name": "metafox/friend",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Friend\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/friend": "5.0.1"
+                "@metafox/friend": "*"
             },
             "frontendPaths": [
                 "packages/metafox/friend"

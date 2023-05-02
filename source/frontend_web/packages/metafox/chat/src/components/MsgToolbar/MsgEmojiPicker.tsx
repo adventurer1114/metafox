@@ -1,6 +1,6 @@
 import { HandleAction } from '@metafox/framework';
 import { LineIcon } from '@metafox/ui';
-import { Button, styled } from '@mui/material';
+import { Button, styled, Tooltip } from '@mui/material';
 import React from 'react';
 import AttachEmojiButton from './AttachEmojiButton';
 
@@ -18,18 +18,26 @@ const UIChatItemBtn = styled(Button, {
   lineHeight: theme.spacing(2.5)
 }));
 
-const Control = React.forwardRef((props: any, ref: any) => {
+const Control = React.forwardRef(({ title, ...rest }: any, ref: any) => {
   return (
-    <UIChatItemBtn
-      className={'uiChatItemBtn uiChatIconBtn'}
-      disableFocusRipple
-      disableRipple
-      disableTouchRipple
-      {...props}
-      ref={ref}
+    <Tooltip
+      title={title}
+      placement="top"
+      PopperProps={{
+        disablePortal: true
+      }}
     >
-      <LineIcon icon="ico-smile-o" />
-    </UIChatItemBtn>
+      <UIChatItemBtn
+        className={'uiChatItemBtn uiChatIconBtn'}
+        disableFocusRipple
+        disableRipple
+        disableTouchRipple
+        {...rest}
+        ref={ref}
+      >
+        <LineIcon icon="ico-smile-o" />
+      </UIChatItemBtn>
+    </Tooltip>
   );
 });
 

@@ -4,15 +4,26 @@ namespace MetaFox\User\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 use MetaFox\User\Database\Factories\CancelFeedbackFactory;
+use MetaFox\User\Models\CancelReason;
 
 /**
  * Class CancelFeedback.
  *
  * @property int                   $id
+ * @property string                $email
+ * @property string                $name
+ * @property string                $phone_number
+ * @property string                $user_group_id
+ * @property string                $feedback_text
+ * @property array                 $extra
+ * @property string                $created_at
+ * @property string                $updated_at
+ * @property CancelReason          $reason
  * @method   CancelFeedbackFactory factory(...$parameters)
  */
 class CancelFeedback extends Model implements Entity
@@ -25,6 +36,10 @@ class CancelFeedback extends Model implements Entity
 
     protected $table = 'user_delete_feedback';
 
+    protected $casts = [
+        'extra' => 'array',
+    ];
+
     /** @var string[] */
     protected $fillable = [
         'email',
@@ -35,6 +50,8 @@ class CancelFeedback extends Model implements Entity
         'reasons_given',
         'user_id',
         'user_type',
+        'phone_number',
+        'extra',
         'created_at',
         'updated_at',
     ];
@@ -45,6 +62,11 @@ class CancelFeedback extends Model implements Entity
     protected static function newFactory()
     {
         return CancelFeedbackFactory::new();
+    }
+
+    public function reason(): BelongsTo
+    {
+        return $this->belongsTo(CancelReason::class, 'reason_id', 'id');
     }
 }
 

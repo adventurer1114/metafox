@@ -2,6 +2,8 @@
 
 namespace MetaFox\Chat\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\ServiceProvider;
 use MetaFox\Chat\Models\Message;
 use MetaFox\Chat\Models\Room;
 use MetaFox\Chat\Models\Subscription;
@@ -13,14 +15,12 @@ use MetaFox\Chat\Repositories\MessageRepositoryInterface;
 use MetaFox\Chat\Repositories\RoomRepositoryInterface;
 use MetaFox\Chat\Repositories\SubscriptionRepositoryInterface;
 use MetaFox\Platform\Support\EloquentModelObserver;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * --------------------------------------------------------------------------
  * Code Generator
  * --------------------------------------------------------------------------
- * stub: src/Providers/PackageServiceProvider.stub
+ * stub: src/Providers/PackageServiceProvider.stub.
  */
 
 /**
@@ -42,8 +42,9 @@ class PackageServiceProvider extends ServiceProvider
          * Register relation
          */
         Relation::morphMap([
-            Room::ENTITY_TYPE => Room::class,
-            Message::ENTITY_TYPE => Message::class,
+            Room::ENTITY_TYPE         => Room::class,
+            Message::ENTITY_TYPE      => Message::class,
+            Subscription::ENTITY_TYPE => Subscription::class,
         ]);
 
         Room::observe([EloquentModelObserver::class, RoomObserver::class]);

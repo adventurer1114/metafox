@@ -2,6 +2,8 @@
 
 namespace MetaFox\Video\Policies;
 
+use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
+use MetaFox\Platform\Traits\Policy\HasCategoryPolicyTrait;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
 use MetaFox\Video\Models\Category;
 
@@ -10,11 +12,10 @@ use MetaFox\Video\Models\Category;
  * @SuppressWarnings(PHPMD)
  * @ignore
  */
-class CategoryPolicy
+class CategoryPolicy implements ResourcePolicyInterface
 {
     use HasPolicyTrait;
+    use HasCategoryPolicyTrait;
 
     protected string $type = Category::class;
-
-    // Check can view on owner.
 }

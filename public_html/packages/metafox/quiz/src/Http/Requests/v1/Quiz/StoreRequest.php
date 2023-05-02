@@ -34,6 +34,7 @@ class StoreRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
+     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function rules(): array
     {
@@ -136,7 +137,7 @@ class StoreRequest extends FormRequest
                 ['attribute' => 'answer', 'min' => 1, 'max' => 255]
             ),
             'questions.*.answers.*.is_correct.numeric' => __p('validation.numeric', ['attribute' => 'is_correct']),
-            'file.required'                            => __p('quiz::phrase.banner_is_required'),
+            'file.required'                            => __p('quiz::phrase.banner_is_a_required_field'),
         ];
     }
 

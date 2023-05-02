@@ -6,7 +6,9 @@ type StyleDict = Record<string, React.CSSProperties | string>;
 
 function globalCss(global: StyleDict, theme: Theme) {
   // keep line break for help text
-
+  global['img'] = {
+    maxWidth: '100%'
+  };
   global['.MuiButton-contained.MuiButton-colorInherit:hover'] = {
     backgroundColor: '#d5d5d5'
   };
@@ -89,6 +91,30 @@ function globalCss(global: StyleDict, theme: Theme) {
     paddingRight: '0.4em',
     fontWeight: 'normal',
     color: theme.palette.text.secondary
+  };
+
+  global['.typoSigInSocialite'] = {
+    width: '100%',
+    color: theme.palette.text.hint,
+    fontSize: theme.mixins.pxToRem(15),
+    textTransform: 'uppercase',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: `${theme.spacing(3, 0, 2, 0)}!important`,
+    paddingRight: theme.spacing(1),
+    '&::before': {
+      content: "''",
+      flex: 1,
+      borderTop: `1px solid ${theme.palette.text.hint}`,
+      marginRight: theme.spacing(2)
+    },
+    '&::after': {
+      content: "''",
+      flex: 1,
+      borderTop: `1px solid ${theme.palette.text.hint}`,
+      marginLeft: theme.spacing(2)
+    }
   };
 }
 

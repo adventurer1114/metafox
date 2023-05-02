@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
+use MetaFox\Group\Models\Group;
 use MetaFox\Group\Models\Request;
 use MetaFox\Group\Notifications\AcceptRequestNotification;
 use MetaFox\Group\Policies\GroupPolicy;

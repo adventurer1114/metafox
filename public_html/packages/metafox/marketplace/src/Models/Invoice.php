@@ -8,26 +8,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 use MetaFox\Marketplace\Database\Factories\InvoiceFactory;
+use MetaFox\Marketplace\Support\Facade\Listing as ListingFacade;
 use MetaFox\Payment\Contracts\IsBillable;
 use MetaFox\Payment\Traits\BillableTrait;
 use MetaFox\Platform\Contracts\HasUrl;
+use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
 use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
-use MetaFox\Marketplace\Support\Facade\Listing as ListingFacade;
 
 /**
  * Class Invoice.
  *
- * @property int    $id
- * @property int    $listing_id
- * @property int    $user_id
- * @property string $user_type
- * @property float  $price
- * @property string $currency_id
- * @property string $paid_at
- * @property string $status
- * @property string $created_at
- * @property string $updated_at
+ * @property int     $id
+ * @property int     $listing_id
+ * @property int     $user_id
+ * @property string  $user_type
+ * @property float   $price
+ * @property string  $currency_id
+ * @property string  $paid_at
+ * @property string  $status
+ * @property string  $created_at
+ * @property string  $updated_at
+ * @property Listing $listing
  *
  * @mixin Builder
  *
@@ -114,5 +116,10 @@ class Invoice extends Model implements IsBillable, HasUrl
     {
         return $this->hasMany(InvoiceTransaction::class, 'invoice_id', 'id')
             ->orderBy('id');
+    }
+
+    public function payee(): ?User
+    {
+        return $this->listing?->user;
     }
 }

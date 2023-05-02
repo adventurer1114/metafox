@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use MetaFox\Page\Database\Factories\PageClaimFactory;
 use MetaFox\Page\Notifications\ClaimNotification;
+use MetaFox\Platform\Contracts\HasUrl;
 use MetaFox\Platform\Contracts\IsNotifyInterface;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Traits\Eloquent\Model\HasEntity;
@@ -17,13 +18,13 @@ use MetaFox\User\Support\Facades\User as UserSupport;
 
 /**
  * Class PageClaim.
- * @property int         $status_id
- * @property int         $page_id
- * @property Page        $page
- * @property string|null $message
- * @method   static      PageClaimFactory factory(...$parameters)
+ * @property        int              $status_id
+ * @property        int              $page_id
+ * @property        Page             $page
+ * @property        string|null      $message
+ * @method   static PageClaimFactory factory(...$parameters)
  */
-class PageClaim extends Model implements IsNotifyInterface
+class PageClaim extends Model implements IsNotifyInterface, HasUrl
 {
     use HasEntity;
     use HasUserMorph;
@@ -72,5 +73,32 @@ class PageClaim extends Model implements IsNotifyInterface
         }
 
         return [$admins, new ClaimNotification($this)];
+    }
+
+    public function toLink(): ?string
+    {
+        if (!$this->page instanceof Page) {
+            return null;
+        }
+
+        return $this->page->toLink();
+    }
+
+    public function toUrl(): ?string
+    {
+        if (!$this->page instanceof Page) {
+            return null;
+        }
+
+        return $this->page->toUrl();
+    }
+
+    public function toRouter(): ?string
+    {
+        if (!$this->page instanceof Page) {
+            return null;
+        }
+
+        return $this->page->toRouter();
     }
 }

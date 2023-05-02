@@ -369,7 +369,7 @@ export default function LayoutEditor() {
     {
       name: 'discardChanges',
       label: i18n.formatMessage({ id: 'layout_discard_changes' }),
-      icon: 'ico-calendar-o',
+      icon: 'ico-rotate-left-alt',
       value: '@layout/discardChanges'
     },
     {

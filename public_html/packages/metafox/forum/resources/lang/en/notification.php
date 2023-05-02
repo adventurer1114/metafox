@@ -13,6 +13,7 @@ return [
     'your_pending_post_in_thread_has_been_approved'                    => 'Your pending post in thread <b>:title</b> has been approved.',
     'your_pending_thread_has_been_approved'                            => 'Your pending thread <b>:title</b> has been approved.',
     'your_thread_copying_process_has_been_failed'                      => 'The copying process on your thread has failed.',
-    'your_thread_copying_process_has_been_success_review_now'          => 'The copying process on your thread has been completed. Review now.',
+    'your_thread_copying_process_has_been_success_review_now'          => 'The copying process on your thread has been completed.',
     'your_thread_has_been_updated_by_an_admin'                         => 'Your thread has been updated by an admin.',
+    'your_thread_has_been_updated_by_an_admin_subject'                 => 'Admin updated your thread {title}.',
 ];

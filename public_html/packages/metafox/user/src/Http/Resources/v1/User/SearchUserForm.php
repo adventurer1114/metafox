@@ -19,13 +19,11 @@ class SearchUserForm extends AbstractForm
     protected function prepare(): void
     {
         $this->action('/user/search')
-            ->acceptPageParams(['q', 'country', 'city', 'gender', 'sort']);
+            ->acceptPageParams(['q', 'country', 'city_code', 'gender', 'sort', 'country_state_id']);
     }
 
     protected function initialize(): void
     {
-        $activeCountries = CountryFacade::buildCountrySearchForm();
-
         $basic = $this->addBasic();
 
         $basic->addFields(
@@ -36,14 +34,19 @@ class SearchUserForm extends AbstractForm
                 ->label(__p('core::phrase.reset'))
                 ->align('right')
                 ->excludeFields(['q', 'view']),
-            Builder::choice('country')
-                ->label(__p('localize::country.country'))
-                ->marginNormal()
-                ->options($activeCountries),
-            Builder::text('city')
+            Builder::countryState('country_iso')
+                ->valueType('array')
+                ->setAttribute('countryFieldName', 'country')
+                ->setAttribute('stateFieldName', 'country_state_id'),
+            //City field
+            Builder::searchCountryCity('city_code')
                 ->label(__p('localize::country.city'))
-                ->marginNormal()
-                ->placeholder(__p('localize::country.filter_by_city')),
+                ->description(__p('localize::country.city_name'))
+                ->searchEndpoint('user/city')
+                ->searchParams([
+                    'country' => ':country',
+                    'state'   => ':country_state_id',
+                ]),
             Builder::gender()
                 ->label(__p('user::phrase.genders'))
                 ->marginNormal(),

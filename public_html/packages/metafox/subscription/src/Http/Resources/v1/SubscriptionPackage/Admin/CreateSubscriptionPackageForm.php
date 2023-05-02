@@ -111,7 +111,6 @@ class CreateSubscriptionPackageForm extends AbstractForm
                 ->description(__p('subscription::admin.allow_users_to_purchase_the_package_when_registering_new_account')),
             Builder::switch('is_active')
                 ->label(__p('core::phrase.is_active')),
-            Builder::divider(),
             Builder::switch('is_free')
                 ->label(__p('subscription::admin.free_package'))
                 ->description(__p('subscription::admin.free_package_description')),

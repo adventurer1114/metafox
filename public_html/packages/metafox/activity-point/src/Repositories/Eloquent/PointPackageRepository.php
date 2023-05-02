@@ -2,8 +2,10 @@
 
 namespace MetaFox\ActivityPoint\Repositories\Eloquent;
 
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -105,10 +107,10 @@ class PointPackageRepository extends AbstractRepository implements PointPackageR
     /**
      * @param  User                   $context
      * @param  array<string, mixed>   $attributes
-     * @return Paginator
+     * @return Collection
      * @throws AuthorizationException
      */
-    public function viewPackagesAdmin(User $context, array $attributes): Paginator
+    public function viewPackagesAdmin(User $context, array $attributes): Collection
     {
         policy_authorize(PackagePolicy::class, 'viewAny', $context);
 
@@ -125,8 +127,7 @@ class PointPackageRepository extends AbstractRepository implements PointPackageR
         }
 
         return $query
-            ->addScope($sortScope)
-            ->paginate($attributes['limit']);
+            ->addScope($sortScope)->get();
     }
 
     /**
@@ -164,17 +165,34 @@ class PointPackageRepository extends AbstractRepository implements PointPackageR
     {
         /** @var Model $package */
         $package = $this->find($id);
+
         policy_authorize(PackagePolicy::class, 'update', $context, $package);
 
-        if ($attributes['temp_file'] > 0) {
-            $tempFile                    = upload()->getFile($attributes['temp_file']);
-            $attributes['image_file_id'] = $tempFile->id;
+        $removeFile = false;
 
-            // Delete temp file after done
-            upload()->rollUp($attributes['temp_file']);
+        $tempFile = (int) Arr::get($attributes, 'temp_file', 0);
+
+        if ($tempFile > 0) {
+            $removeFile = true;
+        }
+
+        if (Arr::get($attributes, 'file.status') == MetaFoxConstant::FILE_REMOVE_STATUS) {
+            $removeFile = true;
+        }
+
+        if ($removeFile) {
+            if ($package->image_file_id) {
+                app('storage')->deleteFile($package->image_file_id, null);
+            }
+            Arr::set($attributes, 'image_file_id', null);
+        }
+
+        if ($tempFile > 0) {
+            $attributes['image_file_id'] = upload()->getFileId($attributes['temp_file'], true);
         }
 
         $package->fill($attributes);
+
         $package->save();
 
         return $package->refresh();
@@ -335,7 +353,7 @@ class PointPackageRepository extends AbstractRepository implements PointPackageR
                     __p('activitypoint::phrase.purchase_is_being_processed'),
                 ],
             };
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::info("No purchase with ID:  $id found");
             Log::info($e->getMessage());
         }

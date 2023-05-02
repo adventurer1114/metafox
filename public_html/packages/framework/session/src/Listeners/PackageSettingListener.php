@@ -29,22 +29,27 @@ class PackageSettingListener extends BasePackageSettingListener
             'driver' => [
                 'config_name' => 'session.driver',
                 'env_var'     => 'SESSION_DRIVER',
-                'value'       => 'null',
+                'value'       => 'array',
+                'type'        => 'string',
                 'is_public'   => 0,
             ],
             'lifetime' => [
                 'env_var'     => 'SESSION_LIFETIME',
-                'config_name' => 'session.life_time',
+                'config_name' => 'session.lifetime',
+                'type'        => 'integer',
+                'value'       => 120,
                 'is_public'   => 0,
             ],
             'expire_on_close' => [
                 'config_name' => 'session.expire_on_close',
                 'value'       => false,
+                'type'        => 'boolean',
                 'is_public'   => 0,
             ],
             'encrypt' => [
                 'config_name' => 'session.encrypt',
                 'value'       => false,
+                'type'        => 'boolean',
                 'is_public'   => 0,
             ],
             'path' => [
@@ -62,12 +67,13 @@ class PackageSettingListener extends BasePackageSettingListener
                 'config_name' => 'session.secure',
                 'env_var'     => 'SESSION_SECURE_COOKIE',
                 'value'       => false,
-                'type'        => 'string',
+                'type'        => 'boolean',
                 'is_public'   => 0,
             ],
             'http_only' => [
                 'config_name' => 'session.http_only',
                 'value'       => true,
+                'type'        => 'boolean',
                 'is_public'   => 0,
             ],
             'same_site' => [
@@ -98,7 +104,6 @@ class PackageSettingListener extends BasePackageSettingListener
                 'env_var'     => 'SESSION_COOKIE',
                 'value'       => 'mfox_session',
             ],
-
         ];
     }
 }

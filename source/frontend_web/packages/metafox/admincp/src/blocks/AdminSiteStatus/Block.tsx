@@ -12,6 +12,6 @@ export default createBlock<Props>({
   extendBlock: Base,
   defaults: {
     title: 'Site Status',
-    blockLayout: 'Admin - Contained'
+    blockLayout: 'Admin - Block - Contained'
   }
 });

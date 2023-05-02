@@ -85,7 +85,7 @@ class PollRepository extends AbstractRepository implements PollRepositoryInterfa
 
         if (Browse::VIEW_PENDING == $view) {
             if (Arr::get($attributes, 'user_id') == 0) {
-                if ($context->hasPermissionTo('poll.approve') == false) {
+                if ($context->isGuest() || !$context->hasPermissionTo('poll.approve')) {
                     throw new AuthorizationException(__p('core::validation.this_action_is_unauthorized'), 403);
                 }
             }

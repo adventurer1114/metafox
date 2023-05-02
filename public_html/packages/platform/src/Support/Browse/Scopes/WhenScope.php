@@ -4,6 +4,7 @@ namespace MetaFox\Platform\Support\Browse\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\Support\Browse\Browse;
@@ -28,11 +29,28 @@ class WhenScope extends BaseScope
      */
     public static function getAllowWhen(): array
     {
+        return Arr::pluck(self::getWhenOptions(), 'value');
+    }
+
+    /**
+     * @return array<int, array<string, string>>
+     */
+    public static function getWhenOptions(): array
+    {
         return [
-            Browse::WHEN_ALL,
-            Browse::WHEN_THIS_WEEK,
-            Browse::WHEN_THIS_MONTH,
-            Browse::WHEN_TODAY,
+            [
+                'label' => __p('core::phrase.when.all'),
+                'value' => Browse::WHEN_ALL,
+            ], [
+                'label' => __p('core::phrase.when.this_month'),
+                'value' => Browse::WHEN_THIS_MONTH,
+            ], [
+                'label' => __p('core::phrase.when.this_week'),
+                'value' => Browse::WHEN_THIS_WEEK,
+            ], [
+                'label' => __p('core::phrase.when.today'),
+                'value' => Browse::WHEN_TODAY,
+            ],
         ];
     }
 

@@ -6,14 +6,7 @@
         {
           "component": "poll.block.pollView",
           "slotName": "main",
-          "blockProps": {
-            "blockStyle": {
-              "pl": 0,
-              "pt": 0,
-              "pr": 0,
-              "pb": 2
-            }
-          },
+          "blockLayout": "Detail - Paper - Radius Bottom",
           "blockId": "sty5a"
         },
         {

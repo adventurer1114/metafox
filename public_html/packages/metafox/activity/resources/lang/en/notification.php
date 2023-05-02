@@ -15,4 +15,6 @@ return [
     'user_reacted_to_post_you_are_tagged_title'                => '<b>{user}</b> { isTitle, select, 1 { reacted to a post you are tagged in: ":feed_content".} other { reacted to a post you are tagged in.}}',
     'user_reacted_to_your_post'                                => '<b>{user}</b> { isTitle, select, 1 { reacted to your post: <b>{title}</b>} other { reacted to your post.}}',
     'user_reacted_to_your_post_in_name'                        => '<b>{user}</b> { isTitle, select, 1 { reacted to your post in <b>{owner_name}</b>: <b>{title}</b>.} other { reacted to your post in <b>{owner_name}</b>.}}',
+    'user_share_your_post'                                     => '<b>{user}</b> { isTitle, select, 1 { share your post <b>{title}</b>} other { share your post}}.',
+    'user_share_your_post_in_name'                             => '<b>{user}</b> { isTitle, select, 1 { share your post <b>{title}</b>} other { share your post}} in {owner_type}: <b>{owner_name}</b>.',
 ];

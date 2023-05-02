@@ -213,6 +213,7 @@ export default function CommentDialog({
               total_reply={statistic?.total_reply}
               setSortType={setSortType}
               sortType={sortType}
+              isDetailPage
             />
           </div>
           {session.loggedIn && item.extra.can_comment && CommentComposer ? (

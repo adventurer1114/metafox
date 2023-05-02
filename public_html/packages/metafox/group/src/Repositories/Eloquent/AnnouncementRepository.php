@@ -10,6 +10,7 @@ use MetaFox\Group\Models\AnnouncementHide;
 use MetaFox\Group\Policies\AnnouncementPolicy;
 use MetaFox\Group\Repositories\AnnouncementRepositoryInterface;
 use MetaFox\Group\Repositories\GroupRepositoryInterface;
+use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\Support\Helper\Pagination;
@@ -118,5 +119,18 @@ class AnnouncementRepository extends AbstractRepository implements AnnouncementR
             'item_id'   => $itemId,
             'item_type' => $itemType,
         ])->exists();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteByItem(int $itemId, string $itemType): void
+    {
+        $announcement = $this->getModel()->newInstance();
+
+        $announcement->where([
+            'item_id'   => $itemId,
+            'item_type' => $itemType,
+        ])->delete();
     }
 }

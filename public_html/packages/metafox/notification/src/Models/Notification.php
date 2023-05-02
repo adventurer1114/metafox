@@ -102,6 +102,6 @@ class Notification extends Model implements Entity
      */
     public function notifiable(): MorphTo
     {
-        return $this->morphTo('user', 'notifiable_type', 'notifiable_id')->withTrashed();
+        return $this->morphTo('notifiable', 'notifiable_type', 'notifiable_id')->withTrashed();
     }
 }

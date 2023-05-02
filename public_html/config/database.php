@@ -144,4 +144,5 @@ return [
         ],
     ],
 
+    'enableSqlLog' => env('ENABLE_SQL_LOG', false), // bool
 ];

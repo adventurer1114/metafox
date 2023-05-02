@@ -17,7 +17,7 @@ class UploadImageForm extends AbstractForm
 {
     protected function prepare(): void
     {
-        $order = $this->resource->photos->map(function (Image $image) {
+        $order = $this->resource->photos?->map(function (Image $image) {
             return $image->id;
         });
 
@@ -36,7 +36,7 @@ class UploadImageForm extends AbstractForm
 
     public function initialize(): void
     {
-        $currentFiles = $this->resource->photos->map(function (Image $image) {
+        $currentFiles = $this->resource->photos?->map(function (Image $image) {
             return [
                 'id'      => $image->id,
                 'url'     => $image->image_path,

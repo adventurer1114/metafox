@@ -35,14 +35,19 @@ class MessageRepository extends AbstractRepository implements MessageRepositoryI
 
     public function viewMessages(array $attributes)
     {
-        $limit  = $attributes['limit'];
-        $search = $attributes['q'];
+        $limit     = $attributes['limit'];
+        $search    = $attributes['q'];
+        $lastMsgId = $attributes['last_message_id'];
 
         $query = $this->getModel()->newQuery();
 
         if ($search != '') {
             $query = $query->where('chat_messages.type', '<>', 'delete');
             $query = $query->addScope(new SearchScope($search, ['message']));
+        }
+
+        if (!empty($lastMsgId)) {
+            $query = $query->where('chat_messages.id', '<', $lastMsgId);
         }
 
         if (isset($attributes['room_id'])) {
@@ -103,8 +108,11 @@ class MessageRepository extends AbstractRepository implements MessageRepositoryI
 
         $message->refresh();
 
-        $updateTime = Carbon::now()->format('Y-m-d H:i:s');
-        Room::query()->getModel()->find($attributes['room_id'])->update(['updated_at' => $updateTime]);
+        Subscription::query()->getModel()
+            ->where([
+                'room_id' => $attributes['room_id'],
+            ])
+            ->touch('updated_at');
 
         $subscriptions = resolve(SubscriptionRepositoryInterface::class)->getSubscriptions($attributes['room_id']);
         foreach ($subscriptions as $subscription) {
@@ -155,8 +163,11 @@ class MessageRepository extends AbstractRepository implements MessageRepositoryI
         $message->refresh();
 
         if (isset($attributes['type']) && $attributes['type'] == 'delete') {
-            $updateTime = Carbon::now()->format('Y-m-d H:i:s');
-            Room::query()->getModel()->find($message->room_id)->update(['updated_at' => $updateTime]);
+            Subscription::query()->getModel()
+                ->where([
+                    'room_id' => $message->room_id,
+                ])
+                ->touch('updated_at');
         }
 
         $subscriptions = resolve(SubscriptionRepositoryInterface::class)->getSubscriptions($message->room_id);

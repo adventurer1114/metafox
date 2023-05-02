@@ -2,12 +2,11 @@
 
 namespace MetaFox\Saved\Http\Resources\v1\SavedList;
 
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
-use MetaFox\Form\Html\Privacy;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxPrivacy;
-use MetaFox\Saved\Models\SavedList;
 use MetaFox\Saved\Models\SavedList as Model;
 use MetaFox\Yup\Yup;
 
@@ -68,11 +67,8 @@ class StoreSavedListForm extends AbstractForm
         $this->addDefaultFooter(false);
     }
 
-    protected function buildPrivacyField(): Privacy
+    protected function buildPrivacyField(): AbstractField
     {
-        return new Privacy([
-            'name'         => 'privacy',
-            'defaultValue' => MetaFoxPrivacy::ONLY_ME,
-        ]);
+        return Builder::hidden('privacy');
     }
 }

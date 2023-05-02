@@ -13,9 +13,11 @@ use MetaFox\Sticker\Observers\StickerSetObserver;
 use MetaFox\Sticker\Observers\StickerUserValueObserver;
 use MetaFox\Sticker\Repositories\Eloquent\StickerRecentRepository;
 use MetaFox\Sticker\Repositories\Eloquent\StickerRepository;
+use MetaFox\Sticker\Repositories\Eloquent\StickerSetAdminRepository;
 use MetaFox\Sticker\Repositories\Eloquent\StickerSetRepository;
 use MetaFox\Sticker\Repositories\StickerRecentRepositoryInterface;
 use MetaFox\Sticker\Repositories\StickerRepositoryInterface;
+use MetaFox\Sticker\Repositories\StickerSetAdminRepositoryInterface;
 use MetaFox\Sticker\Repositories\StickerSetRepositoryInterface;
 
 /**
@@ -49,6 +51,7 @@ class PackageServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(StickerSetRepositoryInterface::class, StickerSetRepository::class);
+        $this->app->bind(StickerSetAdminRepositoryInterface::class, StickerSetAdminRepository::class);
         $this->app->bind(StickerRepositoryInterface::class, StickerRepository::class);
         $this->app->bind(StickerRecentRepositoryInterface::class, StickerRecentRepository::class);
     }

@@ -42,7 +42,6 @@ class UpdateRequest extends FormRequest
             'label'           => ['string', 'required'],
             'view_type'       => ['string', 'required'],
             'var_type'        => ['string', 'required'],
-            'ordering'        => ['int', 'sometimes'],
             'is_active'       => ['integer', 'sometimes'],
             'is_required'     => ['integer', 'sometimes'],
             'is_register'     => ['integer', 'sometimes'],

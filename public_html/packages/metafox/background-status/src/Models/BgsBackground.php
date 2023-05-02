@@ -13,18 +13,18 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasThumbnailTrait;
 
 /**
  * Class BgsBackground.
- * @property int                           $id
- * @property int                           $collection_id
- * @property string                        $image_path
- * @property string                        $server_id
- * @property int                           $is_deleted
- * @property int                           $ordering
- * @property int                           $view_only
- * @property mixed                         $image_file_id
- * @property string                        $created_at
- * @property BgsCollection                 $bgsCollection
- * @property array<int|string, mixed>|null $images
- * @method   static                        BgsBackgroundFactory factory(...$parameters)
+ * @property        int                           $id
+ * @property        int                           $collection_id
+ * @property        string                        $image_path
+ * @property        string                        $server_id
+ * @property        int                           $is_deleted
+ * @property        int                           $ordering
+ * @property        int                           $view_only
+ * @property        mixed                         $image_file_id
+ * @property        string                        $created_at
+ * @property        BgsCollection                 $bgsCollection
+ * @property        array<int|string, mixed>|null $images
+ * @method   static BgsBackgroundFactory          factory(...$parameters)
  */
 class BgsBackground extends Model implements Entity, HasThumbnail
 {
@@ -33,7 +33,7 @@ class BgsBackground extends Model implements Entity, HasThumbnail
     use HasThumbnailTrait;
 
     public const ENTITY_TYPE = 'pstatusbg_background';
-    public const IS_DELETED = 1;
+    public const IS_DELETED  = 1;
 
     protected $table = 'bgs_backgrounds';
 
@@ -47,6 +47,7 @@ class BgsBackground extends Model implements Entity, HasThumbnail
         'is_deleted',
         'ordering',
         'view_only',
+        'image_file_id',
     ];
 
     /**

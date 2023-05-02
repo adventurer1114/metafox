@@ -1,7 +1,7 @@
 {
     "name": "metafox/like",
     "description": "",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "authors": [
         {
             "name": "phpFox",
@@ -24,8 +24,8 @@
                 "MetaFox\\Like\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/like": "5.0.1",
-                "@metafox/reaction": "5.0.1"
+                "@metafox/like": "*",
+                "@metafox/reaction": "*"
             },
             "frontendPaths": [
                 "packages/metafox/reaction"

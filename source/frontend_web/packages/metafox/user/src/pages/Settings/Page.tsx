@@ -25,6 +25,7 @@ export default createMultiTabPage({
     'profile-menu': 'setting.block.profile-menu',
     notifications: 'setting.block.notifications',
     'email-notifications': 'setting.block.email_notifications',
-    mfa: 'setting.block.multiFactorAuth'
+    mfa: 'setting.block.multiFactorAuth',
+    'sms-notifications': 'setting.block.sms_notifications'
   }
 });

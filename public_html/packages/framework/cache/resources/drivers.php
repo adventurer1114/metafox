@@ -26,6 +26,7 @@ return [
         'title'       => 'cache::phrase.dynamodb_store_label',
         'url'         => '/admincp/cache/store/edit/dynamodb/dynamodb',
         'description' => 'cache::phrase.dynamodb_store_desc',
+        'is_active'   => 0,
     ],
     [
         'driver'      => 'MetaFox\\Cache\\Http\\Resources\\v1\\Admin\\UpdateFileCacheForm',

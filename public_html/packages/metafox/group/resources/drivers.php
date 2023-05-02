@@ -223,6 +223,20 @@ return [
         'is_preload' => false,
     ],
     [
+        'driver'     => 'MetaFox\\Group\\Http\\Resources\\v1\\Block\\BlockMemberForm',
+        'type'       => 'form',
+        'name'       => 'group.group_block.block_member',
+        'version'    => 'v1',
+        'resolution' => 'web',
+    ],
+    [
+        'driver'     => 'MetaFox\\Group\\Http\\Resources\\v1\\Block\\BlockMemberMobileForm',
+        'type'       => 'form',
+        'name'       => 'group.group_block.block_member',
+        'version'    => 'v1',
+        'resolution' => 'mobile',
+    ],
+    [
         'driver'     => 'MetaFox\\Group\\Http\\Resources\\v1\\Group\\ModerationRightMobileForm',
         'type'       => 'form',
         'name'       => 'group.group.moderation_right',

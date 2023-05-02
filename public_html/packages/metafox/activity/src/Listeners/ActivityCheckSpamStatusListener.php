@@ -9,6 +9,6 @@ class ActivityCheckSpamStatusListener
 {
     public function checkSpamStatus(User $user, string $itemType, ?string $content, ?int $itemId = null): bool
     {
-        resolve(FeedRepositoryInterface::class)->checkSpamStatus($user, $itemType, $content, $itemId);
+        return resolve(FeedRepositoryInterface::class)->checkSpamStatus($user, $itemType, $content, $itemId);
     }
 }

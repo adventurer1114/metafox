@@ -29,7 +29,6 @@ return [
         'label'    => 'marketplace::phrase.edit',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -43,7 +42,6 @@ return [
         'label'    => 'marketplace::phrase.sponsor_in_feed',
         'ordering' => 2,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -57,7 +55,6 @@ return [
         'label'    => 'marketplace::phrase.unsponsor_in_feed',
         'ordering' => 3,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -71,7 +68,6 @@ return [
         'label'    => 'marketplace::phrase.sponsor_this_item',
         'ordering' => 4,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -85,7 +81,6 @@ return [
         'label'    => 'marketplace::phrase.unsponsor_this_item',
         'ordering' => 5,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -99,7 +94,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 6,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -113,7 +107,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 7,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -126,7 +119,6 @@ return [
         'label'    => 'marketplace::phrase.approve',
         'ordering' => 8,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -138,7 +130,6 @@ return [
         'label'    => 'marketplace::phrase.manage_invites',
         'ordering' => 9,
         'value'    => 'marketplace/viewInvitedPeople',
-        'icon'     => 'ico-user-man-three-o',
     ],
     [
         'showWhen' => [
@@ -150,7 +141,6 @@ return [
         'label'    => 'marketplace::phrase.reopen',
         'ordering' => 10,
         'value'    => 'marketplace/reopenItem',
-        'icon'     => 'ico-folder-o',
     ],
     [
         'showWhen' => [
@@ -164,7 +154,6 @@ return [
         'label'     => 'marketplace::phrase.delete',
         'ordering'  => 20,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'tab'      => 'marketplace',
@@ -216,7 +205,6 @@ return [
         'label'    => 'marketplace::phrase.edit',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -230,7 +218,6 @@ return [
         'label'    => 'marketplace::phrase.sponsor_in_feed',
         'ordering' => 2,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -244,7 +231,6 @@ return [
         'label'    => 'marketplace::phrase.unsponsor_in_feed',
         'ordering' => 3,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -258,7 +244,6 @@ return [
         'label'    => 'marketplace::phrase.sponsor_this_item',
         'ordering' => 4,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -272,7 +257,6 @@ return [
         'label'    => 'marketplace::phrase.unsponsor_this_item',
         'ordering' => 5,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -286,7 +270,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 6,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -300,7 +283,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 7,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -313,7 +295,6 @@ return [
         'label'    => 'marketplace::phrase.approve',
         'ordering' => 8,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -325,7 +306,6 @@ return [
         'label'    => 'marketplace::phrase.reopen',
         'ordering' => 9,
         'value'    => 'marketplace/reopenItem',
-        'icon'     => 'ico-folder-o',
     ],
     [
         'showWhen' => [
@@ -339,7 +319,6 @@ return [
         'label'     => 'marketplace::phrase.delete',
         'ordering'  => 20,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash',
     ],
     [
         'tab'      => 'marketplace',
@@ -418,7 +397,6 @@ return [
         'name'     => 'all',
         'label'    => 'marketplace::phrase.all_listings',
         'ordering' => 1,
-        'icon'     => 'ico-hashtag',
         'to'       => '/marketplace/all',
         'value'    => 'viewAll',
     ],
@@ -432,7 +410,6 @@ return [
         'name'     => 'my',
         'label'    => 'marketplace::phrase.my_listings',
         'ordering' => 2,
-        'icon'     => 'ico-user-man-o',
         'to'       => '/marketplace/my',
         'value'    => 'viewMyListings',
     ],
@@ -446,7 +423,6 @@ return [
         'name'     => 'my_expire',
         'label'    => 'marketplace::phrase.my_expired_listings',
         'ordering' => 3,
-        'icon'     => 'ico-user-man-o',
         'value'    => 'viewMyExpiredListings',
     ],
     [
@@ -459,7 +435,6 @@ return [
         'name'     => 'friends',
         'label'    => 'marketplace::phrase.friends_listings',
         'ordering' => 5,
-        'icon'     => 'ico-user1-two-o',
         'to'       => '/marketplace/friend',
         'value'    => 'viewFriendsListings',
     ],
@@ -469,7 +444,6 @@ return [
         'name'     => 'invite',
         'label'    => 'marketplace::phrase.listing_invites',
         'ordering' => 6,
-        'icon'     => 'ico-price-tag-o',
         'to'       => '/marketplace/invite',
         'value'    => 'viewListingInvites',
         'params'   => [
@@ -487,7 +461,6 @@ return [
         'name'     => 'history',
         'label'    => 'marketplace::phrase.history',
         'ordering' => 10,
-        'icon'     => 'ico-calendar-o',
         'to'       => '/marketplace/history',
         'value'    => 'viewHistory',
     ],
@@ -510,7 +483,6 @@ return [
         'name'     => 'expire',
         'label'    => 'marketplace::phrase.expired',
         'ordering' => 8,
-        'icon'     => 'ico-sandclock-exprired-o',
         'to'       => '/marketplace/expire',
         'value'    => 'viewExpired',
     ],
@@ -528,7 +500,6 @@ return [
         'name'     => 'pending',
         'label'    => 'marketplace::phrase.pending_listings',
         'ordering' => 7,
-        'icon'     => 'ico-clock-o',
         'to'       => '/marketplace/pending',
         'value'    => 'viewPendingListings',
     ],
@@ -538,11 +509,14 @@ return [
             'module_name'   => 'marketplace',
             'resource_name' => 'marketplace',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'marketplace.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'marketplace::phrase.my_pending_listings',
         'ordering' => 4,
-        'icon'     => 'ico-user1-clock-o',
         'to'       => '/marketplace/my-pending',
         'value'    => 'viewMyPendingListings',
     ],
@@ -556,7 +530,6 @@ return [
         'name'     => 'invoice',
         'label'    => 'marketplace::phrase.invoices',
         'ordering' => 9,
-        'icon'     => 'ico-merge-file-o',
         'to'       => '/marketplace/invoice',
         'value'    => 'viewInvoices',
     ],
@@ -570,7 +543,6 @@ return [
         'label'      => 'core::web.invite_friends',
         'ordering'   => 1,
         'value'      => 'marketplace/invitePeopleToCome',
-        'icon'       => 'ico-user-man-plus',
         'is_active'  => 0,
         'is_deleted' => 1,
     ],
@@ -584,7 +556,6 @@ return [
         'label'    => 'core::web.invite_friends',
         'ordering' => 11,
         'value'    => 'marketplace/invitePeopleToCome',
-        'icon'     => 'ico-user-man-plus',
     ],
     [
         'menu'     => 'marketplace.marketplace.filter_menu',
@@ -709,5 +680,75 @@ return [
         'as'        => 'item',
         'icon'      => 'shopbasket',
         'iconColor' => '#a1560f',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.filter_menu',
+        'name'     => 'all',
+        'label'    => 'core::phrase.when.all',
+        'ordering' => 1,
+        'value'    => 'all',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.filter_menu',
+        'name'     => 'this_month',
+        'label'    => 'core::phrase.when.this_month',
+        'ordering' => 2,
+        'value'    => 'this_month',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.filter_menu',
+        'name'     => 'this_week',
+        'label'    => 'core::phrase.when.this_week',
+        'ordering' => 3,
+        'value'    => 'this_week',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.filter_menu',
+        'name'     => 'today',
+        'label'    => 'core::phrase.when.today',
+        'ordering' => 4,
+        'value'    => 'today',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.sort_menu',
+        'name'     => 'new',
+        'label'    => 'core::phrase.new',
+        'ordering' => 1,
+        'value'    => 'desc',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.sort_menu',
+        'name'     => 'latest',
+        'label'    => 'core::phrase.sort.latest',
+        'ordering' => 2,
+        'value'    => 'asc',
+    ],
+    [
+        'menu'     => 'marketplace.view_map.nearest',
+        'name'     => 'view_5_nearest',
+        'label'    => 'marketplace::phrase.nearest.view_5_nearest_listings',
+        'ordering' => 1,
+        'value'    => 5,
+    ],
+    [
+        'menu'     => 'marketplace.view_map.nearest',
+        'name'     => 'view_10_nearest',
+        'label'    => 'marketplace::phrase.nearest.view_10_nearest_listings',
+        'ordering' => 2,
+        'value'    => 10,
+    ],
+    [
+        'menu'     => 'marketplace.view_map.nearest',
+        'name'     => 'view_15_nearest',
+        'label'    => 'marketplace::phrase.nearest.view_15_nearest_listings',
+        'ordering' => 3,
+        'value'    => 15,
+    ],
+    [
+        'menu'     => 'marketplace.view_map.nearest',
+        'name'     => 'view_20_nearest',
+        'label'    => 'marketplace::phrase.nearest.view_20_nearest_listings',
+        'ordering' => 4,
+        'value'    => 20,
     ],
 ];

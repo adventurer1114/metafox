@@ -22,6 +22,8 @@ class ShareRequest extends FormRequest
     use HasCheckinTrait;
     use PrivacyRequestTrait;
 
+    public const DEFAULT_POST_TYPE = 'wall';
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -96,7 +98,7 @@ class ShareRequest extends FormRequest
             $data['tagged_friends'] = $this->handleTaggedFriend($data);
         }
 
-        $prepared = app('events')->dispatch('activity.share.data_preparation', [$data['post_type'], $data], true);
+        $prepared = app('events')->dispatch('activity.share.data_preparation', [$data['post_type'] ?? self::DEFAULT_POST_TYPE, $data], true);
 
         if (is_array($prepared) && count($prepared)) {
             $data = $prepared;

@@ -30,6 +30,8 @@ class PollFactory extends Factory
      */
     public function definition(): array
     {
+        $text = $this->faker->text;
+
         return [
             'view_id'          => 0,
             'privacy'          => 0,
@@ -38,7 +40,7 @@ class PollFactory extends Factory
             'owner_id'         => 1,
             'owner_type'       => 'user',
             'question'         => $this->faker->sentence,
-            'text'             => $this->faker->text,
+            'text'             => $text,
             'randomize'        => 0,
             'public_vote'      => 1,
             'is_multiple'      => 0,

@@ -147,7 +147,7 @@ class PinRepository extends AbstractRepository implements PinRepositoryInterface
         return true;
     }
 
-    public function getPinOwnwerIds(User $context, int $feedId): array
+    public function getPinOwnerIds(User $context, int $feedId): array
     {
         return $this->getModel()->newQuery()
             ->where('feed_id', '=', $feedId)

@@ -1,0 +1,43 @@
+{
+    "name": "metafox/mux",
+    "version": "5.0.0",
+    "description": "metafox/mux",
+    "keyword": "metafox/mux",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 120,
+            "alias": "mux",
+            "asset": "mux",
+            "namespace": "MetaFox\\Mux",
+            "path": "packages/metafox/mux",
+            "title": "Mux",
+            "providers": [
+                "MetaFox\\Mux\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {},
+            "frontend": {},
+            "internalUrl": "/mux",
+            "internalAdminUrl": ""
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Mux\\": "src/"
+        }
+    },
+    "require": {
+        "muxinc/mux-php": "^3.2"
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Mux\\Tests\\": "tests/"
+        }
+    }
+}

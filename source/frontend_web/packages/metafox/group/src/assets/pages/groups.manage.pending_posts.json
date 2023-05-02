@@ -19,13 +19,14 @@
           "pageName": "groups.manage.pending_posts",
           "pageSize": "large",
           "title": "Manage Group",
-          "blockLayout": "App Lists Tab",
+          "blockLayout": "App List Tab",
           "gridLayout": "Group - PendingPost - Main Card",
           "contentType": "group",
           "itemView": "group.itemView.pendingPost",
           "itemLayout": "Group - PendingPost - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "canLoadMore": true,
+          "displayViewMore": false,
           "emptyPageProps": {
             "title": "no_pending_post",
             "description": "there_are_no_pending_post",
@@ -49,7 +50,7 @@
           "pageName": "groups.manage.pending_posts",
           "pageSize": "large",
           "title": "pending_mode",
-          "blockLayout": "App Lists Pending Posts",
+          "blockLayout": "App List Pending Posts",
           "contentType": "group",
           "showWhen": ["truthy", "profile.extra.can_manage_pending_mode"]
         },
@@ -72,7 +73,7 @@
           "resourceName": "group",
           "actionName": "viewPendingPost",
           "itemView": "group.itemView.pendingPost",
-          "blockLayout": "App Lists Pending Posts",
+          "blockLayout": "App List Pending Posts",
           "gridLayout": "Group - PendingPost - Main Card",
           "itemLayout": "Group - PendingPost - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
@@ -111,20 +112,7 @@
           "blockId": "rgmt",
           "component": "core.block.mainBlock",
           "slotName": "main",
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle2",
-            "titleColor": "textPrimary",
-            "headerStyle": {
-              "pt": 1,
-              "pb": 1
-            },
-            "contentStyle": {
-              "pt": 1,
-              "pb": 1
-            }
-          }
+          "blockLayout": "App List - Mobile"
         }
       ]
     },

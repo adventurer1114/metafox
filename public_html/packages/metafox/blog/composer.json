@@ -1,6 +1,6 @@
 {
     "name": "metafox/blog",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -23,7 +23,7 @@
                 "MetaFox\\Blog\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/blog": "5.0.1"
+                "@metafox/blog": "*"
             },
             "frontendPaths": [
                 "packages/metafox/blog"

@@ -30,7 +30,7 @@ class PointSettingPolicy
         return $this->viewAny($user);
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return true;
     }

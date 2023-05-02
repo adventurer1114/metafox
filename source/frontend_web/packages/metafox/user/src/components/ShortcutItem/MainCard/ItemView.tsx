@@ -18,7 +18,8 @@ const TypographyStyled = styled(Typography)(({ theme }) => ({
   alignItems: 'center',
   cursor: 'pointer',
   '& .ico': {
-    paddingLeft: theme.spacing(0.5)
+    paddingLeft: theme.spacing(0.5),
+    color: theme.palette.text.secondary
   }
 }));
 

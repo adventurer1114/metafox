@@ -12,7 +12,7 @@ class TotalHiddenListener
     {
     }
 
-    public function handle(User $context, HasTotalComment $item): int
+    public function handle(?User $context, HasTotalComment $item): int
     {
         return $this->repository->getTotalHidden($context, $item);
     }

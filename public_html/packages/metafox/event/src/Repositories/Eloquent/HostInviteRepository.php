@@ -321,4 +321,17 @@ class HostInviteRepository extends AbstractRepository implements HostInviteRepos
 
         app('events')->dispatch('notification.delete_mass_notification_by_item', [$invite], true);
     }
+
+    public function deleteHostPendingInvites(int $id): void
+    {
+        $this->getModel()->newQuery()
+            ->where([
+                'event_id'  => $id,
+                'status_id' => Invite::STATUS_PENDING,
+            ])
+            ->get()
+            ->each(function ($item) {
+                $item->delete();
+            });
+    }
 }

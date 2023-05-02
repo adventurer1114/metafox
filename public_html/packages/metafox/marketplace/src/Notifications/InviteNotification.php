@@ -64,7 +64,7 @@ class InviteNotification extends Notification
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($message)
-            ->action($this->localize('core::phrase.review_now'), $listing->toUrl());
+            ->action($this->localize('core::phrase.view_now'), $listing->toUrl());
     }
 
     public function toUrl(): ?string

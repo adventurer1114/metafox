@@ -15,14 +15,14 @@ use MetaFox\Platform\Contracts\User;
 class GetFeedListener
 {
     /**
-     * @param User        $context
+     * @param User|null   $context
      * @param Content     $content
      * @param string|null $typeId
      *
      * @return Feed
      * @throws AuthorizationException
      */
-    public function handle(User $context, Content $content, ?string $typeId = null): Feed
+    public function handle(?User $context, Content $content, ?string $typeId = null): Feed
     {
         $service = resolve(FeedRepositoryInterface::class);
 

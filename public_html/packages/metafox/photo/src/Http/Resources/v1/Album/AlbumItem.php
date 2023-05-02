@@ -72,6 +72,7 @@ class AlbumItem extends JsonResource
             $description = $albumInfo->description;
         }
 
+
         return [
             'id'                => $this->resource->id,
             'module_name'       => 'photo',

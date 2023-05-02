@@ -3282,3 +3282,7 @@
 .ico-speaker:before {
   content: "\ec2e";
 }
+
+.ico-music-allsongs:before {
+  content: "\ec30";
+}

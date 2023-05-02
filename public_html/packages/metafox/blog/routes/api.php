@@ -18,7 +18,6 @@ Route::controller(BlogController::class)
         Route::get('form/{id}', 'formUpdate');
         Route::get('form', 'formStore');
         Route::get('search-form', 'searchForm');
-        Route::patch('{id}', 'patchItem');
         Route::patch('sponsor/{id}', 'sponsor');
         Route::patch('feature/{id}', 'feature');
         Route::patch('approve/{id}', 'approve');

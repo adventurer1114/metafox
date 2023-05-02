@@ -24,9 +24,16 @@ class MobileSetting extends Setting
     protected function initialize(): void
     {
         $this->add('viewAll')
-            ->apiUrl('sticker-set')
-            ->apiParams([
-                'user_id' => ':user_id',
-            ]);
+            ->apiUrl(apiUrl('sticker.sticker-set.index'));
+
+        $this->add('viewMyStickerSet')
+            ->apiUrl(apiUrl('sticker.sticker-set.index'))
+            ->apiParams(['view' => 'my']);
+
+        $this->add('addToMyList')
+            ->apiUrl(apiUrl('sticker.sticker-set.user.store'));
+
+        $this->add('removeFromMyList')
+            ->apiUrl(apiUrl('sticker.sticker-set.user.destroy', ['id' => ':id']));
     }
 }

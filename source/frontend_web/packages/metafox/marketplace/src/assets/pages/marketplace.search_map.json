@@ -6,7 +6,7 @@
           "blockId": "iab2",
           "component": "core.block.sideAppHeader",
           "slotName": "side",
-          "title": "Events",
+          "title": "marketplace",
           "icon": "ico-compose-alt",
           "blockProps": {
             "variant": "plained",
@@ -68,7 +68,7 @@
           "component": "core.block.listingMap",
           "slotName": "main",
           "gridLayout": "Subscription - List",
-          "blockLayout": "Block Full Main",
+          "blockLayout": "Block Map",
           "itemProps": {
             "showActionMenu": true
           },
@@ -79,14 +79,14 @@
       ],
       "containers": {},
       "pageName": "marketplace.search_map",
-      "templateName": "master-child"
+      "templateName": "two-column-fixed"
     },
     "small": {
       "blocks": [
         {
           "component": "core.block.sidebarAppMobile",
           "slotName": "main",
-          "title": "Events",
+          "title": "marketplace",
           "blockProps": {
             "variant": "plained",
             "marginBottom": 2

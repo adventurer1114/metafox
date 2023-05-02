@@ -27,7 +27,7 @@ interface StickerSetRepositoryInterface
      * @return Paginator
      * @throws AuthorizationException
      */
-    public function viewStickerSetsForAdmin(User $context, array $attributes): Paginator;
+    public function viewStickerSetsAll(User $context, array $attributes): Paginator;
 
     /**
      * @param User                 $context
@@ -36,16 +36,7 @@ interface StickerSetRepositoryInterface
      * @return Paginator
      * @throws AuthorizationException
      */
-    public function viewStickerSetsForFE(User $context, array $attributes): Paginator;
-
-    /**
-     * @param User                 $context
-     * @param array<string, mixed> $attributes
-     *
-     * @return Paginator
-     * @throws AuthorizationException
-     */
-    public function viewStickerSetsUserForFE(User $context, array $attributes): Paginator;
+    public function viewStickerSetsUser(User $context, array $attributes): Paginator;
 
     /**
      * @param int $userId
@@ -53,28 +44,7 @@ interface StickerSetRepositoryInterface
      *
      * @return bool
      */
-    public function checkSickerSetAdded(int $userId, int $stickerSetId): bool;
-
-    /**
-     * @param User                 $context
-     * @param array<string, mixed> $attributes
-     *
-     * @return StickerSet
-     * @throws AuthorizationException
-     * @throws ValidatorException
-     */
-    public function createStickerSet(User $context, array $attributes): StickerSet;
-
-    /**
-     * @param User                 $context
-     * @param int                  $id
-     * @param array<string, mixed> $attributes
-     *
-     * @return StickerSet
-     * @throws ValidationException
-     * @throws AuthorizationException
-     */
-    public function updateStickerSet(User $context, int $id, array $attributes): StickerSet;
+    public function checkStickerSetAdded(int $userId, int $stickerSetId): bool;
 
     /**
      * @param User $context
@@ -89,23 +59,13 @@ interface StickerSetRepositoryInterface
     /**
      * @param User $context
      * @param int  $id
-     *
-     * @return bool
-     * @throws ValidationException
-     * @throws AuthorizationException
-     */
-    public function deleteStickerSet(User $context, int $id): bool;
-
-    /**
-     * @param User $context
-     * @param int  $id
      * @param int  $isActive
      *
      * @return bool
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function updateActive(User $context, int $id, int $isActive): bool;
+    public function toggleActive(User $context, int $id, int $isActive): bool;
 
     /**
      * @param User $context
@@ -199,18 +159,9 @@ interface StickerSetRepositoryInterface
     public function getSticker(int $stickerId): ?Sticker;
 
     /**
-     * @param User                 $context
-     * @param array<string, mixed> $attributes
-     *
-     * @return StickerSet
-     * @throws AuthorizationException
-     * @throws ValidatorException
+     * @param  User                 $context
+     * @param  array<string, mixed> $attributes
+     * @return Paginator
      */
-    public function installStickerSet(User $context, array $attributes): StickerSet;
-
-    /**
-     * @param  UploadedFile                     $file
-     * @return array<int, array<string, mixed>>
-     */
-    public function uploadStickerByZip(UploadedFile $file): array;
+    public function viewStickerSets(User $context, array $attributes): Paginator;
 }

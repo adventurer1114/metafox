@@ -4,30 +4,35 @@ namespace MetaFox\Friend\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Route;
 
-Route::group([
-    'namespace'  => __NAMESPACE__,
-    'middleware' => 'auth:api',
-], function () {
-    // FriendListController
-    Route::post('friend/list/add-friend/{id}', 'FriendListController@addFriendToList');
-    Route::delete('friend/list/delete-friend/{id}', 'FriendListController@deleteFriendFromList');
-    Route::get('friend/list/form/{id}', 'FriendListController@formUpdate');
-    Route::resource('friend/list', 'FriendListController');
-    Route::get('friend/list/assign/{id}', 'FriendListController@getAssigned');
-    Route::post('friend/list/assign/{id}', 'FriendListController@setAssigned');
-    Route::put('friend/list/add-friend/{id}', 'FriendListController@updateToFriendList');
+Route::controller(FriendListController::class)
+    ->prefix('friend/list')
+    ->group(function () {
+        Route::get('/assign/{id}', 'getAssigned');
+        Route::post('/add-friend/{id}', 'addFriendToList');
+        Route::post('/assign/{id}', 'setAssigned');
+        Route::put('/add-friend/{id}', 'updateToFriendList');
+        Route::delete('/delete-friend/{id}', 'deleteFriendFromList');
+    });
 
-    //  FriendRequestController
-    Route::resource('friend/request', 'FriendRequestController');
-    Route::post('friend/request/markAllAsRead', 'FriendRequestController@markAllAsRead');
+Route::controller(FriendRequestController::class)
+    ->prefix('friend/request')
+    ->group(function () {
+        Route::post('markAllAsRead', 'markAllAsRead');
+    });
 
-    // FriendController
-    Route::get('friend/mention', 'FriendController@mention');
-    Route::get('friend/invite-to-owner', 'FriendController@inviteFriendToOwner');
-    Route::get('friend/invite-to-item', 'FriendController@inviteFriendsToItem');
-    Route::get('friend/tag-suggestion', 'FriendController@tagSuggestion');
-    Route::get('friend/suggestion', 'FriendController@suggestion');
-    Route::get('friend/birthday', 'FriendController@getFriendBirthdays');
-    Route::post('friend/suggestion/hide-user', 'FriendController@hideUserSuggestion');
-    Route::resource('friend', 'FriendController');
-});
+Route::prefix('friend')
+    ->controller(FriendController::class)
+    ->group(function () {
+        Route::get('mention', 'mention');
+        Route::get('invite-to-owner', 'inviteFriendToOwner');
+        Route::get('invite-to-item', 'inviteFriendsToItem');
+        Route::get('tag-suggestion', 'tagSuggestion');
+        Route::get('suggestion', 'suggestion');
+        Route::get('birthday', 'getFriendBirthdays');
+        Route::post('suggestion/hide-user', 'hideUserSuggestion');
+    });
+
+// define resource later.
+Route::resource('friend/list', FriendListController::class);
+Route::resource('friend/request', FriendRequestController::class);
+Route::resource('friend', FriendController::class);

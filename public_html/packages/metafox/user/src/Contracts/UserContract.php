@@ -35,13 +35,6 @@ interface UserContract
     public function getGuestUser(): Authenticatable;
 
     /**
-     * @param int $key
-     *
-     * @return string|null
-     */
-    public function getRelationship(int $key): ?string;
-
-    /**
      * @param UserProfile $profile
      *
      * @return string|null
@@ -54,6 +47,12 @@ interface UserContract
      * @return string|null
      */
     public function getBirthday(?string $birthday, ?int $formatValue = null): ?string;
+
+    /**
+     * @param  string|null $birthday
+     * @return int|null
+     */
+    public function getUserAge(?string $birthday): ?int;
 
     /**
      * @param string $name
@@ -174,4 +173,11 @@ interface UserContract
      * @return string|null
      */
     public function getAddress(ContractUser $context, ContractUser $user): ?string;
+
+    /**
+     * @param  ContractUser $context
+     * @param  ContractUser $user
+     * @return bool
+     */
+    public function isFollowing(ContractUser $context, ContractUser $user): bool;
 }

@@ -11,13 +11,13 @@ return [
         'to'       => '/friend',
     ],
     [
-        'subInfo'  => 'friend::phrase.see_your_friend_requests',
+        'subInfo'  => 'friend::phrase.see_your_friends',
         'menu'     => 'core.dropdownMenu',
         'name'     => 'friends',
         'label'    => 'friend::phrase.friends',
         'ordering' => 2,
         'icon'     => 'ico-user1-two',
-        'to'       => '/friend/requests',
+        'to'       => '/friend',
     ],
     [
         'placement' => 'bottom',
@@ -59,7 +59,7 @@ return [
         ],
         'menu'     => 'friend.friend_list.itemActionMenu',
         'name'     => 'edit_list',
-        'label'    => 'friend::phrase.edit_list',
+        'label'    => 'friend::phrase.edit_friend_list',
         'ordering' => 2,
         'value'    => 'friend_list/editList',
         'icon'     => 'ico-pencil',
@@ -86,7 +86,7 @@ return [
         'name'     => 'landing',
         'label'    => 'friend::phrase.all_friends',
         'ordering' => 1,
-        'icon'     => 'ico-hashtag',
+        'icon'     => 'ico-user1-two',
         'to'       => '/friend',
     ],
     [
@@ -146,5 +146,17 @@ return [
         'label'    => 'friend::phrase.friends',
         'ordering' => 3,
         'to'       => '/friend',
+    ],
+    [
+        'showWhen' => [
+            'and',
+            ['truthy', 'item.extra.can_share'],
+        ],
+        'menu'     => 'feed.itemShareActionsMenu',
+        'name'     => 'share_on_friends',
+        'label'    => 'activity::phrase.share_on_friends',
+        'ordering' => 3,
+        'value'    => 'friend/shareOnFriendProfile',
+        'icon'     => 'ico-user1-two',
     ],
 ];

@@ -2,7 +2,6 @@
 
 namespace MetaFox\Blog\Listeners;
 
-use Illuminate\Auth\AuthenticationException;
 use MetaFox\Blog\Models\Blog;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\User;
@@ -15,15 +14,18 @@ use MetaFox\User\Models\UserEntity;
 class CommentNotificationMessageListener
 {
     /**
-     * @param User            $context
+     * @param User|null       $context
      * @param UserEntity|null $user
      * @param Content|null    $content
      *
      * @return string|null
-     * @throws AuthenticationException
      */
-    public function handle(User $context, ?UserEntity $user = null, ?Content $content = null): ?string
+    public function handle(?User $context, ?UserEntity $user = null, ?Content $content = null): ?string
     {
+        if (!$context) {
+            return null;
+        }
+
         if (!$user instanceof UserEntity) {
             return null;
         }

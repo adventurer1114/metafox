@@ -41,7 +41,7 @@
           "canLoadMore": false,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Poll - Main Card",
           "itemLayout": "Poll - Main Card"
         },
@@ -58,7 +58,7 @@
           },
           "freeze": false,
           "hasSearchBox": false,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Poll - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -104,7 +104,7 @@
           "displayLimit": 6,
           "blockId": "i3oa",
           "contentType": "poll",
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Poll - Main Card - Mobile",
           "emptyPage": "hide",
           "itemLayout": "Poll - Main Card - Mobile"
@@ -123,7 +123,7 @@
           "canLoadMore": true,
           "freeze": false,
           "hasSearchBox": false,
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Poll - Main Card - Mobile",
           "emptyPage": "core.block.no_content_with_icon",
           "itemLayout": "Poll - Main Card - Mobile"

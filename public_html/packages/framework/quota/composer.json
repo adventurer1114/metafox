@@ -1,6 +1,6 @@
 {
     "name": "metafox/quota",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "Quota Control",
     "keyword": "metafox, quota, quota control",
     "authors": [
@@ -16,7 +16,7 @@
             "alias": "quota",
             "asset": "quota",
             "namespace": "MetaFox\\QuotaControl",
-            "path": "packages/metafox/quota",
+            "path": "packages/framework/quota",
             "title": "Quota Control",
             "providers": [
                 "MetaFox\\QuotaControl\\Providers\\PackageServiceProvider"
@@ -24,7 +24,7 @@
             "aliases": {
             },
             "frontend": {
-                "@metafox/quota": "5.0.1"
+                "@metafox/quota": "*"
             },
             "internalAdminUrl": "/admincp/quota/permission"
         }

@@ -25,13 +25,13 @@ class UpdateBeanstalkdQueue extends AbstractForm
     protected function prepare(): void
     {
         $res    = $this->resource ?? [];
-        $action = sprintf('admincp/queue/connection/edit/%s/%s', $res['driver'] ?? 'beanstalkd', $res['name'] ?? 'beanstalkd');
+        $action = sprintf('admincp/queue/connection/%s/%s', $res['driver'] ?? 'beanstalkd', $res['name'] ?? 'beanstalkd');
         $value  = $res['value'] ?? [];
 
         $this->title(__p('queue::beanstalkd.form_title'))
-            ->description('queue:beanstalkd.form_desc')
+            ->description(__p('queue::beanstalkd.form_desc'))
             ->action($action)
-            ->asPost()
+            ->asPut()
             ->setValue($value);
     }
 
@@ -39,7 +39,7 @@ class UpdateBeanstalkdQueue extends AbstractForm
     {
         $this->addBasic()
             ->addFields(
-                Builder::text('key')
+                Builder::text('host')
                     ->label(__p('queue::beanstalkd.host_label'))
                     ->description(__p('queue::beanstalkd.host_desc'))
                     ->yup(Yup::string()->required()),
@@ -54,7 +54,7 @@ class UpdateBeanstalkdQueue extends AbstractForm
                 Builder::text('block_for')
                     ->label(__p('queue::phrase.block_for_label'))
                     ->description(__p('queue::phrase.block_for_desc'))
-                    ->yup(Yup::string()->optional()->nullable()),
+                    ->yup(Yup::number()->optional()->nullable()),
             );
 
         $this->addDefaultFooter(true);

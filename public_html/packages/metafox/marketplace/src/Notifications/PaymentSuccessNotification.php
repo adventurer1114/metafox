@@ -55,7 +55,7 @@ class PaymentSuccessNotification extends Notification
             return $service;
         }
 
-        $service->action($this->localize('core::phrase.review_now'), $this->toUrl());
+        $service->action($this->localize('core::phrase.view_now'), $this->toUrl());
 
         return $service;
     }

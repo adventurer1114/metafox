@@ -22,7 +22,7 @@ export default function LoadingSkeleton({ wrapAs, wrapProps }) {
   return (
     <ItemView wrapAs={wrapAs} wrapProps={wrapProps}>
       <ItemMedia>
-        <ImageSkeleton ratio={isMobile ? '169' : '11'} />
+        <ImageSkeleton ratio={isMobile ? '169' : '11'} borderRadius={0} />
       </ItemMedia>
       <ItemText>
         <ItemTitle>

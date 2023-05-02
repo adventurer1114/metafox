@@ -4,6 +4,7 @@ namespace MetaFox\Quiz\Http\Resources\v1\Quiz;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Quiz\Models\Question as Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -37,14 +38,24 @@ class QuestionSummary extends JsonResource
     protected function processAnswer($answers): array
     {
         $questionTotalPlay = 0;
+
         foreach ($answers as $answer) {
             $questionTotalPlay += $answer->total_play;
         }
 
         $processedAnswers = [];
+
         foreach ($answers as $answer) {
             $answer             = $answer->toArray();
-            $answer['percent']  = ($answer['total_play'] == 0 ? 0 : round(($answer['total_play'] / $questionTotalPlay) * 100, 2)) . '%';
+
+            $answer['percent']  = $answer['total_play'] . '/' . $questionTotalPlay;
+
+            $answer['percent_value'] = $questionTotalPlay > 0 ? round(($answer['total_play'] / $questionTotalPlay) * 100, 2) : 0;
+
+            if (Settings::get('quiz.show_success_as_percentage_in_result', true)) {
+                $answer['percent']  = ($answer['total_play'] == 0 ? 0 : round(($answer['total_play'] / $questionTotalPlay) * 100, 2)) . '%';
+            }
+
             $processedAnswers[] = $answer;
         }
 

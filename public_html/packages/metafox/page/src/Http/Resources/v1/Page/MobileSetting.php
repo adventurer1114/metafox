@@ -47,7 +47,7 @@ class MobileSetting extends Setting
                 'sort'        => ['includes', 'sort', ['recent', 'most_viewed', 'most_member', 'most_discussed']],
                 'type_id'     => ['truthy', 'type_id'],
                 'category_id' => ['truthy', 'category_id'],
-                'when'        => ['includes', 'when', ['this_month', 'this_week', 'today']],
+                'when'        => ['includes', 'when', ['all', 'this_month', 'this_week', 'today']],
                 'view'        => ['includes', 'view', ['my', 'friend', 'pending', 'invited', 'liked']],
             ]);
 
@@ -159,16 +159,6 @@ class MobileSetting extends Setting
                 'is_hashtag' => ':is_hashtag',
             ]);
 
-        $this->add('acceptInvite')
-            ->apiUrl('page-invite')
-            ->asPut()
-            ->apiParams(['page_id' => ':id', 'accept' => 1]);
-
-        $this->add('declineInvite')
-            ->apiUrl('page-invite')
-            ->asPut()
-            ->apiParams(['page_id' => ':id', 'accept' => 0]);
-
         $this->add('viewMyPendingPages')
             ->apiUrl('page')
             ->apiParams([
@@ -189,5 +179,18 @@ class MobileSetting extends Setting
 
         $this->add('claimDialog')
             ->apiUrl('core/mobile/form/page.page.claim/:id');
+
+        $this->add('follow')
+            ->apiUrl('follow')
+            ->asPost()
+            ->apiParams([
+                'user_id' => ':id',
+            ]);
+
+        $this->add('unfollow')
+            ->apiUrl('follow/:id')
+            ->asDelete();
+
+        $this->add('shareOnPageProfile');
     }
 }

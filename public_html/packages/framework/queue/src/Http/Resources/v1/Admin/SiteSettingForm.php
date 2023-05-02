@@ -25,8 +25,6 @@ class SiteSettingForm extends AbstractForm
 {
     private array $variables = [];
 
-    private bool $disabled = true;
-
     protected function prepare(): void
     {
         $vars = [
@@ -44,11 +42,7 @@ class SiteSettingForm extends AbstractForm
         ];
 
         foreach ($this->variables as $key => $value) {
-            if (empty($value)) {
-                $this->disabled = false;
-            } else {
-                Arr::set($values, $key, $value);
-            }
+            Arr::set($values, $key, $value);
         }
 
         $this->title(__p('core::phrase.settings'))
@@ -63,7 +57,7 @@ class SiteSettingForm extends AbstractForm
 
         $options = $this->getQueueOptions();
 
-        if (is_string($default) && MetaFoxConstant::EMPTY_STRING != $default) {
+        if (is_string($default) && MetaFoxConstant::EMPTY_STRING != $default && empty($options)) {
             $options = Arr::prepend($options, [
                 'value' => $default,
                 'label' => Str::ucfirst($default),
@@ -75,7 +69,6 @@ class SiteSettingForm extends AbstractForm
                 Builder::choice('queue.default')
                     ->options($options)
                     ->label(__p('queue::phrase.default_label'))
-                    ->disabled($this->disabled)
                     ->description(__p('queue::phrase.default_desc'))
             );
 
@@ -84,8 +77,23 @@ class SiteSettingForm extends AbstractForm
 
     private function getQueueOptions(): array
     {
-        return [
-            ['value' => 'database', 'label' => 'Database'],
+        $options           = [];
+        $defaultSelectable = [
+            'database',
+            'sync',
         ];
+
+        foreach (config('queue.connections') as $key => $config) {
+            if (!in_array($key, $defaultSelectable) && !Arr::get($config, 'selectable')) {
+                continue;
+            }
+
+            $options[] = [
+                'value' => $key,
+                'label' => __p("queue::$key.name"),
+            ];
+        }
+
+        return $options;
     }
 }

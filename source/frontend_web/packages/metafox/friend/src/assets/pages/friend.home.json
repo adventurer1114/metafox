@@ -12,7 +12,9 @@
           "blockId": "s8f2",
           "dataSource": {
             "apiUrl": "/friend",
-            "apiParams": ""
+            "apiParams": {
+              "limit": 12
+            }
           },
           "clearDataOnUnMount": true,
           "emptyPage": "core.block.no_content_with_icon",
@@ -26,7 +28,7 @@
             "description": "no_friends_found_description",
             "icon": "ico-user-circle-o"
           },
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Friend - Cards",
           "noContentLayout": "No Content With Icon & Note",
           "itemLayout": "Friend - Cards"
@@ -69,7 +71,7 @@
           "slotName": "side",
           "pageName": "friend.home",
           "pageSize": "large",
-          "title": "friend_list",
+          "title": "friend_lists",
           "gridItemProps": {
             "xs": 12,
             "md": 12
@@ -114,7 +116,34 @@
               "name": "core.dividerBlock"
             },
             {
-              "name": "friend.block.FriendListListing"
+              "name": "friend.block.FriendListListing",
+              "props": {
+                "pageName": "friend.home",
+                "pageSize": "large",
+                "title": "friend_list",
+                "gridItemProps": {
+                  "xs": 12,
+                  "md": 12
+                },
+                "itemView": "friend_list.itemView.mainCard",
+                "contentType": "friend_list",
+                "dataSource": {
+                  "apiUrl": "/friend/list"
+                },
+                "canLoadMore": 1,
+                "blockLayout": "Friend List Side Block",
+                "gridLayout": "Friend List - Small List",
+                "emptyPage": "core.block.no_content_with_icon",
+                "emptyPageProps": {
+                  "variant": "side",
+                  "title": "no_friend_lists",
+                  "description": "no_friend_lists_found",
+                  "color": "inherit",
+                  "noBlock": 1
+                },
+                "noContentLayout": "Side with description",
+                "itemLayout": "Friend List - Small List"
+              }
             }
           ]
         },
@@ -122,9 +151,29 @@
           "component": "friend.block.friends",
           "slotName": "main",
           "title": "friends",
-          "blockLayout": "App Lists",
+          "canLoadMore": true,
+          "blockId": "s8f2",
+          "dataSource": {
+            "apiUrl": "/friend",
+            "apiParams": {
+              "limit": 12
+            }
+          },
+          "clearDataOnUnMount": true,
+          "emptyPage": "core.block.no_content_with_icon",
+          "itemView": "friend.itemView.mainCard",
+          "contentType": "friend",
+          "canLoadSmooth": 1,
+          "emptyPageProps": {
+            "variant": "default",
+            "title": "no_friends_found",
+            "noBlock": 1,
+            "description": "no_friends_found_description",
+            "icon": "ico-user-circle-o"
+          },
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Friend - Cards",
-          "blockId": "jegg5",
+          "noContentLayout": "No Content With Icon & Note",
           "itemLayout": "Friend - Cards"
         }
       ],

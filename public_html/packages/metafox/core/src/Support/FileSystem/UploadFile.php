@@ -8,10 +8,12 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use InvalidArgumentException;
 use MetaFox\Core\Models\Attachment;
 use MetaFox\Platform\Contracts\ResizeImageInterface as ResizeImage;
 use MetaFox\Platform\Contracts\UploadFile as UploadFileContract;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\MetaFoxFileType;
 use MetaFox\Storage\Models\StorageFile;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -145,6 +147,10 @@ class UploadFile implements UploadFileContract
 
     public function isImage(UploadedFile $file): bool
     {
+        if ($file->getMimeType() == MetaFoxFileType::MINE_TYPE_GIF) {
+            return false;
+        }
+
         return !Validator::make(['file' => $file], [
             'file' => ['image'],
         ])->fails();
@@ -189,6 +195,20 @@ class UploadFile implements UploadFileContract
         return $tempFile;
     }
 
+    public function getFileId(?int $tempFileId, bool $rollUp = false): ?int
+    {
+        $fileId = null;
+        if ($tempFileId) {
+            $fileId = $this->getFile($tempFileId)?->id;
+        }
+
+        if ($rollUp && $tempFileId) {
+            $this->rollUp($tempFileId);
+        }
+
+        return $fileId;
+    }
+
     public function rollUp(int $id): bool
     {
         /** @var StorageFile $tempFile */
@@ -203,10 +223,13 @@ class UploadFile implements UploadFileContract
      * @inheritdoc
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    public static function pathToUploadedFile(string $realpath, string $newFileName = null, bool $isTestMode = true): bool|UploadedFile
-    {
+    public static function pathToUploadedFile(
+        string $realpath,
+        string $newFileName = null,
+        bool $isTestMode = true
+    ): bool|UploadedFile {
         if (!File::exists($realpath)) {
-            throw new \InvalidArgumentException('File not found ' . $realpath);
+            throw new InvalidArgumentException('File not found ' . $realpath);
         }
 
         $originalName = $newFileName ?? File::basename($realpath);
@@ -252,7 +275,7 @@ class UploadFile implements UploadFileContract
     public function asUploadedFile(string $realpath, $originalName = null, bool $testMode = false): UploadedFile
     {
         if (!File::exists($realpath)) {
-            throw new \InvalidArgumentException('File not found ' . $realpath);
+            throw new InvalidArgumentException('File not found ' . $realpath);
         }
 
         $mimeType = File::mimeType($realpath);
@@ -279,7 +302,7 @@ class UploadFile implements UploadFileContract
         $localPath = $uploadedFile->getPathname();
 
         if (!$localPath) {
-            throw new \InvalidArgumentException('File not found');
+            throw new InvalidArgumentException('File not found');
         }
 
         $isImage = upload()->isImage($uploadedFile);
@@ -306,7 +329,7 @@ class UploadFile implements UploadFileContract
         $path = $disk->putFileAs($this->path, $uploadedFile, $fileName, $this->options);
 
         if ($path === false) {
-            throw new \InvalidArgumentException('Could not handle upload file', compact('prefixPath', 'fileName'));
+            throw new InvalidArgumentException('Could not handle upload file', compact('prefixPath', 'fileName'));
         }
 
         $temp = new StorageFile([

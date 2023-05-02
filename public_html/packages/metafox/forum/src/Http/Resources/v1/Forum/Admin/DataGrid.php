@@ -30,6 +30,12 @@ class DataGrid extends Grid
             ->alignCenter()
             ->linkTo('sub_link');
 
+        $this->addColumn('statistic.total_thread')
+            ->header(__p('forum::phrase.total_threads'))
+            ->width(100)
+            ->alignCenter()
+            ->linkTo('url');
+
         /*
          * Add default actions
          */

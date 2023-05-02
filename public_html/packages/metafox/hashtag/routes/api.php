@@ -20,6 +20,5 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     Route::get('hashtag/', 'HashtagController@index');
-    Route::get('hashtag/trending', 'HashtagController@trending');
     Route::get('hashtag/suggestion', 'HashtagController@suggestion');
 });

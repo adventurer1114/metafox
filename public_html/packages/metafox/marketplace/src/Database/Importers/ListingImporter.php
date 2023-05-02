@@ -68,7 +68,7 @@ class ListingImporter extends JsonImporter
             'is_sold'             => $entry['is_sold'] ?? false,
             'is_notified'         => $entry['is_notified'] ?? false,
             'price'               => $this->handlePrice($entry),
-            'short_description'   => html_entity_decode($entry['short_description']) ?? null,
+            'short_description'   => $this->parseText($entry['short_description'] ?? '', false),
             'image_file_id'       => $entry['image_file_id'] ?? null,
             'location_latitude'   => $entry['location_latitude'] ?? null,
             'location_longitude'  => $entry['location_longitude'] ?? null,

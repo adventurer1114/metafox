@@ -310,12 +310,31 @@ class SubscriptionPackageRepository extends AbstractRepository implements Subscr
         return $this->hasPaidSubscriptions($id);
     }
 
+    public function filterPackagesByCurrencyId(User $context, Collection $packages): Collection
+    {
+        if (!$packages->count()) {
+            return $packages;
+        }
+
+        $currencyId = app('currency')->getUserCurrencyId($context);
+
+        return $packages->filter(function ($package) use ($currencyId) {
+            $prices = $package->getPrices();
+
+            if (!is_array($prices)) {
+                return false;
+            }
+
+            return Arr::has($prices, $currencyId);
+        });
+    }
+
     public function viewPackages(User $context, array $attributes = []): Collection
     {
         $view = Arr::get($attributes, 'view', Helper::VIEW_FILTER);
 
         if ($view == Helper::VIEW_FILTER && $context->isGuest()) {
-            return $this->viewPackagesForRegistration();
+            return $this->filterPackagesByCurrencyId($context, $this->viewPackagesForRegistration());
         }
 
         if ($view == Browse::VIEW_SEARCH) {
@@ -344,6 +363,8 @@ class SubscriptionPackageRepository extends AbstractRepository implements Subscr
 
         if ($packages->count() && !$isAdminCP) {
             $packages = $this->filterPackages($context, $packages, true);
+
+            $packages = $this->filterPackagesByCurrencyId($context, $packages);
 
             if ($packages->count()) {
                 $packages = $packages->filter(function ($value) use ($context) {
@@ -423,6 +444,8 @@ class SubscriptionPackageRepository extends AbstractRepository implements Subscr
                     break;
                 default:
                     $packages = $this->filterPackages($context, $packages);
+
+                    $packages = $this->filterPackagesByCurrencyId($context, $packages);
 
                     if ($packages->count()) {
                         $packages = $packages->filter(function ($value) use ($context) {

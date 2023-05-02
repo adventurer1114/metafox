@@ -1,6 +1,7 @@
 import { Box, SxProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React from 'react';
+import { useBlock } from '@metafox/layout';
 
 const StyledItemSubInfo = styled(Box, {
   name: 'ItemSubInfo'
@@ -35,10 +36,13 @@ export default function ItemSubInfo({
   sx?: SxProps;
   children?: React.ReactNode;
 }) {
+  const { itemProps: { subInfo } = {} } = useBlock();
+
   return (
     <StyledItemSubInfo
       data-testid="itemSubInfo"
       placement={placement}
+      {...subInfo}
       {...props}
     >
       {React.Children.toArray(children).map((node, index) => (

@@ -45,7 +45,7 @@ return [
         'icon'     => 'ico-pencilline-o',
     ],
     [
-        'showWhen'  => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
@@ -95,7 +95,7 @@ return [
         'icon'     => 'ico-comment-square-quote-o',
     ],
     [
-        'showWhen'  => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
@@ -145,7 +145,7 @@ return [
         'icon'     => 'ico-comment-square-quote-o',
     ],
     [
-        'showWhen'  => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_delete'],
         ],
@@ -348,7 +348,7 @@ return [
         'icon'     => 'ico-sponsor',
     ],
     [
-        'showWhen'   => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_sponsor'],
             ['falsy', 'item.is_sponsor'],
@@ -363,7 +363,7 @@ return [
         'is_deleted' => 1,
     ],
     [
-        'showWhen'   => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_sponsor'],
             ['truthy', 'item.is_sponsor'],
@@ -592,7 +592,7 @@ return [
         'icon'     => 'ico-sponsor',
     ],
     [
-        'showWhen'   => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_sponsor'],
             ['falsy', 'item.is_sponsor'],
@@ -607,7 +607,7 @@ return [
         'is_deleted' => 1,
     ],
     [
-        'showWhen'   => [
+        'showWhen' => [
             'and',
             ['truthy', 'item.extra.can_sponsor'],
             ['truthy', 'item.is_sponsor'],
@@ -710,6 +710,7 @@ return [
         'tab'      => 'pending_thread',
         'showWhen' => [
             'and',
+            ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.forum.forum_thread.approve'],
         ],
         'menu'     => 'forum.sidebarMenu',
@@ -745,6 +746,7 @@ return [
         'tab'      => 'pending_post',
         'showWhen' => [
             'and',
+            ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.forum.forum_post.approve'],
         ],
         'menu'     => 'forum.sidebarMenu',
@@ -755,7 +757,7 @@ return [
         'to'       => '/forum/pending-post',
     ],
     [
-        'showWhen'    => [
+        'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
             ['truthy', 'acl.forum.forum_thread.create'],
@@ -765,13 +767,13 @@ return [
             'color'     => 'primary',
             'variant'   => 'contained',
         ],
-        'menu'        => 'forum.sidebarMenu',
-        'name'        => 'add',
-        'label'       => 'forum::phrase.forum_phrase_menu_create_new_thread',
-        'ordering'    => 10,
-        'as'          => 'sidebarButton',
-        'icon'        => 'ico-plus',
-        'to'          => '/forum/thread/add',
+        'menu'     => 'forum.sidebarMenu',
+        'name'     => 'add',
+        'label'    => 'forum::phrase.forum_phrase_menu_create_new_thread',
+        'ordering' => 10,
+        'as'       => 'sidebarButton',
+        'icon'     => 'ico-plus',
+        'to'       => '/forum/thread/add',
     ],
     [
         'showWhen' => [

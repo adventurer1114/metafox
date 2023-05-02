@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MetaFox\Friend\Database\Factories\TagFriendFactory;
 use MetaFox\Friend\Notifications\FriendTag;
+use MetaFox\Platform\Contracts\ActionEntity;
 use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasPrivacyMember;
@@ -86,11 +87,12 @@ class TagFriend extends Model implements Entity, TagFriendModel, IsNotifyInterfa
             return [[], $notification];
         }
 
-        if (!$this->item instanceof Content) {
+        $item = $this->item;
+        if (!$item instanceof Content) {
             return null;
         }
 
-        $privacyItem = $this->item->privacyItem();
+        $privacyItem = $item->privacyItem();
 
         if (!$privacyItem instanceof Content) {
             return null;
@@ -99,16 +101,16 @@ class TagFriend extends Model implements Entity, TagFriendModel, IsNotifyInterfa
         if (!PrivacyPolicy::checkPermission($this->owner, $privacyItem)) {
             return null;
         }
-        $pass = app('events')->dispatch('like.owner.notification', [$this->owner, $this->item], true);
+        $pass = app('events')->dispatch('like.owner.notification', [$this->owner, $item], true);
         if ($pass === false) {
             return null;
         }
 
-        $user = $this->item->user;
+        $userItem = $item->user;
 
         $context = user();
 
-        if ($context->userId() == $this->item->userId() && $context->userId() == $this->ownerId()) {
+        if ($context->userId() == $item->userId() && $context->userId() == $this->ownerId()) {
             return null;
         }
 
@@ -125,23 +127,25 @@ class TagFriend extends Model implements Entity, TagFriendModel, IsNotifyInterfa
         }
 
         if ($this->userId() == $this->ownerId()) {
-            return [$user, $notification];
+            return [$userItem, $notification];
         }
 
-        // Don't send notifications to users tagged on their timelines posts
-        if ($owner->entityId() == $this->item->ownerId()) {
+        /* Don't send notifications to users tagged on their timelines posts
+         *  Except comment still send notifications to users tagged
+         */
+        if ($owner->entityId() == $item->ownerId() && !$item instanceof ActionEntity) {
             return null;
         }
 
-        if ($context->userId() == $this->item->userId()) {
+        if ($context->userId() == $userItem->entityId()) {
             return [$owner, $notification];
         }
 
-        if ($this->item->userId() == $this->ownerId()) {
-            return [$user, $notification];
+        if ($userItem->entityId() == $this->ownerId()) {
+            return [$userItem, $notification];
         }
 
-        return [[$user, $owner], $notification];
+        return [[$userItem, $owner], $notification];
     }
 
     public function toLink(): ?string

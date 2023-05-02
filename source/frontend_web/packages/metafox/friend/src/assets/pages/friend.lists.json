@@ -70,7 +70,8 @@
           "component": "friend.block.pendingRequest",
           "slotName": "main",
           "title": "friends",
-          "blockId": "jsc6q"
+          "blockId": "jsc6q",
+          "blockLayout": "App List - Mobile"
         }
       ],
       "pageName": "friend.pending",

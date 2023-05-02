@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 
 class CheckNewRequest extends FormRequest
 {
+    // todo risky because, it should return unxepected error.
     public function rules(): array
     {
         return [

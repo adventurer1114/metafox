@@ -17,7 +17,7 @@
           "blockId": "arwc"
         },
         {
-          "component": "video.block.videoListingBlock",
+          "component": "video.block.userVideoListingBlock",
           "slotName": "main",
           "title": "videos",
           "dataSource": {
@@ -76,7 +76,7 @@
           "blockId": "ayo5"
         },
         {
-          "component": "video.block.videoListingBlock",
+          "component": "video.block.userVideoListingBlock",
           "slotName": "main",
           "title": "videos",
           "dataSource": {

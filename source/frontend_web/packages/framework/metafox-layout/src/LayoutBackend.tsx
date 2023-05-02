@@ -22,7 +22,8 @@ import {
   range,
   set,
   has,
-  unset
+  unset,
+  isPlainObject
 } from 'lodash';
 import { arrayToTree } from 'performant-array-to-tree';
 import { MAIN_SLOT_NAME } from './constants';
@@ -1784,6 +1785,22 @@ export default class LayoutBackend {
     this.reload();
   }
 
+  public mergePageLayouts(a, b) {
+    const response = {};
+
+    if (isPlainObject(a))
+      Object.keys(a).forEach(x => {
+        response[x] = a[x];
+      });
+
+    if (isPlainObject(b))
+      Object.keys(b).forEach(x => {
+        response[x] = b.x;
+      });
+
+    return response;
+  }
+
   public setupTheme({ info, default: config }: LoadedTheme) {
     const { themeProcessor } = this.manager;
 
@@ -1798,7 +1815,7 @@ export default class LayoutBackend {
     this.noContentPresets = config.noContentLayouts;
     this.itemPresets = config.itemLayouts;
     this.templates = config.templates;
-    this.pageLayouts = merge({}, this.pageLayouts, config.pageLayouts);
+    this.pageLayouts = Object.assign({}, this.pageLayouts, config.pageLayouts);
     this.originVariant = config.styles;
     this.ready = true;
 

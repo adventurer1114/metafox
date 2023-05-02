@@ -18,7 +18,8 @@ import {
   SponsorFlag,
   Statistic,
   UserAvatar,
-  LineIcon
+  LineIcon,
+  HtmlViewerWrapper
 } from '@metafox/ui';
 import { getImageSrc } from '@metafox/utils';
 import { Box, styled, Typography } from '@mui/material';
@@ -31,7 +32,6 @@ import ProfileLink from '@metafox/feed/components/FeedItemView/ProfileLink';
 const name = 'PollDetail';
 const ContentWrapper = styled('div', { name, slot: 'ContentWrapper' })(
   ({ theme }) => ({
-    backgroundColor: theme.mixins.backgroundColor('paper'),
     [theme.breakpoints.down('sm')]: {
       '& $bgCover': {
         height: 179
@@ -135,11 +135,7 @@ export default function PollDetail({
         <ContentWrapper>
           {cover && <BgCover style={{ backgroundImage: `url(${cover})` }} />}
           <div className={classes.viewContainer}>
-            {PendingCard && (
-              <Box sx={{ marginBottom: 2 }}>
-                <PendingCard sx item={item} />
-              </Box>
-            )}
+            {PendingCard && <PendingCard sxWrapper={{ mb: 1 }} item={item} />}
             {is_closed && (
               <MessageWrapper>
                 <Typography variant="h5" color="text.hint">
@@ -218,9 +214,11 @@ export default function PollDetail({
                 </div>
               </div>
               {item?.text && (
-                <Box component="div" mt={3} className={classes.itemContent}>
+                <Box component="div" className={classes.itemContent}>
                   <RichTextViewMore maxHeight="300px">
-                    <HtmlViewer html={item.text || ''} />
+                    <HtmlViewerWrapper>
+                      <HtmlViewer html={item.text || ''} />
+                    </HtmlViewerWrapper>
                   </RichTextViewMore>
                 </Box>
               )}

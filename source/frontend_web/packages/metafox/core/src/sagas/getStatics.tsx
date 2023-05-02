@@ -12,11 +12,16 @@ import {
 import { compactData, compactUrl } from '@metafox/utils';
 import { takeEvery } from 'redux-saga/effects';
 
-function* getStatics(action: { type: string; payload: any }) {
+function* getStatics(action: {
+  type: string;
+  payload: any;
+  meta: { onSuccessStatics: () => void };
+}) {
   const { apiClient } = yield* getGlobalContext();
   const { user } = yield* getSession();
 
   const { pageParams } = action.payload;
+  const { onSuccessStatics } = action.meta;
   const { appName, resourceName } = pageParams;
   const configStas = yield* getResourceAction(
     appName,
@@ -48,7 +53,10 @@ function* getStatics(action: { type: string; payload: any }) {
 
     yield* patchEntity(pageParams.identity, stasResponse.data.data);
     yield* patchEntity(`user.entities.user.${user.id}`, userResponse.data.data);
-  } catch (error) {}
+  } catch (error) {
+  } finally {
+    onSuccessStatics();
+  }
 }
 
 const sagas = [takeEvery(GET_STATICS, getStatics)];

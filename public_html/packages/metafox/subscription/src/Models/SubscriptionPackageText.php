@@ -37,6 +37,7 @@ class SubscriptionPackageText extends Model implements ResourceText
     protected $table = 'subscription_packages_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

@@ -14,10 +14,10 @@ class BanUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'           => ['required', 'exists:user_entities,id'],
+            'user_id'           => ['required', 'numeric', 'exists:user_entities,id'],
             'day'               => ['required', 'numeric', 'min:0'],
             'reason'            => ['sometimes'],
-            'return_user_group' => ['required', 'exists:auth_roles,id'],
+            'return_user_group' => ['required', 'numeric', 'min:1', 'exists:auth_roles,id'],
         ];
     }
 }

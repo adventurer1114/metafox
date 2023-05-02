@@ -27,7 +27,7 @@ class PostImporter extends JsonImporter
     public function processImport()
     {
         $this->remapRefs([
-            '$owner', '$user',
+            '$owner', '$user', '$statusBackground',
         ]);
 
         $this->processImportEntries();
@@ -56,11 +56,16 @@ class PostImporter extends JsonImporter
                 'location_latitude'    => $entry['location_latitude'] ?? null,
                 'location_longitude'   => $entry['location_longitude'] ?? null,
                 'location_name'        => isset($entry['location_name']) ? html_entity_decode($entry['location_name']) : null,
-                'content'              => isset($entry['content']) ? html_entity_decode($entry['content']) : null,
-                'status_background_id' => $entry['status_background_id'] ?? 0,
+                'content'              => isset($entry['content']) ? $this->parseText($entry['content'], false, true, $entry) : null,
+                'status_background_id' => $entry['statusBackground_id'] ?? 0,
                 'created_at'           => $entry['created_at'] ?? null,
                 'updated_at'           => $entry['updated_at'] ?? null,
             ]
         );
+    }
+
+    public function afterImport(): void
+    {
+        $this->processImportUserMention();
     }
 }

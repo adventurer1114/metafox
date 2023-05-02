@@ -12,9 +12,11 @@ class FileType implements MetaFoxFileTypeInterface
 {
     public const PHOTO_MIMES_TYPES = 'image/*';
     public const VIDEO_MIMES_TYPES = 'video/*';
+    public const AUDIO_MIMES_TYPES = 'audio/mp3';
 
     public const PHOTO_MIME_TYPE_REGEX = '/^image\/([a-zA-Z0-9\.\-\+]+)$/m';
     public const VIDEO_MIME_TYPE_REGEX = '/^video\/([a-zA-Z0-9\.\-\+]+)$/m';
+    public const AUDIO_MIME_TYPE_REGEX = '/^audio\/([a-zA-Z0-9\.\-\+]+)$/m';
 
     /**
      * @var array<string>
@@ -22,6 +24,7 @@ class FileType implements MetaFoxFileTypeInterface
     public static array $types = [
         MetaFoxFileType::PHOTO_TYPE => self::PHOTO_MIMES_TYPES,
         MetaFoxFileType::VIDEO_TYPE => self::VIDEO_MIMES_TYPES,
+        MetaFoxFileType::AUDIO_TYPE => self::AUDIO_MIMES_TYPES,
     ];
 
     public function isAllowType(string $type): bool
@@ -90,11 +93,14 @@ class FileType implements MetaFoxFileTypeInterface
         if (preg_match(self::VIDEO_MIME_TYPE_REGEX, $mimeType)) {
             return MetaFoxFileType::VIDEO_TYPE;
         }
+        if (preg_match(self::AUDIO_MIME_TYPE_REGEX, $mimeType)) {
+            return MetaFoxFileType::AUDIO_TYPE;
+        }
 
         return null;
     }
 
-    private function verifyMimeTypeByType(?string $mimeType, string $fileType = 'photo'): bool
+    public function verifyMimeTypeByType(?string $mimeType, string $fileType = 'photo'): bool
     {
         if (!$mimeType) {
             return false;
@@ -103,6 +109,7 @@ class FileType implements MetaFoxFileTypeInterface
         //@todo: expose risk to pypass
         return match ($fileType) {
             MetaFoxFileType::VIDEO_TYPE => (bool) preg_match(self::VIDEO_MIME_TYPE_REGEX, $mimeType),
+            MetaFoxFileType::AUDIO_TYPE => (bool) preg_match(self::AUDIO_MIME_TYPE_REGEX, $mimeType),
             default                     => (bool) preg_match(self::PHOTO_MIME_TYPE_REGEX, $mimeType),
         };
     }

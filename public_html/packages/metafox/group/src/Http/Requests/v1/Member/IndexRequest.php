@@ -21,7 +21,7 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'q'                => ['sometimes'],
+            'q'                => ['sometimes', 'string', 'nullable'],
             'group_id'         => ['required', 'numeric', 'exists:groups,id'],
             'view'             => ['sometimes', 'string', new AllowInRule(ViewScope::getAllowView())],
             'page'             => ['sometimes', 'numeric', 'min:1'],

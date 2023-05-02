@@ -17,6 +17,15 @@ return [
         'phrase_keywords'    => 'activitypoint::seo.transactions_keywords',
         'phrase_heading'     => 'activitypoint::seo.transactions_heading',
         'url'                => 'activitypoint',
+        'deleted'            => true,
+    ],
+    [
+        'name'               => 'activitypoint.activitypoint.statistics',
+        'phrase_title'       => 'activitypoint::seo.statistics_title',
+        'phrase_description' => 'activitypoint::seo.statistics_description',
+        'phrase_keywords'    => 'activitypoint::seo.statistics_keywords',
+        'phrase_heading'     => 'activitypoint::seo.statistics_heading',
+        'url'                => 'activitypoint',
     ],
     [
         'name'               => 'activitypoint.activitypoint_package.packages',

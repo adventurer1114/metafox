@@ -189,16 +189,6 @@ return [
         'title'      => 'core::phrase.settings',
     ],
     [
-        'driver'     => 'MetaFox\\Video\\Http\\Resources\\v1\\Admin\\MuxSettingForm',
-        'type'       => 'form-settings',
-        'name'       => 'video.mux',
-        'version'    => 'v1',
-        'resolution' => 'admin',
-        'is_active'  => true,
-        'is_preload' => false,
-        'title'      => 'core::phrase.settings',
-    ],
-    [
         'driver'     => 'MetaFox\\Video\\Jobs\\DeleteCategoryJob',
         'type'       => 'job',
         'name'       => 'MetaFox\\Video\\Jobs\\DeleteCategoryJob',

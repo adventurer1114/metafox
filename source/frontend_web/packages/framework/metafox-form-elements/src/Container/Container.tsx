@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import clsx from 'clsx';
 import { camelCase, map } from 'lodash';
 import React from 'react';
+import { LineIcon } from '@metafox/ui';
 
 const FormContainerRoot = styled(Box, {
   name: 'MuiFormContainer',
@@ -32,16 +33,54 @@ const BoxWrapper = styled(Box, {
   }
 }));
 
-const Header = ({ label, description, isMultiStep }) => {
+const TitleWrapper = styled(Box, {
+  name: 'TitleWrapper',
+  shouldForwardProp: prop => prop !== 'collapsible'
+})<{ collapsible?: boolean }>(({ theme, collapsible }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  cursor: collapsible ? 'pointer' : 'auto'
+}));
+
+const Header = ({
+  label,
+  description,
+  isMultiStep,
+  collapsible,
+  collapsed,
+  setCollapsed
+}) => {
+  const handleToggle = React.useCallback(() => {
+    if (collapsible) {
+      setCollapsed(prev => !prev);
+    }
+  }, []);
+
   if (!label && !description) return null;
 
   return (
     <BoxWrapper sx={{ pt: 1 }} className={isMultiStep ? 'multiStep' : ''}>
-      {label ? (
-        <Typography component="h3" color="text.primary" variant="h5">
-          {label}
-        </Typography>
-      ) : null}
+      <TitleWrapper collapsible onClick={handleToggle}>
+        {label ? (
+          <Typography component="h3" color="text.primary" variant="h5">
+            {label}
+          </Typography>
+        ) : null}
+        {collapsible ? (
+          <Box
+            component={'span'}
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '32px',
+              height: '32px'
+            }}
+          >
+            <LineIcon icon={collapsed ? 'ico-angle-right' : 'ico-angle-down'} />
+          </Box>
+        ) : null}
+      </TitleWrapper>
       {description ? (
         <Typography component="p" color="text.secondary" variant="body2">
           {description}
@@ -77,15 +116,20 @@ export default function Container({ formik, config }: FormFieldProps) {
     testid,
     description,
     isMultiStep,
-    wrapAs: Wrapper,
     className,
+    wrapAs: Wrapper,
     variant = 'vertical',
     label,
     elements,
     wrapperProps,
     sx,
-    separator
+    separator,
+    sxContainer,
+    collapsible = false,
+    collapsed: collapsedDefault
   } = config;
+  const [collapsed, setCollapsed] = React.useState(collapsedDefault);
+  const isHiddenContainer = collapsible && collapsed;
 
   if (Wrapper) {
     const noSeparator = wrapperProps?.separator ? '' : 'noSeparator';
@@ -115,15 +159,21 @@ export default function Container({ formik, config }: FormFieldProps) {
         isMultiStep={isMultiStep}
         label={label}
         description={description}
+        collapsible={collapsible}
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
       />
-      <ContainerBody
-        horizontal={variant === 'horizontal'}
-        className={clsx(className, separator)}
-      >
-        {map(elements, (config, key) => (
-          <Element formik={formik} key={key.toString()} config={config} />
-        ))}
-      </ContainerBody>
+      {!isHiddenContainer ? (
+        <ContainerBody
+          horizontal={variant === 'horizontal'}
+          className={clsx(className, separator)}
+          sx={sxContainer}
+        >
+          {map(elements, (config, key) => (
+            <Element formik={formik} key={key.toString()} config={config} />
+          ))}
+        </ContainerBody>
+      ) : null}
     </FormContainerRoot>
   );
 }

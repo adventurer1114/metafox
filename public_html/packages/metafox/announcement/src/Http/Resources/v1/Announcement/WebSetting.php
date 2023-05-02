@@ -52,5 +52,9 @@ class WebSetting extends Setting
                 'announcement_id' => ':id',
             ])
             ->asGet();
+
+        $this->add('closeAnnouncement')
+            ->apiUrl('announcement/announcement/close')
+            ->asPost();
     }
 }

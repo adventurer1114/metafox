@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Gate;
 use MetaFox\Blog\Database\Factories\BlogFactory;
 use MetaFox\Blog\Notifications\BlogApproveNotification;
 use MetaFox\Blog\Policies\BlogPolicy;
@@ -43,29 +44,29 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 /**
  * Class Blog.
  * @mixin Builder
- * @property int $id
- * @property string $title
- * @property string $module_id
- * @property int $privacy
- * @property int $is_draft
- * @property bool $is_approved
- * @property bool $is_featured
- * @property bool $is_sponsor
- * @property bool $sponsor_in_feed
- * @property int $total_attachment
- * @property int $total_view
- * @property string $keywords
- * @property string $description
- * @property int $total_like
- * @property int $total_comment
- * @property int $total_share
- * @property ?string[] $tags
- * @property ?int $image_file_id
- * @property string $created_at
- * @property string $updated_at
- * @property ?BlogText $blogText
- * @property Category $categories
- * @property Category $activeCategories
+ * @property        int         $id
+ * @property        string      $title
+ * @property        string      $module_id
+ * @property        int         $privacy
+ * @property        int         $is_draft
+ * @property        bool        $is_approved
+ * @property        bool        $is_featured
+ * @property        bool        $is_sponsor
+ * @property        bool        $sponsor_in_feed
+ * @property        int         $total_attachment
+ * @property        int         $total_view
+ * @property        string      $keywords
+ * @property        string      $description
+ * @property        int         $total_like
+ * @property        int         $total_comment
+ * @property        int         $total_share
+ * @property        ?string[]   $tags
+ * @property        ?int        $image_file_id
+ * @property        string      $created_at
+ * @property        string      $updated_at
+ * @property        ?BlogText   $blogText
+ * @property        Category    $categories
+ * @property        Category    $activeCategories
  * @method   static BlogFactory factory(...$parameters)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @todo TriTV: he class Blog has a coupling between objects value of 14. Consider to reduce the number of dependencies
@@ -109,7 +110,7 @@ class Blog extends Model implements
     public const ENTITY_TYPE = 'blog';
 
     public const BLOG_STATUS_PUBLIC = 1;
-    public const BLOG_STATUS_DRAFT = 2;
+    public const BLOG_STATUS_DRAFT  = 2;
 
     /**
      * @var string[]
@@ -148,8 +149,6 @@ class Blog extends Model implements
         'is_sponsor',
         'sponsor_in_feed',
         'tags',
-        'server_id',
-        'image_path',
         'updated_at',
         'created_at',
         'total_like',
@@ -224,7 +223,7 @@ class Blog extends Model implements
             return null;
         }
 
-        if (!policy_check(BlogPolicy::class, 'view', $this->user, $this)) {
+        if (!Gate::allows('view', $this)) {
             return null;
         }
 
@@ -259,6 +258,8 @@ class Blog extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
@@ -283,7 +284,7 @@ class Blog extends Model implements
 
     public function getKeywordsAttribute()
     {
-        return implode(', ', $this->tags??[]);
+        return implode(', ', $this->tags ?? []);
     }
 
     public function getDescriptionAttribute()

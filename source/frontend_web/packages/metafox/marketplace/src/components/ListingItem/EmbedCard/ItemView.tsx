@@ -16,7 +16,7 @@ const name = 'EmbedListingInFeedItemView';
 const ItemInner = styled('div', { name, slot: 'itemInner' })(({ theme }) => ({
   flex: 1,
   minWidth: 0,
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column'
 }));
@@ -60,7 +60,7 @@ export default function EmbedListingInFeedItemView({
             component="div"
             variant={'body1'}
             lines={3}
-            sx={{ mb: 2, flex: 1 }}
+            sx={{ mb: 2 }}
           >
             <div dangerouslySetInnerHTML={{ __html: item.short_description }} />
           </TruncateText>

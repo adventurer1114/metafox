@@ -24,6 +24,7 @@ use MetaFox\Comment\Support\Helper;
 use MetaFox\Core\Constants;
 use MetaFox\Platform\Contracts\ActivityFeedSource;
 use MetaFox\Platform\Contracts\Content;
+use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasTotalComment;
 use MetaFox\Platform\Contracts\User;
 use MetaFox\Platform\Facades\Settings;
@@ -31,6 +32,7 @@ use MetaFox\Platform\PackageManager;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\Platform\Support\Browse\Browse;
 use MetaFox\Platform\Support\Browse\Scopes\SortScope;
+use MetaFox\Platform\Support\Helper\Pagination;
 use MetaFox\User\Support\Browse\Scopes\User\BlockedScope;
 
 /**
@@ -61,13 +63,13 @@ class CommentRepository extends AbstractRepository implements CommentRepositoryI
     {
         policy_authorize(CommentPolicy::class, 'viewAny', $context);
 
-        $sort = $attributes['sort'];
+        $sort = $attributes['sort'] ?? 'created_at';
 
-        $sortType = $attributes['sort_type'];
+        $sortType = $attributes['sort_type'] ?? 'desc';
 
-        $limit = $attributes['limit'];
+        $limit = $attributes['limit'] ?? Pagination::DEFAULT_ITEM_PER_PAGE;
 
-        $itemType = $attributes['item_type'];
+        $itemType = $attributes['item_type'] ?? null;
 
         $itemId = $attributes['item_id'];
 
@@ -223,13 +225,13 @@ class CommentRepository extends AbstractRepository implements CommentRepositoryI
 
         $canCreateSticker = true;
 
-        if ($attributes['photo_id'] > 0) {
+        if (Arr::has($attributes, 'photo_id') && $attributes['photo_id'] > 0) {
             $isCheckLink      = false;
             $canCreateSticker = false;
             $this->handleCreateAttachment($comment, CommentAttachment::TYPE_FILE, $attributes['photo_id']);
         }
 
-        if (isset($attributes['sticker_id']) && $attributes['sticker_id'] > 0 && $canCreateSticker) {
+        if (Arr::has($attributes, 'sticker_id') && $attributes['sticker_id'] > 0 && $canCreateSticker) {
             $isCheckLink = false;
             $this->handleCreateAttachment($comment, CommentAttachment::TYPE_STICKER, $attributes['sticker_id']);
 
@@ -456,14 +458,15 @@ class CommentRepository extends AbstractRepository implements CommentRepositoryI
             }
 
             if (!empty($attachmentData)) {
-                $commentAttachment->update($attachmentData);
+                $commentAttachment->update(Arr::except($attachmentData, ['id']));
             }
 
             return;
         }
 
         if (!empty($attachmentData)) {
-            $comment->commentAttachment()->create($attachmentData);
+            // fix may be insert id to pgsql prevent sequence nextval
+            $comment->commentAttachment()->create(Arr::except($attachmentData, ['id']));
         }
     }
 
@@ -500,6 +503,10 @@ class CommentRepository extends AbstractRepository implements CommentRepositoryI
         $item = $comment->item;
         $comment->delete();
         $feedId = null;
+
+        if (null !== $item) {
+            $item->refresh();
+        }
 
         if ($item instanceof ActivityFeedSource) {
             try {
@@ -987,7 +994,7 @@ class CommentRepository extends AbstractRepository implements CommentRepositoryI
         return [$total, $collection];
     }
 
-    public function getRelevantCommentsById(User $context, int $id, ?Content $content = null): ?Collection
+    public function getRelevantCommentsById(User $context, int $id, ?Entity $content = null): ?Collection
     {
         $where = [
             'id' => $id,
@@ -1051,5 +1058,28 @@ class CommentRepository extends AbstractRepository implements CommentRepositoryI
 
         // divide 2 because when inserting global scope hidden view, we will insert owner of comment and owner of item
         return $total / 2;
+    }
+
+    public function removeLinkPreview(Comment $comment): bool
+    {
+        if (null === $comment->commentAttachment) {
+            return false;
+        }
+
+        $params = json_decode($comment->commentAttachment->params, true);
+
+        if (!is_array($params)) {
+            $params = [];
+        }
+
+        if (Arr::get($params, 'is_hidden')) {
+            return false;
+        }
+
+        Arr::set($params, 'is_hidden', true);
+
+        $comment->commentAttachment->update(['params' => json_encode($params)]);
+
+        return true;
     }
 }

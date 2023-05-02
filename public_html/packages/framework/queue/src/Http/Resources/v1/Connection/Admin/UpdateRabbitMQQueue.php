@@ -27,13 +27,13 @@ class UpdateRabbitMQQueue extends AbstractForm
     protected function prepare(): void
     {
         $res    = $this->resource ?? [];
-        $action = sprintf('admincp/queue/connection/edit/%s/%s', $res['driver'] ?? 'rabbitmq', $res['name'] ?? 'rabbitmq');
+        $action = sprintf('admincp/queue/connection/%s/%s', $res['driver'] ?? 'rabbitmq', $res['name'] ?? 'rabbitmq');
         $value  = $res['value'] ?? [];
 
         $this->title(__p('queue::rabbitmq.form_title'))
-            ->description('queue:sqs.form_desc')
+            ->description(__p('queue::rabbitmq.form_desc'))
             ->action($action)
-            ->asPost()
+            ->asPut()
             ->setValue($value);
     }
 
@@ -44,27 +44,26 @@ class UpdateRabbitMQQueue extends AbstractForm
                 Builder::text('queue')
                     ->label(__p('queue::rabbitmq.queue_label'))
                     ->description(__p('queue::rabbitmq.queue_desc'))
-                    ->yup(Yup::string()->required()),
+                    ->required(),
                 Builder::text('hosts.0.host')
                     ->label(__p('queue::rabbitmq.host_label'))
                     ->description(__p('queue::rabbitmq.host_desc'))
-                    ->yup(Yup::string()->required()),
+                    ->required(),
                 Builder::text('hosts.0.port')
                     ->label(__p('queue::rabbitmq.port_label'))
                     ->description(__p('queue::rabbitmq.port_desc'))
-                    ->yup(Yup::string()->required()),
+                    ->required(),
                 Builder::text('hosts.0.user')
                     ->label(__p('queue::rabbitmq.user_label'))
                     ->description(__p('queue::rabbitmq.user_desc'))
-                    ->yup(Yup::string()->required()),
+                    ->required(),
                 Builder::text('hosts.0.password')
                     ->label(__p('queue::rabbitmq.password_label'))
                     ->description(__p('queue::rabbitmq.password_desc'))
-                    ->yup(Yup::string()->required()),
+                    ->required(),
                 Builder::text('hosts.0.vhost')
                     ->label(__p('queue::rabbitmq.vhost_label'))
                     ->description(__p('queue::rabbitmq.vhost_desc'))
-                    ->yup(Yup::string()->optional()->nullable())
             );
 
         $this->addDefaultFooter(true);
@@ -86,7 +85,7 @@ class UpdateRabbitMQQueue extends AbstractForm
             'queue'            => 'required|string',
             'suffix'           => 'sometimes|string|nullable',
             'hosts.*.host'     => 'required|string',
-            'hosts.*.port'     => 'required|number',
+            'hosts.*.port'     => 'required|numeric',
             'hosts.*.user'     => 'required|string',
             'hosts.*.password' => 'required|string',
             'hosts.*.vhost'    => 'required|string',

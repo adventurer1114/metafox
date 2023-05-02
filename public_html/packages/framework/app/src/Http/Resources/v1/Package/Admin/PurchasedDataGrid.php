@@ -41,11 +41,11 @@ class PurchasedDataGrid extends Grid
             ->header(__p('app::phrase.pricing_type'))
             ->flex();
 
-        $this->addColumn('version')
+        $this->addColumn('current_version')
             ->header(__p('app::phrase.version'))
             ->width(200);
 
-        $this->addColumn('latest_version')
+        $this->addColumn('version')
             ->header(__p('app::phrase.latest_version'))
             ->width(120);
 
@@ -53,9 +53,9 @@ class PurchasedDataGrid extends Grid
             ->header(__p('app::phrase.author'))
             ->width(120);
 
-        $this->addColumn('expired_at')
+        $this->addColumn('is_expired')
             ->header(__p('app::phrase.expired_at'))
-            ->asDateTime()
+            ->asYesNoIcon()
             ->width(120);
     }
 }

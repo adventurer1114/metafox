@@ -8,7 +8,7 @@ use MetaFox\Platform\Contracts\User;
 
 class IncreaseUserPointListener
 {
-    public function handle(User $user, Entity $content, string $action): int
+    public function handle(?User $user, Entity $content, string $action): int
     {
         return ActivityPoint::updateUserPoints($user, $content, $action, \MetaFox\ActivityPoint\Support\ActivityPoint::TYPE_EARNED);
     }

@@ -148,7 +148,8 @@
           "slotName": "subside",
           "blockId": "footer0",
           "contentType": "feed",
-          "dividerVariant": "middle"
+          "dividerVariant": "middle",
+          "blockLayout": "footer"
         }
       ],
       "containers": {},
@@ -310,7 +311,7 @@
           "contentType": "forum_thread",
           "canLoadMore": true,
           "hasSort": true,
-          "blockLayout": "Forum Thread Lists",
+          "blockLayout": "Forum Thread Lists - Mobile",
           "canLoadSmooth": 1,
           "gridLayout": "Forum_thread - Main Card",
           "emptyPage": "core.block.no_item_with_icon",

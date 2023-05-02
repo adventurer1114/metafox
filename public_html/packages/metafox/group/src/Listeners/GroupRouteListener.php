@@ -21,7 +21,6 @@ use MetaFox\User\Models\UserEntity;
  */
 class GroupRouteListener
 {
-
     public GroupInviteCodeRepositoryInterface $codeRepository;
 
     public function __construct(GroupInviteCodeRepositoryInterface $codeRepository)
@@ -30,40 +29,30 @@ class GroupRouteListener
     }
 
     /**
-     * @param  string  $url
+     * @param string $url
      *
-     * @return array<string,mixed>|void
+     * @return array<string,mixed>|null
      */
-    public function handle(string $url)
+    public function handle(string $url): ?array
     {
-        if (!Str::startsWith($url, 'group/')) {
-            return;
+        if (!Str::startsWith($url, 'group/invite')) {
+            return null;
         }
+
         $code = Arr::last(explode('/', $url));
-        if (Str::startsWith($url, 'group/invite')) {
-            $inviteCode = $this->codeRepository->getCodeByValue($code, 1);
-            if (!$inviteCode instanceof GroupInviteCode) {
-                return;
-            }
 
-            $group = $inviteCode->group;
-            if (!$group instanceof Group) {
-                return;
-            }
-
-            return [
-                'path' => "/{$group->entityType()}/{$group->entityId()}?invite_code={$inviteCode->code}",
-            ];
+        $inviteCode = $this->codeRepository->getCodeByValue($code, 1);
+        if (!$inviteCode instanceof GroupInviteCode) {
+            return null;
         }
 
-        /** @var UserEntity $user */
-        $user = UserEntity::query()->where('user_name', '=', $code)->firstOrFail();
-
-        $entityId = $user->entityId();
-        $prefix = $user->entityType();
+        $group = $inviteCode->group;
+        if (!$group instanceof Group) {
+            return null;
+        }
 
         return [
-            'path' => "/$prefix/$entityId",
+            'path' => "/{$group->entityType()}/{$group->entityId()}?invite_code={$inviteCode->code}",
         ];
     }
 }

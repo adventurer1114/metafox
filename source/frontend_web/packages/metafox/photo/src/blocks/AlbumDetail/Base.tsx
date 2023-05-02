@@ -146,7 +146,7 @@ function PhotoAlbumDetail({
             <ItemDetailInteraction
               identity={identity}
               handleAction={handleAction}
-              borderBottomPhoto
+              borderBottom
               hideListComment={!comment_id}
             />
           </div>

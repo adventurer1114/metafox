@@ -66,4 +66,6 @@ interface PageClaimRepositoryInterface extends HasSponsor, HasFeature
      * @return void
      */
     public function deleteNotification(PageClaim $claim): void;
+
+    public function deleteClaimByUser(User $user, int $pageId): void;
 }

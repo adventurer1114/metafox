@@ -29,8 +29,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'page_id' => ['required', 'numeric', 'exists:pages,id'],
-            'accept'  => ['required', 'numeric', new AllowInRule([0, 1])],
+            'accept' => ['required', 'numeric', new AllowInRule([0, 1])],
         ];
     }
 }

@@ -55,7 +55,7 @@ const useStyles = makeStyles(
         width: '100%'
       },
       inputInput: {
-        padding: theme.spacing(1, 2, 1, 0),
+        padding: `${theme.spacing(0.5, 1, 0.75, 1)} !important`,
         boxSizing: 'border-box',
         // vertical padding + font size from searchIcon
         paddingLeft: '30px',

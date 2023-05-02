@@ -5,6 +5,7 @@ namespace MetaFox\Comment\Providers;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use MetaFox\Comment\Models\Comment;
+use MetaFox\Comment\Models\CommentAttachment;
 use MetaFox\Comment\Observers\CommentObserver;
 use MetaFox\Comment\Repositories\CommentHistoryRepositoryInterface;
 use MetaFox\Comment\Repositories\CommentRepositoryInterface;
@@ -40,5 +41,6 @@ class PackageServiceProvider extends ServiceProvider
             CommentObserver::class,
             EloquentModelObserver::class,
         ]);
+        CommentAttachment::observe([EloquentModelObserver::class]);
     }
 }

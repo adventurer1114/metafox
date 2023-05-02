@@ -7,6 +7,8 @@
 
 namespace MetaFox\Friend\Http\Resources\v1\Friend;
 
+use MetaFox\Friend\Support\Browse\Scopes\Friend\SortScope;
+use MetaFox\Friend\Support\Browse\Scopes\Friend\WhenScope;
 use MetaFox\Platform\Resource\WebSetting as Setting;
 
 /**
@@ -33,7 +35,14 @@ class WebSetting extends Setting
         $this->add('viewAll')
             ->apiUrl('friend')
             ->pageUrl('friend')
-            ->apiRules(['q' => ['truthy', 'q'], 'list_id' => ['truthy', 'list_id']]);
+            ->apiRules([
+                'q'       => ['truthy', 'q'],
+                'list_id' => ['truthy', 'list_id'],
+                'sort'    => [
+                    'includes', 'sort', SortScope::getAllowSort(),
+                ],
+                'when' => ['includes', 'when', WhenScope::getAllowWhen()],
+            ]);
 
         $this->add('suggestItem')
             ->apiUrl('friend/suggestion');
@@ -67,5 +76,7 @@ class WebSetting extends Setting
                 'view'    => 'profile',
                 'limit'   => 6,
             ]);
+
+        $this->add('shareOnFriendProfile');
     }
 }

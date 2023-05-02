@@ -17,10 +17,10 @@ interface AnnouncementRepositoryInterface
     /**
      * @param  User                   $context
      * @param  array<string, mixed>   $attributes
-     * @return Paginator
+     * @return Paginator|array
      * @throws AuthorizationException
      */
-    public function viewAnnouncements(User $context, array $attributes): Paginator;
+    public function viewAnnouncements(User $context, array $attributes): Paginator|array;
 
     /**
      * @param  User         $context
@@ -84,4 +84,12 @@ interface AnnouncementRepositoryInterface
      * @return Announcement
      */
     public function deactivateAnnouncement(User $context, int $id): Announcement;
+
+    public function getTotalUnread(User $context): int;
+
+    /**
+     * @param  User $context
+     * @return bool
+     */
+    public function closeAnnouncement(User $context): bool;
 }

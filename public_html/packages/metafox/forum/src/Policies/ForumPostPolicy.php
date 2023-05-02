@@ -239,6 +239,10 @@ class ForumPostPolicy implements ResourcePolicyInterface
 
     public function approve(User $user): bool
     {
+        if ($user->isGuest()) {
+            return false;
+        }
+
         return $user->hasPermissionTo($this->type . '.approve');
     }
 
@@ -285,7 +289,7 @@ class ForumPostPolicy implements ResourcePolicyInterface
         return $user->hasPermissionTo($this->type . '.quote');
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return false;
     }

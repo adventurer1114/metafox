@@ -7,10 +7,10 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
-use MetaFox\Photo\Http\Requests\v1\Category\DeleteRequest;
-use MetaFox\Photo\Http\Requests\v1\Category\IndexRequest;
-use MetaFox\Photo\Http\Requests\v1\Category\StoreRequest;
-use MetaFox\Photo\Http\Requests\v1\Category\UpdateRequest;
+use MetaFox\Photo\Http\Requests\v1\Category\Admin\DeleteRequest;
+use MetaFox\Photo\Http\Requests\v1\Category\Admin\IndexRequest;
+use MetaFox\Photo\Http\Requests\v1\Category\Admin\StoreRequest;
+use MetaFox\Photo\Http\Requests\v1\Category\Admin\UpdateRequest;
 use MetaFox\Photo\Http\Resources\v1\Category\Admin\CategoryItemCollection as ItemCollection;
 use MetaFox\Photo\Http\Resources\v1\Category\Admin\DestroyCategoryForm;
 use MetaFox\Photo\Http\Resources\v1\Category\Admin\StoreCategoryForm;
@@ -175,9 +175,7 @@ class CategoryAdminController extends ApiController
      */
     public function toggleActive(int $id): JsonResponse
     {
-        $item = $this->repository->find($id);
-
-        $item->update(['is_active' => $item->is_active ? 0 : 1]);
+        $item = $this->repository->toggleActive($id);
 
         return $this->success([new Detail($item)], [], __p('core::phrase.already_saved_changes'));
     }

@@ -4,5 +4,6 @@
   "no_marketplace_found": "No Listings Found",
   "name_type_marketplace": "Marketplace",
   "name_type_listing": "Listing",
-  "no_marketplace_found_description": "Add a new listing to establish your trading activities"
+  "no_marketplace_found_description": "Add a new listing to establish your trading activities",
+  "listing_detail": "Listing Detail"
 }

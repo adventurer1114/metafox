@@ -1,0 +1,178 @@
+<?php
+
+/* this is auto generated file */
+return [
+    [
+        'name'          => 'music.music_song.itemActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_album.itemActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_playlist.itemActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.detailActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_album.detailActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_playlist.detailActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.itemActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_album.itemActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_playlist.itemActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.detailActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_album.detailActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_playlist.detailActionMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'       => 'music.sidebarMenu',
+        'resolution' => 'web',
+        'type'       => 'sidebar',
+        'title'      => 'Music',
+    ],
+    [
+        'name'       => 'music.sidebarMenu',
+        'resolution' => 'mobile',
+        'type'       => 'sidebar',
+        'title'      => 'Music',
+    ],
+    [
+        'name'       => 'music.addMusicMenu',
+        'resolution' => 'mobile',
+        'type'       => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.itemActionMenuOnPlaylist',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.itemActionMenuOnPlaylist',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.sort_menu',
+        'resource_name' => 'music_song',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.filter_menu',
+        'resource_name' => 'music_song',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_album.sort_menu',
+        'resource_name' => 'music_album',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_album.filter_menu',
+        'resource_name' => 'music_album',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_playlist.sort_menu',
+        'resource_name' => 'music_playlist',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_playlist.filter_menu',
+        'resource_name' => 'music_playlist',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.headerItemActionOnGroupProfileMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.headerItemActionOnGroupProfileMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.headerItemActionOnPageProfileMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.headerItemActionOnPageProfileMenu',
+        'resource_name' => 'music_song',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.headerItemActionOnUserProfileMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'mobile',
+        'type'          => 'context',
+    ],
+    [
+        'name'          => 'music.music_song.headerItemActionOnUserProfileMenu',
+        'resource_name' => 'music',
+        'resolution'    => 'web',
+        'type'          => 'context',
+    ],
+];

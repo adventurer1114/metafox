@@ -54,7 +54,7 @@ class StoreExampleRuleForm extends AbstractForm
                 ->maxLength($maxLengthTitle)
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxLengthTitle,
                             __p('validation.field_must_be_at_most_max_length_characters', [
@@ -71,7 +71,7 @@ class StoreExampleRuleForm extends AbstractForm
                 ->yup(
                     Yup::string()
                         ->nullable()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxLengthTitle,
                             __p('validation.field_must_be_at_most_max_length_characters', [
@@ -94,7 +94,7 @@ class StoreExampleRuleForm extends AbstractForm
                                 'maxLength' => self::MAX_LENGTH_DESCRIPTION,
                             ])
                         )
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::slug('description_phrase')
                 ->label(__p('group::phrase.description_phrase'))
@@ -104,7 +104,7 @@ class StoreExampleRuleForm extends AbstractForm
                 ->required()
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxLengthTitle,
                             __p('validation.field_must_be_at_most_max_length_characters', [

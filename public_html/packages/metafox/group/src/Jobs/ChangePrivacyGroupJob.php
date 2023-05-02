@@ -11,13 +11,15 @@ use Illuminate\Queue\SerializesModels;
 use MetaFox\Group\Models\GroupChangePrivacy;
 use MetaFox\Group\Repositories\GroupChangePrivacyRepositoryInterface;
 
-
 /**
- * stub: packages/jobs/job-queued.stub
+ * stub: packages/jobs/job-queued.stub.
  */
 class ChangePrivacyGroupJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -36,15 +38,19 @@ class ChangePrivacyGroupJob implements ShouldQueue
      */
     public function handle(GroupChangePrivacyRepositoryInterface $changePrivacyRepository)
     {
-        $now = Carbon::now();
+        $now   = Carbon::now();
         $model = new GroupChangePrivacy();
         $items = $model->newQuery()->where([
             'is_active' => GroupChangePrivacy::IS_ACTIVE,
-        ])->whereDate('expired_at', '=', $now)->get();
+        ])->whereDate('expired_at', '<=', $now)->get();
 
         foreach ($items as $item) {
             $changePrivacyRepository->sentNotificationWhenSuccess($item->entityId());
             $changePrivacyRepository->updatePrivacyGroup($item->group, $item->privacy_type);
         }
+
+        $items->update([
+            'is_active' => GroupChangePrivacy::IS_NOT_ACTIVE,
+        ]);
     }
 }

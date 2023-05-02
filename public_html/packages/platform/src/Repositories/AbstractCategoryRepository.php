@@ -267,4 +267,15 @@ abstract class AbstractCategoryRepository extends AbstractRepository implements 
 
         return true;
     }
+
+    public function toggleActive(int $id): Model
+    {
+        $item = $this->find($id);
+
+        $item->update(['is_active' => $item->is_active ? 0 : 1]);
+
+        $this->clearCache();
+
+        return $item;
+    }
 }

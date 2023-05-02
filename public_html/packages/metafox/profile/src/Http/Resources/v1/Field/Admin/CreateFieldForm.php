@@ -41,7 +41,6 @@ class CreateFieldForm extends AbstractForm
                 'has_label'       => 1,
                 'has_description' => 1,
                 'is_active'       => 1,
-                'ordering'        => 1,
             ]);
     }
 
@@ -74,10 +73,6 @@ class CreateFieldForm extends AbstractForm
                     ->label(__p('profile::phrase.group'))
                     ->options($this->getLocationOptions())
                     ->yup(Yup::number()->required()),
-                Builder::text('ordering')
-                    ->label(__p('core::phrase.ordering'))
-                    ->maxLength(3)
-                    ->yup(Yup::number()->unint()),
                 Builder::dropdown('edit_type')
                     ->label(__p('profile::phrase.edit_type_label'))
                     ->options($this->getEditTypeOptions()),

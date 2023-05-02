@@ -5,8 +5,10 @@ namespace MetaFox\Photo\Http\Resources\v1\Album;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Arr;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Builder;
+use MetaFox\Form\PrivacyFieldTrait;
 use MetaFox\Form\Section;
 use MetaFox\Photo\Http\Requests\v1\Album\CreateFormRequest;
 use MetaFox\Photo\Models\Album as Model;
@@ -35,10 +37,7 @@ use MetaFox\Yup\Yup;
  */
 class CreateAlbumForm extends AbstractForm
 {
-    /**
-     * @var null
-     */
-    protected ?User $owner = null;
+    use PrivacyFieldTrait;
 
     /**
      * @var bool
@@ -51,21 +50,19 @@ class CreateAlbumForm extends AbstractForm
      */
     public function boot(CreateFormRequest $request): void
     {
-        $context = $owner = user();
-
-        $params = $request->validated();
+        $context = user();
+        $params  = $request->validated();
 
         $ownerId = Arr::get($params, 'owner_id');
-
+        $this->setOwner($context);
         if ($ownerId > 0) {
             $owner = UserEntity::getById($ownerId)->detail;
+            $this->setOwner($owner);
         }
 
-        policy_authorize(AlbumPolicy::class, 'create', $context, $owner);
+        policy_authorize(AlbumPolicy::class, 'create', $context, $this->owner);
 
         $this->resource = new Model($params);
-
-        $this->owner = $owner;
 
         $this->allowVideo = $this->allowUploadVideo($context);
     }
@@ -89,19 +86,20 @@ class CreateAlbumForm extends AbstractForm
             ->asPost()
             ->submitAction('@album/uploadMultiAlbumItems/submit')
             ->setValue([
-                'privacy'       => $privacy,
-                'owner_id'      => $this->resource->owner_id ?? 0,
-                'text'          => '', // set default value to prevent dirty
-                'title'         => '',
-                'items'         => [],
-                'canSetPrivacy' => $context->hasPermissionTo('photo_album.set_privacy'),
+                'privacy'  => $privacy,
+                'owner_id' => $this->resource->owner_id ?? 0,
+                'text'     => '', // set default value to prevent dirty
+                'title'    => '',
+                'items'    => [],
             ]);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     protected function initialize(): void
     {
-        $context = user();
-        $basic   = $this->addBasic();
+        $basic = $this->addBasic();
 
         $minAlbumNameLength = Settings::get(
             'photo.album.minimum_name_length',
@@ -122,7 +120,7 @@ class CreateAlbumForm extends AbstractForm
                 ->maxLength($maxAlbumNameLength)
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->minLength(
                             $minAlbumNameLength,
                             __p(
@@ -151,28 +149,27 @@ class CreateAlbumForm extends AbstractForm
                 ->required(false)
                 ->returnKeyType('default')
                 ->label(__p('core::phrase.description')),
-            Builder::privacy('privacy')
-                ->label(__p('photo::phrase.album_privacy'))
-                ->showWhen([
-                    'and',
-                    ['truthy', 'canSetPrivacy'],
-                    [
-                        'or',
-                        [
-                            'falsy',
-                            'owner_id',
-                        ], [
-                            'eq',
-                            'owner_id',
-                            $context->entityId(),
-                        ],
-                    ],
-                ])
-                ->description(__p('photo::phrase.description_for_privacy_field')),
+            $this->buildPrivacyFieldForAlbum(),
             Builder::hidden('owner_id'),
         );
 
         $this->buildFooter();
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    protected function buildPrivacyFieldForAlbum(): AbstractField
+    {
+        $context = user();
+
+        if (!$context->hasPermissionTo('photo_album.set_privacy')) {
+            return Builder::hidden('privacy');
+        }
+
+        return $this->buildPrivacyField()
+            ->label(__p('photo::phrase.album_privacy'))
+            ->description(__p('photo::phrase.description_for_privacy_field'));
     }
 
     /**
@@ -218,11 +215,6 @@ class CreateAlbumForm extends AbstractForm
 
     private function buildFooter(): void
     {
-        $this->addFooter()
-            ->addFields(
-                Builder::submit()
-                    ->label(__p('photo::phrase.create_album')),
-                Builder::cancelButton(),
-            );
+        $this->addDefaultFooter();
     }
 }

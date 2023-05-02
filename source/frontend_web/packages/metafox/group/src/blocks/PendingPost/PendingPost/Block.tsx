@@ -18,7 +18,7 @@ export default createBlock<any>({
     actionName: 'viewPendingPost',
     title: 'pending_posts',
     itemView: 'group.itemView.pendingPost',
-    blockLayout: 'App Lists Pending Posts',
+    blockLayout: 'App List Pending Posts',
     gridLayout: 'Group - PendingPost - Main Card',
     itemLayout: 'Group - PendingPost - Main Card',
     emptyPage: 'core.block.no_content_with_icon',

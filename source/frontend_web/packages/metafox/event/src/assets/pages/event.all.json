@@ -72,9 +72,10 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "itemLayout": "Event - Main Card"
         },
         {
@@ -82,7 +83,7 @@
           "parentBlockId": "ntt24",
           "component": "event.block.eventListingBlock",
           "slotName": "main",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "title": "no_event_found",
@@ -96,6 +97,7 @@
           "itemView": "event.itemView.mainCard",
           "contentType": "event",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -106,7 +108,7 @@
           "component": "event.block.eventListingBlock",
           "slotName": "main",
           "title": "past_events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "title": "no_event_found",
@@ -120,6 +122,7 @@
           "itemView": "event.itemView.mainCard",
           "contentType": "event",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -155,7 +158,7 @@
           "blockId": "a5bo",
           "component": "core.block.tabContainer",
           "slotName": "main",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Sub Tab",
           "title": "all_events",
           "freeze": false,
           "tabProps": {
@@ -220,9 +223,10 @@
           "contentType": "event",
           "gridVariant": "gridView",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "itemLayout": "Event - Main Card"
         },
         {
@@ -230,7 +234,7 @@
           "parentBlockId": "ntt24",
           "component": "event.block.eventListingBlock",
           "slotName": "main",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "title": "no_event_found",
@@ -245,6 +249,7 @@
           "displayLimit": 3,
           "contentType": "event",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -255,7 +260,7 @@
           "component": "event.block.eventListingBlock",
           "slotName": "main",
           "title": "past_events",
-          "blockLayout": "Main Listings",
+          "blockLayout": "App List - Tab Content - No Title",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "title": "no_event_found",
@@ -269,6 +274,7 @@
           "itemView": "event.itemView.mainCard",
           "contentType": "event",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "hasSearchBox": false,
           "freeze": false,
           "itemLayout": "Event - Main Card"
@@ -304,7 +310,7 @@
           "blockId": "a5bo",
           "component": "core.block.tabContainer",
           "slotName": "main",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Sub Tab - Mobile",
           "title": "all_events",
           "freeze": false,
           "tabProps": {

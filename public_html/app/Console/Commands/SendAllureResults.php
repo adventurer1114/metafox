@@ -57,6 +57,8 @@ class SendAllureResults extends Command
         $this->info(sprintf('Sending %d results to "%s"', count($files), $serverUrl));
         $chunks = array_chunk($files, 100);
 
+        $data  = [];
+
         foreach ($chunks as $chunk) {
             $http = Http::asMultipart();
 

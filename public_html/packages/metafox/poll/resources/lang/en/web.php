@@ -2,8 +2,6 @@
 
 /* this is auto generated file */
 return [
-    'add_new_poll' => 'Add new poll',
-    'add_pool'     => 'Add New Poll',
     'added_a_poll' => '{appName, select,
         feed {{
             parentType, select,
@@ -14,6 +12,8 @@ return [
 
         other {added a poll}
     }',
+    'add_new_poll'                   => 'Add new poll',
+    'add_pool'                       => 'Add New Poll',
     'all_polls'                      => 'All Polls',
     'create_poll'                    => 'Create Poll',
     'edit_poll'                      => 'Edit Poll',
@@ -38,6 +38,7 @@ return [
     'poll_is_waiting_approve'        => 'This poll is waiting for approval.',
     'polls'                          => 'Polls',
     'popular_polls'                  => 'Popular Polls',
+    'resource_name_lower_case_poll'  => 'poll',
     'save_to_collection'             => 'Save to collection',
     'search_polls'                   => 'Search polls',
     'value_more_options'             => '{value} more options',

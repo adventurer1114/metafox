@@ -73,6 +73,11 @@ class ServiceSesSettingForm extends Form
         $this->addDefaultFooter(true);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return array<mixed>
+     */
     public function validated(Request $request): array
     {
         $data = $request->validate([
@@ -87,7 +92,7 @@ class ServiceSesSettingForm extends Form
         Arr::set($data, 'mail.mailers.ses.tranport', 'ses');
 
         config([
-            'core.services.ses'          => Arr::get($data, 'core.services.ses'),
+            'services.ses'               => Arr::get($data, 'core.services.ses'),
             'mail.mailers.verify_config' => Arr::get($data, 'mail.mailers.ses'),
         ]);
 

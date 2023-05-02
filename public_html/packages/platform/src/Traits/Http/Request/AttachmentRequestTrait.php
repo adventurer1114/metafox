@@ -24,7 +24,7 @@ trait AttachmentRequestTrait
         return array_merge($rules, [
             'attachments'          => ['sometimes', 'array', new AllowMaxFilesRule($maxFiles)],
             'attachments.*.id'     => ['sometimes', 'numeric', 'exists:core_attachments,id'],
-            'attachments.*.status' => ['sometimes', 'string', new AllowInRule(['create', 'remove'])],
+            'attachments.*.status' => ['sometimes', 'string', new AllowInRule(['create', 'new', 'remove'])],
         ]);
     }
 }

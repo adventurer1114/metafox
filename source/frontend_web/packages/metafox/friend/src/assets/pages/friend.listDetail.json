@@ -11,7 +11,6 @@
           "pageName": "friend.listDetail",
           "pageSize": "large",
           "title": "",
-          
           "canLoadMore": 1,
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -93,10 +92,74 @@
     "small": {
       "blocks": [
         {
-          "component": "friend.block.friends",
+          "blockId": "08u5o",
+          "component": "core.block.sidebarAppMobile",
           "slotName": "main",
-          "title": "friends",
-          "blockId": "mnrjn"
+          "pageSize": "small",
+          "title": "",
+          "contents": [
+            {
+              "name": "core.block.searchBox"
+            },
+            {
+              "name": "core.block.sidebarAppMenu"
+            },
+            {
+              "name": "core.dividerBlock"
+            },
+            {
+              "name": "friend.block.FriendListListing",
+              "props": {
+                "pageName": "friend.home",
+                "pageSize": "large",
+                "title": "friend_list",
+                "gridItemProps": {
+                  "xs": 12,
+                  "md": 12
+                },
+                "itemView": "friend_list.itemView.mainCard",
+                "contentType": "friend_list",
+                "dataSource": {
+                  "apiUrl": "/friend/list"
+                },
+                "canLoadMore": 1,
+                "blockLayout": "Friend List Side Block",
+                "gridLayout": "Friend List - Small List",
+                "emptyPage": "core.block.no_content_with_icon",
+                "emptyPageProps": {
+                  "variant": "side",
+                  "title": "no_friend_lists",
+                  "description": "no_friend_lists_found",
+                  "color": "inherit",
+                  "noBlock": 1
+                },
+                "noContentLayout": "Side with description",
+                "itemLayout": "Friend List - Small List"
+              }
+            }
+          ]
+        },
+        {
+          "blockId": "iqmbe",
+          "component": "core.block.mainListing",
+          "slotName": "main",
+          "pageName": "friend.listDetail",
+          "pageSize": "large",
+          "title": "",
+
+          "canLoadMore": 1,
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "title": "this_list_is_empty",
+            "description": "make_your_custom_friends_list_by_adding_some_friends",
+            "image": "ico-user-circle-o",
+            "labelButton": "add_friends_to_list",
+            "action": "friend_list/addFriend"
+          },
+          "itemView": "friend.itemView.mainCard",
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "Friend - Cards",
+          "itemLayout": "Friend - Cards"
         }
       ],
       "pageName": "friend.listDetail",

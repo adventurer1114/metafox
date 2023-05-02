@@ -17,12 +17,12 @@ class SampleDataCommandListener
     use UserGeneratorTrait;
 
     /**
-     * @param  User $admin
-     * @param  User $user
+     * @param  User|null $admin
+     * @param  User|null $user
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function handle(User $admin, User $user): void
+    public function handle(?User $admin, ?User $user): void
     {
         // Create 4 featured blogs for admin
         Factory::times(4)

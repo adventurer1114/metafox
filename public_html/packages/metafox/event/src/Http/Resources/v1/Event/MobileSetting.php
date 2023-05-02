@@ -312,5 +312,51 @@ class MobileSetting extends Setting
         $this->add('massEmailEvent')
             ->apiUrl('core/mobile/form/event.mass_email/:id')
             ->asGet();
+
+        $this->add('viewMap')
+            ->apiUrl('event')
+            ->apiRules([
+                'q'     => ['truthy', 'q'],
+                'where' => [
+                    'truthy',
+                    'where',
+                ],
+                'sort_type' => [
+                    'includes',
+                    'sort_type',
+                    [
+                        Browse::SORT_TYPE_DESC,
+                        Browse::SORT_TYPE_ASC,
+                    ],
+                ],
+                'when' => [
+                    'includes',
+                    'when',
+                    [
+                        Browse::WHEN_ALL,
+                        Browse::WHEN_THIS_MONTH,
+                        Browse::WHEN_THIS_WEEK,
+                        Browse::WHEN_TODAY,
+                        WhenScope::WHEN_UPCOMING,
+                        WhenScope::WHEN_ONGOING,
+                        WhenScope::WHEN_PAST,
+                    ],
+                ],
+                'limit' => [
+                    'includes',
+                    'limit',
+                    [
+                        MetaFoxConstant::VIEW_5_NEAREST,
+                        MetaFoxConstant::VIEW_10_NEAREST,
+                        MetaFoxConstant::VIEW_15_NEAREST,
+                        MetaFoxConstant::VIEW_20_NEAREST,
+                    ],
+                ],
+                'bounds_west'  => ['truthy', 'bounds_west'],
+                'bounds_east'  => ['truthy', 'bounds_east'],
+                'bounds_south' => ['truthy', 'bounds_south'],
+                'bounds_north' => ['truthy', 'bounds_north'],
+                'zoom'         => ['truthy', 'zoom'],
+            ]);
     }
 }

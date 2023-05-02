@@ -245,7 +245,7 @@ const initialState: AppUIConfig = {
   sidebarCategory: {
     dataSource: { apiUrl: '/group-type' },
     href: '/group/type',
-    title: ''
+    title: 'categories'
   }
 };
 

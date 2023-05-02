@@ -17,7 +17,7 @@
           "emptyPageProps": {
             "title": "no_saved_items_found",
             "description": "no_saved_items_found_description",
-            "image": "ico-compose-alt",
+            "image": "ico-bookmark-o",
             "noBlock": 1
           },
           "itemLayout": "Saved Lists"
@@ -60,36 +60,29 @@
           },
           "contents": [
             {
-              "name": "saved.block.sidebarTypeFilter"
+              "name": "core.block.sidebarQuickFilter"
             },
             {
               "name": "core.block.sidebarAppMenu"
-            },
-            {
-              "name": "core.categoryBlock"
             }
           ],
           "blockId": "tggha"
         },
         {
           "blockId": "gtjxg",
-          "component": "saved.block.SavedItemListingBlock",
+          "component": "saved.block.SavedItemBlock",
           "slotName": "main",
           "title": "saved_items",
           "itemView": "saved.itemView.mainCard",
           "contentType": "saved",
-          "dataSource": {
-            "apiUrl": "/saveditems",
-            "apiParams": "collection_id=:collection_id&type=:type"
-          },
           "canLoadMore": true,
-          "blockLayout": "App List - Mobile - Paper",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Saved Lists - Mobile",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "title": "no_saved_items_found",
             "description": "no_saved_items_found_description",
-            "image": "ico-compose-alt",
+            "image": "ico-bookmark-o",
             "noBlock": 1
           },
           "itemLayout": "Saved Lists - Mobile"

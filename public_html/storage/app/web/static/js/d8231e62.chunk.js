@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-quiz-blocks-QuizListing-Block"],{46905:function(e,i,t){t.r(i);var a=t(85597);i.default=(0,a.j4Z)({name:"QuizListingBlock",extendBlock:"core.block.listview",overrides:{contentType:"quiz",dataSource:{apiUrl:"/quiz"}},defaults:{title:"Quizzes",itemView:"quiz.itemView.mainCard"}})}}]);

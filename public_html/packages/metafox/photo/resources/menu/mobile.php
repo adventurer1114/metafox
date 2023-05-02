@@ -14,6 +14,21 @@ return [
         'value'       => 'photo_set',
         'icon'        => 'photos',
         'to'          => '2',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'description' => 'Say something about this photo...',
@@ -27,6 +42,21 @@ return [
         'value'       => 'photo_set',
         'icon'        => 'photos',
         'to'          => '2',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'description' => 'Say something about this photo...',
@@ -40,6 +70,21 @@ return [
         'value'       => 'photo_set',
         'icon'        => 'photos',
         'to'          => '2',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'tab'      => 'media',
@@ -66,6 +111,21 @@ return [
         'value'       => 'photo_set',
         'icon'        => 'photos',
         'to'          => '2',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'tab'      => 'photo',
@@ -218,7 +278,6 @@ return [
         'label'    => 'photo::phrase.edit_photo',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-photos-alt-o',
     ],
     [
         'showWhen' => [
@@ -230,7 +289,6 @@ return [
         'label'    => 'photo::phrase.make_profile_picture',
         'ordering' => 2,
         'value'    => 'updateAvatarFromPhoto',
-        'icon'     => 'ico-user-circle-o',
     ],
     [
         'showWhen' => [
@@ -242,7 +300,6 @@ return [
         'label'    => 'photo::phrase.make_cover_photo',
         'ordering' => 3,
         'value'    => 'updateCoverFromListingPhoto',
-        'icon'     => 'ico-photo-star-o',
     ],
     [
         'showWhen' => [
@@ -254,7 +311,6 @@ return [
         'label'    => 'photo::phrase.download',
         'ordering' => 4,
         'value'    => 'photo/downloadItem',
-        'icon'     => 'ico-download',
     ],
     [
         'showWhen' => [
@@ -267,7 +323,6 @@ return [
         'label'    => 'photo::phrase.sponsor_this_item',
         'ordering' => 8,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -280,7 +335,6 @@ return [
         'label'    => 'photo::phrase.approve',
         'ordering' => 4,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -292,7 +346,6 @@ return [
         'label'    => 'photo::phrase.make_owner_type_name_s_cover_photo',
         'ordering' => 9,
         'value'    => 'updateParentCoverFromPhoto',
-        'icon'     => 'ico-photo',
     ],
     [
         'showWhen' => [
@@ -304,7 +357,6 @@ return [
         'label'    => 'photo::phrase.make_owner_type_name_s_avatar_photo',
         'ordering' => 10,
         'value'    => 'updateParentAvatarPhoto',
-        'icon'     => 'ico-photo',
     ],
     [
         'showWhen' => [
@@ -317,7 +369,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_this_item',
         'ordering' => 8,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -330,7 +381,6 @@ return [
         'label'    => 'photo::phrase.sponsor_in_feed',
         'ordering' => 12,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -343,7 +393,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_in_feed',
         'ordering' => 11,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -356,7 +405,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 12,
         'value'    => 'featureItem',
-        'icon'     => 'ico-star-o',
     ],
     [
         'showWhen' => [
@@ -369,7 +417,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 13,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-star-o',
     ],
     [
         'showWhen' => [
@@ -383,7 +430,6 @@ return [
         'label'     => 'photo::phrase.delete',
         'ordering'  => 15,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash-alt-o',
     ],
     [
         'menu'     => 'photo.photo.sort_menu',
@@ -458,7 +504,6 @@ return [
         'label'    => 'photo::phrase.edit_photo_album',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -471,7 +516,6 @@ return [
         'label'    => 'photo::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -484,7 +528,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -497,7 +540,6 @@ return [
         'label'    => 'photo::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -510,7 +552,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -523,7 +564,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -536,7 +576,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -549,7 +588,6 @@ return [
         'label'    => 'photo::phrase.delete',
         'ordering' => 11,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'menu'     => 'photo.photo_album.sort_menu',
@@ -589,7 +627,6 @@ return [
         'label'    => 'photo::phrase.all_photos',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-photos-alt-o',
     ],
     [
         'params' => [
@@ -601,19 +638,21 @@ return [
         'label'    => 'photo::phrase.my_photos',
         'ordering' => 2,
         'value'    => 'viewMyPhotos',
-        'icon'     => 'ico-user-man-o',
     ],
     [
         'params' => [
             'module_name'   => 'photo',
             'resource_name' => 'photo',
         ],
+        'showWhen' => [
+            'and',
+            ['neq', 'session.user.role.id', 1],
+        ],
         'menu'     => 'photo.sidebarMenu',
         'name'     => 'my_pending',
         'label'    => 'photo::phrase.my_pending_photos',
         'ordering' => 3,
         'value'    => 'viewMyPendingPhotos',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'params' => [
@@ -625,7 +664,6 @@ return [
         'label'    => 'photo::phrase.friend_s_photos',
         'ordering' => 4,
         'value'    => 'viewFriendPhotos',
-        'icon'     => 'ico-user1-two-o',
     ],
     [
         'params' => [
@@ -637,7 +675,6 @@ return [
         'label'    => 'photo::phrase.all_albums',
         'ordering' => 5,
         'value'    => 'viewAll',
-        'icon'     => 'ico-photos',
     ],
     [
         'params' => [
@@ -649,7 +686,6 @@ return [
         'label'    => 'photo::phrase.my_albums',
         'ordering' => 6,
         'value'    => 'viewMyAlbums',
-        'icon'     => 'ico-user-man-o',
     ],
     [
         'params' => [
@@ -665,7 +701,6 @@ return [
         'label'    => 'photo::phrase.pending_photos',
         'ordering' => 7,
         'value'    => 'viewPendingPhotos',
-        'icon'     => 'ico-clock-o',
     ],
     [
         'showWhen' => [
@@ -707,6 +742,21 @@ return [
         'value'       => 'photo_set',
         'icon'        => 'photos',
         'to'          => '2',
+        'showWhen'    => [
+            'or',
+            [
+                'or',
+                ['eq', 'attachmentType', 'photo'],
+                ['eq', 'attachmentType', 'photo_set'],
+            ],
+            [
+                'and',
+                ['falsy', 'hasShareValue'],
+                ['falsy', 'pstatusbg_enable'],
+                ['falsy', 'hasPoll'],
+                ['neq', 'attachmentType', 'link'],
+            ],
+        ],
     ],
     [
         'tab'      => 'photo',
@@ -782,7 +832,6 @@ return [
         'label'    => 'photo::phrase.edit_photo',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-photos-alt-o',
     ],
     [
         'showWhen' => [
@@ -794,7 +843,6 @@ return [
         'label'    => 'photo::phrase.make_profile_picture',
         'ordering' => 2,
         'value'    => 'updateAvatarFromPhoto',
-        'icon'     => 'ico-user-circle-o',
     ],
     [
         'showWhen' => [
@@ -806,7 +854,6 @@ return [
         'label'    => 'photo::phrase.make_cover_photo',
         'ordering' => 3,
         'value'    => 'updateCoverFromListingPhoto',
-        'icon'     => 'ico-photo-star-o',
     ],
     [
         'showWhen' => [
@@ -830,7 +877,6 @@ return [
         'label'    => 'photo::phrase.download',
         'ordering' => 4,
         'value'    => 'photo/downloadItem',
-        'icon'     => 'ico-download',
     ],
     [
         'showWhen' => [
@@ -843,7 +889,6 @@ return [
         'label'    => 'photo::phrase.sponsor_this_item',
         'ordering' => 8,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -856,7 +901,6 @@ return [
         'label'    => 'photo::phrase.approve',
         'ordering' => 4,
         'value'    => 'approveItem',
-        'icon'     => 'ico-check-circle-o',
     ],
     [
         'showWhen' => [
@@ -868,7 +912,6 @@ return [
         'label'    => 'photo::phrase.make_owner_type_name_s_cover_photo',
         'ordering' => 9,
         'value'    => 'updateParentCoverFromPhoto',
-        'icon'     => 'ico-photo',
     ],
     [
         'showWhen' => [
@@ -880,7 +923,6 @@ return [
         'label'    => 'photo::phrase.make_owner_type_name_s_avatar_photo',
         'ordering' => 10,
         'value'    => 'updateParentAvatarPhoto',
-        'icon'     => 'ico-photo',
     ],
     [
         'showWhen' => [
@@ -893,7 +935,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_this_item',
         'ordering' => 8,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -906,7 +947,6 @@ return [
         'label'    => 'photo::phrase.sponsor_in_feed',
         'ordering' => 11,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -919,7 +959,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_in_feed',
         'ordering' => 11,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-diamond-o',
     ],
     [
         'showWhen' => [
@@ -932,7 +971,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 12,
         'value'    => 'featureItem',
-        'icon'     => 'ico-star-o',
     ],
     [
         'showWhen' => [
@@ -945,7 +983,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 13,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-star-o',
     ],
     [
         'showWhen' => [
@@ -959,7 +996,6 @@ return [
         'label'     => 'photo::phrase.delete',
         'ordering'  => 15,
         'value'     => 'deleteItem',
-        'icon'      => 'ico-trash-alt-o',
     ],
     [
         'showWhen' => [
@@ -971,7 +1007,6 @@ return [
         'label'    => 'photo::phrase.edit_photo_album',
         'ordering' => 1,
         'value'    => 'editItem',
-        'icon'     => 'ico-pencilline-o',
     ],
     [
         'showWhen' => [
@@ -984,7 +1019,6 @@ return [
         'label'    => 'photo::phrase.sponsor_in_feed',
         'ordering' => 3,
         'value'    => 'sponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -997,7 +1031,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_in_feed',
         'ordering' => 4,
         'value'    => 'unsponsorItemInFeed',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -1010,7 +1043,6 @@ return [
         'label'    => 'photo::phrase.sponsor_this_item',
         'ordering' => 5,
         'value'    => 'sponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -1023,7 +1055,6 @@ return [
         'label'    => 'photo::phrase.unsponsor_this_item',
         'ordering' => 6,
         'value'    => 'unsponsorItem',
-        'icon'     => 'ico-sponsor',
     ],
     [
         'showWhen' => [
@@ -1036,7 +1067,6 @@ return [
         'label'    => 'core::phrase.feature',
         'ordering' => 7,
         'value'    => 'featureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -1049,7 +1079,6 @@ return [
         'label'    => 'core::phrase.un_feature',
         'ordering' => 8,
         'value'    => 'unfeatureItem',
-        'icon'     => 'ico-diamond',
     ],
     [
         'showWhen' => [
@@ -1062,7 +1091,6 @@ return [
         'label'    => 'photo::phrase.delete',
         'ordering' => 11,
         'value'    => 'deleteItem',
-        'icon'     => 'ico-trash',
     ],
     [
         'showWhen'  => [],

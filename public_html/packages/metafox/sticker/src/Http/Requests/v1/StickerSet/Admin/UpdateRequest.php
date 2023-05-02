@@ -3,7 +3,9 @@
 namespace MetaFox\Sticker\Http\Requests\v1\StickerSet\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\Rules\AllowInRule;
+use MetaFox\Platform\Rules\ExistIfGreaterThanZero;
 
 /**
  * --------------------------------------------------------------------------
@@ -31,6 +33,21 @@ class UpdateRequest extends FormRequest
         return [
             'title'     => ['sometimes', 'string'],
             'is_active' => ['sometimes', 'numeric', new AllowInRule([0, 1])],
+            'file'      => ['required', 'array'],
+            'file.*.id' => [
+                'required_if:file.*.status,update,remove', 'numeric',
+                new ExistIfGreaterThanZero('exists:storage_files,id'),
+            ],
+            'file.*.status' => [
+                'required_with:file', new AllowInRule([
+                    MetaFoxConstant::FILE_REMOVE_STATUS, MetaFoxConstant::FILE_UPDATE_STATUS,
+                    MetaFoxConstant::FILE_CREATE_STATUS, MetaFoxConstant::FILE_NEW_STATUS,
+                ]),
+            ],
+            'file.*.temp_file' => [
+                'required_if:file.*.status,create', 'numeric',
+                new ExistIfGreaterThanZero('exists:storage_files,id'),
+            ],
         ];
     }
 }

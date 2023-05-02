@@ -24,6 +24,11 @@ const ItemOuter = styled('div', { name, slot: 'itemOuter' })(({ theme }) => ({
   paddingBottom: theme.spacing(1),
   '& button:hover': {
     backgroundColor: theme.palette.action.selected
+  },
+  [theme.breakpoints.down('sm')]: {
+    '& button:hover': {
+      backgroundColor: 'transparent'
+    }
   }
 }));
 

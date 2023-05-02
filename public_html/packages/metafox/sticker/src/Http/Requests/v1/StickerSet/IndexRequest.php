@@ -3,8 +3,9 @@
 namespace MetaFox\Sticker\Http\Requests\v1\StickerSet;
 
 use Illuminate\Foundation\Http\FormRequest;
+use MetaFox\Platform\Rules\AllowInRule;
 use MetaFox\Platform\Rules\PaginationLimitRule;
-use MetaFox\Platform\Support\Helper\Pagination;
+use MetaFox\Sticker\Models\StickerSet;
 
 class IndexRequest extends FormRequest
 {
@@ -16,6 +17,7 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'view'  => ['sometimes', 'string', new AllowInRule(['my'])],
             'page'  => ['sometimes', 'numeric', 'min:1'],
             'limit' => ['sometimes', 'numeric', new PaginationLimitRule()],
         ];
@@ -26,7 +28,7 @@ class IndexRequest extends FormRequest
         $data = parent::validated();
 
         if (!isset($data['limit'])) {
-            $data['limit'] = Pagination::DEFAULT_ITEM_PER_PAGE;
+            $data['limit'] = StickerSet::DEFAULT_ITEM_PER_PAGE;
         }
 
         return $data;

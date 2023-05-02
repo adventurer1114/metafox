@@ -11,7 +11,6 @@ class CanPurchaseSponsor implements PolicyRuleInterface
 {
     public function check(string $entityType, User $user, $resource, $newValue = null): ?bool
     {
-        // TODO: BA requested to temporarily disable this feature, will be implemented later in Ads app
         return false;
 
         if (!$resource instanceof Content) {
@@ -26,7 +25,7 @@ class CanPurchaseSponsor implements PolicyRuleInterface
             return false;
         }
 
-        if ($newValue != null) {
+        if (is_int($newValue)) {
             if ($newValue == HasSponsor::IS_SPONSOR && $newValue == $resource->is_sponsor) {
                 return false;
             }

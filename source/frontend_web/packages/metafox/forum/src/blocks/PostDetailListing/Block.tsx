@@ -24,7 +24,7 @@ export default createBlock<ListViewBlockProps>({
     gridLayout: 'Forum_thread - Main Card',
     emptyPage: 'hide',
     noHeader: true,
-    itemLayout: 'Forum_thread - Main Card',
+    itemLayout: 'Forum_Post - Detail Card',
     dataSource: {
       apiParams: 'thread_id=:id&post_id=:post_id',
       apiUrl: '/forum-post'

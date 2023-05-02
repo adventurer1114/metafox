@@ -30,6 +30,7 @@ return [
     'no_members_found'                       => 'No members are found.',
     'no_review_posts'                        => 'No review posts',
     'password'                               => 'Password',
+    'phone_number'                           => 'Phone Number',
     'preferred_currency'                     => 'Preferred Currency',
     'primary_language'                       => 'Primary Language',
     'profile_menu_settings'                  => 'Profile Menu Settings',

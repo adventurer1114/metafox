@@ -32,13 +32,13 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 /**
  * Class ForumPost.
  *
- * @property int            $id
- * @property string         $title
- * @property int            $owner_id
- * @property int            $thread_id
- * @property ?ForumPostText $postText
- * @property ?ForumThread   $thread
- * @method   static         ForumPostFactory factory(...$parameters)
+ * @property        int              $id
+ * @property        string           $title
+ * @property        int              $owner_id
+ * @property        int              $thread_id
+ * @property        ?ForumPostText   $postText
+ * @property        ?ForumThread     $thread
+ * @method   static ForumPostFactory factory(...$parameters)
  */
 class ForumPost extends Model implements
     Content,
@@ -136,6 +136,23 @@ class ForumPost extends Model implements
         return url_utility()->makeApiResourceUrl('forum/thread', $thread->entityId()) . '?' . http_build_query(['post_id' => $id]);
     }
 
+    public function toRouter(): ?string
+    {
+        $id = $this->entityId();
+
+        if (null === $id) {
+            return null;
+        }
+
+        $thread = $this->thread;
+
+        if (null == $thread) {
+            return null;
+        }
+
+        return url_utility()->makeApiMobileResourceUrl('forum/thread', $thread->entityId()) . '?' . http_build_query(['post_id' => $id]);
+    }
+
     public function toUrl(): ?string
     {
         $id = $this->entityId();
@@ -225,6 +242,8 @@ class ForumPost extends Model implements
             'total_photo'    => 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 }

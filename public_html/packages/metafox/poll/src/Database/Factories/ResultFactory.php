@@ -33,6 +33,32 @@ class ResultFactory extends Factory
      * @param  Poll          $poll
      * @return ResultFactory
      */
+    public function forPoll(Poll $poll): self
+    {
+        return $this->state(function () use ($poll) {
+            return [
+                'poll_id' => $poll->entityId(),
+            ];
+        });
+    }
+
+    /**
+     * @param  Answer        $answer
+     * @return ResultFactory
+     */
+    public function forAnswer(Answer $answer): self
+    {
+        return $this->state(function () use ($answer) {
+            return [
+                'answer_id' => $answer->entityId(),
+            ];
+        });
+    }
+
+    /**
+     * @param  Poll          $poll
+     * @return ResultFactory
+     */
     public function setPoll(Poll $poll): self
     {
         return $this->state(function () use ($poll) {

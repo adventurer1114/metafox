@@ -2,6 +2,7 @@
 
 namespace MetaFox\Notification\Support;
 
+use Illuminate\Support\Arr;
 use MetaFox\Notification\Contracts\TypeManager as TypeManagerContract;
 use MetaFox\Notification\Models\ModuleSetting;
 use MetaFox\Notification\Models\Notification;
@@ -40,9 +41,11 @@ class TypeManager implements TypeManagerContract
 
         if ($isType) {
             /** @var Type $query */
-            $query = Type::query()->where('type', '=', $data['type'])->first();
+            $query    = Type::query()->where('type', '=', $data['type'])->first();
+            $ordering = Arr::get($data, 'ordering', 1);
+            $channels = Arr::get($data, 'channels');
 
-            $this->handleMakeData($data['channels'], $query, $data['ordering']);
+            $this->handleMakeData($channels, $query, $ordering);
             $query->update($data);
 
             return;

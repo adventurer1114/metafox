@@ -9,6 +9,7 @@ use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasPrivacyMember;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User as User;
+use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxPrivacy;
 use MetaFox\Platform\Support\Facades\PrivacyPolicy;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
@@ -47,6 +48,12 @@ class ListingPolicy implements ResourcePolicyInterface
 
     public function view(User $user, Entity $resource): bool
     {
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('marketplace.moderate')) {
             return true;
         }
@@ -70,7 +77,7 @@ class ListingPolicy implements ResourcePolicyInterface
             return false;
         }
 
-        if (!$resource->isApproved()) {
+        if (!$isApproved) {
             if ($user->hasPermissionTo('marketplace.approve')) {
                 return true;
             }
@@ -85,8 +92,12 @@ class ListingPolicy implements ResourcePolicyInterface
         return true;
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         // Check can view on owner.
         if (!PrivacyPolicy::checkPermissionOwner($user, $owner)) {
             return false;
@@ -315,6 +326,58 @@ class ListingPolicy implements ResourcePolicyInterface
             return false;
         }
 
+        if ($this->checkChatplusActive($user)) {
+            return true;
+        }
+
+        if ($this->checkChatActive($user)) {
+            return true;
+        }
+
+        $active = app('events')->dispatch('message.active', [$user], true);
+
+        if (is_bool($active)) {
+            return $active;
+        }
+
+        return false;
+    }
+
+    protected function checkChatplusActive(User $user): bool
+    {
+        $response = app('events')->dispatch('chatplus.message.active', [$user], true);
+
+        if (is_bool($response)) {
+            return $response;
+        }
+
+        if (!app_active('metafox/chatplus')) {
+            return false;
+        }
+
+        if (!Settings::get('chatplus.server')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function checkChatActive(User $user): bool
+    {
+        $response = app('events')->dispatch('chat.message.active', [$user], true);
+
+        if (is_bool($response)) {
+            return $response;
+        }
+
+        if (!app_active('metafox/chat')) {
+            return false;
+        }
+
+        if (!Settings::get('broadcast.connections.pusher.key')) {
+            return false;
+        }
+
         return true;
     }
 
@@ -372,7 +435,7 @@ class ListingPolicy implements ResourcePolicyInterface
             return true;
         }
 
-        if ($user->checkPermissionIfExists($owner->entityType() . '.moderate')) {
+        if ($user->hasPermissionTo($owner->entityType() . '.moderate')) {
             return true;
         }
 

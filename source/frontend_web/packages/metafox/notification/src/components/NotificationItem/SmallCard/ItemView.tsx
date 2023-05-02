@@ -19,7 +19,12 @@ const ActionButtonStyled = styled(IconButton)(({ theme }) => ({
   top: '50%',
   transform: 'translateY(-50%)',
   position: 'absolute',
-  opacity: 0
+  opacity: 0,
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.text.secondary
+      : theme.palette.grey[600],
+  background: theme.palette.mode === 'dark' ? theme.palette.grey[700] : 'white'
 }));
 
 const FromNowStyled = styled('div')(({ theme }) => ({
@@ -112,7 +117,6 @@ export default function NotificationItemSmallCard({
           onClick={removeNotificationItem}
           aria-label="action"
           size="small"
-          color="primary"
           variant="white-contained"
           className="action-close"
         >

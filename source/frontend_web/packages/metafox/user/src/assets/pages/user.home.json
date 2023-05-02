@@ -12,12 +12,16 @@
           "slotName": "main",
           "itemView": "user.itemView.mainCard",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "dataSource": {
-            "apiUrl": "/user"
+            "apiUrl": "/user",
+            "apiParams": {
+              "limit": 12
+            }
           },
           "contentType": "user",
           "title": "members",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "User - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -181,12 +185,16 @@
           "slotName": "main",
           "itemView": "user.itemView.mainCard",
           "canLoadMore": true,
+          "canLoadSmooth": 1,
           "dataSource": {
-            "apiUrl": "/user"
+            "apiUrl": "/user",
+            "apiParams": {
+              "limit": 12
+            }
           },
           "contentType": "user",
           "title": "members",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "User - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {

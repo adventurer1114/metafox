@@ -26,8 +26,9 @@ export default function GroupMemberItem({
   wrapAs,
   wrapProps
 }: UserItemProps) {
-  const { ItemActionMenu, i18n, dispatch } = useGlobal();
+  const { ItemActionMenu, i18n, dispatch, useIsMobile } = useGlobal();
   const { user: authUser } = useSession();
+  const isMobile = useIsMobile();
 
   if (!user) return null;
 
@@ -39,7 +40,8 @@ export default function GroupMemberItem({
     dispatch({
       type: 'chat/room/openChatRoom',
       payload: {
-        identity: user._identity
+        identity: user._identity,
+        isMobile
       }
     });
   };

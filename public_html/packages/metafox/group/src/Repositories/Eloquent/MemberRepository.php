@@ -8,6 +8,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use MetaFox\Core\Traits\CheckModeratorSettingTrait;
 use MetaFox\Group\Models\Group;
 use MetaFox\Group\Models\Invite;
 use MetaFox\Group\Models\Member;
@@ -43,6 +44,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
  */
 class MemberRepository extends AbstractRepository implements MemberRepositoryInterface
 {
+    use CheckModeratorSettingTrait;
     public function model(): string
     {
         return Member::class;
@@ -89,8 +91,8 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryInt
         $view           = $attributes['view'];
         $search         = $attributes['q'];
         $limit          = $attributes['limit'];
-        $notInviteRole  = $attributes['not_invite_role'];
-        $excludedUserId = $attributes['excluded_user_id'];
+        $notInviteRole  = $attributes['not_invite_role'] ?? null;
+        $excludedUserId = $attributes['excluded_user_id'] ?? null;
 
         $query = $this->getModel()->newQuery();
 
@@ -163,6 +165,14 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryInt
                 'user_type'   => $user->entityType(),
                 'member_type' => $memberType,
             ]);
+
+        if ($group->isAdmin($user)) {
+            app('events')->dispatch('activity.feed.mark_as_approved', [$user, $group], true);
+        }
+
+        if ($group->isModerator($user) && $this->checkModeratorSetting($user, $group, 'approve_or_deny_post')) {
+            app('events')->dispatch('activity.feed.mark_as_approved', [$user, $group], true);
+        }
 
         return true;
     }

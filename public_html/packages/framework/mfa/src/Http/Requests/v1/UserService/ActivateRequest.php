@@ -28,6 +28,7 @@ class ActivateRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
+     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function rules()
     {
@@ -53,7 +54,7 @@ class ActivateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'verification_code.required' => __p('mfa::phrase.authenticator_code_is_required'),
+            'verification_code.required' => __p('mfa::phrase.authenticator_code_is_a_required_field'),
             'verification_code.regex'    => __p('mfa::phrase.authenticator_code_is_invalid'),
         ];
     }

@@ -28,8 +28,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['sometimes', 'string', 'between:3,255'],
-            'ordering' => ['sometimes', 'numeric'],
+            'name'     => ['required', 'string', 'between:3,255'],
+            'ordering' => ['sometimes', 'numeric', 'min:0'],
         ];
     }
 }

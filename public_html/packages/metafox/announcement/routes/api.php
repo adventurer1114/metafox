@@ -19,6 +19,7 @@ Route::controller(AnnouncementController::class)
     ->prefix('announcement')
     ->group(function () {
         Route::post('announcement/hide', 'hide');
+        Route::post('announcement/close', 'close');
 
         Route::name('announcement.view')
             ->apiResource('view', AnnouncementViewController::class)

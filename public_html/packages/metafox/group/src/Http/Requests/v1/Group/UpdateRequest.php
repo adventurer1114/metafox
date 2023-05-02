@@ -28,10 +28,10 @@ class UpdateRequest extends FormRequest
         $id = (int) $this->route('group');
 
         return [
-            'name'         => ['sometimes', 'required', 'string', new ResourceNameRule('group')],
-            'category_id'  => ['sometimes', 'numeric', new CategoryRule(resolve(CategoryRepositoryInterface::class))],
-            'reg_method'   => ['sometimes', 'numeric', new AllowInRule(PrivacyTypeHandler::ALLOW_PRIVACY)],
-            'vanity_url'   => [
+            'name'        => ['required_if:exists,name', 'string', new ResourceNameRule('group')],
+            'category_id' => ['sometimes', 'numeric', new CategoryRule(resolve(CategoryRepositoryInterface::class))],
+            'reg_method'  => ['sometimes', 'numeric', new AllowInRule(PrivacyTypeHandler::ALLOW_PRIVACY)],
+            'vanity_url'  => [
                 'sometimes',
                 'string',
                 'nullable',
@@ -59,8 +59,8 @@ class UpdateRequest extends FormRequest
         }
 
         if (Arr::has($data, 'location')) {
-            $data['location_name'] = Arr::get($data, 'location.address', null);
-            $data['location_latitude'] = Arr::get($data, 'location.lat', null);
+            $data['location_name']      = Arr::get($data, 'location.address', null);
+            $data['location_latitude']  = Arr::get($data, 'location.lat', null);
             $data['location_longitude'] = Arr::get($data, 'location.lng', null);
             unset($data['location']);
         }
@@ -75,7 +75,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'vanity_url.unique'  => __p('core::phrase.cannot_use_this_url_please_choose_another_one'),
-            'name.required'      => __p('core::validation.name.required'),
+            'name.required_if'   => __p('core::validation.name.required'),
             'type_id.required'   => __p('core::validation.type_id.required'),
             'type_id.exists'     => __p('core::validation.type_id.exists'),
             'category_id.exists' => __p('core::validation.category_id.exists'),

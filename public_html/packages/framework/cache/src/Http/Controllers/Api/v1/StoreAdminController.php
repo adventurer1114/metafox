@@ -4,6 +4,7 @@ namespace MetaFox\Cache\Http\Controllers\Api\v1;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use MetaFox\Cache\Http\Resources\v1\Admin\SelectCacheDriverForm;
 use MetaFox\Core\Repositories\DriverRepositoryInterface;
@@ -33,13 +34,18 @@ class StoreAdminController extends ApiController
      */
     public function index(): JsonResponse
     {
-        $stores = config('cache.stores', []);
-        $data   = [];
+        $stores     = config('cache.stores', []);
+        $data       = [];
+        $hideInList = ['null', 'apc', 'array', 'octane', 'dynamodb'];
 
         $ids = array_keys($stores);
         sort($ids);
 
         foreach ($ids as $id) {
+            if (in_array($id, $hideInList)) {
+                continue;
+            }
+
             $data[] = $this->transformCacheStoreResource($id, $stores[$id]);
         }
 
@@ -131,6 +137,8 @@ class StoreAdminController extends ApiController
         $settingName = 'cache.stores.' . $name;
         $configName  = 'cache.stores.' . $name;
 
+        $data['selectable'] = true;
+
         Settings::updateSetting('cache', $settingName, $configName, null, $data, 'array', 0, 1);
 
         Artisan::call('cache:reset');
@@ -143,25 +151,5 @@ class StoreAdminController extends ApiController
         return $this->success([], [
             'nextAction' => $nextAction,
         ], __p('core::phrase.save_changed_successfully'));
-    }
-
-    /**
-     * Delete item.
-     *
-     * @param string $name
-     *
-     * @return JsonResponse
-     */
-    public function destroy(string $name): JsonResponse
-    {
-        $settingName = 'cache.stores.' . $name;
-
-        Settings::destroy('cache', [$settingName]);
-
-        Artisan::call('cache:reset');
-
-        return $this->success([
-            'id' => $name,
-        ]);
     }
 }

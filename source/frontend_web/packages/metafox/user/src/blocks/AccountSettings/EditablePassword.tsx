@@ -26,7 +26,7 @@ export default function EditablePassword({ title, loaded }: Props) {
             <SmartFormBuilder
               successAction={RELOAD_ACCOUNT}
               dataSource={{ apiUrl: '/user/account/password-form' }}
-              loadingComponent={<LoadingComponent />}
+              loadingComponent={LoadingComponent}
               onSuccess={() => setEdit(false)}
               onCancel={() => setEdit(false)}
             />

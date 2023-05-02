@@ -13,7 +13,9 @@ use MetaFox\Core\Repositories\AttachmentRepositoryInterface;
 use MetaFox\Marketplace\Jobs\DeleteListingJob;
 use MetaFox\Marketplace\Models\Listing;
 use MetaFox\Marketplace\Notifications\ExpiredNotification;
+use MetaFox\Marketplace\Policies\CategoryPolicy;
 use MetaFox\Marketplace\Policies\ListingPolicy;
+use MetaFox\Marketplace\Repositories\CategoryRepositoryInterface;
 use MetaFox\Marketplace\Repositories\ImageRepositoryInterface;
 use MetaFox\Marketplace\Repositories\ListingRepositoryInterface;
 use MetaFox\Marketplace\Support\Browse\Scopes\Listing\ViewScope;
@@ -61,6 +63,8 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
         return Listing::class;
     }
 
+    protected const TIMESTAMP = 0;
+
     /**
      * @param User                 $context
      * @param User                 $owner
@@ -95,6 +99,13 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
             policy_authorize(ListingPolicy::class, 'viewExpire', $context, $owner, $profileId);
         }
 
+        $categoryId = Arr::get($attributes, 'category_id', 0);
+
+        if ($categoryId > 0) {
+            $category = resolve(CategoryRepositoryInterface::class)->find($categoryId);
+
+            policy_authorize(CategoryPolicy::class, 'viewActive', $context, $category);
+        }
         if ($profileId > 0 && $profileId == $context->entityId()) {
             if (!in_array($view, [Browse::VIEW_PENDING, ViewScope::VIEW_EXPIRE])) {
                 $attributes['view'] = Browse::VIEW_MY;
@@ -131,6 +142,10 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
 
         if ($profileId == $context->entityId()) {
             return true;
+        }
+
+        if ($context->isGuest()) {
+            return false;
         }
 
         if (!$context->hasPermissionTo('marketplace.approve')) {
@@ -182,13 +197,15 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
             Arr::set($attributes, 'price', json_encode($price));
         }
 
-        $attributes = array_merge($attributes, [
+        $timestamps       = $this->getTimestamp();
+        $attributes       = array_merge($attributes, [
             'user_id'          => $context->entityId(),
             'user_type'        => $context->entityType(),
             'owner_id'         => $owner->entityId(),
             'owner_type'       => $owner->entityType(),
             'is_approved'      => 1,
-            'start_expired_at' => Carbon::now()->timestamp,
+            'start_expired_at' => $timestamps['expired_at'],
+            'notify_at'        => $timestamps['notify_at'],
         ]);
 
         if (
@@ -216,8 +233,6 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
 
         $this->handleAttachments($marketplace, Arr::get($attributes, 'attachments'));
 
-        $this->handleThumbnailPhoto($marketplace, Arr::get($attributes, 'thumbnail_photo'));
-
         $this->handleAttachedPhotos($context, $marketplace, Arr::get($attributes, 'attached_photos'), false);
 
         $marketplace->refresh();
@@ -237,45 +252,6 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
             $attachedPhotos,
             $isUpdated
         );
-    }
-
-    protected function handleThumbnailPhoto(Listing $marketplace, ?array $photo): void
-    {
-        if (null === $photo) {
-            return;
-        }
-
-        $status = Arr::get($photo, 'status', 'update');
-
-        $tempFileId = (int) Arr::get($photo, 'temp_file', 0);
-
-        if ($status == 'update') {
-            if ($marketplace->image_file_id) {
-                app('storage')->rollDown($marketplace->image_file_id);
-            }
-
-            if ($tempFileId > 0) {
-                $tempFile = upload()->getFile($tempFileId);
-
-                $marketplace->image_file_id = $tempFile->entityId();
-
-                $marketplace->save();
-
-                upload()->rollUp($tempFileId);
-            }
-
-            return;
-        }
-
-        if (!$marketplace->image_file_id) {
-            return;
-        }
-
-        app('storage')->rollDown($marketplace->image_file_id);
-
-        $marketplace->image_file_id = 0;
-
-        $marketplace->save();
     }
 
     protected function handleAttachments(Listing $marketplace, ?array $attachments): void
@@ -325,8 +301,6 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
         $listing->save();
 
         $this->handleAttachments($listing, Arr::get($attributes, 'attachments'));
-
-        $this->handleThumbnailPhoto($listing, Arr::get($attributes, 'thumbnail_photo'));
 
         $this->handleAttachedPhotos($context, $listing, Arr::get($attributes, 'attached_photos'));
 
@@ -405,13 +379,13 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
         $boundsScope->setBounds($bounds);
 
         if (MetaFoxConstant::EMPTY_STRING !== $search) {
-            $query->addScope(new SearchScope($search, ['title']));
+            $query = $query->addScope(new SearchScope($search, ['title']));
         }
 
         if (MetaFoxConstant::EMPTY_STRING !== $searchTag) {
             $tagScope = new TagScope($searchTag);
 
-            $query->addScope($tagScope);
+            $query = $query->addScope($tagScope);
         }
 
         if ($owner->entityId() != $context->entityId()) {
@@ -429,7 +403,7 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
 
             $categoryScope->setCategories([$categoryId]);
 
-            $query->addScope($categoryScope);
+            $query = $query->addScope($categoryScope);
         }
 
         $this->applyDisplaySetting($query, $owner, $view);
@@ -441,7 +415,9 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
         return $query
             ->addScope($privacyScope)
             ->addScope($whenScope)
+            ->addScope($boundsScope)
             ->addScope($viewScope)
+            ->addScope($boundsScope)
             ->addScope($sortScope);
     }
 
@@ -469,6 +445,10 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
         return $this->getModel()->newQuery()
             ->where('is_featured', Listing::IS_FEATURED)
             ->where('is_approved', '=', 1)
+            ->where(function (Builder $builder) {
+                $builder->where('marketplace_listings.start_expired_at', '>', Carbon::now()->timestamp)
+                    ->orWhere('marketplace_listings.start_expired_at', '=', 0);
+            })
             ->orderByDesc(HasFeature::FEATURED_AT_COLUMN)
             ->simplePaginate($limit);
     }
@@ -540,16 +520,38 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
         return true;
     }
 
+    protected function getTimestamp(): array
+    {
+        $days            = (int) Settings::get('marketplace.days_to_expire', 30);
+        $notifyDays      = (int) Settings::get('marketplace.days_to_notify_before_expire', 0);
+
+        if ($days == 0) {
+            return [
+                'expired_at' => 0,
+                'notify_at'  => 0,
+            ];
+        }
+
+        $timestamp       = Carbon::now()->addDays($days)->timestamp;
+        $notifyTimestamp = $notifyDays > 0 ? Carbon::parse($timestamp)->subDays($notifyDays)->timestamp : 0;
+
+        return [
+            'expired_at' => $timestamp,
+            'notify_at'  => $notifyTimestamp,
+        ];
+    }
     public function reopenListing(User $context, int $id): bool
     {
         $listing = $this->find($id);
 
         policy_authorize(ListingPolicy::class, 'reopen', $context, $listing);
 
-        $attributes = [
-            'start_expired_at' => Carbon::now()->timestamp,
-            'is_notified'      => true,
+        $timestamps       = $this->getTimestamp();
+        $attributes       = [
+            'start_expired_at' => $timestamps['expired_at'],
+            'is_notified'      => false,
             'is_sold'          => false,
+            'notify_at'        => $timestamps['notify_at'],
         ];
 
         $listing->fill($attributes);
@@ -582,22 +584,15 @@ class ListingRepository extends AbstractRepository implements ListingRepositoryI
 
     protected function getNotifiedListings(): Enumerable
     {
-        $expiredDays = (int) Settings::get('marketplace.days_to_expire', 30);
-
-        $notifiedDays = (int) Settings::get('marketplace.days_to_notify_before_expire', 0);
-
-        $now = Carbon::now();
-
-        $expiredTimestamp = $expiredDays * 86400;
-
-        $notifiedTimestamp = ($expiredDays - $notifiedDays) * 86400;
+        $timestamp = Carbon::now()->timestamp;
 
         return $this->getModel()->newModelQuery()
             ->where([
                 'is_notified' => 0,
             ])
-            ->whereRaw('start_expired_at + ? > ?', [$expiredTimestamp, $now->timestamp])
-            ->whereRaw('start_expired_at + ? <= ?', [$notifiedTimestamp, $now->timestamp])
+            ->where('start_expired_at', '>', $timestamp)
+            ->where('notify_at', '<', $timestamp)
+            ->where('notify_at', '>', 0)
             ->get();
     }
 

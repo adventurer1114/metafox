@@ -10,11 +10,11 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasItemMorph as HasItemMorphModel;
 use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
 
 /**
- * stub: /packages/models/model.stub
+ * stub: /packages/models/model.stub.
  */
 
 /**
- * Class CommentHistory
+ * Class CommentHistory.
  *
  * @property int         $id
  * @property string      $content
@@ -24,6 +24,7 @@ use MetaFox\Platform\Traits\Eloquent\Model\HasUserMorph;
  * @property string|null $image_path
  * @property string      $server_id
  * @property string      $phrase
+ * @property string      $text_parsed
  */
 class CommentHistory extends Model implements
     HasItemMorph,
@@ -37,7 +38,7 @@ class CommentHistory extends Model implements
 
     protected $table = 'comment_histories';
 
-    public const PHRASE_COLUMNS_ADDED = 'comment_add_photo';
+    public const PHRASE_COLUMNS_ADDED   = 'comment_add_photo';
     public const PHRASE_COLUMNS_DELETED = 'comment_delete_photo';
     public const PHRASE_COLUMNS_UPDATED = 'comment_update_photo';
     /**
@@ -60,6 +61,10 @@ class CommentHistory extends Model implements
         'created_at',
     ];
 
+    public function getTextParsedAttribute(): string
+    {
+        return $this->content;
+    }
 }
 
 // end

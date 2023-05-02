@@ -53,6 +53,7 @@ class AnnouncementItem extends JsonResource
             'link'            => $this->resource->toLink(),
             'url'             => $this->resource->toUrl(),
             'statistic'       => $this->getStatistic(),
+            'extra'           => $this->getExtra(),
         ];
     }
 
@@ -63,6 +64,16 @@ class AnnouncementItem extends JsonResource
     {
         return [
             'total_view' => $this->resource->total_view,
+        ];
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    public function getExtra(): array
+    {
+        return [
+            'can_close' => true,
         ];
     }
 

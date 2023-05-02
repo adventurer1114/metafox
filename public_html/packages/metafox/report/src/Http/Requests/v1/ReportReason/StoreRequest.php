@@ -18,7 +18,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'     => ['required', 'string', 'between:3,255'],
-            'ordering' => ['sometimes', 'numeric'],
+            'ordering' => ['sometimes', 'numeric', 'min:0'],
         ];
     }
 }

@@ -14,10 +14,11 @@ class MobileSetting extends ResourceSetting
         $this->add('searchItem')
             ->apiUrl('user')
             ->apiParams([
-                'q'       => ':q',
-                'sort'    => ':sort',
-                'country' => ':country',
-                'gender'  => ':gender',
+                'q'         => ':q',
+                'sort'      => ':sort',
+                'country'   => ':country',
+                'gender'    => ':gender',
+                'city_code' => ':city_code',
             ])
             ->placeholder(__p('user::phrase.search_users'));
 
@@ -37,11 +38,14 @@ class MobileSetting extends ResourceSetting
         $this->add('viewAll')
             ->apiUrl('user')
             ->apiRules([
-                'q'       => ['truthy', 'q'],
-                'sort'    => ['includes', 'sort', ['full_name', 'last_login', 'last_activity']],
-                'gender'  => ['includes', 'gender', ['1', '2']],
-                'view'    => ['includes', 'view', ['recommend', 'featured', 'recent']],
-                'country' => ['truthy', 'country'], 'city' => ['truthy', 'city'],
+                'q'                => ['truthy', 'q'],
+                'sort'             => ['includes', 'sort', ['full_name', 'last_login', 'last_activity']],
+                'gender'           => ['includes', 'gender', ['1', '2']],
+                'view'             => ['includes', 'view', ['recommend', 'featured', 'recent']],
+                'country'          => ['truthy', 'country'],
+                'city'             => ['truthy', 'city'],
+                'city_code'        => ['truthy', 'city_code'],
+                'country_state_id' => ['truthy', 'country_state_id'],
             ]);
 
         $this->add('editItem')
@@ -174,6 +178,17 @@ class MobileSetting extends ResourceSetting
 
         $this->add('getReviewTagForm')
             ->apiUrl('core/mobile/form/user.account.review_tag');
+
+        $this->add('follow')
+            ->apiUrl('follow')
+            ->asPost()
+            ->apiParams([
+                'user_id' => ':user_id',
+            ]);
+
+        $this->add('unfollow')
+            ->apiUrl('follow/:id')
+            ->asDelete();
 
         $this->add('getEmailNotificationSettings')
             ->apiUrl('account/notification')

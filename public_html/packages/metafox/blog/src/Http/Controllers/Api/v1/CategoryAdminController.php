@@ -145,9 +145,7 @@ class CategoryAdminController extends ApiController
      */
     public function toggleActive(int $id): JsonResponse
     {
-        $item = $this->repository->find($id);
-
-        $item->update(['is_active' => $item->is_active ? 0 : 1]);
+        $item = $this->repository->toggleActive($id);
 
         return $this->success([new Detail($item)], [], __p('core::phrase.already_saved_changes'));
     }

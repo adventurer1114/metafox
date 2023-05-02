@@ -34,7 +34,7 @@ class StoreRequest extends FormRequest
             'categories'   => ['sometimes', 'array'],
             'categories.*' => ['numeric', new CategoryRule(resolve(CategoryRepositoryInterface::class))],
             'album'        => [
-                'sometimes', 'numeric', 'nullable', new ExistIfGreaterThanZero('exists:photo_albums,id'),
+                'sometimes', 'integer', 'min:1', 'nullable', new ExistIfGreaterThanZero('exists:photo_albums,id'),
             ],
             'owner_id'          => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id')],
             'tags'              => ['sometimes', 'array'],
@@ -56,10 +56,9 @@ class StoreRequest extends FormRequest
 
             //New album
             'add_new_album'         => ['sometimes', 'numeric', new AllowInRule([0, 1])],
-            'new_album'             => ['required_if:add_new_album,1', 'array'],
-            'new_album.name'        => ['required_if:add_new_album,1', 'string'],
-            'new_album.description' => ['sometimes', 'string', 'nullable'],
-            'new_album.privacy'     => ['required_if:add_new_album,1', new PrivacyRule()],
+            'new_album_name'        => ['required_if:add_new_album,1', 'string'],
+            'new_album_description' => ['sometimes', 'string', 'nullable'],
+            'new_album_privacy'     => ['required_if:add_new_album,1', new PrivacyRule()],
         ];
     }
 
@@ -69,6 +68,8 @@ class StoreRequest extends FormRequest
 
         // Handle parsing privacy data for new photos
         $data = $this->handlePrivacy($data);
+
+        $data = $this->translateNewAlbum($data);
 
         // Handle parsing privacy data for new album
         if (array_key_exists('new_album', $data)) {
@@ -95,12 +96,6 @@ class StoreRequest extends FormRequest
             $data['add_new_album'] = 0;
         }
 
-        if (array_key_exists('new_album', $data)) {
-            if (!array_key_exists('description', $data['new_album'])) {
-                $data['new_album']['description'] = '';
-            }
-        }
-
         return $data;
     }
 
@@ -114,5 +109,20 @@ class StoreRequest extends FormRequest
             'new_album.name.required_if'    => __p('photo::validation.album_name_is_a_required_field'),
             'new_album.privacy.required_if' => __p('photo::validation.album_privacy_is_a_required_field'),
         ];
+    }
+
+    protected function translateNewAlbum(array $data): array
+    {
+        if (!array_key_exists('new_album_name', $data)) {
+            return $data;
+        }
+
+        $data['new_album']['description'] = array_key_exists('new_album_description', $data) ? $data['new_album_description'] : '';
+        $data['new_album']['name']        = $data['new_album_name'];
+        $data['new_album']['privacy']     = $data['new_album_privacy'];
+
+        unset($data['new_album_name'], $data['new_album_description'], $data['new_album_privacy']);
+
+        return $data;
     }
 }

@@ -11,7 +11,7 @@ use MetaFox\User\Models\User as UserModel;
 
 class FriendMentionBuilderListener
 {
-    public function handle(User $context, User $user, array $attributes): Builder
+    public function handle(?User $context, User $user, array $attributes): Builder
     {
         // Check friend scope
         $viewFriendsScope = new ViewFriendsScope();

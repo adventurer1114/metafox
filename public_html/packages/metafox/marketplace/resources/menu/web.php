@@ -377,6 +377,7 @@ return [
         'showWhen' => [
             'and',
             ['truthy', 'session.loggedIn'],
+            ['neq', 'session.user.role.id', 1],
         ],
         'menu'     => 'marketplace.sidebarMenu',
         'name'     => 'my_pending',

@@ -68,7 +68,10 @@ class Category extends Model implements Entity, HasTotalItem, HasSubCategory
      */
     public function subCategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function videos(): BelongsToMany
@@ -84,7 +87,10 @@ class Category extends Model implements Entity, HasTotalItem, HasSubCategory
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toUrl(): ?string
@@ -106,7 +112,11 @@ class Category extends Model implements Entity, HasTotalItem, HasSubCategory
 
     public function toSubCategoriesLink(): string
     {
-        return url_utility()->makeApiUrl(sprintf('admincp/video/category/%s/category/browse?parent_id=%s', $this->entityId(), $this->entityId()));
+        return url_utility()->makeApiUrl(sprintf(
+            'admincp/video/category/%s/category/browse?parent_id=%s',
+            $this->entityId(),
+            $this->entityId()
+        ));
     }
 
     public function toSubCategoriesUrl(): string

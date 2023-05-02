@@ -76,6 +76,7 @@ export default function SideAppMobileBlock({
             color="primary"
             className={classes.btn}
             ref={anchorRef}
+            disableRipple="true"
           >
             <LineIcon
               icon={open ? 'ico-angle-up' : 'ico-angle-down'}

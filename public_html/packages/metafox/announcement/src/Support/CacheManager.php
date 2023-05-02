@@ -7,8 +7,10 @@ namespace MetaFox\Announcement\Support;
  */
 class CacheManager
 {
-    public const SITE_ANNOUNCEMENT_CACHE = 'site_announcement';
+    public const SITE_ANNOUNCEMENT_CACHE      = 'site_announcement';
     public const SITE_ANNOUNCEMENT_CACHE_TIME = 10000;
 
     public const ANNOUNCEMENT_STYLE_CACHE = 'announcement_style';
+
+    public const ANNOUNCEMENT_CLOSE_SETTING = 'announcement_close';
 }

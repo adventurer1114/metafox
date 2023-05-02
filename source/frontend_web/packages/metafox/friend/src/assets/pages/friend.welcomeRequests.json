@@ -46,7 +46,7 @@
           },
           "canLoadMore": 1,
           "canLoadSmooth": 1,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Friend - Request Lists",
           "noContentLayout": "No Content With Icon & Note",
           "itemLayout": "Friend - Request Lists"

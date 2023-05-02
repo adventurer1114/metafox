@@ -7,7 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Mobile\Builder;
-use MetaFox\Form\Mobile\PrivacyField;
+use MetaFox\Form\PrivacyFieldMobileTrait;
 use MetaFox\Platform\Contracts\User as UserContract;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
@@ -18,6 +18,7 @@ use MetaFox\Poll\Models\Poll as Model;
 use MetaFox\Poll\Policies\PollPolicy;
 use MetaFox\Poll\Repositories\PollRepositoryInterface;
 use MetaFox\User\Models\User;
+use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
 use MetaFox\Yup\Yup;
 
@@ -31,6 +32,8 @@ use MetaFox\Yup\Yup;
  */
 class StorePollMobileForm extends AbstractForm
 {
+    use PrivacyFieldMobileTrait;
+
     /**
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -39,7 +42,13 @@ class StorePollMobileForm extends AbstractForm
     {
         $context = user();
         $params  = $request->validated();
-        policy_authorize(PollPolicy::class, 'create', $context);
+
+        if ($params['owner_id'] != 0) {
+            $userEntity = UserEntity::getById($params['owner_id']);
+            $this->setOwner($userEntity->detail);
+        }
+
+        policy_authorize(PollPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -183,40 +192,20 @@ class StorePollMobileForm extends AbstractForm
                                 ->then(
                                     Yup::string()
                                         ->required()
-                                        ->setError('required', __p('poll::phrase.close_time_is_required'))
+                                        ->setError('required', __p('poll::phrase.close_time_is_a_required_field'))
                                 )
                         )
                 ),
-            $this->buildPrivacyField(),
+            $this->buildPrivacyField()
+                ->description(__p('poll::phrase.control_who_can_see_this_poll'))
+                ->fullWidth(false)
+                ->setAttributes([
+                    'minWidth'  => 275,
+                    'maxHeight' => 40,
+                ]),
             Builder::hidden('owner_id'),
             Builder::hidden('has_banner'),
         );
-    }
-
-    /**
-     * @return PrivacyField
-     * @throws AuthenticationException
-     */
-    protected function buildPrivacyField(): PrivacyField
-    {
-        return Builder::privacy()
-            ->description(__p('poll::phrase.control_who_can_see_this_poll'))
-            ->fullWidth(false)
-            ->setAttributes([
-                'minWidth'  => 275,
-                'maxHeight' => 40,
-            ])
-            ->showWhen([
-                'or',
-                [
-                    'falsy',
-                    'owner_id',
-                ], [
-                    'eq',
-                    'owner_id',
-                    user()->entityId(),
-                ],
-            ]);
     }
 
     protected function buildPhotoField(UserContract $user): ?AbstractField

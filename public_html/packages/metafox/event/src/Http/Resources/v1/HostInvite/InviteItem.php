@@ -3,6 +3,7 @@
 namespace MetaFox\Event\Http\Resources\v1\HostInvite;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ class InviteItem extends JsonResource
      */
     public function toArray($request)
     {
+        $owner              = $this->resource->owner;
         $expiredAt          = $this->resource->expired_at;
         $expiredHours       = null;
         $expiredDescription = null;
@@ -39,7 +41,12 @@ class InviteItem extends JsonResource
             $expiredHours       = Carbon::now()->diffInHours($expiredAt) + 1;
             $expiredDescription = __p(
                 'event::phrase.expired_invite_hours',
-                ['value' => Carbon::now()->addHours($expiredHours)->toFormattedDateString()]
+                [
+                    'value' => CarbonInterval::make($expiredHours . 'h')
+                        ->locale($owner->preferredLocale())
+                        ->cascade()
+                        ->forHumans(),
+                ]
             );
         }
 
@@ -50,7 +57,7 @@ class InviteItem extends JsonResource
             'status_id'           => $this->resource->status_id,
             'event_id'            => $this->resource->event_id,
             'user'                => new UserItem($this->resource->user),
-            'owner'               => new UserItem($this->resource->owner),
+            'owner'               => new UserItem($owner),
             'extra'               => $this->getExtra(),
             'expired_hours'       => $expiredHours,
             'expired_description' => $expiredDescription,

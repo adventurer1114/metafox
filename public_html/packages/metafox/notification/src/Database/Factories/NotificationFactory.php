@@ -33,6 +33,10 @@ class NotificationFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id'    => 1,
+            'user_type'  => 'user',
+            'item_id'    => 1,
+            'item_type'  => 'user',
             'type'       => 'friend_request',
             'is_request' => false,
         ];

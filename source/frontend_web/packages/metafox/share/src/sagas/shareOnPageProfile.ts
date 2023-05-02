@@ -86,6 +86,6 @@ export function* shareOnPageProfile(action: LocalAction<{ identity: string }>) {
   });
 }
 
-const sagas = [takeLatest('shareOnPageProfile', shareOnPageProfile)];
+const sagas = [takeLatest('page/shareOnPageProfile', shareOnPageProfile)];
 
 export default sagas;

@@ -171,8 +171,8 @@ class SubscriptionComparisonRepository extends AbstractRepository implements Sub
 
             foreach ($comparisons as $comparison) {
                 $resource = match ($isAdminCP) {
-                    true  => ResourceGate::asResource($comparison, 'item_admincp'),
-                    false => ResourceGate::asResource($comparison, 'item'),
+                    true  => ResourceGate::asResource($comparison, 'item_admincp', null),
+                    false => ResourceGate::asResource($comparison, 'item', null),
                 };
 
                 if (null !== $resource) {

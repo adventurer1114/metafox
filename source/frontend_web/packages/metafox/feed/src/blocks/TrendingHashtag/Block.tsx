@@ -12,13 +12,15 @@ export default createBlock<ListViewBlockProps>({
   extendBlock: 'core.block.listview',
   name: 'TrendingHashtagListing',
   overrides: {
-    contentType: 'hashtag',
-    dataSource: { apiUrl: '/hashtag/trending' }
+    contentType: 'hashtag'
   },
   defaults: {
     title: 'Blogs',
     itemView: 'feed.itemView.trendingHashtag',
     blockLayout: 'Main Listings',
-    gridLayout: 'Shortcut - Small Lists'
+    gridLayout: 'Shortcut - Small Lists',
+    moduleName: 'search',
+    resourceName: 'search',
+    actionName: 'hashtagTrending'
   }
 });

@@ -46,6 +46,12 @@ class PollPolicy implements ResourcePolicyInterface
 
     public function view(User $user, Entity $resource): bool
     {
+        $isApproved = $resource->isApproved();
+
+        if (!$isApproved && $user->isGuest()) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('poll.moderate')) {
             return true;
         }
@@ -70,7 +76,7 @@ class PollPolicy implements ResourcePolicyInterface
             return false;
         }
 
-        if ($resource->isApproved()) {
+        if ($isApproved) {
             return true;
         }
 
@@ -87,8 +93,12 @@ class PollPolicy implements ResourcePolicyInterface
         return $user->hasPermissionTo('poll.approve');
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
+        if ($owner == null) {
+            return false;
+        }
+
         if ($user->hasPermissionTo('poll.moderate')) {
             return true;
         }
@@ -173,8 +183,8 @@ class PollPolicy implements ResourcePolicyInterface
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User|Model   $user
-     * @param  Entity|null  $resource
+     * @param User|Model  $user
+     * @param Entity|null $resource
      *
      * @return bool
      */
@@ -199,8 +209,8 @@ class PollPolicy implements ResourcePolicyInterface
     }
 
     /**
-     * @param User         $user
-     * @param  Entity|null  $resource
+     * @param User        $user
+     * @param Entity|null $resource
      *
      * @return bool
      */

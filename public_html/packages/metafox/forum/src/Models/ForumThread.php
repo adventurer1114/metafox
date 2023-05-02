@@ -26,7 +26,6 @@ use MetaFox\Platform\Contracts\HasGlobalSearch;
 use MetaFox\Platform\Contracts\HasHashTag;
 use MetaFox\Platform\Contracts\HasSavedItem;
 use MetaFox\Platform\Contracts\HasSponsor;
-use MetaFox\Platform\Contracts\HasSponsorInFeed;
 use MetaFox\Platform\Contracts\HasThumbnail;
 use MetaFox\Platform\Contracts\HasTotalLike;
 use MetaFox\Platform\Contracts\HasTotalShare;
@@ -70,7 +69,6 @@ class ForumThread extends Model implements
     ActivityFeedSource,
     HasTotalShare,
     HasSponsor,
-    HasSponsorInFeed,
     HasGlobalSearch
 {
     use HasFactory;
@@ -294,12 +292,19 @@ class ForumThread extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $this->userEntity,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
     public function toLink(): ?string
     {
         return url_utility()->makeApiUrl("forum/thread/{$this->entityId()}/{$this->toSlug()}");
+    }
+
+    public function toRouter(): ?string
+    {
+        return url_utility()->makeApiMobileResourceUrl('forum/thread', $this->entityId());
     }
 
     /**

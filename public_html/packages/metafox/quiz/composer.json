@@ -1,6 +1,6 @@
 {
     "name": "metafox/quiz",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Quiz\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/quiz": "5.0.1"
+                "@metafox/quiz": "*"
             },
             "frontendPaths": [
                 "packages/metafox/quiz"

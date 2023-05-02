@@ -30,11 +30,16 @@ class GiftRequest extends FormRequest
      */
     public function rules(): array
     {
-        $context = user();
+        $context      = user();
         $currentPoint = ActivityPoint::getTotalActivityPoints($context);
+        $rules        = ['required', 'numeric', 'min:1'];
+
+        if (!$context->hasSuperAdminRole()) {
+            $rules = array_push($rules, "max:$currentPoint");
+        }
 
         return [
-            'points' => ['required', 'numeric', 'min:1', "max:$currentPoint"],
+            'points' => $rules,
         ];
     }
 }

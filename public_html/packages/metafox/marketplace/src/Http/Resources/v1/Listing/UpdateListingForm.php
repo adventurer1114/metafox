@@ -2,6 +2,7 @@
 
 namespace MetaFox\Marketplace\Http\Resources\v1\Listing;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Arr;
 use MetaFox\Marketplace\Http\Requests\v1\Listing\CreateFormRequest;
 use MetaFox\Marketplace\Models\Listing as Model;
@@ -29,15 +30,14 @@ class UpdateListingForm extends StoreListingForm
     protected function prepare(): void
     {
         $values = [
-            'title'               => $this->resource->title,
-            'location'            => $this->resource->toLocationObject(),
-            'owner_id'            => $this->resource->owner_id,
-            'attachments'         => $this->resource->attachmentsForForm(),
-            'tags'                => $this->resource->tags ?? [],
-            'allow_payment'       => (int) $this->resource->allow_payment,
-            'allow_point_payment' => (int) $this->resource->allow_point_payment,
-            'auto_sold'           => (int) $this->resource->auto_sold,
-            'is_moderator'        => $this->isModerator(),
+            'title'         => $this->resource->title,
+            'location'      => $this->resource->toLocationObject(),
+            'owner_id'      => $this->resource->owner_id,
+            'attachments'   => $this->resource->attachmentsForForm(),
+            'tags'          => $this->resource->tags ?? [],
+            'allow_payment' => (int) $this->resource->allow_payment,
+            'auto_sold'     => (int) $this->resource->auto_sold,
+            'is_moderator'  => $this->isModerator(),
         ];
 
         if ($this->resource->is_approved) {
@@ -45,6 +45,8 @@ class UpdateListingForm extends StoreListingForm
         }
 
         $values = $this->preparePrivacy($values);
+
+        $values = $this->prepareAllowPointPayment($values);
 
         $values = $this->prepareCategories($values);
 
@@ -85,6 +87,19 @@ class UpdateListingForm extends StoreListingForm
         }
 
         return false;
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    protected function prepareAllowPointPayment(array $values): array
+    {
+        if (user()->hasPermissionTo('marketplace.enable_activity_point_payment')
+            && user()->hasPermissionTo('marketplace.sell_items')) {
+            Arr::set($values, 'allow_point_payment', (int) $this->resource->allow_point_payment);
+        }
+
+        return $values;
     }
 
     protected function prepareCategories(array $values): array
@@ -178,6 +193,8 @@ class UpdateListingForm extends StoreListingForm
         $context = user();
 
         $this->resource = resolve(ListingRepositoryInterface::class)->find($id);
+
+        $this->setOwner($this->resource->owner);
 
         policy_authorize(ListingPolicy::class, 'update', $context, $this->resource);
     }

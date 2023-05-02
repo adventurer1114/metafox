@@ -28,7 +28,7 @@ export default function EditablePreferredCurrency({
             <SmartFormBuilder
               successAction={RELOAD_ACCOUNT}
               dataSource={{ apiUrl: '/user/account/currency-form' }}
-              loadingComponent={<LoadingComponent />}
+              loadingComponent={LoadingComponent}
               onSuccess={() => setEdit(false)}
               onCancel={() => setEdit(false)}
             />

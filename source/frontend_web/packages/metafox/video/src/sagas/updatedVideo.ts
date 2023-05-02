@@ -6,15 +6,23 @@
 import {
   ENTITY_REFRESH,
   getGlobalContext,
-  LocalAction,
-  PAGINATION_REFRESH
+  PAGINATION_REFRESH,
+  viewItem
 } from '@metafox/framework';
 import { takeEvery, put } from 'redux-saga/effects';
+import { VideoItemShape } from '../types';
 
-function* updatedVideo({ payload: { id } }: LocalAction<{ id: string }>) {
+function* updatedVideo(action: { payload: VideoItemShape }) {
+  const item = action.payload;
+
   const { navigate } = yield* getGlobalContext();
-  // FOXSOCIAL5-3424
-  // yield* viewItem('video', 'video', id);
+
+  if (!item?.is_processing) {
+    yield* viewItem('video', 'video', item.id);
+
+    return;
+  }
+
   navigate('/video/my');
 }
 

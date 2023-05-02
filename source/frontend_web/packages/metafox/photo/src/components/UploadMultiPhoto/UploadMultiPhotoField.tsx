@@ -12,8 +12,8 @@ import {
   FormControl,
   Grid,
   Tooltip,
-  Typography,
-  FormHelperText
+  FormHelperText,
+  InputLabel
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useField } from 'formik';
@@ -153,6 +153,16 @@ const MaskPlay = styled('div', {
   fontSize: theme.mixins.pxToRem(24)
 }));
 
+const Label = styled(InputLabel, {
+  name: 'Label'
+})<{ haveError?: boolean }>(({ theme, haveError }) => ({
+  padding: theme.spacing(0, 1),
+  background: theme.palette.background.paper,
+  ...(haveError && {
+    color: theme.palette.error.main
+  })
+}));
+
 export default function UploadMultiPhotoField({
   name,
   formik,
@@ -165,7 +175,10 @@ export default function UploadMultiPhotoField({
     item_type,
     max_upload_filesize: maxSizeLimit,
     description,
-    label
+    label,
+    isVideoUploadAllowed,
+    acceptFail,
+    required
   } = config;
   const { i18n } = useGlobal();
   const [, , { setValue: setFileItemTypeValue }] = useField('fileItemType');
@@ -179,7 +192,11 @@ export default function UploadMultiPhotoField({
     useCheckMediaFileSize({
       initialValues: fieldItemPhoto.value || [],
       upload_url,
-      maxSizeLimit
+      maxSizeLimit,
+      isAcceptVideo: isVideoUploadAllowed,
+      messageAcceptFail: acceptFail,
+      accept: acceptTypeFile || accept,
+      inputRef
     });
 
   const placeholder = config.placeholder || 'add_photo';
@@ -231,6 +248,11 @@ export default function UploadMultiPhotoField({
     setFileItemTypeValue(item_type);
 
     handleProcessFiles(Object.values(files));
+
+    // clear value of inputRef when selected done
+    if (inputRef?.current) {
+      inputRef.current.value = null;
+    }
   };
 
   const haveError = Boolean(meta.error && (meta.touched || formik.submitCount));
@@ -239,10 +261,20 @@ export default function UploadMultiPhotoField({
 
   return (
     <>
-      <FormControl error={haveError} fullWidth margin="normal">
-        <Typography sx={{ fontSize: '13px' }} color="text.hint" mb={1}>
+      <FormControl
+        required={required}
+        error={haveError}
+        fullWidth
+        margin="normal"
+      >
+        <Label
+          haveError={haveError}
+          required={required}
+          variant="outlined"
+          shrink="true"
+        >
           {config.label}
-        </Typography>
+        </Label>
         {!hasFiles ? (
           <DropFileBox
             onDrop={files => onDnDFile(files)}
@@ -307,9 +339,9 @@ export default function UploadMultiPhotoField({
                     <Tooltip title={i18n.formatMessage({ id: 'remove' })}>
                       <RemoveBtn
                         onClick={() =>
-                          (item.uid
+                          item.uid
                             ? removeFile(item.uid)
-                            : removeOnStatusFile(item.id))
+                            : removeOnStatusFile(item.id)
                         }
                       >
                         <LineIcon icon="ico-close" />

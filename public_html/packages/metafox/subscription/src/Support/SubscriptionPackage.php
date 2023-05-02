@@ -24,8 +24,12 @@ class SubscriptionPackage implements SubscriptionPackageContract
         $this->repository = $repository;
     }
 
-    public function hasDisableFields(int $id): bool
+    public function hasDisableFields(?int $id): bool
     {
+        if (!$id) {
+            return false;
+        }
+
         return $this->repository->hasDisableFields($id);
     }
 

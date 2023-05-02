@@ -3,7 +3,7 @@
  * name: NotificationWebPush
  */
 
-import { useGlobal, useFirebaseFCM } from '@metafox/framework';
+import { useGlobal, useFirebaseFCM, useSession } from '@metafox/framework';
 import { styled, Button, Box, Typography } from '@mui/material';
 import React from 'react';
 
@@ -21,7 +21,10 @@ const Inner = styled(Box, { name: 'Inner', slot: 'root' })(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
   borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[20]
+  boxShadow: theme.shadows[20],
+  [theme.breakpoints.down('md')]: {
+    maxWidth: 'calc(100vw - 32px)'
+  }
 }));
 
 const Content = styled(Box, { name: 'Content', slot: 'root' })(({ theme }) => ({
@@ -46,7 +49,8 @@ export default function RequestNotificationBanner() {
   const { i18n, cookieBackend, dispatch, useLoggedIn } = useGlobal();
   const [, handleGetToken, error] = useFirebaseFCM();
   const [show, setShow] = React.useState(true);
-  const disabled = cookieBackend.get('fcm-notification');
+  const { user: authUser } = useSession();
+  const disabled = cookieBackend.get('fcm-notification') == authUser?.id;
   const loggedIn = useLoggedIn();
 
   const registerTokenFCM = () => {
@@ -57,16 +61,28 @@ export default function RequestNotificationBanner() {
     }
   };
 
+  const setCookieDisableFcm = React.useCallback(() => {
+    cookieBackend.set('fcm-notification', authUser?.id, {
+      expires: 30
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onCancel = React.useCallback(() => {
+    setShow(false);
+    setCookieDisableFcm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onUserConfirm = () => {
     setShow(false);
 
     if (!('Notification' in window)) {
       // Check if the browser supports notifications
       alert('This browser does not support desktop notification');
+      setCookieDisableFcm();
     } else if (Notification.permission === 'granted') {
       registerTokenFCM();
-
-      // …
     } else if (Notification.permission !== 'denied') {
       // We need to ask the user for permission
       Notification.requestPermission().then(permission => {
@@ -75,14 +91,10 @@ export default function RequestNotificationBanner() {
           registerTokenFCM();
         }
       });
+    } else {
+      setCookieDisableFcm();
     }
   };
-
-  const onCancel = React.useCallback(() => {
-    setShow(false);
-    cookieBackend.set('fcm-notification', 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // dont show gdpr
   if (process.env.MFOX_BUILD_TYPE === 'admincp') return null;

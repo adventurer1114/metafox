@@ -10,6 +10,8 @@ use MetaFox\Friend\Http\Requests\v1\FriendList\IndexRequest;
 use MetaFox\Friend\Http\Requests\v1\FriendList\ManageFriendListRequest;
 use MetaFox\Friend\Http\Requests\v1\FriendList\StoreRequest;
 use MetaFox\Friend\Http\Requests\v1\FriendList\UpdateRequest;
+use MetaFox\Friend\Http\Resources\v1\FriendList\CreateFriendListForm;
+use MetaFox\Friend\Http\Resources\v1\FriendList\EditFriendListForm;
 use MetaFox\Friend\Http\Resources\v1\FriendList\FriendListDetail as Detail;
 use MetaFox\Friend\Http\Resources\v1\FriendList\FriendListItemCollection as ItemCollection;
 use MetaFox\Friend\Policies\FriendListPolicy;
@@ -228,5 +230,17 @@ class FriendListController extends ApiController
         $this->repository->updateToFriendList($id, $userId);
 
         return $this->success();
+    }
+
+    public function create()
+    {
+        return new CreateFriendListForm();
+    }
+
+    public function edit($id)
+    {
+        $resource = $this->repository->find($id);
+
+        return new EditFriendListForm($resource);
     }
 }

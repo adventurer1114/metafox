@@ -5,9 +5,6 @@ namespace MetaFox\Sticker\Http\Requests\v1\StickerSet;
 use Illuminate\Foundation\Http\FormRequest;
 use MetaFox\Platform\Rules\AllowInRule;
 
-/**
- * @deprecated
- */
 class StoreRequest extends FormRequest
 {
     /**

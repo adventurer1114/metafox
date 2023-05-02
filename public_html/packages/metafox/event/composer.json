@@ -1,6 +1,6 @@
 {
     "name": "metafox/event",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
                 "MetaFox\\Event\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/event": "5.0.1"
+                "@metafox/event": "*"
             },
             "frontendPaths": [
                 "packages/metafox/event"

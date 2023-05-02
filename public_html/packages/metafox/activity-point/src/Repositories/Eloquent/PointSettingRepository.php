@@ -275,4 +275,33 @@ class PointSettingRepository extends AbstractRepository implements PointSettingR
 
         return collect($result)->sortBy('label')->toArray();
     }
+
+    public function getAllPointSetting(): Collection
+    {
+        return $this->getModel()->newModelQuery()->get();
+    }
+
+    public function clonePointSettings(int $destRoleId, int $sourceRoleId): void
+    {
+        $settings = $this->getModel()->newQuery()
+            ->where([
+                'role_id' => $sourceRoleId,
+            ])
+            ->get();
+
+        if (!$settings->count()) {
+            return;
+        }
+
+        $settings = array_map(function ($item) use ($destRoleId) {
+            Arr::forget($item, ['id', 'created_at', 'updated_at']);
+            Arr::set($item, 'role_id', $destRoleId);
+
+            return $item;
+        }, $settings->toArray());
+
+        foreach ($settings as $setting) {
+            $this->getModel()->newModelInstance($setting)->save();
+        }
+    }
 }

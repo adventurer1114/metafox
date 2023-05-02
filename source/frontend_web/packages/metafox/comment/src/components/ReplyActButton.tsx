@@ -23,7 +23,8 @@ export default function ReplyActButton({
   const ownerComment = useGetItem(comment?.user);
 
   const onClick = () => {
-    if (openReplyComposer) openReplyComposer({ replyUser: ownerComment });
+    if (openReplyComposer)
+      openReplyComposer({ replyUser: ownerComment, replyComment: comment });
 
     handleAction('onPressedReplyActButton');
   };

@@ -78,8 +78,8 @@
           "title": "polls",
           "blockLayout": "Profile Mobile - Contained",
           "hasSearchBox": 1,
-          "gridLayout": "Poll - Main Card",
-          "itemLayout": "Poll - Main Card",
+          "gridLayout": "Poll - Main Card - Mobile",
+          "itemLayout": "Poll - Main Card - Mobile",
           "emptyPage": "core.block.no_item_with_icon",
           "emptyPageProps": {
             "description": "no_poll_found",

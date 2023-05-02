@@ -26,7 +26,6 @@ Route::prefix('photo-album')
         Route::patch('feature/{id}', 'feature');
         Route::patch('approve/{id}', 'approve');
         Route::get('items/{id}', 'items');
-        Route::get('form/{id?}', 'form');
         Route::post('upload-media', 'uploadMedias');
     });
 

@@ -131,8 +131,8 @@ class ResultRepository extends AbstractRepository implements ResultRepositoryInt
         $quizId = $attributes['quiz_id'];
         $userId = $attributes['user_id'];
 
-        $quiz = $this->find($quizId);
-        policy_authorize(QuizPolicy::class, 'view', $context, $quiz);
+        $quiz = resolve(QuizRepositoryInterface::class)->find($quizId);
+        policy_authorize(QuizPolicy::class, 'viewMemberResult', $context, $quiz);
 
         return Result::query()->getModel()
             ->where([

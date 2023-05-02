@@ -4,6 +4,7 @@
  */
 import { useGlobal } from '@metafox/framework';
 import { Box, Switch, Tooltip } from '@mui/material';
+import { get } from 'lodash';
 import React from 'react';
 import useDataGridContext from './useDataGridContext';
 
@@ -15,6 +16,7 @@ export default function SwitchActiveCell({
 }) {
   const { handleRowAction } = useDataGridContext();
   const { i18n } = useGlobal();
+  const value = get(row, field);
 
   return (
     <Box
@@ -33,8 +35,8 @@ export default function SwitchActiveCell({
         <Box sx={{ display: 'inline-flex', width: 33 }}>
           <Switch
             size="small"
-            disabled={row[field] === null || row._dirty}
-            checked={row[field] === null || Boolean(row[field])}
+            disabled={value === null || row._dirty}
+            checked={value === null || Boolean(value)}
             onChange={() =>
               handleRowAction('row/active', {
                 action,

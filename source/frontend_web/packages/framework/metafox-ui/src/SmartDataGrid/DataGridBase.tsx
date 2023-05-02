@@ -414,15 +414,13 @@ export default function DataGridBase({
                   component={ListItem}
                 />
               ) : (
-                <VariableSizeList
-                  ref={variableListRef}
+                <Box
                   width={gridWidth}
                   height={listHeight}
-                  itemCount={rows.length}
-                  itemSize={getItemSize}
-                  children={ListItem}
                   style={{ overflowY: 'auto', overflowX: 'hidden' }}
-                />
+                >
+                  {rows.map((x, i) => ListItem({ index: i }))}
+                </Box>
               )}
               {loading && !hasRows ? <Loading /> : null}
               {!loading && noResults ? (

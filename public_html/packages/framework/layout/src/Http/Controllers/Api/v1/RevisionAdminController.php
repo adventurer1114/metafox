@@ -21,11 +21,11 @@ use Prettus\Validator\Exceptions\ValidatorException;
  * |
  * | stub: /packages/controllers/api_controller.stub
  * | Assign this class in $controllers of
- * | @link \MetaFox\Layout\Http\Controllers\Api\RevisionAdminController::$controllers;
+ * | @link \MetaFox\Layout\Http\Controllers\Api\RevisionAdminController::$controllers;.
  */
 
 /**
- * Class RevisionAdminController
+ * Class RevisionAdminController.
  * @codeCoverageIgnore
  * @ignore
  */
@@ -37,9 +37,9 @@ class RevisionAdminController extends ApiController
     private RevisionRepositoryInterface $repository;
 
     /**
-     * RevisionAdminController Constructor
+     * RevisionAdminController Constructor.
      *
-     * @param  RevisionRepositoryInterface  $repository
+     * @param RevisionRepositoryInterface $repository
      */
     public function __construct(RevisionRepositoryInterface $repository)
     {
@@ -47,17 +47,16 @@ class RevisionAdminController extends ApiController
     }
 
     /**
-     * Browse item
+     * Browse item.
      *
-     * @param  IndexRequest  $request
+     * @param  IndexRequest $request
      * @return mixed
      */
     public function index(IndexRequest $request): ItemCollection
     {
-
         $params = $request->validated();
-        $data = $this->repository->getModel()->newQuery()
-            ->where('snippet_id', '=', $params['snippet'])
+        $data   = $this->repository->getModel()->newQuery()
+            ->where('snippet_id', '=', $params['snippet'] ?? '')
             ->paginate($params['limit'] ?? 100);
 
         return new ItemCollection($data);
@@ -74,9 +73,9 @@ class RevisionAdminController extends ApiController
     }
 
     /**
-     * Store item
+     * Store item.
      *
-     * @param  StoreRequest  $request
+     * @param StoreRequest $request
      *
      * @return Detail
      * @throws ValidatorException
@@ -84,15 +83,15 @@ class RevisionAdminController extends ApiController
     public function store(StoreRequest $request): Detail
     {
         $params = $request->validated();
-        $data = $this->repository->create($params);
+        $data   = $this->repository->create($params);
 
         return new Detail($data);
     }
 
     /**
-     * View item
+     * View item.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return Detail
      */
@@ -104,25 +103,25 @@ class RevisionAdminController extends ApiController
     }
 
     /**
-     * Update item
+     * Update item.
      *
-     * @param  UpdateRequest  $request
-     * @param  int            $id
+     * @param  UpdateRequest      $request
+     * @param  int                $id
      * @return Detail
      * @throws ValidatorException
      */
     public function update(UpdateRequest $request, int $id): Detail
     {
         $params = $request->validated();
-        $data = $this->repository->update($params, $id);
+        $data   = $this->repository->update($params, $id);
 
         return new Detail($data);
     }
 
     /**
-     * Delete item
+     * Delete item.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return JsonResponse
      */

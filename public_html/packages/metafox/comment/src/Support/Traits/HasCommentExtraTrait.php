@@ -25,17 +25,18 @@ trait HasCommentExtraTrait
         $context = user();
 
         return [
-            ACL::CAN_VIEW                           => $policy->view($context, $this->resource),
-            ACL::CAN_ADD                            => $policy->create($context, $this->resource->item),
-            ACL::CAN_EDIT                           => $policy->update($context, $this->resource),
-            ACL::CAN_DELETE                         => $policy->delete($context, $this->resource),
-            ACL::CAN_LIKE                           => $policy->like($context, $this->resource->item),
-            ACL::CAN_APPROVE                        => $policy->approve($context, $this->resource),
-            ACL::CAN_REPORT                         => $policy->reportItem($context, $this->resource),
-            ACL::CAN_COMMENT                        => $policy->comment($context, $this->resource->item),
-            ResourcePermission::CAN_HIDE            => $policy->hide($context, $this->resource),
-            ResourcePermission::CAN_HIDE_GLOBAL     => $policy->hideGlobal($context, $this->resource),
-            ResourcePermission::CAN_VIEW_HISTORIES  => $policy->viewHistory($context, $this->resource),
+            ACL::CAN_VIEW                               => $policy->view($context, $this->resource),
+            ACL::CAN_ADD                                => $policy->create($context, $this->resource->item),
+            ACL::CAN_EDIT                               => $policy->update($context, $this->resource),
+            ACL::CAN_DELETE                             => $policy->delete($context, $this->resource),
+            ACL::CAN_LIKE                               => $policy->like($context, $this->resource->item),
+            ACL::CAN_APPROVE                            => $policy->approve($context, $this->resource),
+            ACL::CAN_REPORT                             => $policy->reportItem($context, $this->resource),
+            ACL::CAN_COMMENT                            => $policy->comment($context, $this->resource->item),
+            ResourcePermission::CAN_HIDE                => $policy->hide($context, $this->resource),
+            ResourcePermission::CAN_HIDE_GLOBAL         => $policy->hideGlobal($context, $this->resource),
+            ResourcePermission::CAN_VIEW_HISTORIES      => $policy->viewHistory($context, $this->resource),
+            ResourcePermission::CAN_REMOVE_LINK_PREVIEW => $policy->removeLinkPreview($context, $this->resource),
         ];
     }
 }

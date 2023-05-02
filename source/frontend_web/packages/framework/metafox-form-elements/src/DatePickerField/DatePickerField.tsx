@@ -36,6 +36,7 @@ function DatePickerField({
     maxDate,
     sxFieldWrapper,
     size,
+    views = ['year', 'day'],
     ...restConfig
   } = config;
 
@@ -72,6 +73,7 @@ function DatePickerField({
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
+          views={views}
           value={field.value ?? null}
           onChange={handleDateChange}
           label={label}

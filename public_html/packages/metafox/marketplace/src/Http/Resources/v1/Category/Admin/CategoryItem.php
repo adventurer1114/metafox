@@ -43,6 +43,7 @@ class CategoryItem extends JsonResource
             'total_item'     => $this->resource->total_item,
             'total_sub'      => $this->resource->subCategories->count(),
             'total_sub_link' => $this->toSubLink(),
+            'url'            => $this->resource->toUrl(),
             'ordering'       => $this->resource->ordering,
             'subs'           => new CategoryItemCollection($this->resource->subCategories),
             'parent'         => $parent,

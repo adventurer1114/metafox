@@ -18,10 +18,7 @@ const ItemText = styled(Box, {
   flex: 1,
   minWidth: 0,
   display: 'flex',
-  flexDirection: 'column',
-  [theme.breakpoints.down('sm')]: {
-    paddingTop: 0
-  }
+  flexDirection: 'column'
 }));
 
 export interface Props {

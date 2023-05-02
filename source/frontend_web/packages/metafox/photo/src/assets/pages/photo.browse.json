@@ -9,8 +9,7 @@
           "title": "Listing",
           "itemView": "photo.itemView.mainCard",
           "canLoadMore": true,
-          "displayLimit": "",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "gridLayout": "Photo - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
@@ -222,7 +221,7 @@
           "title": "Listing",
           "itemView": "photo.itemView.mainCard",
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "blockLayout": "App List - Mobile",
           "gridLayout": "Photo - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {

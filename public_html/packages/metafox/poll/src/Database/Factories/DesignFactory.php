@@ -3,11 +3,14 @@
 namespace MetaFox\Poll\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use MetaFox\Platform\Support\Factory\HasSetState;
 use MetaFox\Poll\Models\Design;
 use MetaFox\Poll\Models\Poll;
 
 class DesignFactory extends Factory
 {
+    use HasSetState;
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -37,8 +40,23 @@ class DesignFactory extends Factory
     {
         return $this->state(function () use ($poll) {
             return [
-                'id' => $poll->entityId(),
+                'id' => $poll->getKey(),
             ];
         });
+    }
+
+    public function forPoll(Poll $poll)
+    {
+        return $this->state(fn () => ['id' => $poll->getKey()]);
+    }
+
+    public function setUser()
+    {
+        return $this;
+    }
+
+    public function setOwner()
+    {
+        return $this;
     }
 }

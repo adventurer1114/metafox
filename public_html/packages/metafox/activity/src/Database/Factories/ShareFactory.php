@@ -36,7 +36,7 @@ class ShareFactory extends Factory
             'owner_id'   => 1,
             'owner_type' => 'user',
             'item_id'    => 1,
-            'item_type'  => 'test',
+            'item_type'  => 'activity_post',
             'privacy'    => 0,
         ];
     }

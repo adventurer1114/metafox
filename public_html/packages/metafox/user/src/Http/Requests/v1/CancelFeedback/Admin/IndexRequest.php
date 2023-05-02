@@ -3,6 +3,8 @@
 namespace MetaFox\User\Http\Requests\v1\CancelFeedback\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
+use MetaFox\Platform\Support\Helper\Pagination;
 
 /**
  * --------------------------------------------------------------------------
@@ -28,8 +30,19 @@ class IndexRequest extends FormRequest
     public function rules()
     {
         return [
+            'q'     => ['sometimes', 'string', 'nullable'],
+            'role'  => ['sometimes', 'numeric', 'nullable'],
             'page'  => ['sometimes', 'numeric', 'min:1'],
             'limit' => ['sometimes', 'numeric', 'min:10'],
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated($key, $default);
+
+        $data = Arr::add($data, 'limit', Pagination::DEFAULT_ITEM_PER_PAGE);
+
+        return $data;
     }
 }

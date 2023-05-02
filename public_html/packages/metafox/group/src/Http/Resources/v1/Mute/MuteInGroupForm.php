@@ -71,11 +71,11 @@ class MuteInGroupForm extends AbstractForm
                     $value = $value . 'd'; // default Day
                 }
 
-                $carbon = CarbonInterval::make($value);
+                $carbon = CarbonInterval::make($value)->locale(user()->preferredLocale());
 
                 $options[] = [
                     'value'     => $value,
-                    'label'     => ucwords(CarbonInterval::make($value)->cascade()->forHumans()),
+                    'label'     => ucwords($carbon->cascade()->forHumans()),
                     'timestamp' => $carbon->total('seconds'),
                 ];
             }

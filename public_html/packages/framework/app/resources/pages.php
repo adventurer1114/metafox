@@ -27,4 +27,10 @@ return [
         'phrase_title' => 'app::phrase.upgrade',
         'url'          => 'admincp/app/upgrade',
     ],
+    [
+        'name'                 => 'admin.app.product_detail',
+        'phrase_title'         => 'app::phrase.product_name',
+        'url'                  => 'admincp/app/store/product/{id}',
+        'custom_sharing_route' => 1,
+    ],
 ];

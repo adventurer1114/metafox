@@ -99,7 +99,7 @@ export default function FeedNotificationNews({ pagingId }: Props) {
           padding: '16px 24px !important'
         }}
         endIcon={
-          <LineIcon sx={{ fontSize: '18px !important' }} icon=" ico-arrow-up" />
+          <LineIcon sx={{ fontSize: '16px !important' }} icon=" ico-arrow-up" />
         }
       >
         {i18n.formatMessage({ id: 'new_posts' })}

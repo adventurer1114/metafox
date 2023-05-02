@@ -3,6 +3,7 @@
 namespace MetaFox\Platform\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MetaFox\Platform\Repositories\Contracts\CategoryRepositoryInterface;
 
 /**
@@ -10,7 +11,7 @@ use MetaFox\Platform\Repositories\Contracts\CategoryRepositoryInterface;
  */
 class CategoryRule implements Rule
 {
-    protected bool $isActive;
+    protected bool $isActive =false;
     protected CategoryRepositoryInterface $repository;
 
     public function __construct(CategoryRepositoryInterface $repository)
@@ -29,7 +30,12 @@ class CategoryRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $result = $this->repository->find($value);
+        $result = null;
+        try{
+            // fixed security risk: sql injection
+            $result = $this->repository->find(intval($value,10));
+        }catch (ModelNotFoundException){
+        }
 
         if ($result == null) {
             return false;

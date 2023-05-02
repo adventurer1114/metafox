@@ -32,7 +32,7 @@ class CategoryController extends ApiController
     /**
      * Display a listing of the resource.
      *
-     * @param IndexRequest $request
+     * @param  IndexRequest  $request
      * @return JsonResponse
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -42,5 +42,4 @@ class CategoryController extends ApiController
         $data = $this->repository->getAllCategories(user(), $request->validated());
         return $this->success(new ItemCollection($data));
     }
-
 }

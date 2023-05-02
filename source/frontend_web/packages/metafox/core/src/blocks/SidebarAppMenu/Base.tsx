@@ -1,23 +1,27 @@
 import { SideMenuBlockProps, useAppMenu, useGlobal } from '@metafox/framework';
 import { Block, BlockContent, BlockHeader } from '@metafox/layout';
 import { filterShowWhen } from '@metafox/utils';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import useStyles from './styles';
 
 export type Props = Partial<SideMenuBlockProps> & {
   menuName?: string;
   appName?: string;
   displayTitle?: boolean;
+  displayViewMore?: boolean;
   item: Record<string, any>;
+  displayLimit?: number;
 };
 
 export default function SideAppMenuBlock({
   displayTitle,
+  displayViewMore = true,
   title,
   blockProps,
   appName,
   menuName,
-  item
+  item,
+  displayLimit = 5
 }: Props) {
   const classes = useStyles();
   const {
@@ -26,12 +30,20 @@ export default function SideAppMenuBlock({
     getAcl,
     jsxBackend,
     compactUrl,
-    getSetting
+    getSetting,
+    i18n,
+    location
   } = useGlobal();
   const acl = getAcl();
   const { tab, pathname, id } = usePageParams();
+  const path = pathname || location?.pathname;
   const session = useSession();
   const setting = getSetting();
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const toggleOpen = useCallback(() => {
+    setOpen(prev => !prev);
+  }, []);
 
   const { appName: pageAppName, module_name } = usePageParams();
   const menu = useAppMenu(
@@ -39,27 +51,62 @@ export default function SideAppMenuBlock({
     menuName
   );
 
-  if (!menu?.items || !menu.items.length) return null;
-
   // filter based on showWhen property
-  const itemFilter = filterShowWhen(menu.items, {
+  const itemFilter = filterShowWhen(menu?.items, {
     setting,
     session,
     acl,
     item
   });
 
-  // has any items ?
-  if (!itemFilter.length) {
-    return null;
-  }
+  const countButton = itemFilter.filter(
+    item => item.as === 'sidebarButton'
+  ).length;
+
+  const items = useMemo(() => {
+    const items = itemFilter;
+
+    // has any items ?
+    if (!items.length) return [];
+
+    if (items.length <= displayLimit + countButton || !displayViewMore)
+      return items;
+
+    if (open) {
+      items.splice(items.length - countButton, 0, {
+        icon: 'ico-angle-up',
+        testid: 'less',
+        label: i18n.formatMessage({ id: 'less' }),
+        onClick: toggleOpen,
+        to: null
+      });
+    } else {
+      items.splice(displayLimit, items.length - (displayLimit + countButton), {
+        icon: 'ico-angle-down',
+        testid: 'more',
+        label: i18n.formatMessage({ id: 'more' }),
+        onClick: toggleOpen,
+        to: null
+      });
+    }
+
+    return items;
+  }, [
+    itemFilter,
+    displayLimit,
+    countButton,
+    displayViewMore,
+    open,
+    i18n,
+    toggleOpen
+  ]);
 
   return (
     <Block testid="blockSidebarMenu">
       {displayTitle && <BlockHeader title={title} />}
       <BlockContent>
         <div role="menu">
-          {itemFilter.map((item, index) =>
+          {items.map((item, index) =>
             jsxBackend.render({
               component: `menuItem.as.${item.as || 'sidebarLink'}`,
               props: {
@@ -70,7 +117,7 @@ export default function SideAppMenuBlock({
                   to: item.to ? compactUrl(item.to, { id }) : undefined
                 },
                 classes,
-                active: (tab && tab === item.tab) || pathname === item.to
+                active: (tab && tab === item.tab) || path === item.to
               }
             })
           )}

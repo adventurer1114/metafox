@@ -57,4 +57,7 @@ export interface AppState {
     data: StickerSetShape[];
     loaded: boolean;
   };
+  myStickerRecent: {
+    data: string[]
+  }
 }

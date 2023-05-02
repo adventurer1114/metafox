@@ -58,35 +58,36 @@ use MetaFox\User\Support\Facades\UserPrivacy;
 /**
  * Class Event.
  *
- * @property int         $id
- * @property string      $name
- * @property string      $start_time
- * @property string      $end_time
- * @property string      $event_url
- * @property int         $view_id
- * @property int         $is_online
- * @property int         $is_featured
- * @property int         $is_sponsor
- * @property int         $privacy
- * @property string      $module_id
- * @property string      $title
- * @property int         $user_id
- * @property int         $total_attachment
- * @property int         $total_pending_invite
- * @property int         $total_pending_host_invites
- * @property int         $total_host
- * @property int         $total_pending_invites
- * @property int         $sponsor_in_feed
- * @property string      $country_iso
- * @property ?EventText  $eventText
- * @property string|null $image_file_id
- * @property string      $created_at
- * @property string      $updated_at
- * @property Collection  $categories
- * @property Collection  $activeCategories
- * @property Collection  $hostInvites
- * @property Collection  $invites
- * @property Collection  $members
+ * @property        int          $id
+ * @property        string       $name
+ * @property        string       $start_time
+ * @property        string       $end_time
+ * @property        string       $event_url
+ * @property        int          $view_id
+ * @property        int          $is_online
+ * @property        int          $is_featured
+ * @property        int          $is_sponsor
+ * @property        int          $privacy
+ * @property        string       $module_id
+ * @property        string       $title
+ * @property        int          $user_id
+ * @property        int          $total_attachment
+ * @property        int          $total_pending_invite
+ * @property        int          $total_pending_host_invites
+ * @property        int          $total_host
+ * @property        int          $total_pending_invites
+ * @property        int          $sponsor_in_feed
+ * @property        string       $country_iso
+ * @property        ?EventText   $eventText
+ * @property        string|null  $image_file_id
+ * @property        string       $created_at
+ * @property        string       $updated_at
+ * @property        Collection   $categories
+ * @property        Collection   $activeCategories
+ * @property        Collection   $hostInvites
+ * @property        Collection   $invites
+ * @property        Collection   $members
+ * @method   static EventFactory factory($count = null, $state = [])
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -236,6 +237,11 @@ class Event extends Model implements
         ];
     }
 
+    public function isShowLocation(): bool
+    {
+        return false;
+    }
+
     public function privacyStreams(): HasMany
     {
         return $this->hasMany(PrivacyStream::class, 'item_id', 'id');
@@ -364,6 +370,8 @@ class Event extends Model implements
             'total_photo'    => $this->getThumbnail() ? 1 : 0,
             'user'           => $user,
             'link'           => $this->toLink(),
+            'url'            => $this->toUrl(),
+            'router'         => $this->toRouter(),
         ];
     }
 
@@ -491,7 +499,7 @@ class Event extends Model implements
 
     public function toManagePostUrl(): string
     {
-        return url_utility()->makeApiUrl("event/{$this->entityId()}?stab=pending_posts  ");
+        return url_utility()->makeApiUrl("event/{$this->entityId()}?stab=pending_posts");
     }
 
     public function toDiscussionUrl(): string
@@ -611,15 +619,9 @@ class Event extends Model implements
             ->count();
     }
 
-    /**
-     * @throws AuthenticationException
-     */
     public function getTotalPendingHostInvitesAttribute(): int
     {
-        $context = user();
-
-        return $this->hostInvites()->where('user_id', $context->entityId())
-            ->where('status_id', HostInvite::STATUS_PENDING)
+        return $this->hostInvites()->where('status_id', HostInvite::STATUS_PENDING)
             ->count();
     }
 

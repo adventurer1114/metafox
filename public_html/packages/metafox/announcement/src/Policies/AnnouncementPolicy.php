@@ -4,7 +4,6 @@ namespace MetaFox\Announcement\Policies;
 
 use MetaFox\Announcement\Models\Announcement;
 use MetaFox\Announcement\Policies\Traits\ExtraPolicyTrait;
-use MetaFox\Platform\Contracts\Content;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
 use MetaFox\Platform\Contracts\User;
@@ -26,30 +25,22 @@ class AnnouncementPolicy implements ResourcePolicyInterface
 
     public function viewAny(User $user, ?User $owner = null): bool
     {
-        if (!$user->hasPermissionTo('announcement.view')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('announcement.view');
     }
 
-    public function viewOwner(User $user, User $owner): bool
+    public function viewOwner(User $user, ?User $owner = null): bool
     {
         return false;
     }
 
     public function view(User $user, Entity $resource): bool
     {
-        if (!$user->hasPermissionTo('announcement.view')) {
-            return false;
-        }
-
-        return true;
+        return $user->hasPermissionTo('announcement.view');
     }
 
     /**
-     * @param User      $user
-     * @param User|null $owner
+     * @param  User      $user
+     * @param  User|null $owner
      * @return bool
      */
     public function create(User $user, ?User $owner = null): bool
@@ -75,5 +66,10 @@ class AnnouncementPolicy implements ResourcePolicyInterface
     public function markAsRead(User $user, Announcement $resource): bool
     {
         return $user->hasPermissionTo('announcement.view');
+    }
+
+    public function close(User $user): bool
+    {
+        return $user->hasPermissionTo('announcement.close');
     }
 }

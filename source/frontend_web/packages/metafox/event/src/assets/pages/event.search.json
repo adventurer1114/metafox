@@ -6,7 +6,7 @@
           "component": "core.block.mainListing",
           "slotName": "main",
           "gridLayout": "Event - Main Card",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "image": "ico-calendar-o",
@@ -86,7 +86,7 @@
           "component": "core.block.mainListing",
           "slotName": "main",
           "gridLayout": "Event - Main Card",
-          "blockLayout": "App Lists",
+          "blockLayout": "App List",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
             "image": "ico-calendar-o",

@@ -46,7 +46,11 @@ class FeedComposerListener
             return null;
         }
 
-        if (false === app('events')->dispatch('activity.has_feature', [PhotoGroup::ENTITY_TYPE, 'can_create_feed'], true)) {
+        if (false === app('events')->dispatch(
+            'activity.has_feature',
+            [PhotoGroup::ENTITY_TYPE, 'can_create_feed'],
+            true
+        )) {
             return [
                 'error_message' => __('validation.no_permission'),
             ];
@@ -124,6 +128,12 @@ class FeedComposerListener
         if (!$group->activity_feed) {
             return -1;
         }
+
+        app('events')->dispatch(
+            'activity.notify.approved_new_post_in_owner',
+            [$group->activity_feed, $group->activity_feed->owner],
+            true
+        );
 
         return $group->activity_feed->entityId();
     }

@@ -241,7 +241,7 @@ class StreamManager
             $hasNewItemInsert = false;
 
             foreach ($newData as $item) {
-                if (!$item->owner->isApproved()) {
+                if (!$item->owner?->isApproved()) {
                     continue;
                 }
 
@@ -278,7 +278,7 @@ class StreamManager
             /** @var int $left */
             $left = $need - $collection->count();
 
-            [$collection,] = $this->fetchStreamContinuous($collection, $left, $try);
+            [$collection] = $this->fetchStreamContinuous($collection, $left, $try);
         }
 
         $last = $collection->last();

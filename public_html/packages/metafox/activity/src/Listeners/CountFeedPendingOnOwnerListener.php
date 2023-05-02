@@ -12,12 +12,12 @@ use MetaFox\Platform\Contracts\User;
 class CountFeedPendingOnOwnerListener
 {
     /**
-     * @param User $context
-     * @param User $owner
+     * @param User|null $context
+     * @param User      $owner
      *
      * @return int
      */
-    public function handle(User $context, User $owner): int
+    public function handle(?User $context, User $owner): int
     {
         $service = resolve(FeedRepositoryInterface::class);
 

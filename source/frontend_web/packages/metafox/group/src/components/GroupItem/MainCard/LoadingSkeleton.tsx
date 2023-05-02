@@ -17,7 +17,7 @@ export default function LoadingSkeleton({ wrapAs, wrapProps }) {
   return (
     <ItemView wrapAs={wrapAs} wrapProps={wrapProps}>
       <ItemMedia>
-        <ImageSkeleton ratio="13" />
+        <ImageSkeleton ratio="13" borderRadius={0} />
       </ItemMedia>
       <ItemText>
         <ItemTitle>

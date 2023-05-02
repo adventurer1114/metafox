@@ -7,7 +7,7 @@ const ToggleViewMoreBtn = styled('span', {
   name: 'ToggleViewMoreBtn',
   slot: 'Root'
 })(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: theme.palette.primary.main,
   marginTop: theme.spacing(1.5),
   fontWeight: theme.typography.fontWeightBold,
   display: 'inline-flex',

@@ -17,7 +17,9 @@ import {
   SponsorFlag,
   UserAvatar,
   LineIcon,
-  Statistic
+  Statistic,
+  RichTextViewMore,
+  HtmlViewerWrapper
 } from '@metafox/ui';
 import { getImageSrc } from '@metafox/utils';
 import { Box, Button, Typography, styled } from '@mui/material';
@@ -199,12 +201,8 @@ export default function QuizDetail({
             className={classes.bgCover}
             style={{ backgroundImage: `url(${cover})` }}
           ></div>
-          {PendingCard && (
-            <Box sx={{ margin: 2 }}>
-              <PendingCard sx item={item} />
-            </Box>
-          )}
           <div className={classes.viewContainer}>
+            {PendingCard && <PendingCard sxWrapper={{ mb: 1 }} item={item} />}
             <div className={classes.contentWrapper}>
               <div className={classes.actionMenu}>
                 <ItemActionMenu
@@ -268,8 +266,12 @@ export default function QuizDetail({
                 </div>
               </div>
               {item?.text && (
-                <Box component="div" mt={3} className={classes.itemContent}>
-                  <HtmlViewer html={item.text} />
+                <Box component="div" className={classes.itemContent}>
+                  <RichTextViewMore maxHeight="300px">
+                    <HtmlViewerWrapper>
+                      <HtmlViewer html={item.text} />
+                    </HtmlViewerWrapper>
+                  </RichTextViewMore>
                 </Box>
               )}
               {attachments?.length > 0 && (
@@ -322,13 +324,16 @@ export default function QuizDetail({
                 </Button>
               )}
               <div className={classes.result}>
-                {results &&
-                  i18n.formatMessage(
-                    { id: 'you_have_correct_answer' },
-                    {
-                      result: () => <strong>{results?.result_correct}</strong>
-                    }
-                  )}
+                {results && (
+                  <Box>
+                    {i18n.formatMessage(
+                      { id: 'you_have_correct_answer' },
+                      {
+                        result: () => <strong>{results?.result_correct}</strong>
+                      }
+                    )}
+                  </Box>
+                )}
 
                 <div className={classes.count}>
                   <PlayStyled

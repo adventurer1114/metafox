@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-ui-SmartDataGrid-FromNowCell"],{10093:function(e,t,a){a.r(t),a.d(t,{default:function(){return f}});var r=a(16473),n=a(27361),u=a.n(n),c=a(67294);function f({row:e,colDef:{field:t}}){return c.createElement(r.Lt,{value:u()(e,t)})}}}]);

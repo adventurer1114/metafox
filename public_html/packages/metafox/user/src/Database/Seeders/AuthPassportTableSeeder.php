@@ -20,11 +20,6 @@ class AuthPassportTableSeeder extends Seeder
      */
     public function run()
     {
-        register_shutdown_function(function(){
-            if(($error = error_get_last())){
-                exit(var_export($error,true));
-            }
-        });
         $provider = in_array('users', array_keys(Config::get('auth.providers'))) ? 'users' : null;
         Artisan::call('passport:keys');
         Artisan::call(

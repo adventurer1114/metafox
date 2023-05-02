@@ -8,17 +8,17 @@ return [
     ],
     'forum_id' => [
         'exists'   => 'Forum does not exist.',
-        'required' => 'Forum is required.',
+        'required' => 'Forum is a required field.',
     ],
     'please_choose_a_forum'  => 'Please choose a Forum.',
     'please_choose_a_thread' => 'Please choose a thread.',
     'text'                   => [
-        'required' => 'Content is required.',
+        'required' => 'Content is a required field.',
     ],
     'the_forum_you_are_looking_for_cannot_found' => 'The forum you are looking for cannot found.',
     'thread_id'                                  => [
         'exists'   => 'Thread does not exist.',
-        'required' => 'Thread is required.',
+        'required' => 'Thread is a required field.',
     ],
     'wiki_rule' => 'Your authority to create a wiki has been removed. Please start a new thread without selecting "Wiki".',
 ];

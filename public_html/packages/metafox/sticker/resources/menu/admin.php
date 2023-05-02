@@ -25,14 +25,6 @@ return [
         'to'       => '/admincp/sticker/permission',
     ],
     [
-        'menu'        => 'sticker.admin',
-        'parent_name' => 'settings',
-        'name'        => 'sticker-set',
-        'label'       => 'sticker::phrase.sticker_sets',
-        'ordering'    => 0,
-        'to'          => '/admincp/sticker/sticker-set/browse',
-    ],
-    [
         'menu'     => 'sticker.admin',
         'name'     => 'manage-sticker',
         'label'    => 'sticker::phrase.manage_sticker',

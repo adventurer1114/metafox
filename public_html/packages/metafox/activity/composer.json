@@ -1,6 +1,6 @@
 {
     "name": "metafox/activity",
-    "version": "5.0.2",
+    "version": "5.0.4",
     "description": "",
     "authors": [
         {
@@ -24,8 +24,8 @@
                 "MetaFox\\Activity\\Providers\\PackageServiceProvider"
             ],
             "frontend": {
-                "@metafox/feed": "5.0.1",
-                "@metafox/share": "5.0.1"
+                "@metafox/feed": "*",
+                "@metafox/share": "*"
             },
             "frontendPaths": [
                 "packages/metafox/feed",

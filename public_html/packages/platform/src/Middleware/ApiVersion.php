@@ -8,6 +8,7 @@ namespace MetaFox\Platform\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use MetaFox\Platform\Facades\ResourceGate;
 
 class ApiVersion
@@ -25,8 +26,11 @@ class ApiVersion
         }
 
         /* @link \MetaFox\Platform\ApiResourceManager::setVersion */
-        ResourceGate::setVersion($request->route('ver'));
+        $ver = $request->route('ver');
+        ResourceGate::setVersion($ver);
         $request->route()->forgetParameter('ver');
+
+        URL::defaults(['ver' => $ver]);
 
         return $next($request);
     }

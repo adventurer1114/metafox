@@ -54,7 +54,7 @@ class GroupInvite extends Notification
             ->locale($this->getLocale())
             ->subject($subject)
             ->line($text)
-            ->action($this->localize('core::phrase.review_now'), $url);
+            ->action($this->localize('core::phrase.view_now'), $url);
     }
 
     public function toArray(IsNotifiable $notifiable): array

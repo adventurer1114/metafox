@@ -12,12 +12,16 @@ use MetaFox\Platform\Contracts\User;
 class CanCommentItemListener
 {
     /**
-     * @param  User  $user
-     * @param  User  $owner
+     * @param  User|null $user
+     * @param  User|null $owner
      * @return ?bool
      */
-    public function handle(User $user, User $owner): ?bool
+    public function handle(?User $user, ?User $owner): ?bool
     {
+        if (!$user || !$owner) {
+            return false;
+        }
+
         return Event::checkFeedReactingPermission($user, $owner);
     }
 }

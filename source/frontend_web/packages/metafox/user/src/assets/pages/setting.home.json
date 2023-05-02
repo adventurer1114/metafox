@@ -16,7 +16,7 @@
           "component": "core.block.mainBlock",
           "slotName": "main",
           "title": "profile_menu_settings",
-          "blockLayout": "Cards"
+          "blockLayout": "Cards Setting"
         }
       ]
     },

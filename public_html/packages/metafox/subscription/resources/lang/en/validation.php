@@ -11,7 +11,7 @@ return [
     'choose_one_package_for_purchasement'                  => 'Choose one package for trading.',
     'choose_one_payment_gateway_for_purchasing'            => 'Choose one payment gateway for purchasing.',
     'choose_one_reason_before_cancelling_the_subscription' => 'Choose one reason before canceling the subscription.',
-    'content_is_required'                                  => 'Content is required.',
+    'content_is_a_required_field'                          => 'Content is a required field.',
     'days_notification_before_subscription_expired'        => [
         'between' => 'The number of days to notice the user must be smaller than the recurring Period.',
         'numeric' => 'The number of days to notice the user must be greater than or equal to :number.',

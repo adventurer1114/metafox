@@ -37,7 +37,8 @@ function LocationField({
     fullWidth,
     required,
     description,
-    autoFocus
+    autoFocus,
+    hideMap = false
   } = config;
 
   const popperRef = React.useRef();
@@ -145,7 +146,10 @@ function LocationField({
               haveError && isString(meta.error) ? meta.error : description
             }
           />
-          <div className={classes.map} ref={mapRef} />
+          <div
+            className={hideMap ? classes.hideMap : classes.map}
+            ref={mapRef}
+          />
         </Box>
       </ClickOutsideListener>
       <Popper

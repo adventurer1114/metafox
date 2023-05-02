@@ -61,7 +61,7 @@ class DataGrid extends Grid
 
         $this->addColumn('total_item')
             ->header(__p('core::phrase.total_app', ['app' => __p('marketplace::phrase.label_menu_s')]))
-            ->asNumber()
+            ->linkTo('url')
             ->alignCenter()
             ->flex();
 

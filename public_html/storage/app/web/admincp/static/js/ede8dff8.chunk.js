@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-music-blocks-PlaylistListing-Block"],{88752:function(e,t,c){c.r(t);var l=c(85597);let s=(0,l.j4Z)({name:"MusicPlaylistListingBlock",extendBlock:"core.block.listview"});t.default=s}}]);

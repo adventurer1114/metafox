@@ -29,7 +29,8 @@ export default function UserItem({
   itemActionMenu
 }: UserItemProps) {
   const { ItemActionMenu, i18n, useSession, getAcl, getSetting } = useGlobal();
-  const { user: userAuth } = useSession();
+  const session = useSession();
+  const { user: userAuth } = session;
 
   const acl = getAcl();
   const setting = getSetting();
@@ -37,6 +38,7 @@ export default function UserItem({
     item,
     acl,
     setting,
+    session,
     isAuth: userAuth?.id === item?.id
   };
 

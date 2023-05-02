@@ -190,13 +190,28 @@ class ForumAdminController extends ApiController
 
         $context = user();
 
-        $this->repository->close($context, $id, $closed);
+        $forum = $this->repository->close($context, $id, $closed);
 
         $message = match ($closed) {
             true  => __p('forum::phrase.forum_successfully_closed'),
             false => __p('forum::phrase.forum_successfully_reopened'),
         };
 
-        return $this->success([], [], $message);
+        $meta = [];
+
+        if ($closed && $forum->level == 1) {
+            $total = $this->repository->countActiveForumByLevel($forum->level);
+
+            if ($total == 0) {
+                $meta = [
+                    'alert' => [
+                        'title'   => __p('forum::phrase.close_forum_warning_title'),
+                        'message' => __p('forum::phrase.close_forum_warning_desc'),
+                    ],
+                ];
+            }
+        }
+
+        return $this->success([], $meta, $message);
     }
 }

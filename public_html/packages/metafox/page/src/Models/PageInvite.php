@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use MetaFox\Page\Database\Factories\PageInviteFactory;
 use MetaFox\Page\Notifications\PageInvite as PageInviteNotification;
 use MetaFox\Platform\Contracts\Entity;
 use MetaFox\Platform\Contracts\HasUrl;
@@ -59,6 +60,11 @@ class PageInvite extends Model implements Entity, IsNotifyInterface, HasUrl
         'expired_at',
         'invite_type',
     ];
+
+    protected static function newFactory(): PageInviteFactory
+    {
+        return PageInviteFactory::new();
+    }
 
     public function user(): MorphTo
     {

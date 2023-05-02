@@ -20,10 +20,10 @@
           "component": "friend.block.friends",
           "slotName": "main",
           "title": "friends",
-          "dataSource": {
-            "apiParams": "user_id=:id&sort=latest&limit=12",
-            "apiUrl": "/friend"
-          },
+          "canLoadSmooth": true,
+          "moduleName": "user",
+          "resourceName": "user",
+          "actionName": "viewFriends",
           "itemView": "friend.itemView.mainCard",
           "canLoadMore": true,
           "key": "pp6aj",
@@ -37,7 +37,7 @@
             "image": "ico-user-circle-o"
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
-          "gridLayout": "Friend - Cards",
+          "gridLayout": "Friend - Profile - Cards",
           "itemLayout": "Friend - Cards"
         },
         {
@@ -50,6 +50,7 @@
             "apiParams": "view=pending&user_id=:id"
           },
           "canLoadMore": true,
+          "canLoadSmooth": true,
           "key": "no12",
           "blockId": "no12",
           "parentBlockId": "n42p",
@@ -61,8 +62,32 @@
           },
           "blockLayout": "Profile - Clean Body Only No Default Empty Page",
           "itemLayout": "Friend - Cards",
-          "gridLayout": "Friend - Cards",
+          "gridLayout": "Friend - Profile - Cards",
           "title": "Friend"
+        },
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "itemView": "friend.itemView.mainCard",
+          "contentType": "friend",
+          "moduleName": "follow",
+          "resourceName": "follow",
+          "actionName": "viewProfile",
+          "canLoadMore": true,
+          "canLoadSmooth": true,
+          "key": "c333",
+          "blockId": "c333",
+          "parentBlockId": "abc3",
+          "hasSearchBox": true,
+          "emptyPage": "core.block.no_item_with_icon",
+          "emptyPageProps": {
+            "description": "no_following_are_found",
+            "image": "ico-user-circle-o"
+          },
+          "blockLayout": "Profile - Clean Body Only No Default Empty Page",
+          "itemLayout": "Friend - Cards",
+          "gridLayout": "Friend - Profile - Cards",
+          "title": "following"
         },
         {
           "blockId": "gowz",
@@ -70,6 +95,26 @@
           "component": "core.block.listContainer",
           "slotName": "main",
           "name": "friends",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h1",
+            "titleVariant": "primary",
+            "titleColor": "text",
+            "noFooter": false,
+            "noHeader": false,
+            "blockStyle": {},
+            "contentStyle": {}
+          },
+          "freeze": false
+        },
+        {
+          "blockId": "abc3",
+          "parentBlockId": "hr4k",
+          "component": "core.block.listContainer",
+          "slotName": "main",
+          "name": "following",
           "pageName": "user.profile.friend",
           "pageSize": "large",
           "blockProps": {
@@ -142,6 +187,11 @@
                 "label": "tab_friend_requests",
                 "tab": "requests",
                 "showWhen": ["truthy", "isAuthUser"]
+              },
+              {
+                "id": 3,
+                "label": "following",
+                "tab": "following"
               }
             ],
             "activeTab": "friends",
@@ -170,10 +220,10 @@
           "component": "friend.block.friends",
           "slotName": "main",
           "title": "friends",
-          "dataSource": {
-            "apiParams": "user_id=:id&sort=latest&limit=12",
-            "apiUrl": "/friend"
-          },
+          "canLoadSmooth": true,
+          "moduleName": "user",
+          "resourceName": "user",
+          "actionName": "viewFriends",
           "itemView": "friend.itemView.mainCard",
           "canLoadMore": true,
           "key": "pp6aj",
@@ -199,6 +249,7 @@
             "apiUrl": "/friend/request",
             "apiParams": "view=pending"
           },
+          "canLoadSmooth": true,
           "canLoadMore": true,
           "key": "no12",
           "blockId": "no12",
@@ -213,6 +264,30 @@
           "gridLayout": "Friend - Cards - Mobile",
           "itemLayout": "Friend - Cards - Mobile",
           "title": "Friend"
+        },
+        {
+          "component": "friend.block.friends",
+          "slotName": "main",
+          "itemView": "friend.itemView.mainCard",
+          "contentType": "friend",
+          "moduleName": "follow",
+          "resourceName": "follow",
+          "actionName": "viewProfile",
+          "canLoadSmooth": true,
+          "canLoadMore": true,
+          "key": "c333",
+          "blockId": "c333",
+          "parentBlockId": "abc3",
+          "hasSearchBox": true,
+          "emptyPage": "core.block.no_item_with_icon",
+          "emptyPageProps": {
+            "description": "no_following_are_found",
+            "image": "ico-user-circle-o"
+          },
+          "blockLayout": "Profile - Clean Body Only No Default Empty Page",
+          "itemLayout": "Friend - Cards",
+          "gridLayout": "Friend - Cards",
+          "title": "following"
         },
         {
           "blockId": "gowz",
@@ -261,6 +336,26 @@
           "freeze": false
         },
         {
+          "blockId": "abc3",
+          "parentBlockId": "hr4k",
+          "component": "core.block.listContainer",
+          "slotName": "main",
+          "name": "following",
+          "pageName": "user.profile.friend",
+          "pageSize": "large",
+          "blockProps": {
+            "variant": "plained",
+            "titleComponent": "h1",
+            "titleVariant": "primary",
+            "titleColor": "text",
+            "noFooter": false,
+            "noHeader": false,
+            "blockStyle": {},
+            "contentStyle": {}
+          },
+          "freeze": false
+        },
+        {
           "blockId": "hr4k",
           "component": "core.block.tabContainer",
           "slotName": "main",
@@ -292,6 +387,11 @@
                 "label": "tab_friend_requests",
                 "tab": "requests",
                 "showWhen": ["truthy", "isAuthUser"]
+              },
+              {
+                "id": 3,
+                "label": "following",
+                "tab": "following"
               }
             ],
             "activeTab": "friends",

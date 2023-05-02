@@ -34,7 +34,7 @@ class CategoryRepository extends AbstractRepository implements CategoryRepositor
         return Category::class;
     }
 
-    public function viewCategories(User $context, array $attributes): Paginator
+    public function getAllCategories(User $context, array $attributes): Paginator
     {
         policy_authorize(CategoryPolicy::class, 'viewAny', $context);
 

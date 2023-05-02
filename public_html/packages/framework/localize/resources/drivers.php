@@ -225,6 +225,18 @@ return [
         'resolution' => 'mobile',
     ],
     [
+        'driver'     => 'MetaFox\\Localize\\Form\\Html\\SearchCountryCityCode',
+        'type'       => 'form-field',
+        'name'       => 'searchCountryCity',
+        'resolution' => 'web',
+    ],
+    [
+        'driver'     => 'MetaFox\\Localize\\Form\\Mobile\\SearchCountryCityCode',
+        'type'       => 'form-field',
+        'name'       => 'searchCountryCity',
+        'resolution' => 'mobile',
+    ],
+    [
         'driver'     => 'MetaFox\\Localize\\Form\\Mobile\\CountryStatePicker',
         'type'       => 'form-field',
         'name'       => 'countryStatePicker',

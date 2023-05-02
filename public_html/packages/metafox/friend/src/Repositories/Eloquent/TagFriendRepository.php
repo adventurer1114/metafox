@@ -2,6 +2,7 @@
 
 namespace MetaFox\Friend\Repositories\Eloquent;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;
@@ -20,6 +21,7 @@ use MetaFox\User\Models\UserEntity as UserEntityModel;
 use MetaFox\User\Support\Facades\UserBlocked;
 use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
+use MetaFox\User\Traits\UserMorphTrait;
 
 /**
  * Class TagFriendRepository.
@@ -32,6 +34,7 @@ use MetaFox\User\Support\Facades\UserPrivacy;
  */
 class TagFriendRepository extends AbstractRepository implements TagFriendRepositoryInterface
 {
+    use UserMorphTrait;
     public function model(): string
     {
         return TagFriend::class;
@@ -67,7 +70,7 @@ class TagFriendRepository extends AbstractRepository implements TagFriendReposit
         return $tag;
     }
 
-    public function getTagFriends(HasTaggedFriend $item, int $limit): LengthAwarePaginator
+    public function getTagFriends(HasTaggedFriend $item, int $limit): Builder
     {
         return UserEntityModel::query()
             ->join('friend_tag_friends', function (JoinClause $join) use ($item) {
@@ -75,8 +78,7 @@ class TagFriendRepository extends AbstractRepository implements TagFriendReposit
                 $join->where('item_id', $item->entityId());
                 $join->where('item_type', $item->entityType());
             })
-            ->where('is_mention', '=', 0)
-            ->paginate($limit, ['user_entities.*']);
+            ->where('is_mention', '=', 0);
     }
 
     public function getAllTaggedFriends(Entity $item): Collection
@@ -295,9 +297,9 @@ class TagFriendRepository extends AbstractRepository implements TagFriendReposit
     }
 
     /**
-     * @param User  $context
-     * @param int[] $tagFriends
-     *
+     * @param  User              $context
+     * @param  int[]             $tagFriends
+     * @param  User|null         $owner
      * @return array<int, mixed>
      */
     private function filterTaggedPrivacy(User $context, array $tagFriends, ?User $owner = null): array
@@ -467,19 +469,6 @@ class TagFriendRepository extends AbstractRepository implements TagFriendReposit
                 ],
                 true
             );
-        }
-    }
-
-    public function deleteUserData(int $userId): void
-    {
-        $tags = $this->getModel()->newModelQuery()
-            ->where([
-                'owner_id' => $userId,
-            ])
-            ->get();
-
-        foreach ($tags as $tag) {
-            $this->deleteTagFriend($tag->entityId());
         }
     }
 }

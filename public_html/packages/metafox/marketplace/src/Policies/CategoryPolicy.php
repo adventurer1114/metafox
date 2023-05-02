@@ -2,10 +2,9 @@
 
 namespace MetaFox\Marketplace\Policies;
 
-use MetaFox\Platform\Contracts\User as User;
-use MetaFox\Platform\Support\Facades\PrivacyPolicy;
+use MetaFox\Platform\Contracts\Policy\ResourcePolicyInterface;
+use MetaFox\Platform\Traits\Policy\HasCategoryPolicyTrait;
 use MetaFox\Platform\Traits\Policy\HasPolicyTrait;
-use MetaFox\User\Models\User as Model;
 
 /**
  * Class CategoryPolicy.
@@ -14,8 +13,9 @@ use MetaFox\User\Models\User as Model;
  * @ignore
  * @codeCoverageIgnore
  */
-class CategoryPolicy
+class CategoryPolicy implements ResourcePolicyInterface
 {
+    use HasCategoryPolicyTrait;
     use HasPolicyTrait;
 
     protected string $type = 'marketplace_category';

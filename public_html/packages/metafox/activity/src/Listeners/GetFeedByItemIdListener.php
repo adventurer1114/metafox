@@ -16,8 +16,23 @@ class GetFeedByItemIdListener
     /**
      * @throws AuthorizationException
      */
-    public function handle(User $context, int $itemId, string $itemType, string $typeId, bool $checkPermission = true): ?Feed
-    {
-        return resolve(FeedRepositoryInterface::class)->getFeedByItemId($context, $itemId, $itemType, $typeId, $checkPermission);
+    public function handle(
+        ?User $context,
+        int $itemId,
+        string $itemType,
+        string $typeId,
+        bool $checkPermission = true
+    ): ?Feed {
+        if (!$context) {
+            return null;
+        }
+
+        return resolve(FeedRepositoryInterface::class)->getFeedByItemId(
+            $context,
+            $itemId,
+            $itemType,
+            $typeId,
+            $checkPermission
+        );
     }
 }

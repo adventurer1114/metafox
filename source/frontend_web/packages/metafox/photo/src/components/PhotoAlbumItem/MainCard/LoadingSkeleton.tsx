@@ -25,7 +25,7 @@ export default function LoadingSkeleton({ wrapAs, wrapProps }) {
           <Skeleton variant="text" width={80} />
         </ItemTitle>
         <ItemSummary>
-          <Skeleton variant="text" />
+          <Skeleton variant="text" width={60} />
         </ItemSummary>
         <Skeleton variant="text" />
       </ItemText>

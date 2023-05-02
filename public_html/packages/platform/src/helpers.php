@@ -368,7 +368,15 @@ if (!function_exists('isImageUrl')) {
 if (!function_exists('app_active')) {
     function app_active(string $appName): bool
     {
-        return PackageManager::checkActive($appName);
+        if (!PackageManager::checkActive($appName)) {
+            return false;
+        }
+
+        if (!app('events')->dispatch('package.is_active', [$appName], true)) {
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -478,7 +486,9 @@ if (!function_exists('fox_get_contents')) {
 if (!function_exists('database_driver')) {
     function database_driver(): string
     {
-        return DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME);
+        // return DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME);
+        // performance fix.
+        return config('database.default');
     }
 }
 
@@ -530,7 +540,7 @@ if (!function_exists('policy_check')) {
      */
     function policy_check(string $policyClass, string $policyMethod, ...$params): bool
     {
-        $policy = resolve($policyClass);
+        $policy = app($policyClass);
 
         return $policy->{$policyMethod}(...$params);
     }

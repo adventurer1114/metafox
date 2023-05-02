@@ -5,12 +5,11 @@
  * keywords: no content
  */
 
-import { getAppMenuSelector, GlobalState, useGlobal } from '@metafox/framework';
+import { useAppMenu, useGlobal, useLocation } from '@metafox/framework';
 import { LineIcon } from '@metafox/ui';
 import { Theme, Button } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(
   (theme: Theme) =>
@@ -70,19 +69,20 @@ export default function NoContentWithIcon({
 }: NoContentWithIconProps) {
   const classes = useStyles();
   const { i18n, usePageParams, dispatch } = useGlobal();
+  const location = useLocation();
 
   const pageParams = usePageParams();
 
-  const menu = useSelector((state: GlobalState) =>
-    getAppMenuSelector(state, pageParams.appName, 'sidebarMenu')
-  );
+  const primaryMenu = useAppMenu('core', 'primaryMenu');
 
   const identity =
     pageParams?.heading?.props?.identity || `${prev_identity}${pageParams?.id}`;
 
   const icon =
     iconProp ||
-    menu.items.find(item => item.tab === pageParams?.tab)?.icon ||
+    primaryMenu.items.find(
+      item => item.to?.split('/')[1] === location.pathname.split('/')[1]
+    )?.icon ||
     'ico-user-circle-o';
   const moduleName = pageParams.appName || pageParams.resourceName;
   const title =

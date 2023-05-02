@@ -6,12 +6,15 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Notification;
 use MetaFox\Page\Models\Page;
 use MetaFox\Page\Models\PageInvite;
 use MetaFox\Page\Models\PageMember;
+use MetaFox\Page\Notifications\AssignOwnerNotification;
 use MetaFox\Page\Notifications\PageInvite as PageInviteNotification;
 use MetaFox\Page\Policies\PageMemberPolicy;
 use MetaFox\Page\Policies\PagePolicy;
+use MetaFox\Page\Repositories\PageClaimRepositoryInterface;
 use MetaFox\Page\Repositories\PageInviteRepositoryInterface;
 use MetaFox\Page\Repositories\PageMemberRepositoryInterface;
 use MetaFox\Page\Repositories\PageRepositoryInterface;
@@ -38,6 +41,11 @@ class PageMemberRepository extends AbstractRepository implements PageMemberRepos
         return resolve(PageRepositoryInterface::class);
     }
 
+    private function claimRepository(): PageClaimRepositoryInterface
+    {
+        return resolve(PageClaimRepositoryInterface::class);
+    }
+
     private function inviteRepository(): PageInviteRepositoryInterface
     {
         return resolve(PageInviteRepositoryInterface::class);
@@ -57,7 +65,7 @@ class PageMemberRepository extends AbstractRepository implements PageMemberRepos
         $search         = $attributes['q'];
         $limit          = $attributes['limit'];
         $view           = $attributes['view'];
-        $excludedUserId = $attributes['excluded_user_id'];
+        $excludedUserId = $attributes['excluded_user_id'] ?? null;
         $query          = $this->getModel()->newQuery();
 
         if (in_array($view, [ViewScope::VIEW_ADMIN])) {
@@ -90,7 +98,7 @@ class PageMemberRepository extends AbstractRepository implements PageMemberRepos
 
         $search         = $attributes['q'];
         $limit          = $attributes['limit'];
-        $excludedUserId = $attributes['excluded_user_id'];
+        $excludedUserId = $attributes['excluded_user_id'] ?? null;
 
         $query = $this->userRepository()->getModel()->newQuery();
 
@@ -281,10 +289,19 @@ class PageMemberRepository extends AbstractRepository implements PageMemberRepos
 
         $this->getPageMember($pageId, $oldUser->entityId())->update(['member_type' => PageMember::MEMBER]);
 
-        return $page->update([
+        $result = $page->update([
             'user_id'   => $user->entityId(),
             'user_type' => $user->entityType(),
         ]);
+
+        if ($result) {
+            $this->claimRepository()->deleteClaimByUser($user, $pageId);
+
+            $notification = new AssignOwnerNotification($page->refresh());
+            $this->sendNotificationAllMembers($pageId, $notification->setContext($context), $context);
+        }
+
+        return $result;
     }
 
     public function deletePageMember(User $context, int $pageId, int $userId): bool
@@ -378,5 +395,22 @@ class PageMemberRepository extends AbstractRepository implements PageMemberRepos
         foreach ($members as $member) {
             $member->delete();
         }
+    }
+
+    private function sendNotificationAllMembers(int $pageId, mixed $notifiable, User $context)
+    {
+        $members = $this->getPageMembers($pageId);
+
+        $users = [];
+        foreach ($members as $member) {
+            if ($context->entityId() == $member->userId()) {
+                continue;
+            }
+
+            $users[] = $member->user;
+        }
+
+        $response = [$users, $notifiable];
+        Notification::send(...$response);
     }
 }

@@ -20,7 +20,10 @@ class BgsBackgroundObserver
         }
 
         if ($bgsCollection->main_background_id == 0) {
-            resolve(BgsCollectionRepositoryInterface::class)->updateMainBackground($bgsCollection, $background->entityId());
+            resolve(BgsCollectionRepositoryInterface::class)->updateMainBackground(
+                $bgsCollection,
+                $background->entityId()
+            );
         }
     }
 

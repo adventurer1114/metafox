@@ -2,7 +2,6 @@
 
 namespace MetaFox\Page\Notifications;
 
-use Illuminate\Auth\AuthenticationException;
 use MetaFox\Notification\Messages\MailMessage;
 use MetaFox\Page\Models\Page;
 use MetaFox\Page\Models\PageClaim as Model;
@@ -18,20 +17,29 @@ class ApproveRequestClaimNotification extends Notification
 {
     protected string $type = 'approve_claim_page';
     /**
-     * @var int
+     * @var int|null
      */
-    protected int $userId;
+    protected ?int $userId = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected string $userType;
+    protected ?string $userType = null;
 
     public function setUserId(int $userId): self
     {
         $this->userId = $userId;
 
         return $this;
+    }
+
+    public function getUserId(): int
+    {
+        if ($this->userId == null) {
+            $this->userId = $this->model->userId();
+        }
+
+        return $this->userId;
     }
 
     public function setUserType(string $userType): self
@@ -41,12 +49,36 @@ class ApproveRequestClaimNotification extends Notification
         return $this;
     }
 
+    public function getUserType(): string
+    {
+        if ($this->userType == null) {
+            $this->userType = $this->model->userType();
+        }
+
+        return $this->userType;
+    }
+
     public function toMail(IsNotifiable $notifiable): MailMessage
     {
+        $page    = $this->model->page;
+        $title   = $page instanceof Page ? $page->toTitle() : null;
+        $context = $this->notifiable;
+        $subject = $this->localize('page::mail.your_have_now_become_the_new_owner_of_title_subject', ['title' => $title]);
+        $content = $this->localize('page::mail.your_have_now_become_the_new_owner_of_title', ['title' => $title]);
+
+        if ($page->userId() != $context->entityId()) {
+            $content = $this->localize(
+                'page::mail.your_have_been_removed_as_owner_of_page_title',
+                ['title' => $title]
+            );
+            $subject = $this->localize('page::mail.your_have_now_become_the_new_owner_of_title_subject', ['title' => $title]);
+        }
+
         return (new MailMessage())
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', 'https://laravel.com')
-            ->line('Thank you for using our application!');
+            ->locale($this->getLocale())
+            ->subject($subject)
+            ->line($content)
+            ->action($this->localize('page::phrase.view_page'), $this->model->page->toUrl());
     }
 
     public function toArray(IsNotifiable $notifiable): array
@@ -55,31 +87,24 @@ class ApproveRequestClaimNotification extends Notification
             'data'      => $this->model->toArray(),
             'item_id'   => $this->model->entityId(),
             'item_type' => $this->model->entityType(),
-            'user_id'   => $this->userId,
-            'user_type' => $this->userType,
+            'user_id'   => $this->getUserId(),
+            'user_type' => $this->getUserType(),
         ];
     }
 
-    /**
-     * @throws AuthenticationException
-     */
     public function callbackMessage(): ?string
     {
         $page    = $this->model->page;
         $title   = $page instanceof Page ? $page->toTitle() : null;
-        $context = user();
+        $context = $this->notifiable;
 
         if ($page->userId() != $context->entityId()) {
-            return $this->localize('page::notification.your_have_been_removed_as_owner_of_page_title', ['title' => $title]);
+            return $this->localize(
+                'page::notification.your_have_been_removed_as_owner_of_page_title',
+                ['title' => $title]
+            );
         }
 
         return $this->localize('page::notification.your_have_now_become_the_new_owner_of_title', ['title' => $title]);
-    }
-
-    public function toLink(): ?string
-    {
-        $page = $this->model->page;
-
-        return $page instanceof Page ? $page->toLink() : null;
     }
 }

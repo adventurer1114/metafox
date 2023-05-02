@@ -28,6 +28,7 @@ use MetaFox\User\Notifications\UserApproveNotification;
 use MetaFox\User\Notifications\VerifyEmail;
 use MetaFox\User\Notifications\WelcomeNewMember;
 use MetaFox\User\Policies\UserPolicy;
+use MetaFox\User\Policies\UserProfilePolicy;
 use MetaFox\User\Policies\UserShortcutPolicy;
 use MetaFox\User\Support\Browse\Scopes\User\SortScope;
 use MetaFox\User\Support\User as UserSupport;
@@ -158,7 +159,6 @@ class PackageSettingListener extends BasePackageSettingListener
         return [
             User::ENTITY_TYPE => [
                 'view'                      => UserRole::LEVEL_GUEST,
-                'create'                    => UserRole::LEVEL_REGISTERED,
                 'update'                    => UserRole::LEVEL_REGISTERED,
                 'delete'                    => UserRole::LEVEL_REGISTERED,
                 'moderate'                  => UserRole::LEVEL_STAFF,
@@ -180,6 +180,7 @@ class PackageSettingListener extends BasePackageSettingListener
         return [
             User::class         => UserPolicy::class,
             UserShortcut::class => UserShortcutPolicy::class,
+            UserProfile::class  => UserProfilePolicy::class,
         ];
     }
 
@@ -265,6 +266,9 @@ class PackageSettingListener extends BasePackageSettingListener
             ],
             'user.deleting' => [
                 UserDeletingListener::class,
+            ],
+            'user.logout' => [
+                UserLogoutListener::class,
             ],
         ];
     }
@@ -353,7 +357,7 @@ class PackageSettingListener extends BasePackageSettingListener
             'days_for_delete_pending_user_verification' => ['value' => 0],
             'resend_verification_email_delay_time'      => ['value' => 15],
             'maximum_length_for_full_name'              => ['value' => 25],
-            'minimum_length_for_password'               => ['value' => 8],
+            'minimum_length_for_password'               => ['value' => 4],
             'maximum_length_for_password'               => ['value' => 30],
             'default_birthday_privacy'                  => ['value' => UserSupport::DATE_OF_BIRTH_SHOW_ALL],
             'user_dob_month_day_year'                   => 'F j, Y',
@@ -489,6 +493,10 @@ class PackageSettingListener extends BasePackageSettingListener
                     'default_value' => UserSupport::AUTO_APPROVED_TAGGER_POST,
                     'ordering'      => 1,
                 ],
+                'announcement_close' => [
+                    'default_value' => 0,
+                    'ordering'      => 1,
+                ],
             ],
         ];
     }
@@ -553,5 +561,22 @@ class PackageSettingListener extends BasePackageSettingListener
     public function getSitemap(): array
     {
         return ['user'];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public function getAdMobPages(): array
+    {
+        return [
+            [
+                'path' => '/user',
+                'name' => 'user::phrase.ad_mob_home_page',
+            ],
+            [
+                'path' => '/user/:id',
+                'name' => 'user::phrase.ad_mob_profile_page',
+            ],
+        ];
     }
 }

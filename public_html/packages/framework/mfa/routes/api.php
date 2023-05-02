@@ -17,7 +17,6 @@ Route::prefix('mfa')
             ->name('user.service.')
             ->group(function () {
                 Route::get('setup', 'setup')->name('setup');
-                Route::get('remove', 'remove')->name('remove');
                 Route::post('activate', 'activate')->name('activate');
                 Route::delete('deactivate', 'deactivate')->name('deactivate');
             });

@@ -13,15 +13,19 @@ use MetaFox\Platform\Contracts\User;
 class PointUpdatedListener
 {
     /**
-     * @param User                 $context
-     * @param User                 $owner
-     * @param int                  $type
-     * @param int                  $amount
-     * @param array<string, mixed> $extra
+     * @param  User|null            $context
+     * @param  User|null            $owner
+     * @param  int                  $type
+     * @param  int                  $amount
+     * @param  array<string, mixed> $extra
      * @return void
      */
-    public function handle(User $context, User $owner, int $type, int $amount, array $extra = []): void
+    public function handle(?User $context, ?User $owner, int $type, int $amount, array $extra = []): void
     {
+        if (!$context) {
+            return;
+        }
+
         // Update point statistic
         ActivityPoint::updateStatistic($context, $type, $amount);
     }

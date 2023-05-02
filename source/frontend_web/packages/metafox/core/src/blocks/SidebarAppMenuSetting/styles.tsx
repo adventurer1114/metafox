@@ -33,12 +33,11 @@ const useStyles = makeStyles(
         width: theme.spacing(4)
       },
       menuItem: {
-        height: theme.spacing(5),
+        height: theme.spacing(7),
         fontWeight: `${theme.typography.fontWeightRegular} !important`,
-        margin: `${theme.spacing(1)} 0 !important`,
-        borderLeft: '4px solid transparent !important',
-        borderRadius: '0 !important',
-        padding: `${theme.spacing(1, 1.5)} !important`,
+        margin: `${theme.spacing(0, 1)} !important`,
+        borderRadius: `${theme.spacing(1)} !important`,
+        padding: `${theme.spacing(1)} !important`,
         '& a': {
           padding: theme.spacing(0, 2)
         },
@@ -66,19 +65,10 @@ const useStyles = makeStyles(
       activeMenuItem: {
         color: `${
           theme.palette.mode === 'dark'
-            ? theme.palette.text.primary
+            ? theme.palette.border.primary
             : theme.palette.primary.main
         } !important`,
-        borderLeft: `4px solid ${
-          theme.palette.mode === 'dark'
-            ? theme.palette.text.primary
-            : theme.palette.primary.main
-        } !important`,
-        background: `${
-          theme.palette.mode === 'dark'
-            ? theme.palette.grey[700]
-            : theme.palette.grey[100]
-        } !important`,
+        background: 'transparent !important',
         '& $menuItemLink': {
           color: theme.palette.primary.main,
           fontWeight: 'bold'
@@ -86,7 +76,10 @@ const useStyles = makeStyles(
         '& $menuItemIcon': {
           color: theme.palette.background.paper,
           backgroundColor: theme.palette.primary.main
-        }
+        },
+          '& $menuItemText .MuiListItemText-primary': {
+            fontWeight: `${theme.typography.fontWeightMedium} !important`
+          }
       },
       menuItemButton: {
         marginTop: theme.spacing(2),

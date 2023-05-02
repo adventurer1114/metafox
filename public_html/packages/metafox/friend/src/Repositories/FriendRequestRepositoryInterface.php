@@ -7,9 +7,13 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use MetaFox\Friend\Models\FriendRequest;
 use MetaFox\Platform\Contracts\User;
+use MetaFox\User\Traits\UserMorphTrait;
 use Prettus\Validator\Exceptions\ValidatorException;
 use stdClass;
 
+/**
+ * @mixin UserMorphTrait
+ */
 interface FriendRequestRepositoryInterface
 {
     /**
@@ -105,16 +109,4 @@ interface FriendRequestRepositoryInterface
      * @throws AuthorizationException
      */
     public function countTotalFriendRequest(User $context): int;
-
-    /**
-     * @param  int  $userId
-     * @return void
-     */
-    public function deleteUserData(int $userId): void;
-
-    /**
-     * @param  int  $ownerId
-     * @return void
-     */
-    public function deleteOwnerData(int $ownerId): void;
 }

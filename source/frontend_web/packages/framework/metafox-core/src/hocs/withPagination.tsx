@@ -42,7 +42,8 @@ export default function withPagination<
       resourceName,
       actionName,
       acceptQuerySearch,
-      pageParamsDefault
+      pageParamsDefault,
+      preventRefreshWhenEmpty = false
     } = props;
 
     const styles = layoutBackend.normalizeDisplayingPresets(props);
@@ -58,7 +59,7 @@ export default function withPagination<
     const isLoadMoreButton = canLoadMore && loadMoreType === 'button';
     const isLoadMorePagination = canLoadMore && loadMoreType === 'pagination';
 
-    const config = dataSourceConfig || dataSource;
+    const config = dataSourceConfig || dataSource || {};
 
     const apiParams = compactData(
       config.apiParams,
@@ -97,7 +98,9 @@ export default function withPagination<
       if (!pagingData) return;
 
       if (
-        (pagingData.dirty && !pagingData.ids.length) ||
+        (pagingData.dirty &&
+          !pagingData.ids.length &&
+          !preventRefreshWhenEmpty) ||
         (pagingData.dirty && pagingData.refreshing)
       ) {
         dispatch({
@@ -117,6 +120,16 @@ export default function withPagination<
         dispatch({
           type: PAGINATION_FULFILL_PAGE,
           payload: { pagingId, currentPage: pageParams?.page }
+          // meta: { abortId }
+        });
+
+        return;
+      }
+
+      if (pagingData.dirty) {
+        dispatch({
+          type: PAGINATION_REFRESH,
+          payload: { pagingId }
           // meta: { abortId }
         });
 

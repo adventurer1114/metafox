@@ -28,6 +28,7 @@ class QuizText extends Model implements ResourceText
     protected $table = 'quiz_text';
 
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

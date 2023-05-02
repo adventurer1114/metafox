@@ -14,13 +14,17 @@ use MetaFox\Platform\Contracts\User;
 class UpdateTagFriendsListener
 {
     /**
-     * @param User            $context
-     * @param HasTaggedFriend $item
-     * @param int[]           $tagFriends
-     * @param string|null     $typeId
+     * @param  User|null       $context
+     * @param  HasTaggedFriend $item
+     * @param  int[]           $tagFriends
+     * @param  string|null     $typeId
+     * @return bool
      */
-    public function handle(User $context, HasTaggedFriend $item, array $tagFriends, ?string $typeId = null): bool
+    public function handle(?User $context, HasTaggedFriend $item, array $tagFriends, ?string $typeId = null): bool
     {
+        if (!$context) {
+            return true;
+        }
         resolve(TagFriendRepositoryInterface::class)->updateTagFriend($context, $item, $tagFriends, $typeId);
 
         return true;

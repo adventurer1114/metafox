@@ -11,6 +11,6 @@ export default createBlock<Props>({
   extendBlock: Base,
   defaults: {
     title: 'blocked_users',
-    blockLayout: 'App Lists'
+    blockLayout: 'App List'
   }
 });

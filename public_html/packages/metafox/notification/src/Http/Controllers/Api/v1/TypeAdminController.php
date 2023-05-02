@@ -5,7 +5,6 @@ namespace MetaFox\Notification\Http\Controllers\Api\v1;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
-use MetaFox\Notification\Http\Requests\v1\Type\Admin\StoreRequest;
 use MetaFox\Notification\Http\Requests\v1\Type\Admin\UpdateRequest;
 use MetaFox\Notification\Http\Resources\v1\Type\Admin\TypeDetail as Detail;
 use MetaFox\Notification\Http\Resources\v1\Type\Admin\TypeItemCollection as ItemCollection;
@@ -54,22 +53,6 @@ class TypeAdminController extends ApiController
         $data = $this->repository->viewTypes();
 
         return new ItemCollection($data);
-    }
-
-    /**
-     * Create type.
-     *
-     * @param StoreRequest $request
-     *
-     * @return Detail
-     * @throws ValidatorException
-     */
-    public function store(StoreRequest $request)
-    {
-        $params = $request->validated();
-        $data   = $this->repository->create($params);
-
-        return new Detail($data);
     }
 
     /**

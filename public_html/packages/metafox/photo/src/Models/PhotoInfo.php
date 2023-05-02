@@ -28,6 +28,7 @@ class PhotoInfo extends Model implements ResourceText
 
     /** @var string[] */
     protected $fillable = [
+        'id',
         'text',
         'text_parsed',
     ];

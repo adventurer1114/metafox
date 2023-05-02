@@ -1,8 +1,5 @@
 <?php
 
-use MetaFox\Authorization\Models\Permission;
-use MetaFox\Authorization\Models\Role;
-
 return [
 
     'models' => [
@@ -16,7 +13,7 @@ return [
          * `Spatie\Permission\Contracts\Permission` contract.
          */
 
-        'permission' => Permission::class,
+        'permission' => MetaFox\Authorization\Models\Permission::class,
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
@@ -27,7 +24,7 @@ return [
          * `Spatie\Permission\Contracts\Role` contract.
          */
 
-        'role' => Role::class,
+        'role' => MetaFox\Authorization\Models\Role::class,
 
     ],
 

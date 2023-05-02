@@ -10,9 +10,8 @@ return [
         ],
         'menu'     => 'core.primaryMenu',
         'name'     => 'subscription',
-        'label'    => 'subscription::phrase.membership',
+        'label'    => 'subscription::phrase.subscriptions',
         'ordering' => 5,
-        'icon'     => 'ico-address-book-o',
         'to'       => '/subscription',
     ],
     [
@@ -30,7 +29,6 @@ return [
         'label'    => 'subscription::phrase.subscription_phrase_sidebar_menu_packages',
         'ordering' => 1,
         'value'    => 'viewAll',
-        'icon'     => 'ico-address-book-o',
         'to'       => '/subscription',
     ],
     [
@@ -48,7 +46,6 @@ return [
         'label'    => 'subscription::phrase.subscription_phrase_sidebar_menu_my_subscriptions',
         'ordering' => 2,
         'value'    => 'viewAll',
-        'icon'     => 'ico-user-man-o',
         'to'       => '/subscription/my',
     ],
     [

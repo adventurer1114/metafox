@@ -82,6 +82,6 @@ export function* shareOnFriendProfile(action: ItemLocalAction) {
   });
 }
 
-const sagas = [takeLatest('shareOnFriendProfile', shareOnFriendProfile)];
+const sagas = [takeLatest('friend/shareOnFriendProfile', shareOnFriendProfile)];
 
 export default sagas;

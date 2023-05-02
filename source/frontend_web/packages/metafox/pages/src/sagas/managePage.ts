@@ -13,10 +13,11 @@ import {
   handleActionConfirm,
   fulfillEntity,
   makeDirtyPaging,
-  getSession
+  getSession,
+  getResourceAction
 } from '@metafox/framework';
 import { takeLatest, takeEvery } from 'redux-saga/effects';
-import { APP_PAGE, RESOURCE_PAGE_MEMBER } from '../constant';
+import { APP_PAGE, RESOURCE_INVITE, RESOURCE_PAGE_MEMBER } from '../constant';
 import qs from 'querystring';
 
 export function* managePage(action: ItemLocalAction) {
@@ -527,16 +528,26 @@ export function* cancelInvitation(action: ItemLocalAction) {
 
   if (!item) return;
 
-  const { apiClient, compactData } = yield* getGlobalContext();
+  const { apiClient, compactData, compactUrl } = yield* getGlobalContext();
 
-  const config = yield* getItemActionConfig(item, 'cancelInvite');
+  const config = yield* getResourceAction(
+    APP_PAGE,
+    RESOURCE_INVITE,
+    'cancelInvite'
+  );
+
+  if (!config?.apiUrl) return;
+
+  const ok = yield handleActionConfirm(config);
+
+  if (!ok) return;
 
   try {
     const user_id = item?.owner.split('.')[3];
 
     const response = yield apiClient.request({
       method: config.apiMethod,
-      url: config.apiUrl,
+      url: compactUrl(config.apiUrl, item),
       params: compactData(config.apiParams, { ...item, user_id })
     });
 

@@ -69,7 +69,10 @@ class Category extends Model implements
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        $relation = $this->hasMany(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function events(): BelongsToMany
@@ -85,7 +88,10 @@ class Category extends Model implements
 
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation = $this->belongsTo(self::class, 'parent_id', 'id');
+        $relation->getQuery()->whereNot('id', $this->id);
+
+        return $relation;
     }
 
     public function toUrl(): ?string
@@ -107,7 +113,11 @@ class Category extends Model implements
 
     public function toSubCategoriesLink(): string
     {
-        return url_utility()->makeApiUrl(sprintf('admincp/event/category/%s/category/browse?parent_id=%s', $this->entityId(), $this->entityId()));
+        return url_utility()->makeApiUrl(sprintf(
+            'admincp/event/category/%s/category/browse?parent_id=%s',
+            $this->entityId(),
+            $this->entityId()
+        ));
     }
 
     public function toSubCategoriesUrl(): string

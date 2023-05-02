@@ -38,11 +38,13 @@ trait ResourceExtraTrait
             ACL::CAN_DELETE_OWN      => $user->can('deleteOwn', [$resource, $resource]),
             ACL::CAN_REPORT          => $user->can('reportItem', [$resource, $resource]),
             ACL::CAN_REPORT_TO_OWNER => $user->can('reportToOwner', [$resource, $resource]),
-            ACL::CAN_ADD             => $user->can('create', [$resource]),
-            ACL::CAN_EDIT            => $user->can('update', [$resource, $resource]),
-            ACL::CAN_COMMENT         => $user->can('comment', [$resource, $resource]),
-            ACL::CAN_PUBLISH         => $user->can('publish', [$resource, $resource]),
-            ACL::CAN_FEATURE         => $resource instanceof HasFeature && $user->can(
+            // todo fail to check create.
+            // ACL::CAN_ADD             => $user->can('create', [$resource]),
+            ACL::CAN_ADD     => $user->can('create', []),
+            ACL::CAN_EDIT    => $user->can('update', [$resource, $resource]),
+            ACL::CAN_COMMENT => $user->can('comment', [$resource, $resource]),
+            ACL::CAN_PUBLISH => $user->can('publish', [$resource, $resource]),
+            ACL::CAN_FEATURE => $resource instanceof HasFeature && $user->can(
                 'feature',
                 [$resource, $resource, !$resource->is_featured]
             ),

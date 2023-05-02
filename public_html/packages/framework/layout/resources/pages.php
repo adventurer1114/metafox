@@ -39,7 +39,7 @@ return [
     [
         'name'         => 'admin.layout.create_build_wizard',
         'phrase_title' => 'layout::phrase.rebuild_site',
-        'url'          => '/admincp/layout/build/wizard',
+        'url'          => 'admincp/layout/build/wizard',
     ],
     [
         'name'         => 'admin.layout.create_theme',

@@ -9,7 +9,7 @@ use MetaFox\User\Models\UserEntity;
 
 class FriendMentionExtraInfoListener
 {
-    public function handle(User $context, UserEntity $userEntity): ?array
+    public function handle(?User $context, UserEntity $userEntity): ?array
     {
         if ($userEntity->entityType() != Group::ENTITY_TYPE) {
             return null;

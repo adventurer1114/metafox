@@ -26,6 +26,7 @@ import { isFunction } from 'lodash';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import {
   APP_SAVED,
+  PAGINGID_SAVED_LIST_DATA,
   RESOURCE_SAVED_LIST,
   RESOURCE_SAVED_LIST_MEMBER
 } from '../constant';
@@ -40,28 +41,44 @@ function* reloadRemoveListItemInPageCollection(identity: any) {
     type: PAGINATION_UN_LIST,
     payload: {
       identity,
-      pagingId: 'saveditems?collection_id'
+      pagingId: PAGINGID_SAVED_LIST_DATA
     }
   });
 }
 
 function* reloadSavedList() {
+  const { compactData, compactUrl, getPageParams } = yield* getGlobalContext();
+
+  const config = yield* getResourceAction(
+    APP_SAVED,
+    RESOURCE_SAVED_LIST,
+    'viewAll'
+  );
+
+  const params = getPageParams();
+
   yield put({
     type: PAGINATION_REFRESH,
     payload: {
-      apiUrl: '/saveditems-collection',
-      apiParams: {},
-      pagingId: '/saveditems-collection?'
+      apiUrl: compactUrl(config.apiUrl, params),
+      apiParams: compactData(config?.apiParams, params),
+      pagingId: 'saveditems-collection?'
     }
   });
 }
 
 function* reloadSavedItems() {
+  const { compactData, compactUrl, getPageParams } = yield* getGlobalContext();
+
+  const config = yield* getResourceAction(APP_SAVED, APP_SAVED, 'viewAll');
+
+  const params = getPageParams();
+
   yield put({
     type: PAGINATION_REFRESH,
     payload: {
-      apiUrl: '/saveditems',
-      apiParams: {},
+      apiUrl: compactUrl(config.apiUrl, params),
+      apiParams: compactData(config?.apiParams, params),
       pagingId: 'paging_saved_items'
     }
   });
@@ -312,23 +329,11 @@ export function* addSavedItemToCollection(action: {
   const { onSuccess } = action.meta;
   const item = yield* getItem(identity);
   const { apiClient, getPageParams } = yield* getGlobalContext();
+  const params = getPageParams() as any;
 
   const identityCollection = `saved.entities.saved_list.${collection_id}`;
 
   if (!item) return;
-
-  const { collection_id: collectionIdParam } = getPageParams() as any;
-
-  if (collectionIdParam) {
-    yield put({
-      type: 'saved/removeCollectionItem',
-      payload: {
-        identity
-      }
-    });
-
-    return;
-  }
 
   const config: AppResourceAction = yield* getItemActionConfig(
     item,
@@ -370,6 +375,10 @@ export function* addSavedItemToCollection(action: {
       identityCollection,
       isRemoved ? 'remove' : 'add'
     );
+
+    // eslint-disable-next-line eqeqeq
+    if (collection_id == params?.collection_id)
+      yield* reloadRemoveListItemInPageCollection(identity);
 
     isFunction(onSuccess) && onSuccess();
   } catch (error) {
@@ -606,7 +615,7 @@ function* openDialogFriend({ payload: { identity } }: ItemLocalAction) {
       props: {
         apiUrl: compactUrl(dataSource.apiUrl, item),
         apiParams: compactData(dataSource.apiParams, { saved_id: item?.id }),
-        dialogTitle: 'friend_list'
+        dialogTitle: 'members_list'
       }
     });
   } catch (err) {
@@ -728,7 +737,6 @@ export function* leaveCollection(action: {
     yield* deleteEntity(identity);
 
     yield* handleActionFeedback(res);
-
   } catch (error) {
     yield* handleActionError(error);
   }

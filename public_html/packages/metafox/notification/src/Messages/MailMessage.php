@@ -8,10 +8,10 @@ use MetaFox\Platform\Facades\Settings;
 
 class MailMessage extends BaseMessage
 {
-    private ?string $locale = null;
-
     public function __construct()
     {
+        $this->viewData['locale'] = null;
+
         $signature = Settings::get('mail.signature');
         $this->salutation(Str::of(nl2br($signature))->toHtmlString());
     }
@@ -25,8 +25,7 @@ class MailMessage extends BaseMessage
 
     public function locale(?string $locale = null): self
     {
-        $this->locale   = $locale;
-        $this->viewData = array_merge($this->viewData, ['locale' => $this->locale]);
+        $this->viewData['locale'] = $locale;
 
         return $this;
     }

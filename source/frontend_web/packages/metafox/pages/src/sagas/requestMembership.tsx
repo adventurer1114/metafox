@@ -10,16 +10,14 @@ import {
   handleActionError,
   handleActionFeedback,
   ItemLocalAction,
-  PAGINATION_CLEAR,
   patchEntity,
-  getItemActionConfig,
   makeDirtyPaging,
   deleteEntity,
   PAGINATION_REFRESH
 } from '@metafox/framework';
 import { compactData } from '@metafox/utils';
 import { takeEvery, put } from 'redux-saga/effects';
-import { APP_PAGE } from '../constant';
+import { APP_PAGE, RESOURCE_INVITE } from '../constant';
 
 export function* likePage(action: ItemLocalAction) {
   const {
@@ -52,7 +50,7 @@ export function* likePage(action: ItemLocalAction) {
     yield* patchEntity(identity, response.data.data);
 
     dispatch({
-      type: PAGINATION_CLEAR,
+      type: PAGINATION_REFRESH,
       payload: { pagingId: '/user/shortcut' }
     });
   } catch (err) {
@@ -93,7 +91,7 @@ export function* unlikePage(action: ItemLocalAction) {
     yield* patchEntity(identity, response.data.data);
 
     dispatch({
-      type: PAGINATION_CLEAR,
+      type: PAGINATION_REFRESH,
       payload: { pagingId: '/user/shortcut' }
     });
   } catch (err) {
@@ -160,15 +158,19 @@ export function* acceptInvite(action: ItemLocalAction) {
 
   if (item.resource_name !== APP_PAGE) return;
 
-  const { apiClient, compactData } = yield* getGlobalContext();
+  const { apiClient, compactUrl } = yield* getGlobalContext();
 
-  const config = yield* getItemActionConfig(item, 'acceptInvite');
+  const config = yield* getResourceAction(
+    APP_PAGE,
+    RESOURCE_INVITE,
+    'acceptInvite'
+  );
 
   try {
     const response = yield apiClient.request({
       method: config.apiMethod,
-      url: config.apiUrl,
-      params: compactData(config.apiParams, { id: item.id })
+      url: compactUrl(config.apiUrl, item),
+      params: config.apiParams
     });
 
     yield* patchEntity(identity, response.data.data);
@@ -190,14 +192,19 @@ export function* declineInvite(action: ItemLocalAction) {
 
   if (item.resource_name !== APP_PAGE) return;
 
-  const { apiClient, compactData, redirectTo } = yield* getGlobalContext();
+  const { apiClient, compactData, redirectTo, compactUrl } =
+    yield* getGlobalContext();
 
-  const config = yield* getItemActionConfig(item, 'declineInvite');
+  const config = yield* getResourceAction(
+    APP_PAGE,
+    RESOURCE_INVITE,
+    'declineInvite'
+  );
 
   try {
     const response = yield apiClient.request({
       method: config.apiMethod,
-      url: config.apiUrl,
+      url: compactUrl(config.apiUrl, item),
       params: compactData(config.apiParams, { id: item.id })
     });
 

@@ -38,7 +38,7 @@ class StoreRequest extends FormRequest
             'owner_id'       => ['sometimes', 'numeric', new ExistIfGreaterThanZero('exists:user_entities,id')],
             'file'           => ['sometimes', 'array'],
             'file.temp_file' => ['required_with:file', 'numeric', 'exists:storage_files,id'],
-            'text'           => ['required', 'string', new ResourceTextRule()],
+            'text'           => ['required', 'string', new ResourceTextRule(true)],
             'draft'          => ['sometimes', 'numeric', new AllowInRule([0, 1])],
             'tags'           => ['sometimes', 'array'],
             'tags.*'         => ['string'],

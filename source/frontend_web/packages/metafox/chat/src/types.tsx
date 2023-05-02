@@ -142,6 +142,10 @@ export interface ChatRoomShape {
   collapsed?: boolean;
   messageFilter?: any;
   roomProgress?: any;
+  preFetchingMsg?: any[];
+  lastMsgId?: any;
+  messages?: any;
+  endLoadmoreMessage?: boolean;
 }
 
 export type TooltipPosition = 'left' | 'right' | 'top' | 'bottom';

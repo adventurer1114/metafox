@@ -21,23 +21,25 @@ class UniqueSlug implements Rule
     private string $phrase = 'validation.unique';
 
     /**
-     * @param  string  $type
-     * @param  mixed   $id
+     * @param string $type
+     * @param mixed  $id
      */
     public function __construct(string $type, mixed $id = null)
     {
         $this->type = $type;
-        $this->id = $id;
+        $this->id   = $id;
     }
 
     public function passes($attribute, $value)
     {
+        if (!is_string($value)) {
+            return false;
+        }
+
         $result = app('events')
             ->dispatch('validation.unique_slug', [$this->type, $value, $this->id], true);
 
-        Log::channel('dev')->info('validation.unique_slug', [$this->type, $value, $this->id, $result]);
-
-        if (is_null($result)) {
+        if (null === $result) {
             return true;
         }
 

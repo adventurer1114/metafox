@@ -33,6 +33,11 @@ class ResultFactory extends Factory
         ];
     }
 
+    public function forQuiz(Quiz $quiz): self
+    {
+        return $this->state(fn () => ['quiz_id' => $quiz->entityId()]);
+    }
+
     public function setQuiz(Quiz $quiz): self
     {
         return $this->state(function () use ($quiz) {

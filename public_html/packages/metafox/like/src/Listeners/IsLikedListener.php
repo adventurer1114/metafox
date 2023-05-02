@@ -27,13 +27,22 @@ class IsLikedListener
     }
 
     /**
-     * @param  User         $context
+     * @param  User|null    $context
      * @param  HasTotalLike $content
      * @return bool
      */
-    public function handle(User $context, HasTotalLike $content): bool
+    public function handle(?User $context, HasTotalLike $content): bool
     {
-        $key = sprintf(CacheManager::IS_LIKED_CACHE, $content->entityId(), $content->entityType());
+        if (!$context) {
+            return false;
+        }
+
+        $key = sprintf(
+            CacheManager::IS_LIKED_CACHE,
+            $content->entityId(),
+            $content->entityType(),
+            $context->entityId()
+        );
 
         return Cache::remember($key, CacheManager::IS_LIKED_CACHE_TIME, function () use ($context, $content) {
             return $this->repository->isLiked($context, $content);

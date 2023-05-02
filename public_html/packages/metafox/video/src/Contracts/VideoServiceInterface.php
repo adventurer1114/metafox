@@ -19,4 +19,14 @@ interface VideoServiceInterface
     public function handleWebhook(Request $request): bool;
 
     public function getProviderType(): string;
+
+    public function executeApi(string $apiName, string $method = 'GET', bool $returnTransfer = false, string $postFields = ''): mixed;
+
+    public function getLiveServerUrl(): string;
+
+    public function getThumbnailPlayback(): string;
+
+    public function getVideoPlayback(): string;
+
+    public function isValidConfiguration(): bool;
 }

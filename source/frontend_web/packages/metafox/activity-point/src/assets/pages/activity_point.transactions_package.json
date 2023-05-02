@@ -55,7 +55,7 @@
           "component": "activity-point.block.transactions_package",
           "slotName": "main",
           "title": "transactions_package",
-          "blockLayout": "Large Main Lists Mobile"
+          "blockLayout": "App List - Table - Mobile"
         },
         {
           "blockId": "ia",

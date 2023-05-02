@@ -54,7 +54,10 @@ const ErrorBoundary = ({
   if (!error) return children;
 
   let statusCode = get(error, 'response.status');
-  const msg = get(error, 'response.data.message') || undefined;
+  const msg =
+    get(error, 'response.data.error') ||
+    get(error, 'response.data.message') ||
+    undefined;
 
   switch (statusCode) {
     case 404:

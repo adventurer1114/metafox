@@ -54,7 +54,7 @@ class InfoMobileForm extends AbstractForm
                 ->placeholder(__p('group::phrase.fill_in_a_name_for_your_group'))
                 ->yup(
                     Yup::string()
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                         ->maxLength(
                             $maxGroupNameLength,
                             __p('validation.field_must_be_at_most_max_length_characters', [

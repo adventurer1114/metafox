@@ -25,6 +25,7 @@
           "blockId": "n4e",
           "sidebarHeaderName": "backToProfile",
           "title": "Manage Group",
+          "displayViewMore": false,
           "blockProps": {
             "variant": "plained",
             "titleComponent": "h2",
@@ -49,7 +50,7 @@
           "menuName": "groupManagerMenu",
           "pageName": "groups.manage.membership_questions",
           "pageSize": "large",
-          "blockLayout": "App Lists Pending Posts",
+          "blockLayout": "App List Pending Posts",
           "gridLayout": "Group - Rule - Main Card",
           "itemLayout": "Group - Rule - Main Card",
           "contentType": "group",
@@ -62,7 +63,7 @@
           "pageName": "groups.manage.membership_questions",
           "pageSize": "large",
           "title": "set_up_membership_questions",
-          "blockLayout": "App Lists Pending Posts",
+          "blockLayout": "App List Pending Posts",
           "gridLayout": "Group - MemberQuestion - Main Card",
           "itemLayout": "Group - MemberQuestion - Main Card",
           "itemView": "group.itemView.membershipQuestionCard",
@@ -104,20 +105,7 @@
           "blockId": "rgmt",
           "component": "core.block.mainBlock",
           "slotName": "main",
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle2",
-            "titleColor": "textPrimary",
-            "headerStyle": {
-              "pt": 1,
-              "pb": 1
-            },
-            "contentStyle": {
-              "pt": 1,
-              "pb": 1
-            }
-          }
+          "blockLayout": "App List - Mobile"
         }
       ]
     },

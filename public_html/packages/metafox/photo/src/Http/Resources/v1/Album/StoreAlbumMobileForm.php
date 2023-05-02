@@ -5,8 +5,10 @@ namespace MetaFox\Photo\Http\Resources\v1\Album;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Arr;
+use MetaFox\Form\AbstractField;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Form\Mobile\Builder;
+use MetaFox\Form\PrivacyFieldMobileTrait;
 use MetaFox\Photo\Http\Requests\v1\Album\CreateFormRequest;
 use MetaFox\Photo\Models\Album as Model;
 use MetaFox\Photo\Policies\AlbumPolicy;
@@ -15,6 +17,7 @@ use MetaFox\Photo\Support\Facades\Album as FacadesAlbum;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\MetaFoxConstant;
 use MetaFox\Platform\MetaFoxPrivacy;
+use MetaFox\User\Support\Facades\UserEntity;
 use MetaFox\User\Support\Facades\UserPrivacy;
 use MetaFox\Yup\Yup;
 
@@ -34,6 +37,8 @@ use MetaFox\Yup\Yup;
  */
 class StoreAlbumMobileForm extends AbstractForm
 {
+    use PrivacyFieldMobileTrait;
+
     /**
      * @throws AuthorizationException
      * @throws AuthenticationException
@@ -47,7 +52,13 @@ class StoreAlbumMobileForm extends AbstractForm
         $params  = Arr::add($params, 'user_id', $context->entityId());
         $params  = Arr::add($params, 'user_type', $context->entityType());
 
-        policy_authorize(AlbumPolicy::class, 'create', $context);
+        $ownerId = Arr::get($params, 'owner_id');
+        if ($ownerId > 0) {
+            $owner = UserEntity::getById($ownerId)->detail;
+            $this->setOwner($owner);
+        }
+
+        policy_authorize(AlbumPolicy::class, 'create', $context, $this->owner);
         $this->resource = new Model($params);
     }
 
@@ -66,17 +77,18 @@ class StoreAlbumMobileForm extends AbstractForm
             ->action(url_utility()->makeApiUrl('photo-album'))
             ->asPost()
             ->setValue([
-                'privacy'       => $privacy,
-                'owner_id'      => $this->resource->owner_id ?? 0,
-                'text'          => '', // set default value to prevent dirty
-                'title'         => '',
-                'canSetPrivacy' => $context->hasPermissionTo('photo_album.set_privacy'),
+                'privacy'  => $privacy,
+                'owner_id' => $this->resource->owner_id ?? 0,
+                'text'     => '', // set default value to prevent dirty
+                'title'    => '',
             ]);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     protected function initialize(): void
     {
-        $context        = user();
         $basic          = $this->addBasic();
         $minLength      = Settings::get('photo.album.minimum_name_length');
         $maxLength      = Settings::get('photo.album.maximum_name_length', MetaFoxConstant::DEFAULT_MAX_TITLE_LENGTH);
@@ -95,31 +107,32 @@ class StoreAlbumMobileForm extends AbstractForm
                     Yup::string()
                         ->minLength($minLength)
                         ->maxLength($maxLength)
-                        ->required(__p('validation.this_field_is_required'))
+                        ->required(__p('validation.this_field_is_a_required_field'))
                 ),
             Builder::richTextEditor('text')
                 ->required(false)
                 ->returnKeyType('default')
                 ->label(__p('core::phrase.description')),
-            Builder::privacy('privacy')
-                ->label(__p('photo::phrase.album_privacy'))
-                ->description(__p('photo::phrase.description_for_privacy_field'))
-                ->showWhen([
-                    'and',
-                    ['truthy', 'canSetPrivacy'],
-                    [
-                        'or',
-                        [
-                            'falsy',
-                            'owner_id',
-                        ], [
-                            'eq',
-                            'owner_id',
-                            $context->entityId(),
-                        ],
-                    ],
-                ]),
+            $this->buildPrivacyFieldForAlbum(),
             Builder::hidden('owner_id'),
         );
+    }
+
+    /**
+     * @throws AuthenticationException
+     */
+    protected function buildPrivacyFieldForAlbum(): AbstractField
+    {
+        $isDefaultAlbum = FacadesAlbum::isDefaultAlbum($this->resource->album_type);
+        $context        = user();
+
+        if (!$context->hasPermissionTo('photo_album.set_privacy')) {
+            return Builder::hidden('privacy');
+        }
+
+        return $this->buildPrivacyField()
+            ->disabled($isDefaultAlbum)
+            ->label(__p('photo::phrase.album_privacy'))
+            ->description(__p('photo::phrase.description_for_privacy_field'));
     }
 }

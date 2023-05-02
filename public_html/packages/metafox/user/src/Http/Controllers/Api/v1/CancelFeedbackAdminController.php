@@ -3,15 +3,15 @@
 namespace MetaFox\User\Http\Controllers\Api\v1;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
+use MetaFox\Platform\Support\Helper\Pagination;
 use MetaFox\User\Http\Requests\v1\CancelFeedback\Admin\IndexRequest;
-use MetaFox\User\Http\Requests\v1\CancelFeedback\Admin\StoreRequest;
-use MetaFox\User\Http\Requests\v1\CancelFeedback\Admin\UpdateRequest;
 use MetaFox\User\Http\Resources\v1\CancelFeedback\Admin\CancelFeedbackDetail as Detail;
 use MetaFox\User\Http\Resources\v1\CancelFeedback\Admin\CancelFeedbackItemCollection as ItemCollection;
 use MetaFox\User\Http\Resources\v1\User\UserItem;
-use MetaFox\User\Repositories\CancelFeedbackRepositoryInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
+use MetaFox\User\Models\CancelFeedback;
+use MetaFox\User\Repositories\CancelFeedbackAdminRepositoryInterface;
 
 /**
  * | --------------------------------------------------------------------------
@@ -34,16 +34,16 @@ use Prettus\Validator\Exceptions\ValidatorException;
 class CancelFeedbackAdminController extends ApiController
 {
     /**
-     * @var CancelFeedbackRepositoryInterface
+     * @var CancelFeedbackAdminRepositoryInterface
      */
-    public $repository;
+    public CancelFeedbackAdminRepositoryInterface $repository;
 
     /**
      * CancelFeedbackAdminController constructor.
      *
-     * @param CancelFeedbackRepositoryInterface $repository
+     * @param CancelFeedbackAdminRepositoryInterface $repository
      */
-    public function __construct(CancelFeedbackRepositoryInterface $repository)
+    public function __construct(CancelFeedbackAdminRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -58,60 +58,14 @@ class CancelFeedbackAdminController extends ApiController
      */
     public function index(IndexRequest $request): ItemCollection
     {
-        $params = $request->validated();
-        $data   = $this->repository->get($params);
+        $context = user();
+        $params  = $request->validated();
+        $query   = $this->repository->viewFeedbacks($context, $params);
+
+        $limit = Arr::get($params, 'limit', Pagination::DEFAULT_ITEM_PER_PAGE);
+        $data  = $query->paginate($limit);
 
         return new ItemCollection($data);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreRequest $request
-     *
-     * @return Detail
-     * @throws ValidatorException
-     * @group admin/user/feedback
-     */
-    public function store(StoreRequest $request): Detail
-    {
-        $params = $request->validated();
-        $data   = $this->repository->create($params);
-
-        return new Detail($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return Detail
-     * @group admin/user/feedback
-     */
-    public function show(int $id): Detail
-    {
-        $data = $this->repository->find($id);
-
-        return new Detail($data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateRequest $request
-     * @param int           $id
-     *
-     * @return Detail
-     * @throws ValidatorException
-     * @group admin/user/feedback
-     */
-    public function update(UpdateRequest $request, int $id): Detail
-    {
-        $params = $request->validated();
-        $data   = $this->repository->update($params, $id);
-
-        return new Detail($data);
     }
 
     /**
@@ -124,8 +78,13 @@ class CancelFeedbackAdminController extends ApiController
      */
     public function destroy(int $id): JsonResponse
     {
+        /** @var CancelFeedback $item */
+        $item =  $this->repository->find($id);
+
+        $item->delete();
+
         return $this->success([
             'id' => $id,
-        ]);
+        ], [], __p('user::phrase.feedback_deleted_successfully'));
     }
 }

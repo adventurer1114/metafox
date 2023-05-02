@@ -12,11 +12,11 @@ use MetaFox\Platform\Contracts\User;
 class CanLikeItemListener
 {
     /**
-     * @param  User  $user
-     * @param  User  $owner
+     * @param  User|null $user
+     * @param  User      $owner
      * @return ?bool
      */
-    public function handle(User $user, User $owner): ?bool
+    public function handle(?User $user, User $owner): ?bool
     {
         return Event::checkFeedReactingPermission($user, $owner);
     }

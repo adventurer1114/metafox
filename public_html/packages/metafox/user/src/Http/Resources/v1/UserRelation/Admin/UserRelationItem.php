@@ -16,7 +16,7 @@ class UserRelationItem extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request       $request
+     * @param  Request              $request
      * @return array<string, mixed>
      */
     public function toArray($request)
@@ -25,6 +25,14 @@ class UserRelationItem extends JsonResource
             'id'            => $this->resource->entityId(),
             'module_name'   => '',
             'resource_name' => $this->resource->entityType(),
+            'is_custom'     => (bool) $this->resource->is_custom,
+            'is_active'     => $this->resource->is_active,
+            'phrase_var'    => $this->resource->phrase_var,
+            'title'         => __p($this->resource->phrase_var),
+            'avatar'        => $this->resource->avatar,
+            'links'         => [
+                'editItem' => $this->resource->admin_edit_url,
+            ],
         ];
     }
 }

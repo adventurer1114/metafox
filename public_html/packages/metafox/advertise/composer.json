@@ -1,0 +1,45 @@
+{
+    "name": "metafox/advertise",
+    "version": "5.0.0",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "path": "packages/metafox/advertise",
+            "alias": "advertise",
+            "asset": "advertise",
+            "title": "Advertise",
+            "namespace": "MetaFox\\Advertise",
+            "internalUrl": "/advertise",
+            "internalAdminUrl": "/admincp/advertise/setting",
+            "providers": [
+                "MetaFox\\Advertise\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/advertise": "*"
+            },
+            "frontendPaths": [
+                "packages/metafox/advertise"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Advertise\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Advertise\\Tests\\": "tests/"
+        }
+    }
+}

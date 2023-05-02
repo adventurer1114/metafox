@@ -54,7 +54,7 @@ class ViewScope extends BaseScope
     }
 
     /**
-     * @param bool $isViewOwner
+     * @param  bool  $isViewOwner
      *
      * @return ViewScope
      */
@@ -74,7 +74,7 @@ class ViewScope extends BaseScope
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      *
      * @return ViewScope
      */
@@ -94,7 +94,7 @@ class ViewScope extends BaseScope
     }
 
     /**
-     * @param string $view
+     * @param  string  $view
      *
      * @return ViewScope
      */
@@ -111,8 +111,8 @@ class ViewScope extends BaseScope
             return;
         }
 
-        $table       = $model->getTable();
-        $view        = $this->getView();
+        $table = $model->getTable();
+        $view = $this->getView();
         $userContext = $this->getUserContext();
 
         switch ($view) {
@@ -138,7 +138,7 @@ class ViewScope extends BaseScope
 
                         break;
                     default:
-                        $builder->where($this->alias($table, 'is_approved'), '=', Album::IS_APPROVED);
+                          $builder->where($this->alias($table, 'is_approved'), '=', Album::IS_APPROVED);
                         break;
                 }
         }

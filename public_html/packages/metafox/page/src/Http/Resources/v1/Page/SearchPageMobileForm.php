@@ -16,7 +16,7 @@ class SearchPageMobileForm extends AbstractForm
     protected function prepare(): void
     {
         $this->action('/page/search')
-            ->acceptPageParams(['q', 'sort', 'from', 'related_comment_friend_only', 'category_id', 'returnUrl'])
+            ->acceptPageParams(['q', 'sort', 'from', 'related_comment_friend_only', 'category_id', 'returnUrl', 'when'])
             ->setValue([
                 'view' => Browse::VIEW_SEARCH,
             ]);

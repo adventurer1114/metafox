@@ -26,12 +26,14 @@ class VideoFactory extends Factory
      */
     public function definition(): array
     {
+        $text  = $this->faker->text;
+
         return [
             'in_process'      => 0,
             'is_stream'       => 0,
-            'is_featured'     => $this->faker->boolean(10),
+            'is_featured'     => 0,
             'is_sponsor'      => 0,
-            'is_approved'     => $this->faker->boolean(90),
+            'is_approved'     => 1,
             'sponsor_in_feed' => 0,
             'group_id'        => 0,
             'asset_id'        => '',
@@ -40,8 +42,8 @@ class VideoFactory extends Factory
             'user_type'       => 'user',
             'owner_id'        => 1,
             'owner_type'      => 'user',
-            'title'           => $this->faker->sentence,
-            'text'            => $this->faker->text,
+            'title'           => $this->faker->words(4, true),
+            'text'            => $text,
             'video_url'       => 'https://demo.metafox.app/storage/video/2023/2-15/fd175c7b-3837-4b9b-b92b-7de22c4ffb14.MP4',
             'embed_code'      => Str::random(6),
             'file_ext'        => 'mp4',

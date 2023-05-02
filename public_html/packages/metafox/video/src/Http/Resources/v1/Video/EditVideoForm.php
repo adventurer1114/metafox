@@ -38,6 +38,8 @@ class EditVideoForm extends CreateVideoForm
     {
         $context        = user();
         $this->resource = $repository->find($id);
+        $this->setOwner($this->resource->owner);
+
         policy_authorize(VideoPolicy::class, 'update', $context, $this->resource);
     }
 

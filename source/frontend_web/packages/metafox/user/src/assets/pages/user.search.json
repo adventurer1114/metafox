@@ -13,11 +13,12 @@
           "title": "",
           "itemView": "user.itemView.mainCard",
           "canLoadMore": true,
-          "blockLayout": "App Lists",
+          "canLoadSmooth": 1,
+          "blockLayout": "App List",
           "gridLayout": "User - Main Card",
           "emptyPage": "core.block.no_content_with_icon",
           "emptyPageProps": {
-            "title": "no_friends_to_show",
+            "title": "no_members_found",
             "image": "ico-user-circle-o"
           },
           "itemLayout": "User - Main Card"
@@ -71,37 +72,39 @@
       },
       "blocks": [
         {
+          "blockId": "08u5o",
+          "component": "core.block.sidebarAppMobile",
+          "slotName": "main",
+          "title": "",
+          "blockProps": {
+            "variant": "plained",
+            "marginBottom": 2
+          },
+          "contents": [
+            {
+              "name": "core.block.sidebarQuickFilter"
+            }
+          ]
+        },
+        {
           "component": "user.block.userListingBlock",
           "slotName": "main",
+          "title": "search_results",
           "dataSource": {
             "apiParams": "limit=20",
             "apiUrl": "/user"
           },
-          "blockProps": {
-            "variant": "plained",
-            "titleComponent": "h2",
-            "titleVariant": "subtitle1",
-            "titleColor": "text",
-            "noFooter": true,
-            "noHeader": true,
-            "blockStyle": {
-              "mt": 3
-            },
-            "marginBottom": "2"
-          },
-          "gridItemProps": {
-            "xs": 12,
-            "sm": 6,
-            "md": 6,
-            "lg": 6,
-            "xl": 4
-          },
-          "gridContainerProps": {
-            "spacing": 2
-          },
+          "blockLayout": "App List - Mobile",
+          "gridLayout": "User - Main Card",
           "itemView": "user.itemView.mainCard",
           "canLoadMore": true,
-          "blockId": "ma6k4"
+          "canLoadSmooth": 1,
+          "blockId": "ma6k4",
+          "emptyPage": "core.block.no_content_with_icon",
+          "emptyPageProps": {
+            "title": "no_members_found",
+            "image": "ico-user-circle-o"
+          }
         }
       ]
     },

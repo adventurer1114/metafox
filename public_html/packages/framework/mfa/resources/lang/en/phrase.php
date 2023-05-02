@@ -5,7 +5,7 @@ return [
     'authentication'                                      => 'Authentication',
     'authenticator'                                       => 'Authenticator',
     'authenticator_code_is_invalid'                       => 'The authentication code is invalid.',
-    'authenticator_code_is_required'                      => 'The authentication code is required.',
+    'authenticator_code_is_a_required_field'              => 'The authentication code is a required field.',
     'authenticator_code_must_be_a_number_with_six_digits' => 'The authentication code must be a number with 6 digits.',
     'authenticator_login_description'                     => 'Type the 6-digit code that appears in the app.',
     'authenticator_provider_description'                  => 'Recommended method. Use an app like Google Authentication to generate verification codes for more protection.',

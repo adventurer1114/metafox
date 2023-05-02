@@ -131,8 +131,7 @@ interface EventRepositoryInterface extends HasSponsor, HasFeature
     public function toPendingNotifiables(Event $event, User $context): array;
 
     /**
-     * @param  int        $limit
      * @return Collection
      */
-    public function getMissingLocationEvent(int $limit = 10): Collection;
+    public function getMissingLocationEvent(): Collection;
 }

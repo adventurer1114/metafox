@@ -8,14 +8,18 @@ use MetaFox\Platform\Contracts\User;
 
 class UserLogoutListener
 {
-    public function handle(User $user, Request $request): void
+    public function handle(?User $user, Request $request): void
     {
-        $deviceId = $request->get('device_id');
+        $deviceId = $request->get('device_uid');
 
-        if (!$deviceId) {
+        if (!$deviceId || !$user) {
             return;
         }
 
-        resolve(DeviceRepositoryInterface::class)->deleteDeviceById($user, $deviceId);
+        $tokens = resolve(DeviceRepositoryInterface::class)->deleteDeviceById($user, $deviceId);
+
+        if (is_array($tokens)) {
+            app('firebase.fcm')->removeUserDeviceGroup($user->entityId(), $tokens);
+        }
     }
 }

@@ -114,11 +114,11 @@ class RecaptchaV3 implements CaptchaContract
             return ['sometimes', 'nullable'];
         }
 
-        if (null === $this->secret) {
+        if (!$this->secret) {
             return ['sometimes', 'nullable'];
         }
 
-        if (null === $this->siteKey) {
+        if (!$this->siteKey) {
             return ['sometimes', 'nullable'];
         }
 

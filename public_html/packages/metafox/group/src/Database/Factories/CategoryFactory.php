@@ -33,7 +33,6 @@ class CategoryFactory extends Factory
         return [
             'name'      => $this->faker->name,
             'is_active' => 1,
-            'type_id'   => 0, //Todo:  if NamNv confirm
             'parent_id' => null,
         ];
     }

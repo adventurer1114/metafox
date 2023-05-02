@@ -7,7 +7,7 @@ use MetaFox\Platform\Contracts\User;
 
 class GetPrivacyDetailOnOwnerListener
 {
-    public function handle(User $context, User $owner): ?array
+    public function handle(?User $context, User $owner): ?array
     {
         if (!$owner instanceof Page) {
             return null;
@@ -15,7 +15,7 @@ class GetPrivacyDetailOnOwnerListener
 
         $privacyDetail = app('events')->dispatch(
             'activity.get_privacy_detail',
-            [$context, $owner, $owner->privacy],
+            [$context, $owner, $owner->privacy, true],
             true
         );
 

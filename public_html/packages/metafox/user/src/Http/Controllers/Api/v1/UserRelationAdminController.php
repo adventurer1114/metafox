@@ -2,7 +2,9 @@
 
 namespace MetaFox\User\Http\Controllers\Api\v1;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use MetaFox\Form\AbstractForm;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\User\Http\Requests\v1\UserRelation\Admin\IndexRequest;
@@ -13,9 +15,7 @@ use MetaFox\User\Http\Resources\v1\UserRelation\Admin\EditForm;
 use MetaFox\User\Http\Resources\v1\UserRelation\Admin\UserRelationDetail as Detail;
 use MetaFox\User\Http\Resources\v1\UserRelation\Admin\UserRelationItem as Item;
 use MetaFox\User\Http\Resources\v1\UserRelation\Admin\UserRelationItemCollection as ItemCollection;
-use MetaFox\User\Models\UserRelation;
 use MetaFox\User\Repositories\UserRelationRepositoryInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
  * | --------------------------------------------------------------------------
@@ -60,11 +60,12 @@ class UserRelationAdminController extends ApiController
      * @return ItemCollection<Item>
      * @group admin/user/relation
      * @authenticated
+     * @throws AuthenticationException
      */
     public function index(IndexRequest $request): ItemCollection
     {
         $params = $request->validated();
-        $data   = $this->repository->paginate($params['limit'] ?? 100);
+        $data   = $this->repository->viewRelationShips(user(), $params);
 
         return new ItemCollection($data);
     }
@@ -74,33 +75,18 @@ class UserRelationAdminController extends ApiController
      *
      * @param StoreRequest $request
      *
-     * @return Detail
-     * @throws ValidatorException
+     * @return JsonResponse
+     * @throws AuthenticationException
      * @group admin/user/relation
      * @authenticated
      */
-    public function store(StoreRequest $request): Detail
+    public function store(StoreRequest $request): JsonResponse
     {
         $params = $request->validated();
-        $data   = $this->repository->create($params);
+        $data   = $this->repository->createRelationShip(user(), $params);
+        $this->navigate($data->admin_browse_url);
 
-        return new Detail($data);
-    }
-
-    /**
-     * View user relationship.
-     *
-     * @param int $id
-     *
-     * @return Detail
-     * @group admin/user/relation
-     * @authenticated
-     */
-    public function show(int $id): Detail
-    {
-        $data = $this->repository->find($id);
-
-        return new Detail($data);
+        return $this->success(new Detail($data), [], __p('user::phrase.relationship_has_been_created_successfully'));
     }
 
     /**
@@ -109,17 +95,19 @@ class UserRelationAdminController extends ApiController
      * @param UpdateRequest $request
      * @param int           $id
      *
-     * @return Detail
-     * @throws ValidatorException
+     * @return JsonResponse
+     * @throws AuthenticationException
      * @group admin/user/relation
      * @authenticated
      */
-    public function update(UpdateRequest $request, int $id): Detail
+    public function update(UpdateRequest $request, int $id): JsonResponse
     {
         $params = $request->validated();
-        $data   = $this->repository->update($params, $id);
+        Arr::set($params, 'id', $id);
+        $data = $this->repository->updateRelationShip(user(), $params);
+        $this->navigate($data->admin_browse_url);
 
-        return new Detail($data);
+        return $this->success(new Detail($data), [], __p('user::phrase.relationship_has_been_updated_successfully'));
     }
 
     /**
@@ -128,11 +116,14 @@ class UserRelationAdminController extends ApiController
      * @param int $id
      *
      * @return JsonResponse
+     * @throws AuthenticationException
      * @group admin/user/relation
      * @authenticated
      */
     public function destroy(int $id): JsonResponse
     {
+        $this->repository->deleteRelation(user(), $id);
+
         return $this->success([
             'id' => $id,
         ]);
@@ -147,7 +138,7 @@ class UserRelationAdminController extends ApiController
      * @group admin/user/relation
      * @authenticated
      */
-    public function editForm(int $id): AbstractForm
+    public function edit(int $id): AbstractForm
     {
         return new EditForm($this->repository->find($id));
     }
@@ -158,8 +149,21 @@ class UserRelationAdminController extends ApiController
      * @group admin/user/relation
      * @authenticated
      */
-    public function createForm(): AbstractForm
+    public function create(): AbstractForm
     {
-        return new CreateForm(new UserRelation());
+        return new CreateForm();
+    }
+
+    /**
+     * Update active status.
+     *
+     * @param  int          $id
+     * @return JsonResponse
+     */
+    public function toggleActive(int $id): JsonResponse
+    {
+        $item = $this->repository->activeRelation($id);
+
+        return $this->success([new Detail($item)], [], __p('core::phrase.already_saved_changes'));
     }
 }

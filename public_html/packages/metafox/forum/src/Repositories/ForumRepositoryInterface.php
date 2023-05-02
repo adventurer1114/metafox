@@ -103,12 +103,12 @@ interface ForumRepositoryInterface
     public function order(User $context, array $orderIds): bool;
 
     /**
-     * @param  User $context
-     * @param  int  $id
-     * @param  bool $closed
-     * @return bool
+     * @param  User  $context
+     * @param  int   $id
+     * @param  bool  $closed
+     * @return Forum
      */
-    public function close(User $context, int $id, bool $closed): bool;
+    public function close(User $context, int $id, bool $closed): ?Forum;
 
     /**
      * @param  int   $forumId
@@ -156,4 +156,10 @@ interface ForumRepositoryInterface
      * @return Paginator
      */
     public function paginateForums(array $attributes = []): Paginator;
+
+    /**
+     * @param  int $level
+     * @return int
+     */
+    public function countActiveForumByLevel(int $level): int;
 }

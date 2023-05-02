@@ -87,7 +87,7 @@ class CreateForm extends AbstractForm
             ->asPost()
             ->setBackProps(__p('forum::phrase.forums'))
             ->setValue([
-                'is_subscribed' => $context->hasPermissionTo('forum_thread.subscribe'),
+                'is_subscribed' => (int) $this->canSubscribe(),
                 'is_wiki'       => 0,
                 'owner_id'      => $this->owner->entityId(),
             ]);
@@ -122,6 +122,7 @@ class CreateForm extends AbstractForm
             Builder::hidden('owner_id'),
             Builder::choice('forum_id')
                 ->required()
+                ->alwaysShow()
                 ->label(__p('forum::phrase.forum'))
                 ->options($this->getForums())
                 ->yup($yup)
@@ -170,7 +171,7 @@ class CreateForm extends AbstractForm
 
         $this->attachItem($basic);
 
-        $canSubscribe = $context->hasPermissionTo('forum_thread.subscribe');
+        $canSubscribe = $this->canSubscribe();
 
         $subscribeField = match ($canSubscribe) {
             true => Builder::switch('is_subscribed')
@@ -206,6 +207,17 @@ class CreateForm extends AbstractForm
         $this->setHiddenFieldById($basic);
 
         $this->addDefaultFooter();
+    }
+
+    protected function canSubscribe(): bool
+    {
+        $context = user();
+
+        if ($this->resource instanceof ForumThread && $this->resource?->id) {
+            return policy_check(ForumThreadPolicy::class, 'subscribe', $context, $this->resource);
+        }
+
+        return $context->hasPermissionTo('forum_thread.auto_approved') && $context->hasPermissionTo('forum_thread.subscribe');
     }
 
     protected function attachItem(Section $basic): void

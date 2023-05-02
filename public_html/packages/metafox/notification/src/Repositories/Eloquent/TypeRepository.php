@@ -264,4 +264,13 @@ class TypeRepository extends AbstractRepository implements TypeRepositoryInterfa
             ]);
         }
     }
+
+    public function getAllNotificationType(): array
+    {
+        return $this->getModel()
+            ->newModelQuery()
+            ->get()
+            ->pluck('type')
+            ->toArray();
+    }
 }

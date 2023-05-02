@@ -66,6 +66,8 @@ class FeedObserver
             true
         );
 
+        app('events')->dispatch('group.announcement_deleted', [$model], true);
+
         $model->history()->delete();
 
         $model->pinned()->delete();

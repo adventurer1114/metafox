@@ -133,6 +133,13 @@ export interface ItemConfigShape {
     variant?: TypographyVariant;
     color?: TextColorVariant;
   };
+  subInfo?: {
+    sx?: SxProps;
+    lines?: MaxLinesVariant;
+    component?: React.ElementType;
+    variant?: TypographyVariant;
+    color?: TextColorVariant;
+  };
 }
 
 export interface UserPreferenceConfig {
@@ -311,6 +318,7 @@ export interface LinkShape {
   embed_code?: string;
   host?: string;
   link?: string;
+  is_preview_hidden?: number | boolean;
 }
 
 export interface AlertParams {
@@ -555,8 +563,14 @@ export interface BlockViewProps extends BlockStyleProps, ConfiguredLayout {
   moduleName: string;
   resourceName?: string;
   actionName?: string;
+  preventRefreshWhenEmpty?: boolean;
+  actionSortName?: string;
 }
 
+type PropsCollapsible = {
+  limit: number;
+  as: string;
+};
 export interface PagingState {
   ids: string[];
   page: number;
@@ -573,6 +587,7 @@ export interface PagingState {
   pagesOffset?: Record<string, any>;
   noResultProps?: Record<string, any>;
   paginationType?: 'pagination' | 'loadmore';
+  collapsible?: PropsCollapsible;
 }
 
 export interface ListViewBlockProps
@@ -703,6 +718,7 @@ export interface SmartGridApi {
   toggleSelectAll(): void;
   refresh(): void;
   orderRows(order_ids: number[]): void;
+  refreshSelection(): void;
 }
 
 export type ItemLocalAction<
@@ -819,7 +835,7 @@ export type StatusComposerRef = {
 };
 
 export type StatusComposerControlProps = {
-  hideRemove?: boolean;
+  isEdit?: boolean;
   disabled?: boolean;
   value: any;
   editorRef: React.MutableRefObject<Editor>;
@@ -870,6 +886,8 @@ export type BasicFileItem = {
   download_url?: string;
   extension?: string;
   text?: string;
+  name?: string;
+  description?: string;
   thumbnail_sizes?: Array<any>;
 };
 
@@ -914,6 +932,7 @@ export type FormSubmitConfig<T = Record<string, any>> = {
   failureAction?: string;
   preventReset?: boolean;
   formSchema?: FormSchemaShape;
+  keepPaginationData?: boolean;
 };
 
 export type FormSubmitAction = LocalAction<

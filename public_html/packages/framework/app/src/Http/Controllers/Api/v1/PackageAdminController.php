@@ -13,9 +13,11 @@ use MetaFox\App\Http\Requests\v1\Package\Admin\StoreRequest;
 use MetaFox\App\Http\Requests\v1\Package\Admin\UpdateRequest;
 use MetaFox\App\Http\Resources\v1\Package\Admin\EditPackageForm;
 use MetaFox\App\Http\Resources\v1\Package\Admin\ImportPackageForm;
+use MetaFox\App\Http\Resources\v1\Package\Admin\MakePackageForm;
 use MetaFox\App\Http\Resources\v1\Package\Admin\PackageDetail as Detail;
 use MetaFox\App\Http\Resources\v1\Package\Admin\PackageItem;
 use MetaFox\App\Http\Resources\v1\Package\Admin\PackageItemCollection;
+use MetaFox\App\Http\Resources\v1\Package\Admin\PurchasedPackageItemCollection;
 use MetaFox\App\Models\Package;
 use MetaFox\App\Repositories\PackageRepositoryInterface;
 use MetaFox\App\Support\Browse\Scopes\Package\TypeScope;
@@ -25,7 +27,6 @@ use MetaFox\App\Support\PackageInstaller;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
 use MetaFox\Platform\Http\Requests\v1\ActiveRequest;
 use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
-use MetaFox\App\Http\Resources\v1\Package\Admin\MakePackageForm;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -122,7 +123,9 @@ class PackageAdminController extends ApiController
 
     public function purchased(): JsonResponse
     {
-        return $this->success($this->store->purchased());
+        $data = $this->store->purchased();
+
+        return $this->success(new PurchasedPackageItemCollection($data));
     }
 
     /**
@@ -148,7 +151,7 @@ class PackageAdminController extends ApiController
     public function export(int $id): BinaryFileResponse
     {
         $package = $this->repository->find($id);
-        $channel =  config('app.mfox_app_channel');
+        $channel = config('app.mfox_app_channel');
 
         $named = sprintf('%s-%s.zip', preg_replace('/(\W+)/m', '-', $package->name), $package->version);
 
@@ -171,17 +174,24 @@ class PackageAdminController extends ApiController
 
         $package = $this->repository->find($id);
 
-        $package->is_active = $params['active'] ? 1 : 0;
+        $active = $params['active'] ? 1 : 0;
+
+        $package->is_active = $active;
 
         $package->save();
 
-        Log::channel('dev')->info(sprintf('active= %d package= %d', $params['active'], $id));
+        Log::channel('dev')->info(sprintf('active= %d package= %d', $active, $id));
 
         $package->refresh();
 
         Artisan::call('optimize:clear');
 
-        return $this->success(new Detail($package));
+        $message = match ($active) {
+            1       => __p('app::phrase.package_actived_successfully'),
+            default => __p('app::phrase.package_inactived_successfully'),
+        };
+
+        return $this->success(new Detail($package), [], $message);
     }
 
     public function formImport(): JsonResponse
@@ -265,8 +275,7 @@ class PackageAdminController extends ApiController
      */
     public function destroy(int $id): JsonResponse
     {
-        /** @var Package $package */
-        $package = Package::query()->findOrFail($id);
+        $package = $this->repository->find($id);
 
         if ($package->is_installed) {
             throw new InvalidArgumentException(__p('app::phrase.failed_delete_not_uninstall_app'));

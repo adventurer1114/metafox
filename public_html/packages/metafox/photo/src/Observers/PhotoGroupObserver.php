@@ -27,8 +27,14 @@ class PhotoGroupObserver
 
     public function updated(PhotoGroup $model): void
     {
-        $items = $model->items;
+        if ($model->wasChanged('privacy')) {
+            $this->updatedPrivacyItem($model);
+        }
+    }
 
+    protected function updatedPrivacyItem(PhotoGroup $model): void
+    {
+        $items = $model->items;
         foreach ($items as $item) {
             $detail = $item->detail;
 

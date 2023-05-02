@@ -4,13 +4,15 @@ namespace MetaFox\SEO\Repositories\Eloquent;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use MetaFox\Platform\Contracts\HasAvatarMorph;
+use MetaFox\Platform\Contracts\HasCoverMorph;
+use MetaFox\Platform\Contracts\HasUserProfile;
 use MetaFox\Platform\Facades\Settings;
 use MetaFox\Platform\PackageManager;
 use MetaFox\Platform\Repositories\AbstractRepository;
 use MetaFox\SEO\Models\Meta;
 use MetaFox\SEO\Repositories\MetaRepositoryInterface;
 use MetaFox\SEO\SeoMetaData;
-
 
 /**
  * stub: /packages/repositories/eloquent_repository.stub.
@@ -92,22 +94,32 @@ class MetaRepository extends AbstractRepository implements MetaRepositoryInterfa
 
         $ogTitle     = rtrim(trim($title ? $title : $siteTitle), '.');
         $title       = $title ? $title . " {$delimiter} " . $siteName : $siteName;
-        $image = null;
+        $image       = null;
         $keywords    = $resource?->keywords;
-        $images = $resource?->images;
+        $images      = $resource?->images;
+        $profile     = $resource instanceof HasUserProfile ? $resource->profile : $resource;
 
-        $preferSizes = ['500', '240', '200', '1024','150', '200x200'];
+        if ($profile instanceof HasCoverMorph) {
+            $images = $resource->covers;
+        }
 
-        if(is_array($images)){
-            foreach($preferSizes as $size){
-                if(isset($images[$size])){
+        if ($profile instanceof HasAvatarMorph) {
+            $images = $resource->avatars;
+        }
+
+        // $preferSizes = ['500', '240', '200', '1024','150', '200x200'];
+        $preferSizes = ['1024', 'origin'];
+
+        if (is_array($images)) {
+            foreach ($preferSizes as $size) {
+                if (isset($images[$size])) {
                     $image = $images[$size];
                     break;
                 }
             }
         }
 
-        if(!$image){
+        if (!$image) {
             $image       = $resource?->image;
         }
 
@@ -156,7 +168,7 @@ class MetaRepository extends AbstractRepository implements MetaRepositoryInterfa
             'og:description'  => $description,
             'og:video'        => null,
             'twitter:card'    => 'summary',
-            'twitter:image'    => $image,
+            'twitter:image'   => $image,
             'robots'          => '',
             // @link \MetaFox\SEO\Http\Controllers\Api\v1\MetaAdminController::translate
             'meta:name'   => $meta?->name,
@@ -200,7 +212,7 @@ class MetaRepository extends AbstractRepository implements MetaRepositoryInterfa
 
         $header_html = [];
 
-        foreach (['keywords', 'description', 'twitter:card','twitter:image', 'robots'] as $nameOrUrl) {
+        foreach (['keywords', 'description', 'twitter:card', 'twitter:image', 'robots'] as $nameOrUrl) {
             if (!$data[$nameOrUrl]) {
                 continue;
             }
@@ -312,7 +324,7 @@ class MetaRepository extends AbstractRepository implements MetaRepositoryInterfa
         }, array_values($rows));
     }
 
-    public function createSampleMeta(string $name, string $url=null): Meta
+    public function createSampleMeta(string $name, string $url = null): Meta
     {
         $name = normalize_seo_meta_name($name);
 

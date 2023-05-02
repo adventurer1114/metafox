@@ -6,7 +6,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use MetaFox\Hashtag\Http\Requests\v1\Hashtag\IndexRequest;
 use MetaFox\Hashtag\Http\Requests\v1\Hashtag\SuggestionRequest;
-use MetaFox\Hashtag\Http\Requests\v1\Hashtag\TrendingRequest;
 use MetaFox\Hashtag\Http\Resources\v1\Hashtag\HashtagItemCollection as ItemCollection;
 use MetaFox\Hashtag\Repositories\TagRepositoryInterface;
 use MetaFox\Platform\Http\Controllers\Api\ApiController;
@@ -42,21 +41,6 @@ class HashtagController extends ApiController
      * @throws AuthenticationException
      */
     public function index(IndexRequest $request): JsonResponse
-    {
-        $data = $this->repository->viewHashtags(user(), $request->validated());
-
-        return $this->success(new ItemCollection($data), [], '');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param TrendingRequest $request
-     *
-     * @return JsonResponse
-     * @throws AuthenticationException
-     */
-    public function trending(TrendingRequest $request): JsonResponse
     {
         $data = $this->repository->viewHashtags(user(), $request->validated());
 

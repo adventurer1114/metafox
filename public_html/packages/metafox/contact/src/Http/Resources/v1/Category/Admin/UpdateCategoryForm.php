@@ -32,4 +32,9 @@ class UpdateCategoryForm extends StoreCategoryForm
                 'name_url'  => $model->name_url,
             ]);
     }
+
+    protected function isDisabled(): bool
+    {
+        return true;
+    }
 }

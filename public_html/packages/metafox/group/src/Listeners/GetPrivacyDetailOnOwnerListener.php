@@ -8,7 +8,7 @@ use MetaFox\Platform\Contracts\User;
 
 class GetPrivacyDetailOnOwnerListener
 {
-    public function handle(User $context, User $owner): ?array
+    public function handle(?User $context, User $owner): ?array
     {
         if (!$owner instanceof Group) {
             return null;
@@ -18,7 +18,7 @@ class GetPrivacyDetailOnOwnerListener
 
         $privacyDetail = app('events')->dispatch(
             'activity.get_privacy_detail',
-            [$context, $owner, $owner->privacy_item],
+            [$context, $owner, $owner->privacy_item, true],
             true
         );
 

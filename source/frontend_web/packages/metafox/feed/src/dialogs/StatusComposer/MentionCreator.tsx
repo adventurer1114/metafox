@@ -9,6 +9,7 @@ import { APP_FRIEND } from '@metafox/friend';
 import { compactData, getImageSrc } from '@metafox/utils';
 import React from 'react';
 import MentionSuggestionEntry from './MentionSuggestionEntry';
+import { debounce } from 'lodash';
 
 const MAX_DISPLAY = 5;
 
@@ -53,12 +54,15 @@ function Suggestion({ As, parentUser }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceSearch = React.useCallback(debounce(onSearchChange, 200), []);
+
   return (
     <As
       open={Boolean(open && suggestions.length)}
       onOpenChange={onOpenChange}
       suggestions={suggestions}
-      onSearchChange={onSearchChange}
+      onSearchChange={debounceSearch}
       entryComponent={MentionSuggestionEntry}
       onAddMention={() => {
         // get the mention object selected
