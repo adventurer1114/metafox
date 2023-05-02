@@ -1,0 +1,42 @@
+{
+    "name": "metafox/cache",
+    "version": "5.0.2",
+    "description": "Cache",
+    "keyword": "phpFox",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 2,
+            "alias": "cache",
+            "asset": "cache",
+            "namespace": "MetaFox\\Cache",
+            "path": "packages/framework/cache",
+            "title": "Cache",
+            "providers": [
+                "MetaFox\\Cache\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": null,
+            "frontend": [],
+            "internalUrl": "/cache",
+            "internalAdminUrl": "/admincp/cache/setting",
+            "type": "app",
+            "mobile": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Cache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Cache\\Tests\\": "tests/"
+        }
+    }
+}

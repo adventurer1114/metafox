@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Default the document root folder is the parent of the public folder.
+    # If web server uses the public folder as the web root, update RewriteBase to /
+    RewriteBase /public/
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle requests of Installation
+    RewriteRule ^install/api/(.*) install.php$1 [NC,L]
+    RewriteRule ^install$  install/ [NC,L,R=301]
+
+    # Handle API request
+    RewriteRule ^(api|chatplus|oauth)/(.*) index.php/$1$2 [NC,L]
+
+    # Redirect to Frontend
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ web/$1 [L]
+
+</IfModule>

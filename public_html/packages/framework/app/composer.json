@@ -1,0 +1,44 @@
+{
+    "name": "metafox/app",
+    "version": "5.0.2",
+    "description": "Apps",
+    "keyword": "phpFox, MetaFox, Cache",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 2,
+            "alias": "app",
+            "asset": "app",
+            "namespace": "MetaFox\\App",
+            "path": "packages/framework/app",
+            "title": "Apps",
+            "providers": [
+                "MetaFox\\App\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": null,
+            "frontend": {
+                "@metafox/app": "5.0.1"
+            },
+            "internalUrl": "/admincp/app",
+            "internalAdminUrl": "",
+            "type": "app",
+            "mobile": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\App\\Tests\\": "tests/"
+        }
+    }
+}

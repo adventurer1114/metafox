@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-group-components-MyContent-PendingReviewCard-LoadingSkeleton"],{74941:function(e,t,n){n.r(t);var a=n(84417);t.default=a.Z}}]);

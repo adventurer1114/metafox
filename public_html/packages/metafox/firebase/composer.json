@@ -1,0 +1,42 @@
+{
+    "name": "metafox/firebase",
+    "version": "5.0.2",
+    "description": "metafox/firebase",
+    "keyword": "metafox/firebase",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "alias": "firebase",
+            "asset": "firebase",
+            "namespace": "MetaFox\\Firebase",
+            "path": "packages/metafox/firebase",
+            "title": "Firebase",
+            "providers": [
+                "MetaFox\\Firebase\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {
+            },
+            "frontend": {
+                "@metafox/firebase": "5.0.1"
+            },
+            "internalAdminUrl": "/admincp/firebase/setting"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Firebase\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Firebase\\Tests\\": "tests/"
+        }
+    }
+}

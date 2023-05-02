@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-photo-blocks-ListAlbum-Block"],{32831:function(e,t,o){o.r(t);var l=o(85597);t.default=(0,l.j4Z)({name:"PhotoAlbumListingBlock",extendBlock:"core.block.listview",defaults:{title:"Albums",itemView:"photo_album.itemView.mainCard"}})}}]);

@@ -1,0 +1,44 @@
+{
+    "name": "metafox/sms",
+    "version": "5.0.2",
+    "description": "SMS Gateway",
+    "keyword": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 9,
+            "alias": "sms",
+            "asset": "sms",
+            "namespace": "MetaFox\\Sms",
+            "path": "packages/framework/sms",
+            "title": "SMS Gateway",
+            "providers": [
+                "MetaFox\\Sms\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": null,
+            "frontend": [],
+            "internalUrl": "/sms",
+            "internalAdminUrl": "/admincp/sms/setting",
+            "type": "app",
+            "mobile": [],
+            "store_id": 0,
+            "store_url": null
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Sms\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Sms\\Tests\\": "tests/"
+        }
+    }
+}

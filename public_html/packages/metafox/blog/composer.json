@@ -1,0 +1,45 @@
+{
+    "name": "metafox/blog",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "path": "packages/metafox/blog",
+            "alias": "blog",
+            "asset": "blog",
+            "title": "Blogs",
+            "namespace": "MetaFox\\Blog",
+            "internalUrl": "/blog",
+            "internalAdminUrl": "/admincp/blog/setting",
+            "providers": [
+                "MetaFox\\Blog\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/blog": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/blog"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Blog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Blog\\Tests\\": "tests/"
+        }
+    }
+}

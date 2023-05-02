@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-forum-blocks-ForumListing-Block"],{87069:function(e,t,a){a.r(t);var o=a(85597);t.default=(0,o.j4Z)({extendBlock:"core.block.listview",name:"forums",defaults:{itemView:"forum.itemView.mainCard"}})}}]);

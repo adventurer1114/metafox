@@ -1,0 +1,345 @@
+<?php
+
+namespace MetaFox\ActivityPoint\Repositories\Eloquent;
+
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
+use MetaFox\ActivityPoint\Models\PackagePurchase;
+use MetaFox\ActivityPoint\Models\PointPackage as Model;
+use MetaFox\ActivityPoint\Notifications\PurchasePackageFailedNotification;
+use MetaFox\ActivityPoint\Notifications\PurchasePackageSuccessNotification;
+use MetaFox\ActivityPoint\Policies\PackagePolicy;
+use MetaFox\ActivityPoint\Repositories\PointPackageRepositoryInterface;
+use MetaFox\ActivityPoint\Repositories\PurchasePackageRepositoryInterface;
+use MetaFox\ActivityPoint\Support\ActivityPoint as ActivityPointSupport;
+use MetaFox\ActivityPoint\Support\Facade\ActivityPoint;
+use MetaFox\Payment\Support\Facades\Payment;
+use MetaFox\Platform\Contracts\User;
+use MetaFox\Platform\MetaFoxConstant;
+use MetaFox\Platform\Repositories\AbstractRepository;
+use MetaFox\Platform\Support\Browse\Scopes\SearchScope;
+use MetaFox\Platform\Support\Browse\Scopes\SortScope;
+use MetaFox\Platform\Traits\Helpers\InputCleanerTrait;
+
+/**
+ * Class PointPackageRepository.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @method Model find($id, $columns = ['*'])
+ * @method Model getModel()
+ */
+class PointPackageRepository extends AbstractRepository implements PointPackageRepositoryInterface
+{
+    use InputCleanerTrait;
+
+    public function model(): string
+    {
+        return Model::class;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function viewPackages(User $context, array $attributes): Paginator
+    {
+        policy_authorize(PackagePolicy::class, 'viewAny', $context);
+
+        $sort     = $attributes['sort'];
+        $sortType = $attributes['sort_type'];
+        $search   = $attributes['q'] ?? '';
+
+        $query     = $this->getModel()->newModelQuery();
+        $sortScope = new SortScope();
+        $sortScope->setSort($sort)->setSortType($sortType);
+
+        if ($search != '') {
+            $query = $query->addScope(new SearchScope($search, ['title']));
+        }
+
+        return $query
+            ->addScope($sortScope)
+            ->where('is_active', '=', 1)
+            ->paginate($attributes['limit']);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function viewPackage(User $context, int $id): Model
+    {
+        $package = $this->find($id);
+        policy_authorize(PackagePolicy::class, 'view', $context);
+
+        return $package;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function purchasePackage(User $context, int $id, array $attributes): array
+    {
+        $package = $this->find($id);
+
+        policy_authorize(PackagePolicy::class, 'purchase', $context, $package);
+
+        $purchase  = $this->initPurchase($context, $package, $attributes);
+        $returnUrl = url_utility()->makeApiFullUrl('activitypoint') . "?purchase_id={$purchase->entityId()}";
+
+        // Init order them place order
+        $order = Payment::initOrder($purchase);
+        $data  = Payment::placeOrder($order, $purchase->gateway_id, [
+            'return_url' => $returnUrl,
+            'cancel_url' => $returnUrl,
+        ]);
+
+        return [
+            'url' => Arr::get($data, 'gateway_redirect_url', null),
+        ];
+    }
+
+    /**
+     * @param  User                   $context
+     * @param  array<string, mixed>   $attributes
+     * @return Paginator
+     * @throws AuthorizationException
+     */
+    public function viewPackagesAdmin(User $context, array $attributes): Paginator
+    {
+        policy_authorize(PackagePolicy::class, 'viewAny', $context);
+
+        $sort     = $attributes['sort'];
+        $sortType = $attributes['sort_type'];
+        $search   = $attributes['q'] ?? '';
+
+        $query     = $this->getModel()->newModelQuery();
+        $sortScope = new SortScope();
+        $sortScope->setSort($sort)->setSortType($sortType);
+
+        if ($search != '') {
+            $query = $query->addScope(new SearchScope($search, ['title']));
+        }
+
+        return $query
+            ->addScope($sortScope)
+            ->paginate($attributes['limit']);
+    }
+
+    /**
+     * @param  User                   $context
+     * @param  array<string, mixed>   $attributes
+     * @return Model
+     * @throws AuthorizationException
+     */
+    public function createPackage(User $context, array $attributes): Model
+    {
+        policy_authorize(PackagePolicy::class, 'create', $context);
+
+        if ($attributes['temp_file'] > 0) {
+            $tempFile                    = upload()->getFile($attributes['temp_file']);
+            $attributes['image_file_id'] = $tempFile->id;
+
+            // Delete temp file after done
+            upload()->rollUp($attributes['temp_file']);
+        }
+
+        $attributes['title'] = $this->cleanTitle($attributes['title']);
+
+        $package = new Model();
+        $package->fill($attributes);
+        $package->save();
+
+        return $package;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function updatePackage(User $context, int $id, array $attributes): Model
+    {
+        /** @var Model $package */
+        $package = $this->find($id);
+        policy_authorize(PackagePolicy::class, 'update', $context, $package);
+
+        if ($attributes['temp_file'] > 0) {
+            $tempFile                    = upload()->getFile($attributes['temp_file']);
+            $attributes['image_file_id'] = $tempFile->id;
+
+            // Delete temp file after done
+            upload()->rollUp($attributes['temp_file']);
+        }
+
+        $package->fill($attributes);
+        $package->save();
+
+        return $package->refresh();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function deletePackage(User $context, int $id): bool
+    {
+        /** @var Model $package */
+        $package = $this->find($id);
+        policy_authorize(PackagePolicy::class, 'delete', $context, $package);
+
+        return (bool) $this->delete($id);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function activatePackage(User $context, int $id): Model
+    {
+        /** @var Model $package */
+        $package = $this->find($id);
+        policy_authorize(PackagePolicy::class, 'update', $context, $package);
+
+        $package->update(['is_active' => 1]);
+
+        return $package->refresh();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function deactivatePackage(User $context, int $id): Model
+    {
+        /** @var Model $package */
+        $package = $this->find($id);
+        policy_authorize(PackagePolicy::class, 'update', $context, $package);
+
+        $package->update(['is_active' => 0]);
+
+        return $package->refresh();
+    }
+
+    /**
+     * @param  User                 $context
+     * @param  Model                $package
+     * @param  array<string, mixed> $attributes
+     * @return PackagePurchase
+     */
+    public function initPurchase(User $context, Model $package, array $attributes): PackagePurchase
+    {
+        $userCurrency = app('currency')->getUserCurrencyId($context);
+
+        $params = [
+            'user_id'     => $context->entityId(),
+            'user_type'   => $context->entityType(),
+            'package_id'  => $package->entityId(),
+            'status'      => PackagePurchase::STATUS_INIT,
+            'price'       => Arr::get($package->price, $userCurrency, Arr::first($package->price)),
+            'currency_id' => $userCurrency,
+            'gateway_id'  => Arr::get($attributes, 'payment_gateway', null),
+            'points'      => $package->amount,
+        ];
+
+        $purchase = $this->getPurchasePackageRepository()->getModel();
+        $purchase->fill($params);
+        $purchase->save();
+
+        return $purchase;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function onSuccessPurchasePackage(PackagePurchase $purchase): void
+    {
+        $user    = $purchase->user;
+        $package = $purchase->package;
+
+        if (!$user instanceof User) {
+            return;
+        }
+
+        if (!$package instanceof Model) {
+            return;
+        }
+
+        // Add the amount to user's total points
+        $extra = [
+            'module_id'  => 'activitypoint',
+            'package_id' => 'metafox/activity-point',
+            'action'     => __p('activitypoint::phrase.you_bought_a_point_package'),
+        ];
+        ActivityPoint::addPoints($user, $user, $package->amount, ActivityPointSupport::TYPE_BOUGHT, $extra);
+
+        $package->incrementTotalPurchase();
+
+        $purchase->update(['status' => PackagePurchase::STATUS_SUCCESS]);
+
+        Notification::send($user, new PurchasePackageSuccessNotification($purchase));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function onFailedPurchasePackage(PackagePurchase $purchase): void
+    {
+        $user    = $purchase->user;
+        $package = $purchase->package;
+
+        if (!$user instanceof User) {
+            return;
+        }
+
+        if (!$package instanceof Model) {
+            return;
+        }
+
+        $purchase->update(['status' => PackagePurchase::STATUS_FAILED]);
+
+        Notification::send($user, new PurchasePackageFailedNotification($purchase));
+    }
+
+    protected function getPurchasePackageRepository(): PurchasePackageRepositoryInterface
+    {
+        return resolve(PurchasePackageRepositoryInterface::class);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPurchasePackageMessage(int $id): array
+    {
+        $initData = [
+            'init', //status default
+            MetaFoxConstant::EMPTY_STRING, //message default
+        ];
+
+        try {
+            $purchase = $this->getPurchasePackageRepository()->find($id);
+
+            return match ($purchase->status) {
+                PackagePurchase::STATUS_SUCCESS => [
+                    'success',
+                    __p('activitypoint::phrase.your_point_are_updated'),
+                ],
+                PackagePurchase::STATUS_FAILED => [
+                    'failed',
+                    __p('activitypoint::phrase.purchase_package_fail'),
+                ],
+                default => [
+                    'init',
+                    __p('activitypoint::phrase.purchase_is_being_processed'),
+                ],
+            };
+        } catch (\Exception $e) {
+            Log::info("No purchase with ID:  $id found");
+            Log::info($e->getMessage());
+        }
+
+        return $initData;
+    }
+}

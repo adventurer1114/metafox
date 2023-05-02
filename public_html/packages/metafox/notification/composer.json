@@ -1,0 +1,43 @@
+{
+    "name": "metafox/notification",
+    "description": "Notification",
+    "version": "5.0.2",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "alias": "notification",
+            "asset": "notification",
+            "path": "packages/metafox/notification",
+            "title": "Notification",
+            "namespace": "MetaFox\\Notification",
+            "internalAdminUrl": "/admincp/notification/type/browse",
+            "providers": [
+                "MetaFox\\Notification\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/notification": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/notification"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Notification\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Notification\\Tests\\": "tests/"
+        }
+    }
+}

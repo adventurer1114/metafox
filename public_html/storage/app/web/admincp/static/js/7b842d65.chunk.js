@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-blog-blocks-ProfileBlogs-Block"],{10987:function(e,l,o){o.r(l);var t=o(85597);l.default=(0,t.j4Z)({name:"ProfileBlogs",extendBlock:"core.block.listview",defaults:{contentType:"blog",dataSource:{apiUrl:"/blog"},title:"Blogs",itemView:"blog.itemView.mainCard"}})}}]);

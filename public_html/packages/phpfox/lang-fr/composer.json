@@ -1,0 +1,43 @@
+{
+    "name": "phpfox/lang-fr",
+    "version": "1.0.0",
+    "description": "phpfox/lang-fr",
+    "keyword": "phpfox/lang-fr",
+    "authors": [
+        {
+            "name": "lazardeveloperobr@gmail.com",
+            "homepage": "http://triggerhill.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "title": "French",
+            "alias": "lang-fr",
+            "asset": "lang-fr",
+            "namespace": "PhpFox\\LangFr",
+            "path": "packages/phpfox/lang-fr",
+            "type": "language",
+            "providers": [
+                "PhpFox\\LangFr\\Providers\\PackageServiceProvider"
+            ],
+            "internalAdminUrl": "/admincp/localize/language/browse",
+            "language": {
+                "name": "French",
+                "language_code": "fr",
+                "charset": "utf8"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpFox\\LangFr\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "PhpFox\\LangFr\\Tests\\": "tests/"
+        }
+    }
+}

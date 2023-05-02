@@ -1,0 +1,45 @@
+{
+    "name": "metafox/socialite",
+    "version": "5.0.2",
+    "description": "Social Connect",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "alias": "socialite",
+            "asset": "social",
+            "title": "Social Connect",
+            "namespace": "MetaFox\\Socialite",
+            "path": "packages/metafox/socialite",
+            "internalAdminUrl": "/admincp/socialite/setting/facebook",
+            "providers": [
+                "MetaFox\\Socialite\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {},
+            "frontendPaths": [
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "require": {
+        "socialiteproviders/apple": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Socialite\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Socialite\\Tests\\": "tests/"
+        }
+    }
+}

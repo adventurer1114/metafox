@@ -1,0 +1,43 @@
+{
+    "name": "phpfox/lang-es",
+    "version": "1.0.0",
+    "description": "phpfox/lang-es",
+    "keyword": "phpfox/lang-es",
+    "authors": [
+        {
+            "name": "lazardeveloperobr@gmail.com",
+            "homepage": "http://triggerhill.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "title": "Spanish",
+            "alias": "lang-es",
+            "asset": "lang-es",
+            "namespace": "PhpFox\\LangEs",
+            "path": "packages/phpfox/lang-es",
+            "type": "language",
+            "providers": [
+                "PhpFox\\LangEs\\Providers\\PackageServiceProvider"
+            ],
+            "internalAdminUrl": "/admincp/localize/language/browse",
+            "language": {
+                "name": "Spanish",
+                "language_code": "es",
+                "charset": "utf8"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpFox\\LangEs\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "PhpFox\\LangEs\\Tests\\": "tests/"
+        }
+    }
+}

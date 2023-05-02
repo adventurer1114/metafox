@@ -1,0 +1,46 @@
+{
+    "name": "metafox/subscription",
+    "version": "5.0.2",
+    "description": "metafox/subscription",
+    "keyword": "metafox/subscription",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "path": "packages/metafox/subscription",
+            "title": "Subscription",
+            "alias": "subscription",
+            "asset": "subscription",
+            "namespace": "MetaFox\\Subscription",
+            "internalUrl": "/subscription",
+            "internalAdminUrl": "/admincp/subscription/setting",
+            "providers": [
+                "MetaFox\\Subscription\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/subscription": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/subscription"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Subscription\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Subscription\\Tests\\": "tests/"
+        }
+    }
+}

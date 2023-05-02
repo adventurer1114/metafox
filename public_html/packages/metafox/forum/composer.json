@@ -1,0 +1,45 @@
+{
+    "name": "metafox/forum",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "path": "packages/metafox/forum",
+            "alias": "forum",
+            "asset": "forum",
+            "namespace": "MetaFox\\Forum",
+            "internalUrl": "/forum",
+            "internalAdminUrl": "/admincp/forum/setting",
+            "title": "Forum",
+            "providers": [
+                "MetaFox\\Forum\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/forum": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/forum"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Forum\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Forum\\Tests\\": "tests/"
+        }
+    }
+}

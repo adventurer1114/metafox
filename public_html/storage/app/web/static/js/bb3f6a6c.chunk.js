@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-group-components-MyContent-DeclinedPost-LoadingSkeleton"],{78638:function(e,t,n){n.r(t);var o=n(84417);t.default=o.Z}}]);

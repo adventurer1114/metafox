@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-ui-SmartDataGrid-NumberCell"],{57664:function(e,t,r){r.r(t),r.d(t,{default:function(){return n}});var a=r(85597),u=r(27361),f=r.n(u);function n({id:e,row:t,colDef:{field:r}}){let{i18n:u}=(0,a.OgA)();return u.formatNumber(f()(t,r,0))}}}]);

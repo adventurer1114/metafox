@@ -1,0 +1,42 @@
+{
+    "name": "metafox/chat",
+    "version": "5.0.2",
+    "description": "metafox/chat",
+    "keyword": "metafox/chat",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "alias": "chat",
+            "asset": "chat",
+            "namespace": "MetaFox\\Chat",
+            "path": "packages/metafox/chat",
+            "title": "Chat",
+            "providers": [
+                "MetaFox\\Chat\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {
+            },
+            "frontend": {
+                "@metafox/chat": "5.0.1"
+            },
+            "internalAdminUrl": "/admincp/chat/setting"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Chat\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Chat\\Tests\\": "tests/"
+        }
+    }
+}

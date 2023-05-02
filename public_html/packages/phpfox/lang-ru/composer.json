@@ -1,0 +1,43 @@
+{
+    "name": "phpfox/lang-ru",
+    "version": "1.0.0",
+    "description": "phpfox/lang-ru",
+    "keyword": "phpfox/lang-ru",
+    "authors": [
+        {
+            "name": "lazardeveloperobr@gmail.com",
+            "homepage": "http://triggerhill.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "title": "Russian",
+            "alias": "lang-ru",
+            "asset": "lang-ru",
+            "namespace": "PhpFox\\LangRu",
+            "path": "packages/phpfox/lang-ru",
+            "type": "language",
+            "providers": [
+                "PhpFox\\LangRu\\Providers\\PackageServiceProvider"
+            ],
+            "internalAdminUrl": "/admincp/localize/language/browse",
+            "language": {
+                "name": "Russian",
+                "language_code": "ru",
+                "charset": "utf8"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpFox\\LangRu\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "PhpFox\\LangRu\\Tests\\": "tests/"
+        }
+    }
+}

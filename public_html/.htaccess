@@ -1,0 +1,51 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    RewriteBase /
+
+    RewriteRule ^/?(.*)\.(env|log) - [F]
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Rewrite for Backend
+    RewriteRule ^(api|oauth)/(.*)$ public/index.php/$1/$2 [L,NC]
+
+    RewriteRule ^storage/(.*)$ public/storage/$1 [L,NC]
+
+    # Rewrite for AdminCP
+    RewriteRule ^admincp/(.*)$ public/web/admincp/$1 [L,NC]
+    RewriteRule ^admincp$ public/web/admincp/ [L,NC]
+
+    # Rewrite for Installation
+    RewriteRule ^install$   install/ [L,NC,R=301]
+    RewriteRule ^install/$  public/install/index.html [L,NC]
+
+    RewriteCond %{REQUEST_URI} ^/public/web/
+    RewriteCond %{REQUEST_URI} !^/public/web/admincp/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule ^(.*)$ public/web/index.html [L]
+
+    RewriteCond %{REQUEST_URI} ^/public/web/admincp/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule ^(.*)$ public/web/admincp/index.html [L]
+
+    # Default to Frontend
+    RewriteCond %{REQUEST_URI} !^/public/(web|install|storage)/
+    RewriteCond %{REQUEST_URI} !(.+)\.php$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^public/(.*)$ public/web/$1 [L]
+
+    # Redirect all requests to public folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

@@ -1,0 +1,44 @@
+{
+    "name": "metafox/captcha",
+    "version": "5.0.2",
+    "description": "Captcha",
+    "keyword": "phpFox",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 3,
+            "alias": "captcha",
+            "asset": "captcha",
+            "namespace": "MetaFox\\Captcha",
+            "path": "packages/framework/captcha",
+            "title": "Captcha",
+            "providers": [
+                "MetaFox\\Captcha\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": null,
+            "frontend": {
+                "@metafox/captcha": "5.0.1"
+            },
+            "internalAdminUrl": "/admincp/captcha/setting",
+            "type": "app",
+            "mobile": [],
+            "internalUrl": ""
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Captcha\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Captcha\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "name": "metafox/friend",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "path": "packages/metafox/friend",
+            "title": "Friend",
+            "asset": "friend",
+            "alias": "friend",
+            "namespace": "MetaFox\\Friend",
+            "internalAdminUrl": "/admincp/friend/setting",
+            "providers": [
+                "MetaFox\\Friend\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/friend": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/friend"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Friend\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Friend\\Tests\\": "tests/"
+        }
+    }
+}

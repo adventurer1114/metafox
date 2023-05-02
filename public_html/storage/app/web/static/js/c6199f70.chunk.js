@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-ui-MenuItem-LoadingMenuItem"],{62565:function(e,t,n){n.r(t),n.d(t,{default:function(){return r}});var u=n(35705),a=n(67294);function r(){return a.createElement(u.Z,null)}}}]);

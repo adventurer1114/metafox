@@ -1,0 +1,37 @@
+<?php
+
+/* this is auto generated file */
+return [
+    'activity_point'                          => [
+        'access_site'          => 'Access the site',
+        'sign_up'              => 'Sign up',
+        'upload_cover_photo'   => 'Upload a cover photo',
+        'upload_profile_photo' => 'Upload a profile photo',
+    ],
+    'can_can_be_blocked_by_others_user_desc'  => '',
+    'can_can_be_blocked_by_others_user_label' => 'Can this user group be blocked by other users?',
+    'can_can_block_other_members_user_desc'   => '',
+    'can_can_block_other_members_user_label'  => 'Can block members?',
+    'can_create_user_desc'                    => '',
+    'can_create_user_label'                   => 'Can create users?',
+    'can_delete_user_desc'                    => '',
+    'can_delete_user_label'                   => 'Can delete users?',
+    'can_feature_user_desc'                   => '',
+    'can_feature_user_label'                  => 'Can feature and unfeature users?',
+    'can_manage_user_permission_desc'         => '',
+    'can_manage_user_permission_label'        => 'Can manage permissions?',
+    'can_manage_user_role_desc'               => '',
+    'can_manage_user_role_label'              => 'Can manage roles?',
+    'can_moderate_shortcut_desc'              => '',
+    'can_moderate_shortcut_label'             => 'Can moderate shortcuts?',
+    'can_moderate_user_desc'                  => '',
+    'can_moderate_user_label'                 => 'Can moderate users?',
+    'can_report_user_desc'                    => '',
+    'can_report_user_label'                   => 'Can report members?',
+    'can_update_user_desc'                    => '',
+    'can_update_user_label'                   => 'User Update Permission.',
+    'can_view_shortcut_desc'                  => '',
+    'can_view_shortcut_label'                 => 'User view shortcut permission.',
+    'can_view_user_desc'                      => '',
+    'can_view_user_label'                     => 'User View Permission.',
+];

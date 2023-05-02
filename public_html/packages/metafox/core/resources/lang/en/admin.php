@@ -1,0 +1,33 @@
+<?php
+
+/* this is auto generated file */
+return [
+    'append_body_scripts_desc'                        => 'Scripts append to html <body/> script. Rebuild site to make the changes affected.',
+    'append_body_scripts_label'                       => 'Append Body Scripts',
+    'append_head_scripts_desc'                        => 'Scripts append to html <head/> script. Rebuild site to make the changes affected.',
+    'append_head_scripts_label'                       => 'Append Head Scripts',
+    'copyright_desc'                                  => 'Add your site\'s copyright.',
+    'copyright_label'                                 => 'Copyright',
+    'enable_general_data_protection_regulation_desc'  => 'The General Data Protection Regulation (GDPR) affect how you as a website owner may use cookies and online tracking of visitors',
+    'enable_general_data_protection_regulation_label' => 'Enable General Data Protection Regulation (gdpr)',
+    'global_search_minimum_character_desc'            => 'Define the minimum number of characters that can be used in global search. This number must be greater than or equal to 1.',
+    'global_search_minimum_character_label'           => 'Global Search - Minimum Character',
+    'google_map_api_key'                              => 'Google Map API Keys',
+    'google_map_api_key_description'                  => 'Follow this guide to get Google API key: https://developers.google.com/maps/documentation/javascript/get-api-key#creating-api-keys',
+    'homepage_url_description'                        => 'Set empty if you want to redirect to default homepage.',
+    'homepage_url_label'                              => 'Homepage URL',
+    'meta_description_desc'                           => 'Enter the meta description for all pages. This is used by search engines to index your pages more relevantly.Note that certain packages or pages have their own meta keyword settings and if those are set they will override this setting.',
+    'meta_description_label'                          => 'Meta Description',
+    'meta_keywords_desc'                              => 'Enter the meta keywords for all pages. These are used by search engines to index your pages with more relevance.Note that certain packages or pages have their own meta keyword settings and if those are set they will override this setting.',
+    'meta_keywords_label'                             => 'Meta Keywords',
+    'name_of_site_desc'                               => 'Name of your site.',
+    'name_of_site_label'                              => 'Name Of Site',
+    'number_of_page_for_scrolling_down_desc'          => 'Define the number of pages for scrolling down (default is 2). Apply for all items on your site.',
+    'number_of_page_for_scrolling_down_label'         => 'Numbers of pages for scrolling down',
+    'prepend_body_scripts_desc'                       => 'Scripts prepend to html <body/> script. Rebuild site to make the changes affected.',
+    'prepend_body_scripts_label'                      => 'Prepend Body Scripts',
+    'site_title_delimiter_desc'                       => 'This value will be used as the delimiter to separate titles being added for each page on the site.',
+    'site_title_delimiter_label'                      => 'Site Title Delimiter',
+    'site_title_desc'                                 => 'This will displayed on each page as the title of your site.',
+    'site_title_label'                                => 'Site Title',
+];

@@ -1,0 +1,40 @@
+{
+    "name": "metafox/payment",
+    "description": "Payment Gateway",
+    "version": "5.0.2",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 11,
+            "alias": "payment",
+            "asset": "payment",
+            "path": "packages/framework/payment",
+            "title": "Payment Gateway",
+            "namespace": "MetaFox\\Payment",
+            "internalAdminUrl": "/admincp/payment/gateway/browse",
+            "providers": [
+                "MetaFox\\Payment\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {},
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Payment\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Payment\\Tests\\": "tests/"
+        }
+    }
+}

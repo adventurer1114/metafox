@@ -1,0 +1,50 @@
+{
+    "name": "metafox/core",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 18,
+            "path": "packages/metafox/core",
+            "title": "Core",
+            "alias": "core",
+            "asset": "core",
+            "namespace": "MetaFox\\Core",
+            "internalAdminUrl": "/admincp/core/setting",
+            "providers": [
+                "MetaFox\\Core\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/core": "5.0.1",
+                "@metafox/emoji": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/core",
+                "packages/metafox/emoji"
+            ],
+            "aliases": null,
+            "type": "app",
+            "mobile": [],
+            "internalUrl": ""
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Core\\Tests\\": "tests/"
+        }
+    },
+    "keyword": ""
+}

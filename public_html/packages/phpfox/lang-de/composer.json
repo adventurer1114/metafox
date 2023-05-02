@@ -1,0 +1,43 @@
+{
+    "name": "phpfox/lang-de",
+    "version": "1.0.0",
+    "description": "phpfox/lang-de",
+    "keyword": "phpfox/lang-de",
+    "authors": [
+        {
+            "name": "lazardeveloperobr@gmail.com",
+            "homepage": "http://triggerhill.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "title": "German",
+            "alias": "lang-de",
+            "asset": "lang-de",
+            "namespace": "PhpFox\\LangDe",
+            "path": "packages/phpfox/lang-de",
+            "type": "language",
+            "providers": [
+                "PhpFox\\LangDe\\Providers\\PackageServiceProvider"
+            ],
+            "internalAdminUrl": "/admincp/localize/language/browse",
+            "language": {
+                "name": "German",
+                "language_code": "de",
+                "charset": "utf8"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpFox\\LangDe\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "PhpFox\\LangDe\\Tests\\": "tests/"
+        }
+    }
+}

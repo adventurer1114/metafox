@@ -1,0 +1,37 @@
+<?php
+
+/* this is auto generated file */
+return [
+    'browse_1_snippet'        => '',
+    'browse_build'            => '',
+    'browse_create_snippet'   => '',
+    'browse_layout_snippet'   => '',
+    'browse_revision'         => '',
+    'browse_revision_snippet' => '',
+    'browse_snippet'          => '',
+    'browse_theme'            => '',
+    'browse_themes'           => '',
+    'browse_variant'          => '',
+    'build_history'           => 'Build History',
+    'create_build'            => '',
+    'create_snippet'          => '',
+    'create_theme'            => 'Create Theme',
+    'create_theme_id_guide'   => 'Theme id must be global unique id contain alpha numeric character',
+    'create_variant'          => 'Create Variant',
+    'create_variant_id_guide' => 'ID must be unique and contains alpha numeric characters.',
+    'created_at'              => 'Created At',
+    'customization'           => 'Customization',
+    'history'                 => 'History',
+    'layout'                  => 'Layout',
+    'layout_setting'          => '',
+    'permissions'             => '',
+    'rebuild_history'         => 'Build History',
+    'rebuild_site'            => 'Rebuild Site',
+    'rebuite_site_guide'      => 'Rebuilding site is for updating the HTML and assets of the frontend web. The build process will be done by MetaFox Build service by default and may take a few minutes to complete.
+You can visit the Build History page to check status of your build requests.',
+    'settings'       => 'Settings',
+    'show_history'   => 'Show Histories',
+    'theme'          => 'Theme',
+    'theme_variants' => 'Theme Variants',
+    'variants'       => 'Variants',
+];

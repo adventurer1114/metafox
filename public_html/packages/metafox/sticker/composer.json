@@ -1,0 +1,49 @@
+{
+    "name": "metafox/sticker",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "alias": "sticker",
+            "asset": "sticker",
+            "path": "packages/metafox/sticker",
+            "title": "Sticker",
+            "namespace": "MetaFox\\Sticker",
+            "internalAdminUrl": "/admincp/sticker/sticker-set/browse",
+            "providers": [
+                "MetaFox\\Sticker\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/sticker": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/sticker"
+            ],
+            "aliases": {
+            }
+        },
+        "laravel": {
+            "providers": [],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Sticker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Sticker\\Tests\\": "tests/"
+        }
+    }
+}

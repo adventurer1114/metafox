@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_metafox_react=self.webpackChunk_metafox_react||[]).push([["metafox-form-Loading-FormLoading"],{74656:function(e,t,n){n.r(t),n.d(t,{default:function(){return f}});var a=n(67294),r=n(35705),c=n(30120);function f(){return a.createElement(c.Z,{sx:{display:"flex",justifyContent:"center",alignItems:"center"}},a.createElement(r.Z,{size:24}))}}}]);

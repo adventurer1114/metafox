@@ -1,0 +1,32 @@
+<?php
+
+/* this is auto generated file */
+return [
+    'action'                           => 'Action',
+    'activity_point_summary'           => 'Activity Points: <value>value</value>',
+    'app'                              => 'App',
+    'can_not_earn_points_at_this_time' => 'Can not earn points at this time.',
+    'date'                             => 'Date',
+    'earn_more_points'                 => 'Earn More Points',
+    'earned_points'                    => 'Earned Points',
+    'getting_started'                  => 'Getting Started',
+    'getting_started_description'      => 'Find out how to earn points in the community by doing very regular activities. You can also purchase point packages and gift points away to your friends.',
+    'how_to_earn'                      => 'How To Earn',
+    'how_to_earns'                     => 'How To Earns',
+    'id'                               => 'ID',
+    'max_earned_points'                => 'Max Earned Points',
+    'no_package_found'                 => 'No packages are found.',
+    'package_name'                     => 'Package Name',
+    'package_transactions'             => 'Package Transactions',
+    'period_day'                       => 'Period (days)',
+    'point'                            => 'Points',
+    'point_packages'                   => 'Point Packages',
+    'point_transactions'               => 'Point Transactions',
+    'points'                           => '{amount, plural, =1{# Point} other{# Points}}',
+    'there_are_no_ready_package'       => 'There are no point packages you can buy at this time. Please come back later.',
+    'transaction_history'              => 'Transaction History',
+    'transactions_history'             => 'Transactions History',
+    'type'                             => 'Type',
+    'view_all_packages'                => 'View All Packages',
+    'view_all_transactions'            => 'View All Transactions',
+];

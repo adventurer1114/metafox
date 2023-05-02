@@ -1,0 +1,41 @@
+{
+    "name": "metafox/form",
+    "version": "5.0.2",
+    "description": "Form Library",
+    "keyword": "metafox, form",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 5,
+            "alias": "form",
+            "asset": "form",
+            "namespace": "MetaFox\\Form",
+            "path": "packages/framework/form",
+            "title": "Form Library",
+            "providers": [
+                "MetaFox\\Form\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {
+            },
+            "frontend": {},
+            "internalUrl": "",
+            "internalAdminUrl": ""
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Form\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Form\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "name": "metafox/activity-point",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "path": "packages/metafox/activity-point",
+            "title": "Activity Point",
+            "core": false,
+            "priority": 21,
+            "alias": "activitypoint",
+            "frontendAlias": "activitypoint",
+            "mobileAlias": "activitypoint",
+            "asset": "activitypoint",
+            "namespace": "MetaFox\\ActivityPoint",
+            "internalAdminUrl": "/admincp/activitypoint/setting",
+            "providers": [
+                "MetaFox\\ActivityPoint\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {"@metafox/activity-point": "5.0.1"},
+            "frontendPaths": [
+                "packages/metafox/activity-point"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\ActivityPoint\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\ActivityPoint\\Tests\\": "tests/"
+        }
+    }
+}

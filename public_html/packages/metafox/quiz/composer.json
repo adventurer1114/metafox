@@ -1,0 +1,49 @@
+{
+    "name": "metafox/quiz",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "alias": "quiz",
+            "asset": "quiz",
+            "path": "packages/metafox/quiz",
+            "title": "Quiz",
+            "namespace": "MetaFox\\Quiz",
+            "internalAdminUrl": "/admincp/quiz/setting",
+            "providers": [
+                "MetaFox\\Quiz\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/quiz": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/quiz"
+            ],
+            "aliases": {
+            }
+        },
+        "laravel": {
+            "providers": [],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Quiz\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Quiz\\Tests\\": "tests/"
+        }
+    }
+}

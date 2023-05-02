@@ -1,0 +1,46 @@
+{
+    "name": "metafox/search",
+    "version": "5.0.2",
+    "description": "metafox/search",
+    "keyword": "metafox/search",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "priority": 99,
+            "alias": "search",
+            "asset": "search",
+            "namespace": "MetaFox\\Search",
+            "path": "packages/metafox/search",
+            "title": "Search",
+            "providers": [
+                "MetaFox\\Search\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {
+            },
+            "frontend": {
+                "@metafox/search": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/search"
+            ],
+            "internalUrl": "/search",
+            "internalAdminUrl": "/admincp/search/setting"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Search\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "MetaFox\\Search\\Tests\\": "tests/"
+        }
+    }
+}

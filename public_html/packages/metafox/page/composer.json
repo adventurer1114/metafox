@@ -1,0 +1,44 @@
+{
+    "name": "metafox/page",
+    "description": "",
+    "version": "5.0.2",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": false,
+            "alias": "page",
+            "asset": "page",
+            "path": "packages/metafox/page",
+            "title": "Pages",
+            "namespace": "MetaFox\\Page",
+            "internalAdminUrl": "/admincp/page/setting",
+            "providers": [
+                "MetaFox\\Page\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/pages": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/pages"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Page\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Page\\Tests\\": "tests/"
+        }
+    }
+}

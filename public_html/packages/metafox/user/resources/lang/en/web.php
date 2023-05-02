@@ -1,0 +1,58 @@
+<?php
+
+/* this is auto generated file */
+return [
+    'account_settings'                       => 'Account Settings',
+    'add_as_friend'                          => 'Add as Friend',
+    'add_existing_account'                   => 'Add Existing Account',
+    'add_new_account'                        => 'Add new account',
+    'allow'                                  => 'Allow',
+    'auto_add_tagged_posts_on_your_timeline' => 'Auto add tagged posts on your timeline?',
+    'cancel_request'                         => 'Cancel Request',
+    'customize_users_interact_your_profile'  => 'Customize how other users interact with your profile.',
+    'did_not_receive_resend_email'           => 'Didn\'t receive? Resend email',
+    'dont_have_an_account_sign_up'           => '<a>Don\'t have an account? <b>SIGN UP</b></a>',
+    'edit_profile'                           => 'Edit Profile',
+    'edit_your_shortcuts'                    => 'Edit Your Shortcuts',
+    'email_address'                          => 'Email Address',
+    'forgot_password_?'                      => 'Forgot Password?',
+    'full_name'                              => 'Full Name',
+    'global_search_user_no_result'           => 'No members are found.',
+    'invisible_settings'                     => 'Invisible Settings',
+    'last_login'                             => 'Last login',
+    'login_previously'                       => 'Previously signed in',
+    'login_slogan_message'                   => 'Social network for niche communities',
+    'login_welcome_back'                     => 'Welcome Back',
+    'message'                                => 'Message',
+    'name_type_user'                         => 'Member',
+    'need_verify_your_email_continue'        => 'You need to verify your email to continue.',
+    'no_blocked_users'                       => 'No blocked users.',
+    'no_members_found'                       => 'No members are found.',
+    'no_review_posts'                        => 'No review posts',
+    'password'                               => 'Password',
+    'preferred_currency'                     => 'Preferred Currency',
+    'primary_language'                       => 'Primary Language',
+    'profile_menu_settings'                  => 'Profile Menu Settings',
+    'remember_me'                            => 'Remember Me',
+    'remove_account_from_this_page'          => 'Remove account from this page',
+    'resend_email_description'               => 'Please check your \'Spam\' or \'Bulk Email\' folder if you have not received the verification email. You can also click the \'Resend Email\' button below to have another email sent to you.',
+    'review_posts'                           => 'Review Posts',
+    'search_your_page_groups_dots'           => 'Search your Pages, groups',
+    'sharing_items'                          => 'Sharing Items',
+    'sign_in'                                => 'Sign In',
+    'tagged_posts'                           => 'Tagged Posts',
+    'timezone'                               => 'Time Zone',
+    'unfriend'                               => 'Unfriend',
+    'user_name_updated_their_relationship'   => '{hasRelationWith, select,
+        1 {is with <relation_with>profile</relation_with>}
+        other {{currentGender, select,
+            1 {updated his relationship information}
+            2 {updated her relationship information}
+            other {updated their relationship information}
+        }}
+    }',
+    'what_s_your_mind'                          => 'What\'s on your mind?',
+    'your_email_has_been_verified_successfully' => 'Your email has been verified successfully.',
+    'your_profile'                              => 'Your Profile',
+    'your_profile_settings'                     => 'Your Profile Settings',
+];

@@ -1,0 +1,45 @@
+{
+    "name": "metafox/user",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "alias": "user",
+            "asset": "user",
+            "path": "packages/metafox/user",
+            "title": "User",
+            "namespace": "MetaFox\\User",
+            "priority": 19,
+            "internalUrl": "/user",
+            "internalAdminUrl": "/admincp/user/setting",
+            "frontend": {
+                "@metafox/user": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/user"
+            ],
+            "providers": [
+                "MetaFox\\User\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\User\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\User\\Tests\\": "tests/"
+        }
+    }
+}

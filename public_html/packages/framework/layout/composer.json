@@ -1,0 +1,43 @@
+{
+    "name": "metafox/layout",
+    "version": "5.0.2",
+    "description": "Theme",
+    "keyword": "phpFox, framework, layout, metafox",
+    "authors": [
+        {
+            "name": "phpFox",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 6,
+            "alias": "layout",
+            "asset": "layout",
+            "namespace": "MetaFox\\Layout",
+            "path": "packages/framework/layout",
+            "title": "Theme",
+            "providers": [
+                "MetaFox\\Layout\\Providers\\PackageServiceProvider"
+            ],
+            "aliases": {
+            },
+            "frontend": {
+                "@framework/layout": "5.0.1"
+            },
+            "internalUrl": "",
+            "internalAdminUrl": "/admincp/layout/theme/browse"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Layout\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Layout\\Tests\\": "tests/"
+        }
+    }
+}

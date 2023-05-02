@@ -1,0 +1,44 @@
+{
+    "name": "metafox/photo",
+    "version": "5.0.2",
+    "description": "",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "alias": "photo",
+            "asset": "photo",
+            "path": "packages/metafox/photo",
+            "title": "Photos",
+            "namespace": "MetaFox\\Photo",
+            "internalAdminUrl": "/admincp/photo/setting",
+            "providers": [
+                "MetaFox\\Photo\\Providers\\PackageServiceProvider"
+            ],
+            "frontend": {
+                "@metafox/photo": "5.0.1"
+            },
+            "frontendPaths": [
+                "packages/metafox/photo"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Photo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Photo\\Tests\\": "tests/"
+        }
+    }
+}

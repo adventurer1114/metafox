@@ -1,0 +1,53 @@
+{
+    "name": "metafox/platform",
+    "version": "5.0.2",
+    "description": "Framework Kernel",
+    "authors": [
+        {
+            "name": "phpFox",
+            "email": "dev@phpfox.com",
+            "homepage": "https://www.phpfox.com"
+        }
+    ],
+    "extra": {
+        "metafox": {
+            "core": true,
+            "priority": 100,
+            "path": "packages/platform",
+            "title": "Kernel",
+            "alias": "platform",
+            "asset": "platform",
+            "namespace": "MetaFox\\Platform",
+            "internalAdminUrl": "/admincp",
+            "providers": [],
+            "frontend": [],
+            "aliases": null,
+            "type": "app",
+            "mobile": [],
+            "internalUrl": "",
+            "store_id": 0,
+            "store_url": null
+        },
+        "laravel": {
+            "providers": [],
+            "aliases": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MetaFox\\Platform\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaFox\\Platform\\Tests\\": "tests/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "keyword": ""
+}

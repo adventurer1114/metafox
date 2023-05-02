@@ -1,0 +1,31 @@
+<?php
+
+/* this is auto generated file */
+return [
+    'authentication'                                      => 'Authentication',
+    'authenticator'                                       => 'Authenticator',
+    'authenticator_code_is_invalid'                       => 'The authentication code is invalid.',
+    'authenticator_code_is_required'                      => 'The authentication code is required.',
+    'authenticator_code_must_be_a_number_with_six_digits' => 'The authentication code must be a number with 6 digits.',
+    'authenticator_login_description'                     => 'Type the 6-digit code that appears in the app.',
+    'authenticator_provider_description'                  => 'Recommended method. Use an app like Google Authentication to generate verification codes for more protection.',
+    'authenticator_provider_title'                        => 'Authentication App',
+    'authenticator_qr_code_description'                   => 'Or enter this code into your authentication app.',
+    'authenticator_qr_code_placeholder'                   => 'Set up on same device',
+    'authenticator_service_form_title'                    => 'Configure Google Authenticator App',
+    'authenticator_service_setup_step_1'                  => '1. Open Google Authenticator app.',
+    'authenticator_service_setup_step_2'                  => '2. Tap the + button on the top right corner.',
+    'authenticator_service_setup_step_3'                  => '3. Tap Scan Barcode and point the phone to the code below.',
+    'authenticator_service_setup_step_4'                  => '4. Type the 6-digit code that appears in the app.',
+    'confirm_password_desc'                               => 'Turn on this setting if you want users to perform password confirmation before turning ON or OFF 2FA.',
+    'confirm_password_label'                              => 'Confirm password',
+    'deactivate_confirm'                                  => 'Are you sure you want to deactivate this service?',
+    'failed_to_activate_the_service'                      => 'Failed to activate the :service. The verification code is not valid.',
+    'multi_factor_authentication'                         => 'Multi-factor Authentication',
+    'service_has_been_activated'                          => 'The :service has been activated.',
+    'service_has_been_deactivated'                        => 'The :service has been deactivated.',
+    'turn_off_two_factor_authentication_desc'             => 'If you turn off two-factor authentication, your account will be protected with only your password',
+    'turn_off_two_factor_authentication_label'            => 'Turn Off Two-factor Authentication?',
+    'two_factor_authentication'                           => 'Two-factor Authentication',
+    'verify'                                              => 'Verify',
+];

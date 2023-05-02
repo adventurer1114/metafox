@@ -1,0 +1,10 @@
+<?php
+
+/*
+ * --------------------------------------------------------------------------
+ *  API Routes
+ * --------------------------------------------------------------------------
+ *
+ *  This file will be loaded by @link \MetaFox\Platform\ModuleManager::getWebRoutes()
+ *  stub: app/Console/Commands/stubs/routes/web.stub
+ */
